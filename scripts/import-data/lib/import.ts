@@ -54,7 +54,7 @@ export async function handleImport(args: string[]) {
   ]);
 
   // Process photos
-  const { photosByEvent } = assignPhotosToEvents(photosJSON, eventsWithVenuesJSON, stats);
+  const { photosByEvent } = await assignPhotosToEvents(photosJSON, eventsWithVenuesJSON, stats);
 
   // Process events
   logger.section("Processing Events");

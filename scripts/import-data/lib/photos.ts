@@ -45,11 +45,49 @@ interface InferredBatch extends PhotoBatch {
   isInferred: boolean;
 }
 
-export function assignPhotosToEvents(
+interface PatchMapping {
+  [timestamp: string]: string;
+}
+
+const PATCH_FILE_PATH = path.join("scripts", "import-data", "patch_events.json");
+
+async function loadPatchMappings(): Promise<PatchMapping> {
+  try {
+    if (existsSync(PATCH_FILE_PATH)) {
+      const content = await fs.readFile(PATCH_FILE_PATH, "utf-8");
+      return JSON.parse(content);
+    }
+  } catch (err) {
+    logger.warn(`Failed to load patch_events.json: ${err instanceof Error ? err.message : String(err)}`);
+  }
+  return {};
+}
+
+async function savePatchMappings(mappings: PatchMapping): Promise<void> {
+  try {
+    await fs.writeFile(PATCH_FILE_PATH, JSON.stringify(mappings, null, 2));
+    logger.success(`Saved patch mappings to ${PATCH_FILE_PATH}`);
+  } catch (err) {
+    logger.error(`Failed to save patch_events.json: ${err instanceof Error ? err.message : String(err)}`);
+  }
+}
+
+function findEventById(eventId: string, eventsJSON: EventsWithVenuesJSON): Event | null {
+  for (const groupData of Object.values(eventsJSON.groups)) {
+    for (const event of groupData.events) {
+      if (event.id === eventId) {
+        return event;
+      }
+    }
+  }
+  return null;
+}
+
+export async function assignPhotosToEvents(
   photosJSON: PhotoJSON,
   eventsWithVenuesJSON: EventsWithVenuesJSON,
   stats: ImportStatistics,
-): PhotoAssignmentResult {
+): Promise<PhotoAssignmentResult> {
   const photosByEvent: Record<string, Photo[]> = {};
   const photoBatchesByEvent: Record<string, InferredBatch[]> = {};
   let unassignedBatches = 0;
@@ -58,6 +96,12 @@ export function assignPhotosToEvents(
   stats.photoBatchesTotal = Object.keys(photosJSON.groups).length;
 
   const inferredAssignments: Array<{ eventId: string; eventTitle: string; timestamp: number }> = [];
+  
+  // Load existing patch mappings
+  const patchMappings = await loadPatchMappings();
+  const newPatchMappings: PatchMapping = { ...patchMappings };
+  let patchMappingsUsed = 0;
+  let newMappingsCreated = 0;
 
   Object.entries(photosJSON.groups).forEach(([key, grp]) => {
     if (grp.event) {
@@ -72,37 +116,70 @@ export function assignPhotosToEvents(
 
       stats.photoBatchesAssigned++;
       stats.photoBatchesUnchanged++; // Confirmed assignments are unchanged
-    } else if (INFER_EVENTS) {
-      // Attempt to infer the event based on timestamp
-      const inferred = inferEventByTimestamp(grp.timestamp, eventsWithVenuesJSON);
-      if (inferred) {
-        inferredAssignments.push({
-          eventId: inferred.event.id,
-          eventTitle: inferred.event.title,
-          timestamp: grp.timestamp,
-        });
+    } else {
+      // First check patch mappings (always, regardless of INFER_EVENTS)
+      const timestampKey = grp.timestamp.toString();
+      const patchedEventId = patchMappings[timestampKey];
+      
+      if (patchedEventId) {
+        // Use patched mapping
+        const event = findEventById(patchedEventId, eventsWithVenuesJSON);
+        if (event) {
+          const list = photosByEvent[patchedEventId] ?? [];
+          list.push(...grp.photos);
+          photosByEvent[patchedEventId] = list;
 
-        const list = photosByEvent[inferred.event.id] ?? [];
-        list.push(...grp.photos);
-        photosByEvent[inferred.event.id] = list;
+          const batches = photoBatchesByEvent[patchedEventId] ?? [];
+          batches.push({ timestamp: grp.timestamp, photos: grp.photos, isInferred: false });
+          photoBatchesByEvent[patchedEventId] = batches;
 
-        const batches = photoBatchesByEvent[inferred.event.id] ?? [];
-        batches.push({ timestamp: grp.timestamp, photos: grp.photos, isInferred: true });
-        photoBatchesByEvent[inferred.event.id] = batches;
+          stats.photoBatchesAssigned++;
+          stats.photoBatchesUnchanged++;
+          patchMappingsUsed++;
+          logger.debug(`Used patch mapping for batch ${timestampKey} → ${patchedEventId}`);
+        } else {
+          logger.warn(`Patch mapping references non-existent event ${patchedEventId} for batch ${timestampKey}`);
+          unassignedBatches++;
+          stats.photoBatchesUnassigned++;
+        }
+      } else if (INFER_EVENTS) {
+        // Attempt to infer the event based on timestamp
+        const inferred = inferEventByTimestamp(grp.timestamp, eventsWithVenuesJSON);
+        if (inferred) {
+          inferredAssignments.push({
+            eventId: inferred.event.id,
+            eventTitle: inferred.event.title,
+            timestamp: grp.timestamp,
+          });
 
-        stats.photoBatchesAssigned++;
-        stats.photoBatchesCreated++; // Inferred assignments are new/created
+          const list = photosByEvent[inferred.event.id] ?? [];
+          list.push(...grp.photos);
+          photosByEvent[inferred.event.id] = list;
+
+          const batches = photoBatchesByEvent[inferred.event.id] ?? [];
+          batches.push({ timestamp: grp.timestamp, photos: grp.photos, isInferred: true });
+          photoBatchesByEvent[inferred.event.id] = batches;
+
+          stats.photoBatchesAssigned++;
+          stats.photoBatchesCreated++; // Inferred assignments are new/created
+          
+          // Save this inference to the patch file only if not already defined
+          if (!patchMappings[timestampKey]) {
+            newPatchMappings[timestampKey] = inferred.event.id;
+            newMappingsCreated++;
+          }
+        } else {
+          logger.warn(`Could not infer event for photos batch with timestamp ${grp.timestamp}`);
+          unassignedBatches++;
+          stats.photoBatchesUnassigned++;
+        }
       } else {
-        logger.warn(`Could not infer event for photos batch with timestamp ${grp.timestamp}`);
+        logger.debug(
+          `Skipping photos batch ${key} (timestamp: ${grp.timestamp}) because INFER_EVENTS is disabled and no patch mapping exists.`,
+        );
         unassignedBatches++;
         stats.photoBatchesUnassigned++;
       }
-    } else {
-      logger.debug(
-        `Skipping photos batch ${key} (timestamp: ${grp.timestamp}) because INFER_EVENTS is disabled and no event id present.`,
-      );
-      unassignedBatches++;
-      stats.photoBatchesUnassigned++;
     }
   });
 
@@ -114,9 +191,19 @@ export function assignPhotosToEvents(
     stats,
   );
 
+  // Save updated patch mappings if we created new ones
+  if (newMappingsCreated > 0) {
+    await savePatchMappings(newPatchMappings);
+    logger.info(`Created ${newMappingsCreated} new patch mappings`);
+  }
+  
   // Combined reporting for photo assignments
-  if (inferredAssignments.length > 0 || redistributions.length > 0) {
+  if (inferredAssignments.length > 0 || redistributions.length > 0 || patchMappingsUsed > 0) {
     logger.section("Photo Batch Processing");
+    
+    if (patchMappingsUsed > 0) {
+      logger.info(`Used ${patchMappingsUsed} existing patch mappings`);
+    }
 
     if (inferredAssignments.length > 0) {
       logger.info(`Inferred ${inferredAssignments.length} photo batch assignments:`);
