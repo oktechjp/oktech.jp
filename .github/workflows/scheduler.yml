@@ -1,0 +1,61 @@
+name: Content Update Scheduler
+
+on:
+  schedule:
+    # Run daily at 11pm JST (2pm UTC)
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+jobs:
+  check-for-updates:
+    name: Check for content updates
+    runs-on: ubuntu-latest
+    outputs:
+      has-updates: ${{ steps.check-commit.outputs.has-updates }}
+      new-commit: ${{ steps.check-commit.outputs.new-commit }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for new upstream commit
+        id: check-commit
+        run: |
+          UPSTREAM_REPO="owddm/public"
+
+          # Read current commit from meta.json
+          CURRENT_COMMIT=$(jq -r '.commitHash' content/meta.json)
+          echo "Current commit: $CURRENT_COMMIT"
+
+
+          # Get latest commit from upstream main branch
+          LATEST_COMMIT=$(curl -s "https://api.github.com/repos/$UPSTREAM_REPO/commits/main" | jq -r '.sha')
+          echo "Latest upstream commit: $LATEST_COMMIT"
+
+          if [ "$CURRENT_COMMIT" != "$LATEST_COMMIT" ]; then
+            echo "New commit detected!"
+            echo "has-updates=true" >> $GITHUB_OUTPUT
+            echo "new-commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
+          else
+            echo "No new commits"
+            echo "has-updates=false" >> $GITHUB_OUTPUT
+          fi
+
+  trigger-build:
+    name: Trigger build
+    needs: check-for-updates
+    if: needs.check-for-updates.outputs.has-updates == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger builder workflow
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'astro.yml',
+              ref: 'main'
+            })

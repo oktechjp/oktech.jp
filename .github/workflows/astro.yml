@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Detect package manager
         id: detect-package-manager
@@ -73,31 +75,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-astro-cache-
 
-      # ===== /content cache keyed by content/meta.json (source commit) =====
-      - name: Restore content cache
-        id: content-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: ${{ env.BUILD_PATH }}/content
-          key: ${{ runner.os }}-content-${{ hashFiles('content/meta.json') }}-primary
-          restore-keys: |
-            ${{ runner.os }}-content-${{ hashFiles('content/meta.json') }}-
-            ${{ runner.os }}-content-
-
-      # Always run; import should reuse restored files and fetch only updates
+      # Fetch the latest data
       - name: Fetch data
         run: npm run import
         working-directory: ${{ env.BUILD_PATH }}
         env:
           STADIA_MAPS_API_KEY: ${{ secrets.STADIA_MAPS_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Save refreshed /content with a unique key to avoid collisions
-      - name: Save content cache
-        uses: actions/cache/save@v4
-        with:
-          path: ${{ env.BUILD_PATH }}/content
-          key: ${{ runner.os }}-content-${{ hashFiles('content/meta.json') }}-${{ github.run_id }}
 
       - name: Print env
         run: |
@@ -111,6 +95,42 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           BASE_PATH: ${{ vars.BASE_PATH }}
+
+      - name: Run tests
+        run: |
+          # TODO: Implement actual tests
+          echo "Tests placeholder - returning success"
+          exit 0
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Commit content updates
+        if: success()
+        run: |
+          # Configure git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Check if there are changes to commit
+          if [ -n "$(git status --porcelain content/)" ]; then
+            # Read upstream commit from meta.json
+            UPSTREAM_COMMIT=$(jq -r '.commitHash' content/meta.json)
+            echo "Upstream commit from meta.json: $UPSTREAM_COMMIT"
+            
+            # Stage content changes, including content/meta.json
+            git add content/
+            
+            # Create commit message with upstream reference
+            git commit -m "Auto import content $UPSTREAM_COMMIT
+            
+            https://github.com/owddm/public/commit/$UPSTREAM_COMMIT"
+            
+            # Push changes
+            git push
+            
+            echo "Content updates committed and pushed"
+          else
+            echo "No content changes to commit"
+          fi
 
       # IMPORTANT: Always save Astro cache so new variants produced this run are kept.
       # Append run_id to avoid "already exists", and rely on the restore prefix above to pick the newest next time.
