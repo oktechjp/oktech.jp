@@ -15,4 +15,4 @@ export const VENUES_BASE_DIR = path.join(CONTENT_DIR, "venues");
 
 // Toggle: If true, photos without an explicit event id will be matched by timestamp to the most
 // recent past event. If false, such photo batches are ignored.
-export const INFER_EVENTS = true;
+export const INFER_EVENTS = false;
