@@ -243,7 +243,7 @@ export async function handleImport(args: string[]) {
   const metaData = {
     commitDate: commitInfo.date,
     commitHash: commitInfo.sha,
-    repository: "https://github.com/owddm/public",
+    repository: "https://github.com/oktechjp/public",
     nextEventEnds,
   };
 

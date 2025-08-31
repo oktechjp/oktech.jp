@@ -139,7 +139,7 @@ jobs:
             git add content/
             
             # Create commit message with upstream reference
-            git commit -m "Auto import content from https://github.com/owddm/public/commit/$UPSTREAM_COMMIT"
+            git commit -m "Auto import content from https://github.com/oktechjp/public/commit/$UPSTREAM_COMMIT"
             
             # Push changes
             git push

@@ -37,7 +37,7 @@ export default function GalleryDisclaimer({ position = "top" }: { position?: "to
               If you want a photo of you removed from the page, or if you have any other issues with
               a photo on this page, please let us know through →{" "}
               <a
-                href="https://github.com/owddm/public/issues/new"
+                href="https://github.com/oktechjp/public/issues/new"
                 className="link link-primary"
                 target="_blank"
                 rel="noopener noreferrer"

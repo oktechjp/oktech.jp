@@ -1,6 +1,6 @@
 import path from "node:path";
 
-export const GITHUB_REPO = "owddm/public";
+export const GITHUB_REPO = "oktechjp/public";
 export const GITHUB_API_BASE = `https://api.github.com/repos/${GITHUB_REPO}`;
 
 export function getGithubRawUrl(commitHash: string, file: string): string {

@@ -21,7 +21,7 @@ jobs:
       - name: Check for new upstream commit or event end
         id: check-updates
         run: |
-          UPSTREAM_REPO="owddm/public"
+          UPSTREAM_REPO="oktechjp/public"
 
           # Read current commit from meta.json
           CURRENT_COMMIT=$(jq -r '.commitHash' content/meta.json)
