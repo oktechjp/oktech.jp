@@ -1,6 +1,6 @@
 ---
 title: "OKTech Study Session - DDD part 3: Putting the model into practice"
-dateTime: 2025-08-31 19:00
+dateTime: 2025-09-14 19:00
 duration: 120
 cover: ./580731.webp
 topics:
@@ -14,6 +14,8 @@ group: 15632202
 venue: 25963776
 howToFindUs: We are in room 701 of the Kokoplaza.
 ---
+
+***Notice:*** *The event time changed. Robert is feeling under the weather and we had to shift the schedule by one event.*
 
 Are you a software engineer who enjoys digging into new ideas, practices, and patterns that strengthen your craft? Join us for the next **OKTech Study Session**, a gathering for engineers who don’t just code, but want to understand the *why* and *how* behind solid software design.
 
