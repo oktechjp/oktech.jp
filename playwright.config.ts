@@ -19,9 +19,9 @@ const port = process.env.TEST_PORT
 // Set it in env to ensure consistency across config reloads
 process.env.PLAYWRIGHT_TEST_PORT = String(port);
 
-console.log(
-  `Using port ${port} for Playwright ${testType} tests (${isTestingBuild ? "preview" : "dev"} mode)`,
-);
+// console.log(
+//   `Using port ${port} for Playwright ${testType} tests (${isTestingBuild ? "preview" : "dev"} mode)`,
+// );
 
 // Get base path from environment variable
 const basePath = process.env.BASE_PATH || "";

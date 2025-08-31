@@ -97,10 +97,7 @@ jobs:
           BASE_PATH: ${{ vars.BASE_PATH }}
 
       - name: Run tests
-        run: |
-          # TODO: Implement actual tests
-          echo "Tests placeholder - returning success"
-          exit 0
+        run: npm run test:dist
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Commit content updates
