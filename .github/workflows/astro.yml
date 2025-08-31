@@ -23,6 +23,7 @@ jobs:
       BUILD_PATH: ${{ vars.BUILD_PATH || '.' }}
       SITE_URL: ${{ vars.SITE_URL }}
       BASE_PATH: ${{ vars.BASE_PATH }}
+      CACHE_KEY: ${{ vars.CACHE_KEY || 'v1' }}
 
     steps:
       - name: Checkout
@@ -71,9 +72,24 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ env.BUILD_PATH }}/node_modules/.astro
-          key: ${{ runner.os }}-astro-cache-${{ hashFiles('**/astro.config.*','**/package-lock.json','**/pnpm-lock.yaml','**/yarn.lock','public/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','src/assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','content/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
+          key: ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-${{ hashFiles('**/astro.config.*','**/package-lock.json','**/pnpm-lock.yaml','**/yarn.lock','public/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','src/assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','content/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}
           restore-keys: |
-            ${{ runner.os }}-astro-cache-
+            ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-
+
+      # ===== Playwright browser cache =====
+      - name: Get Playwright minor version
+        id: playwright-version
+        run: echo "version=$(npx playwright --version | sed 's/Version //' | cut -d. -f1,2)" >> $GITHUB_OUTPUT
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Restore Playwright browser cache
+        id: playwright-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.CACHE_KEY }}-${{ steps.playwright-version.outputs.version }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-${{ env.CACHE_KEY }}-
 
       # Fetch the latest data
       - name: Fetch data
@@ -95,6 +111,12 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           BASE_PATH: ${{ vars.BASE_PATH }}
+
+      # Install Playwright browsers if not cached
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+        working-directory: ${{ env.BUILD_PATH }}
 
       - name: Run tests
         run: npm run test:dist
@@ -133,7 +155,15 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ${{ env.BUILD_PATH }}/node_modules/.astro
-          key: ${{ runner.os }}-astro-cache-${{ hashFiles('**/astro.config.*','**/package-lock.json','**/pnpm-lock.yaml','**/yarn.lock','public/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','src/assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','content/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}-${{ github.run_id }}
+          key: ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-${{ hashFiles('**/astro.config.*','**/package-lock.json','**/pnpm-lock.yaml','**/yarn.lock','public/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','src/assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','content/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}-${{ github.run_id }}
+
+      # Save Playwright browser cache if it was downloaded
+      - name: Save Playwright browser cache
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.CACHE_KEY }}-${{ steps.playwright-version.outputs.version }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
