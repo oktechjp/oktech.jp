@@ -58,7 +58,9 @@ async function loadPatchMappings(): Promise<PatchMapping> {
       return JSON.parse(content);
     }
   } catch (err) {
-    logger.warn(`Failed to load patch_events.json: ${err instanceof Error ? err.message : String(err)}`);
+    logger.warn(
+      `Failed to load patch_events.json: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
   return {};
 }
@@ -68,7 +70,9 @@ async function savePatchMappings(mappings: PatchMapping): Promise<void> {
     await fs.writeFile(PATCH_FILE_PATH, JSON.stringify(mappings, null, 2));
     logger.success(`Saved patch mappings to ${PATCH_FILE_PATH}`);
   } catch (err) {
-    logger.error(`Failed to save patch_events.json: ${err instanceof Error ? err.message : String(err)}`);
+    logger.error(
+      `Failed to save patch_events.json: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 }
 
@@ -96,7 +100,7 @@ export async function assignPhotosToEvents(
   stats.photoBatchesTotal = Object.keys(photosJSON.groups).length;
 
   const inferredAssignments: Array<{ eventId: string; eventTitle: string; timestamp: number }> = [];
-  
+
   // Load existing patch mappings
   const patchMappings = await loadPatchMappings();
   const newPatchMappings: PatchMapping = { ...patchMappings };
@@ -120,7 +124,7 @@ export async function assignPhotosToEvents(
       // First check patch mappings (always, regardless of INFER_EVENTS)
       const timestampKey = grp.timestamp.toString();
       const patchedEventId = patchMappings[timestampKey];
-      
+
       if (patchedEventId) {
         // Use patched mapping
         const event = findEventById(patchedEventId, eventsWithVenuesJSON);
@@ -138,7 +142,9 @@ export async function assignPhotosToEvents(
           patchMappingsUsed++;
           logger.debug(`Used patch mapping for batch ${timestampKey} → ${patchedEventId}`);
         } else {
-          logger.warn(`Patch mapping references non-existent event ${patchedEventId} for batch ${timestampKey}`);
+          logger.warn(
+            `Patch mapping references non-existent event ${patchedEventId} for batch ${timestampKey}`,
+          );
           unassignedBatches++;
           stats.photoBatchesUnassigned++;
         }
@@ -162,7 +168,7 @@ export async function assignPhotosToEvents(
 
           stats.photoBatchesAssigned++;
           stats.photoBatchesCreated++; // Inferred assignments are new/created
-          
+
           // Save this inference to the patch file only if not already defined
           if (!patchMappings[timestampKey]) {
             newPatchMappings[timestampKey] = inferred.event.id;
@@ -196,11 +202,11 @@ export async function assignPhotosToEvents(
     await savePatchMappings(newPatchMappings);
     logger.info(`Created ${newMappingsCreated} new patch mappings`);
   }
-  
+
   // Combined reporting for photo assignments
   if (inferredAssignments.length > 0 || redistributions.length > 0 || patchMappingsUsed > 0) {
     logger.section("Photo Batch Processing");
-    
+
     if (patchMappingsUsed > 0) {
       logger.info(`Used ${patchMappingsUsed} existing patch mappings`);
     }
