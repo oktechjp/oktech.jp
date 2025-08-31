@@ -1,6 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
+import { filterUpcomingEvents, getEventEndTimeWithBuffer } from "@/utils/eventFilters";
+
 import { CONTENT_DIR, getGithubRawUrl } from "./constants";
 import { processEvent } from "./events";
 import { githubFetchJSON } from "./github-fetch";
@@ -197,10 +199,52 @@ export async function handleImport(args: string[]) {
 
   // Create meta.json
   logger.section("Creating Metadata");
+
+  // Calculate nextEventEnds - the end time of the next upcoming event
+  let nextEventEnds: string | null = null;
+
+  // Convert events to match the EventWithDateTime interface
+  const allEvents = [];
+  for (const [, groupData] of Object.entries(eventsWithVenuesJSON.groups)) {
+    for (const event of groupData.events) {
+      allEvents.push({
+        data: {
+          dateTime: new Date(event.time),
+          duration: event.duration ? Math.round(event.duration / 60000) : undefined,
+        },
+        // Keep additional properties for logging
+        title: event.title,
+        id: event.id,
+      });
+    }
+  }
+
+  // Get upcoming events using the existing filter
+  const upcomingEvents = filterUpcomingEvents(allEvents);
+
+  if (upcomingEvents.length > 0) {
+    // Sort by end time to get the event that will end soonest
+    upcomingEvents.sort((a, b) => {
+      const aEndTime = getEventEndTimeWithBuffer(a).getTime();
+      const bEndTime = getEventEndTimeWithBuffer(b).getTime();
+      return aEndTime - bEndTime;
+    });
+
+    // Get the event that will end soonest
+    const nextEventToEnd = upcomingEvents[0];
+    const endTime = getEventEndTimeWithBuffer(nextEventToEnd);
+    nextEventEnds = endTime.toISOString();
+
+    logger.info(`Next event ends: ${nextEventEnds} (Event: "${nextEventToEnd.title}")`);
+  } else {
+    logger.info("No upcoming events found");
+  }
+
   const metaData = {
     commitDate: commitInfo.date,
     commitHash: commitInfo.sha,
     repository: "https://github.com/owddm/public",
+    nextEventEnds,
   };
 
   const metaPath = path.join(CONTENT_DIR, "meta.json");

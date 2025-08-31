@@ -11,15 +11,15 @@ jobs:
     name: Check for content updates
     runs-on: ubuntu-latest
     outputs:
-      has-updates: ${{ steps.check-commit.outputs.has-updates }}
-      new-commit: ${{ steps.check-commit.outputs.new-commit }}
+      has-updates: ${{ steps.check-updates.outputs.has-updates }}
+      new-commit: ${{ steps.check-updates.outputs.new-commit }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check for new upstream commit
-        id: check-commit
+      - name: Check for new upstream commit or event end
+        id: check-updates
         run: |
           UPSTREAM_REPO="owddm/public"
 
@@ -27,17 +27,37 @@ jobs:
           CURRENT_COMMIT=$(jq -r '.commitHash' content/meta.json)
           echo "Current commit: $CURRENT_COMMIT"
 
+          # Read nextEventEnds from meta.json
+          NEXT_EVENT_ENDS=$(jq -r '.nextEventEnds' content/meta.json)
+          echo "Next event ends: $NEXT_EVENT_ENDS"
 
           # Get latest commit from upstream main branch
           LATEST_COMMIT=$(curl -s "https://api.github.com/repos/$UPSTREAM_REPO/commits/main" | jq -r '.sha')
           echo "Latest upstream commit: $LATEST_COMMIT"
 
+          # Check if we need to trigger a build
+          NEEDS_BUILD=false
+
+          # Check for new commit
           if [ "$CURRENT_COMMIT" != "$LATEST_COMMIT" ]; then
             echo "New commit detected!"
-            echo "has-updates=true" >> $GITHUB_OUTPUT
+            NEEDS_BUILD=true
             echo "new-commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
+          fi
+
+          # Check if an event has ended and we need to rebuild
+          if [ "$NEXT_EVENT_ENDS" != "null" ] && [ "$NEXT_EVENT_ENDS" != "" ]; then
+            CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+            if [[ "$CURRENT_TIME" > "$NEXT_EVENT_ENDS" ]]; then
+              echo "Event has ended, triggering rebuild to update event status"
+              NEEDS_BUILD=true
+            fi
+          fi
+
+          if [ "$NEEDS_BUILD" = true ]; then
+            echo "has-updates=true" >> $GITHUB_OUTPUT
           else
-            echo "No new commits"
+            echo "No updates needed"
             echo "has-updates=false" >> $GITHUB_OUTPUT
           fi
 
