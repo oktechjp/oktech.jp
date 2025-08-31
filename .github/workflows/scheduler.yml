@@ -1,9 +1,9 @@
-name: Content Update Scheduler
+name: Daily Rebuild Check
 
 on:
   schedule:
-    # Run daily at 11pm JST (2pm UTC)
-    - cron: "0 14 * * *"
+    # Run daily at midnight JST (3pm UTC)
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 jobs:
