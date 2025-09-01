@@ -78,4 +78,7 @@ export default defineConfig({
     // breakpoints: [640, 750, 828, 1080, 1280],
     responsiveStyles: true,
   },
+  build: {
+    format: "file", // fixes trailing slash redirects.
+  },
 });
