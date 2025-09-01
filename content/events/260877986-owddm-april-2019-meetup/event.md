@@ -5,7 +5,7 @@ duration: 120
 cover: ./712718.webp
 meetupId: 260877986
 group: 15632202
-venue: 26262059
+venue: 26378946
 howToFindUs: Please follow the map in the featured picture
 ---
 

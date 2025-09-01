@@ -1,7 +1,7 @@
 ---
-title: oinai karasuma
+title: Oinai Karasuma
 city: kyoto
-address: Nakagyo Ward, Tearaimizuchō, ６４７ トキワビル 4-B
+address: Tearaimizu-chō Nakagyo-ku 647, Tower Bld. 4F
 gmaps: https://maps.app.goo.gl/TkT4Z7FTRa58Bdmk7
 coordinates:
   lat: 35.00591

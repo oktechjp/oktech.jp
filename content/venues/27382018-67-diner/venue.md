@@ -1,7 +1,7 @@
 ---
 title: 67 Diner
 city: kyoto
-address: 平居町 下京区 京都市
+address: Shimogyo-ku Hirai-chō 64
 gmaps: https://maps.app.goo.gl/mg9dc7h75jaesQWWA
 coordinates:
   lat: 34.99429

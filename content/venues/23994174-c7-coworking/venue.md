@@ -1,7 +1,7 @@
 ---
 title: C7 Coworking
 city: osaka
-address: 大阪市福島区福島 6-12-13
+address: Fukushima-ku 6-12-13
 coordinates:
   lat: 34.6996201
   lng: 135.4850541

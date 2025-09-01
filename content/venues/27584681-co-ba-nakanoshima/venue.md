@@ -1,7 +1,7 @@
 ---
 title: co-ba nakanoshima
 city: osaka
-address: Kita Ward, Nakanoshima, 3 Chome−1−8
+address: Kita-ku Nakanoshima 3-1-8, 2F
 gmaps: https://maps.app.goo.gl/j2WsFabatYRuYv2g9
 coordinates:
   lat: 34.691803

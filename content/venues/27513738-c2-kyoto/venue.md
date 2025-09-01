@@ -1,7 +1,7 @@
 ---
 title: C2 Kyoto
 city: kyoto
-address: 京都府, 333番 Kagiyachō, Shimogyo Ward, Kyoto
+address: Shimogyo-ku Kagiyachō 333
 coordinates:
   lat: 34.99488
   lng: 135.75882

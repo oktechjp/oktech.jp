@@ -5,7 +5,7 @@ duration: 120
 cover: ./506739.webp
 meetupId: 259644459
 group: 15632202
-venue: 26262059
+venue: 26378946
 howToFindUs: Firstserver is on the 3rd floor
 ---
 

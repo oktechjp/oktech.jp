@@ -1,7 +1,7 @@
 ---
 title: Synergy Marketing
 city: osaka
-address: 大阪市北区堂島1-6-20 堂島アバンザ21F
+address: Kita-ku Doshima 1-6-20, Doshima Avanza Bld. 21F
 gmaps: https://maps.app.goo.gl/phHJLfsA1NTxQr5k8
 coordinates:
   lat: 34.696903

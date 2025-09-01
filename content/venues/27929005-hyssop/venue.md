@@ -1,7 +1,7 @@
 ---
 title: Hyssop
 city: kyoto
-address: 〒600-8022 Kyoto, Shimogyo Ward, Inaricho, 318-6 4階
+address: Shimogyo-ku Inari-chō 318-6, 4F
 coordinates:
   lat: 35.002525
   lng: 135.76889

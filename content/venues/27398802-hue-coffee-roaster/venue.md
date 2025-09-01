@@ -1,7 +1,7 @@
 ---
 title: Hue Coffee Roaster
 city: osaka
-address: 4-chōme-3-7 Tanimachi, Chuo Ward, Osaka
+address: Chuo-ku Tanimachi 4-3-7
 gmaps: https://maps.app.goo.gl/3oZvajWNEkQTwuA29
 coordinates:
   lat: 34.680374

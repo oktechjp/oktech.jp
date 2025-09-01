@@ -1,7 +1,7 @@
 ---
 title: Kamogawa Creative Base
 city: kyoto
-address: 153 Tennocho, Shimogyo Ward
+address: Shimogyo-ku Tenno-chō 153
 state: id
 coordinates:
   lat: 35.001156

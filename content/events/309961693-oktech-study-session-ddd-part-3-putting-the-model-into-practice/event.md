@@ -12,7 +12,7 @@ topics:
 meetupId: 309961693
 group: 15632202
 venue: 25963776
-howToFindUs: We are in room 701 of the Kokoplaza.
+howToFindUs: We are in room 801 of the Kokoplaza.
 ---
 
 ***Notice:*** *The event time changed. Robert is feeling under the weather and we had to shift the schedule by one event.*

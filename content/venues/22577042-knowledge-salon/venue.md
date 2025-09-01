@@ -1,7 +1,7 @@
 ---
 title: Knowledge Salon
 city: osaka
-address: 大阪市北区大深町3-1, 7F (北３エレベーター)
+address: Kita-ku Ofuka-chō 3-1, Grand Front North Bld. 7F
 gmaps: https://maps.app.goo.gl/6FMbXVASmWySBJFr7
 coordinates:
   lat: 34.7053655

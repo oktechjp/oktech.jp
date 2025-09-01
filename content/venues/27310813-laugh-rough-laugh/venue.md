@@ -1,7 +1,7 @@
 ---
 title: Laugh Rough Laugh
 city: osaka
-address: 9-chōme-3-1 Uehonmachi, Tennoji Ward, Osaka
+address: Tennoji-ku Uehonmachi 9-3-1
 gmaps: https://maps.app.goo.gl/DNLfWXdqkEJkxMJT9
 coordinates:
   lat: 34.65817

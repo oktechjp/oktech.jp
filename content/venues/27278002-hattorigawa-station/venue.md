@@ -1,7 +1,7 @@
 ---
 title: Hattorigawa Station
-city: osaka
-address: 4 Chome Hattorigawa, Yao
+city: yao
+address: Hattorigawa 7
 coordinates:
   lat: 34.62634
   lng: 135.64125

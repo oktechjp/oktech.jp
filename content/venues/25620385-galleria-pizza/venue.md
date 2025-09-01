@@ -1,7 +1,7 @@
 ---
 title: Galleria Pizza
 city: osaka
-address: 大阪市福島区福島6ー24ー24
+address: Fukushima-ku 6-24-24
 gmaps: https://maps.app.goo.gl/8xrT3QR2nUWmYoxs8
 coordinates:
   lat: 34.702446

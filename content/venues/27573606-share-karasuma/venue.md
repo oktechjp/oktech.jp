@@ -1,7 +1,7 @@
 ---
 title: share KARASUMA
 city: kyoto
-address: Shimogyo Ward, Ōmandokorochō, ６８０−１, No8 Hase Building, 2F 3F（受付
+address: Shimogyo-ku Ōmandokoro-chō 680-1, No8 Hase Building 2F/3F
 gmaps: https://maps.app.goo.gl/Lgpx3XK7YBeE42RcA
 coordinates:
   lat: 35.001007

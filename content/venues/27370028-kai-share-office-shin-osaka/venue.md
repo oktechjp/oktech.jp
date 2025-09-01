@@ -1,7 +1,7 @@
 ---
 title: Kai Share Office - Shin Osaka
 city: osaka
-address: 大阪市淀川区西中島４丁目８−２６ 鯛ビル 202
+address: Yodogawa-ku Nishi-nakashima 4-8-26, Tai Bld. 2F
 gmaps: https://maps.app.goo.gl/hBpjfE2L3sX5npXw9
 coordinates:
   lat: 34.726078

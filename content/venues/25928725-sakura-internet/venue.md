@@ -1,7 +1,7 @@
 ---
 title: Sakura Internet
 city: osaka
-address: Grand Front Osaka Tower A 35F, Kita-ku, Ofukacho 4-20
+address: Kita-ku Ofuka-chō 4-20, Grand Front South Bld. 35F
 state: al
 gmaps: https://maps.app.goo.gl/hDEjypf9xAp84ead7
 coordinates:

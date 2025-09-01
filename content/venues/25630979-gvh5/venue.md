@@ -1,7 +1,7 @@
 ---
-title: 阪急ファイブアネックスビル　GVH#5
+title: GVH#5
 city: osaka
-address: 大阪市北区角田町1番12号
+address: Kita-ku Kakuda-chō 1-12, Hankyu Five Annex Bld. 2F
 gmaps: https://maps.app.goo.gl/8UkNEmL4zoaTz9Z36
 coordinates:
   lat: 34.704445

@@ -5,7 +5,7 @@ duration: 120
 cover: ./033876.webp
 meetupId: 264050187
 group: 15632202
-venue: 26262059
+venue: 26378946
 howToFindUs: The event is on the 3rd floor. The front of the building will be closed. There will be a map printed on the shutter directing you around to the left, where there is another small entrance on the North side of the building.
 ---
 

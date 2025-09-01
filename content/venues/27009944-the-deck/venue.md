@@ -1,7 +1,7 @@
 ---
-title: The DECK （ザ デッキ）
+title: The DECK
 city: osaka
-address: Chuo Ward, Minamihonmachi, 2-chōme−1−１ 本町サザンビル 1階
+address: Chuo-ku Minamihonmachi 2-1-1, Honmachi Sazan Bld. 1F
 coordinates:
   lat: 34.68305
   lng: 135.50623

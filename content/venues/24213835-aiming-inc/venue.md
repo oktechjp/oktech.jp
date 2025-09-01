@@ -1,7 +1,7 @@
 ---
 title: Aiming Inc
 city: osaka
-address: 18th Floor, Grand Front Tower B, Ofukacho 3-1, Kita-ku
+address: Kita-ku Ofuka-chō 3-1, Grand Front Bld. 18F
 gmaps: https://maps.app.goo.gl/qqYJ2aQjYTCDvxnRA
 coordinates:
   lat: 34.703922

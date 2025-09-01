@@ -1,7 +1,7 @@
 ---
 title: Cybozu Osaka Office
 city: osaka
-address: 大阪府大阪市北区角田町8番1号 梅田阪急ビルオフィスタワー 35階
+address: Kita-ku Kakuda-chō 8-1, Hankyu Bld. Office Tower 35F
 coordinates:
   lat: 34.70231
   lng: 135.49876
