@@ -6,60 +6,119 @@ import { animated, useSpring } from "@react-spring/web";
 interface ParallaxProps {
   children: ReactNode;
   className?: string;
-  maxOffset?: string;
+  maxOffset?: string; // e.g. "8rem"
+  speed?: number; // e.g. 0.2
+  thresholdPx?: number; // change threshold to avoid tiny updates (default 0.5px)
 }
 
-export default function Parallax({ children, className = "", maxOffset = "8rem" }: ParallaxProps) {
-  const ref = useRef<HTMLDivElement>(null);
+export default function Parallax({
+  children,
+  className = "",
+  maxOffset = "8rem",
+  speed = 0.2,
+  thresholdPx = 0.5,
+}: ParallaxProps) {
+  const hostRef = useRef<HTMLDivElement>(null);
+
   const [springs, api] = useSpring(() => ({
     y: 0,
-    config: {
-      mass: 1,
-      tension: 280,
-      friction: 120,
-    },
+    config: { mass: 1, tension: 280, friction: 120 },
   }));
 
   useEffect(() => {
-    // Reason: Convert CSS units to pixels
-    const convertToPixels = (value: string) => {
-      const temp = document.createElement("div");
-      temp.style.position = "absolute";
-      temp.style.height = value;
-      document.body.appendChild(temp);
-      const pixels = temp.offsetHeight;
-      document.body.removeChild(temp);
-      return pixels;
+    const el = hostRef.current;
+    if (!el) return;
+
+    // ---- convert CSS unit -> px (once) ----
+    const toPx = (value: string) => {
+      // single detached element reused for measurement
+      const probe = document.createElement("div");
+      probe.style.position = "absolute";
+      probe.style.visibility = "hidden";
+      probe.style.height = value;
+      document.body.appendChild(probe);
+      const px = probe.offsetHeight;
+      probe.remove();
+      return px;
+    };
+    const maxOffsetPx = toPx(maxOffset);
+
+    // ---- state we keep outside React render ----
+    let rafId: number | null = null;
+    let latestScrollY = window.scrollY;
+    let lastApplied = -1; // last y we sent to spring
+    let pageVisible = !document.hidden;
+    let inViewport = true; // will be refined by IO below
+
+    // Only animate when visible + on screen
+    const shouldRun = () => pageVisible && inViewport;
+
+    // Coalesced update (max once per frame)
+    const update = () => {
+      rafId = null;
+      if (!shouldRun()) return;
+
+      const offset = Math.min(latestScrollY * speed, maxOffsetPx);
+      if (Math.abs(offset - lastApplied) >= thresholdPx) {
+        lastApplied = offset;
+        // fire only if value changed enough
+        api.start({ y: offset });
+      }
     };
 
-    const maxOffsetPx = convertToPixels(maxOffset);
-
-    const handleScroll = () => {
-      if (!ref.current) return;
-
-      const scrollY = window.scrollY;
-
-      // Reason: Simple parallax based only on scroll position
-      const parallaxSpeed = 0.2;
-      const offset = Math.min(scrollY * parallaxSpeed, maxOffsetPx);
-
-      api.start({ y: offset });
+    const queueUpdate = () => {
+      if (rafId == null) {
+        rafId = requestAnimationFrame(update);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
+    const onScroll = () => {
+      latestScrollY = window.scrollY;
+      queueUpdate();
+    };
 
-    // Reason: Initial calculation on mount
-    handleScroll();
+    // Pause/resume when tab visibility changes
+    const onVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) queueUpdate();
+    };
+
+    // Observe element visibility (viewport)
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        inViewport = !!entry && (entry.isIntersecting || entry.intersectionRatio > 0);
+        if (inViewport) queueUpdate();
+      },
+      { root: null, rootMargin: "0px", threshold: [0, 0.01, 0.1, 1] },
+    );
+    io.observe(el);
+
+    // Recompute when element size/layout changes (less noisy than window resize)
+    const ro = new ResizeObserver(() => {
+      // layout shifts can change the perceived parallax; just recompute
+      queueUpdate();
+    });
+    ro.observe(el);
+
+    // Initial run
+    onScroll();
+
+    // passive listener for scroll
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("visibilitychange", onVisibility);
+      io.disconnect();
+      ro.disconnect();
+      if (rafId != null) cancelAnimationFrame(rafId);
     };
-  }, [api, maxOffset]);
+  }, [api, maxOffset, speed, thresholdPx]);
 
   return (
-    <div ref={ref} className={`relative ${className}`}>
+    <div ref={hostRef} className={`relative ${className}`}>
       <animated.div
         style={{
           transform: springs.y.to((y) => `translate3d(0, ${y}px, 0)`),

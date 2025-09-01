@@ -30,15 +30,26 @@ export default function TopBar() {
   const [showBackground, setShowBackground] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setShowBackground(scrollY > 0);
+    let last = window.scrollY > 0;
+    setShowBackground(last);
+    let ticking = false;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const next = y > 0;
+        if (next !== last) {
+          last = next;
+          setShowBackground(next);
+        }
+        ticking = false;
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Set initial state
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
