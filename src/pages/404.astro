@@ -1,0 +1,16 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { colors } from "@/components/Common/OKTechLogo";
+---
+
+<PageLayout className="flex flex-col">
+  <div class="flex flex-grow flex-col items-center justify-center py-32">
+    <h1 class="text-[20vw] tracking-[-0.15em] xl:text-[16em]">
+      <span style={{ color: colors.RED }}>4</span>
+      <span style={{ color: colors.GREEN }}>0</span>
+      <span style={{ color: colors.BLUE }}>4</span>
+    </h1>
+    <p class="mt-4 text-[4vw] xl:text-[3em]">Sorry, page not found.</p>
+    <p class="mt-4 text-[3vw] xl:text-[2em]">申し訳ありませんが、ページが見つかりません.</p>
+  </div>
+</PageLayout>

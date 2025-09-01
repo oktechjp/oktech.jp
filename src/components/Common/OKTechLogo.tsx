@@ -9,7 +9,7 @@ interface OKTechLogoProps {
 }
 
 // TODO use colors picked from wintle's image
-const colors = {
+export const colors = {
   RED: "#fd4d69",
   GREEN: "#49d773",
   BLUE: "#459bc9",
