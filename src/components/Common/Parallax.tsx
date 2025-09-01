@@ -6,17 +6,15 @@ import { animated, useSpring } from "@react-spring/web";
 interface ParallaxProps {
   children: ReactNode;
   className?: string;
-  maxOffset?: string; // e.g. "8rem"
+  maxOffset?: number; // max offset in pixels
   speed?: number; // e.g. 0.2
-  thresholdPx?: number; // change threshold to avoid tiny updates (default 0.5px)
 }
 
 export default function Parallax({
   children,
   className = "",
-  maxOffset = "8rem",
+  maxOffset = 128,
   speed = 0.2,
-  thresholdPx = 0.5,
 }: ParallaxProps) {
   const hostRef = useRef<HTMLDivElement>(null);
 
@@ -29,21 +27,6 @@ export default function Parallax({
     const el = hostRef.current;
     if (!el) return;
 
-    // ---- convert CSS unit -> px (once) ----
-    const toPx = (value: string) => {
-      // single detached element reused for measurement
-      const probe = document.createElement("div");
-      probe.style.position = "absolute";
-      probe.style.visibility = "hidden";
-      probe.style.height = value;
-      document.body.appendChild(probe);
-      const px = probe.offsetHeight;
-      probe.remove();
-      return px;
-    };
-    const maxOffsetPx = toPx(maxOffset);
-
-    // ---- state we keep outside React render ----
     let rafId: number | null = null;
     let latestScrollY = window.scrollY;
     let lastApplied = -1; // last y we sent to spring
@@ -58,8 +41,8 @@ export default function Parallax({
       rafId = null;
       if (!shouldRun()) return;
 
-      const offset = Math.min(latestScrollY * speed, maxOffsetPx);
-      if (Math.abs(offset - lastApplied) >= thresholdPx) {
+      const offset = Math.min(latestScrollY * speed, maxOffset);
+      if (Math.abs(offset - lastApplied) >= 0.5) {
         lastApplied = offset;
         // fire only if value changed enough
         api.start({ y: offset });
@@ -115,7 +98,7 @@ export default function Parallax({
       ro.disconnect();
       if (rafId != null) cancelAnimationFrame(rafId);
     };
-  }, [api, maxOffset, speed, thresholdPx]);
+  }, [api, maxOffset, speed]);
 
   return (
     <div ref={hostRef} className={`relative ${className}`}>
