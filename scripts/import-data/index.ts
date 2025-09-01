@@ -71,10 +71,15 @@ async function main() {
   await handleImport(args);
 }
 
-main().catch((err) => {
-  logger.error("Operation failed:", err);
-  if (err.stack) {
-    console.error(err.stack);
-  }
-  process.exit(1);
-});
+main()
+  .then(() => {
+    // Explicitly exit on success to ensure the process terminates
+    process.exit(0);
+  })
+  .catch((err) => {
+    logger.error("Operation failed:", err);
+    if (err.stack) {
+      console.error(err.stack);
+    }
+    process.exit(1);
+  });
