@@ -1,6 +1,6 @@
 ---
 title: Sakurashukugawa Riverside
-city: kobe
+city: nishinomiya
 address: Izumi-chō, Beachfront
 coordinates:
   lat: 34.732857
