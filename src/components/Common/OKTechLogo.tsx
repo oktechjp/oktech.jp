@@ -21,6 +21,9 @@ type OKTechLogoItemProps = OKTechLogoProps & {
   style?: React.CSSProperties;
 };
 
+const transitionClass = "transition-colors duration-[1000ms] ease-in-out";
+const hoverClass = "group-hover:[fill:var(--hover-color)]";
+
 export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogoItemProps) {
   return (
     <>
@@ -30,10 +33,10 @@ export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogo
         aria-label="OKTech logo icon"
         role="img"
         className={clsx(
-          "transition-all duration-200 ease-in-out group-hover:rotate-[-10deg]",
+          "transition-transform duration-300 ease-in-out group-hover:rotate-[-10deg]",
           className,
         )}
-        style={{ transform: active ? "rotate(-10deg)" : "none", ...style }}
+        style={{ transform: active ? "none" : "rotate(7deg)", ...style }}
         fill="currentColor"
       >
         <defs>
@@ -57,26 +60,26 @@ export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogo
         </defs>
         <path
           className="base-responsive"
-          d="M44.64,15.92v68.17c-16.51-2.57-29.15-16.85-29.15-34.08s12.64-31.52,29.15-34.09Z"
+          d="M39.85,17.02l9.7,67.48c-16.71-.19-31.25-12.53-33.7-29.58-2.45-17.06,8.03-33,24-37.89Z"
         />
         <g>
           <path
             fill={active ? colors.RED : undefined}
             style={!active ? ({ "--hover-color": colors.RED } as React.CSSProperties) : undefined}
-            className={!active ? "group-hover:[fill:var(--hover-color)]" : undefined}
-            d="M75.79,27.09c-5.17-5.81-12.27-9.87-20.29-11.15v26.45l20.29-15.3Z"
+            className={clsx(transitionClass, !active && hoverClass)}
+            d="M82.85,60.57c1.56-4.84,2.08-10.1,1.31-15.48-.76-5.29-2.69-10.13-5.47-14.29l-18.13,18.26,22.3,11.51Z"
           />
           <path
             fill={active ? colors.GREEN : undefined}
             style={!active ? ({ "--hover-color": colors.GREEN } as React.CSSProperties) : undefined}
-            className={!active ? "group-hover:[fill:var(--hover-color)]" : undefined}
-            d="M81.01,65.14c2.24-4.57,3.5-9.71,3.5-15.14s-1.22-10.4-3.39-14.92l-20.55,15.49,20.44,14.56Z"
+            className={clsx(transitionClass, !active && hoverClass)}
+            d="M56.68,57.87l3.6,25.07c7.68-2.39,14.08-7.34,18.37-13.73l-21.97-11.33Z"
           />
           <path
             fill={active ? colors.BLUE : undefined}
             style={!active ? ({ "--hover-color": colors.BLUE } as React.CSSProperties) : undefined}
-            className={!active ? "group-hover:[fill:var(--hover-color)]" : undefined}
-            d="M55.49,58.74v25.32c7.94-1.27,14.98-5.26,20.13-10.98l-20.13-14.35Z"
+            className={clsx(transitionClass, !active && hoverClass)}
+            d="M72.26,23.65c-5.94-5.02-13.55-8.02-21.67-8.15l3.77,26.19,17.91-18.03Z"
           />
         </g>
       </svg>
