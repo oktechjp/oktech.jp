@@ -1,48 +1,34 @@
-## vNext
+## vNow - fixes/refactoring
 
-- Nicer Readme
-- Confirm new logo svg.
-- RGB Theme with blobs.
-- Update logo / colors
-- implement evey's grid
-- Prettier touches like asanhoa / squares
-- Squash the git history.
-
-- Cancelled events logic.
-
-## Refactor
-
+- Add info button on the lightbox
 - Standardize importing of markdown to fix that stray css module.
 - Clean up codebase, removing AI stuff.
 - Replace extractMarkdownDescription with import step / LLM
 - Streamline logo style/props logic
 - Clean up sticky nav references
+- Ensure the OGs aren't svg eg https://oktech.jp/_astro/cybozu-logo.Ch1fNYi9_1b9AFL.svg
+- Custom 404 page.
+- Fix osx chrome projector view.
+- Regenerate redirects, but disable on new site.
+- Remove map for online evnet
 
-## Article listing or Blog
+## vNext
 
-add article dynamically.
+- Nicer Readme
+- implement evey's grid
+- Prettier touches like asanhoa / squares
+- Squash the git history.
+- Create a plan for cancelled events logic.
+- Blog / articles; ability to add articles dynamically (like coc).
+- Article for about History.
+- Thank you section on about
 
-Article about History.
-
-- Thank you page?
-
-## From
-
-Change URL.
-
-- oktech.jp
-
----
-
-## Later
+## Later?
 
 - Carousel for upcoming events
 - Random slideshow of all images
 - Tagging with LLMs and shiz.
 - How to find us photos for hankyu etc.
-- Members: with hasPage: true.e
-- Prod.
-
----
-
-Redirect the
+- Members: with hasPage: true.
+- Venue type ; inside / outside / etc.
+- Add interactive japan map somewhere, with heatmap of all the event locations.
