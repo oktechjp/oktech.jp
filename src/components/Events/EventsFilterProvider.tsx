@@ -77,14 +77,19 @@ export function EventFilterProvider({
 
     const eventItems: EventItem[] = events.map((event) => {
       event.data.topics?.forEach((topic) => allTopics.add(topic));
-      if (event.venue?.city) allLocations.add(event.venue.city);
+
+      const location = ["osaka", "kyoto"].includes(event.venue?.city || "")
+        ? (event.venue?.city as string)
+        : "other";
+
+      allLocations.add(location);
 
       return {
         id: event.id,
         title: event.data.title,
         date: event.data.dateTime.toISOString(),
         topics: event.data.topics || [],
-        location: event.venue?.city || "",
+        location,
         venue: event.venue,
         venueName: event.venue?.title || "",
         poster: event.data.cover,

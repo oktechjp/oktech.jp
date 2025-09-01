@@ -11,7 +11,7 @@ export const DEV_MODE = process.env.NODE_ENV === "development";
 export const MAX_IMAGE_WIDTH = 1920;
 
 const shortName = "OKTech";
-const longName = "Technology Meetup Group in Kansai - Osaka, Kyoto, Kobe, Hyogo";
+const longName = "Technology Meetup Group in Osaka, Kyoto, Kansai";
 const name = `${shortName} - ${longName}`;
 
 export const SITE = {

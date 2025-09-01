@@ -26,11 +26,8 @@ function fuzzyMatchCity(city: string): string | null {
   const patternCollection = [
     { patterns: ["osaka", "大阪", "おおさか"], result: "osaka" },
     { patterns: ["kyoto", "京都", "きょうと"], result: "kyoto" },
-    { patterns: ["kobe", "神戸", "こうべ"], result: "kobe" },
-    { patterns: ["hyogo", "兵庫", "ひょうご"], result: "kobe" },
     { patterns: ["shiga", "滋賀", "しが"], result: "kyoto" },
     { patterns: ["nara", "奈良", "なら"], result: "osaka" },
-    { patterns: ["nishinomiya", "西宮"], result: "kobe" },
   ];
 
   for (const { patterns, result } of patternCollection) {

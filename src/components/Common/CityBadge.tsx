@@ -13,12 +13,16 @@ export default function CityBadge({ city, className }: CityBadgeProps) {
   if (!city) return null;
 
   const cityLower = city.toLowerCase();
+  const isOsaka = cityLower === "osaka";
+  const isKyoto = cityLower === "kyoto";
+  const isOther = !isOsaka && !isKyoto;
+
   return (
     <span
       className={clsx(
-        cityLower === "osaka" && "badge badge-error",
-        cityLower === "kyoto" && "badge badge-warning",
-        cityLower === "kobe" && "badge badge-success",
+        isOsaka && "badge badge-error",
+        isKyoto && "badge badge-warning",
+        isOther && "badge badge-success",
         className,
       )}
     >
