@@ -87,11 +87,23 @@ const DAISYUI_THEMES = [
 ];
 
 function oklchToHex(oklch: string): string {
-  const match = oklch.match(/oklch\(([\d.]+%?)\s+([\d.]+)\s+([\d.]+)\)/);
+  const match = oklch.match(/oklch\(([\d.]+%?)\s+([\d.]+%?)\s+([\d.]+)\)/);
   if (!match) return "#000000";
 
-  const l = parseFloat(match[1].replace("%", "")) / 100;
-  const c = parseFloat(match[2]);
+  let l: number;
+  if (match[1].includes("%")) {
+    l = parseFloat(match[1].replace("%", "")) / 100;
+  } else {
+    l = parseFloat(match[1]);
+  }
+
+  let c: number;
+  if (match[2].includes("%")) {
+    c = parseFloat(match[2].replace("%", "")) / 100;
+  } else {
+    c = parseFloat(match[2]);
+  }
+
   const h = parseFloat(match[3]);
 
   const a = c * Math.cos((h * Math.PI) / 180);
