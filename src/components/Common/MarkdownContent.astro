@@ -1,0 +1,25 @@
+---
+interface Props {
+  markdown: string;
+  class?: string;
+}
+
+const { markdown, class: className = "prose prose-lg max-w-none" } = Astro.props;
+
+// Import all markdown files from content directory
+const markdownFiles = import.meta.glob("/content/**/*.md");
+
+// Normalize the path to match the glob pattern
+const fullPath = `/content/${markdown}`;
+
+if (!markdownFiles[fullPath]) {
+  throw new Error(`Markdown file not found: ${fullPath}`);
+}
+
+const module = (await markdownFiles[fullPath]()) as any;
+const { Content } = module;
+---
+
+<div class={className}>
+  <Content />
+</div>

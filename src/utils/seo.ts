@@ -1,5 +1,3 @@
-import { getEntry } from "astro:content";
-
 import { SEO_DATA, SITE } from "@/constants";
 import { type EventEnriched, getEvent, getVenue } from "@/content";
 import { type VenueEnriched } from "@/content/venues";
@@ -33,74 +31,239 @@ export interface SEOMetadata {
 }
 
 /**
- * Extracts entity ID from URL path
+ * Determine the page type and extract relevant identifiers from pathname
  */
-function extractEntityId(url: string, pattern: RegExp): string | null {
-  const match = url.match(pattern);
-  return match?.[1] || null;
+function parsePageType(pathname: string): {
+  type: "static" | "event" | "venue" | "markdown" | "unknown";
+  id: string;
+} {
+  // Check if it's a non-HTML resource first
+  if (pathname.endsWith(".xml") || pathname.endsWith(".ics") || pathname.endsWith(".json")) {
+    return { type: "unknown", id: pathname };
+  }
+
+  // Check static pages
+  if (SEO_DATA[pathname]) {
+    return { type: "static", id: pathname };
+  }
+
+  // Check event pages
+  const eventMatch = pathname.match(/^\/events\/([^/]+?)(?:\.html)?$/);
+  if (eventMatch && eventMatch[1]) {
+    return { type: "event", id: eventMatch[1] };
+  }
+
+  // Check venue pages
+  const venueMatch = pathname.match(/^\/venue\/([^/]+?)(?:\.html)?$/);
+  if (venueMatch && venueMatch[1]) {
+    return { type: "venue", id: venueMatch[1] };
+  }
+
+  // These should never hit, as we're already hadnling them above, it's just a safety check
+  if (pathname.startsWith("/events") || pathname.startsWith("/venue")) {
+    return { type: "unknown", id: pathname };
+  }
+
+  // Assume it's a markdown page if it doesn't match other patterns
+  const slug = pathname.replace(/^\//, "");
+  if (slug) {
+    return { type: "markdown", id: slug };
+  }
+
+  return { type: "unknown", id: pathname };
 }
 
 /**
- * Extract plain text from markdown content for description
+ * Decorate base SEO with static page data
  */
-async function extractMarkdownDescription(
-  collection: string,
-  entryId: string,
-  maxLength: number = 160,
-): Promise<string | null> {
+async function decorateStaticPageSEO(baseSEO: SEOMetadata, pathname: string): Promise<SEOMetadata> {
+  const staticSEO = SEO_DATA[pathname];
+  if (!staticSEO) return baseSEO;
+
+  // Determine the title
+  const fullTitle =
+    pathname === "/" ? SITE.title.default : SITE.title.template.replace("%s", staticSEO.title);
+
+  return {
+    ...baseSEO,
+    title: staticSEO.title,
+    fullTitle,
+    description: staticSEO.description,
+    type: "website",
+    keywords: staticSEO.keywords,
+  };
+}
+
+/**
+ * Decorate base SEO with markdown page data
+ */
+async function decorateMarkdownPageSEO(baseSEO: SEOMetadata, slug: string): Promise<SEOMetadata> {
+  // Try to load the markdown file from /content/ to get frontmatter
   try {
-    const entry = await getEntry(collection as any, entryId);
-    if (!entry) return null;
+    // Try to find the markdown file - it could be at /content/{slug}.md
+    const markdownFiles = import.meta.glob("/content/**/*.md");
+    const possiblePaths = [`/content/${slug}.md`, `/content/markdownPages/${slug}.md`];
 
-    // Get the raw markdown body
-    const body = entry.body || "";
+    for (const fullPath of possiblePaths) {
+      if (markdownFiles[fullPath]) {
+        const module = (await markdownFiles[fullPath]()) as any;
+        const { frontmatter } = module;
 
-    // Remove frontmatter if present
-    const content = body.replace(/^---[\s\S]*?---\n/, "");
+        if (frontmatter) {
+          const title = frontmatter.title || baseSEO.title;
+          const fullTitle = SITE.title.template.replace("%s", title);
 
-    // Remove markdown formatting
-    let plainText = content
-      .replace(/#{1,6}\s+/g, "") // Headers
-      .replace(/\*\*([^*]+)\*\*/g, "$1") // Bold
-      .replace(/\*([^*]+)\*/g, "$1") // Italic
-      .replace(/_([^_]+)_/g, "$1") // Italic
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Links
-      .replace(/!\[([^\]]*)\]\([^)]+\)/g, "") // Images
-      .replace(/```[\s\S]*?```/g, "") // Code blocks
-      .replace(/`([^`]+)`/g, "$1") // Inline code
-      .replace(/^[-*+]\s+/gm, "") // Bullet points
-      .replace(/^\d+\.\s+/gm, "") // Numbered lists
-      .replace(/^>\s+/gm, "") // Blockquotes
-      .replace(/\n{2,}/g, " ") // Multiple newlines
-      .replace(/\n/g, " ") // Single newlines
-      .trim();
-
-    // Take the first few sentences or characters
-    if (plainText.length > maxLength) {
-      // Try to cut at a sentence boundary
-      const sentences = plainText.match(/[^.!?]+[.!?]+/g) || [];
-      let description = "";
-
-      for (const sentence of sentences) {
-        if ((description + sentence).length <= maxLength) {
-          description += sentence;
-        } else if (description.length < 50) {
-          // If we don't have enough content, just truncate
-          description = plainText.substring(0, maxLength - 3) + "...";
-          break;
-        } else {
-          break;
+          return {
+            ...baseSEO,
+            title,
+            fullTitle,
+            description: frontmatter.description || `Learn more about ${title} at OKTech`,
+            type: frontmatter.type || "article",
+            keywords: frontmatter.keywords || [title, "OKTech"],
+            ogImage: frontmatter.ogImage || baseSEO.ogImage,
+            article: frontmatter.publishedTime
+              ? {
+                  publishedTime: frontmatter.publishedTime,
+                  modifiedTime: frontmatter.modifiedTime,
+                  author: frontmatter.author,
+                  tags: frontmatter.tags,
+                }
+              : undefined,
+          };
         }
       }
-
-      return description || plainText.substring(0, maxLength - 3) + "...";
     }
 
-    return plainText;
+    // If no markdown file found, just update the type
+    return {
+      ...baseSEO,
+      type: "article",
+    };
   } catch (error) {
-    console.error(`Failed to extract markdown for ${collection}/${entryId}:`, error);
-    return null;
+    console.error(`Error processing markdown page SEO for ${slug}:`, error);
+    return baseSEO;
   }
+}
+
+/**
+ * Decorate base SEO with event data
+ */
+async function decorateEventSEO(
+  baseSEO: SEOMetadata,
+  eventId: string,
+  pathname: string,
+): Promise<SEOMetadata> {
+  try {
+    const event = await getEvent(eventId);
+    const topics = event.data.topics || [];
+
+    // Use description from event data or fallback to topics
+    let description = event.data.description;
+    if (!description || description.length < 50) {
+      description = topics.length
+        ? `Topics: ${topics.join(", ")}. Join us for this tech meetup event!`
+        : "Join us for this exciting tech meetup event!";
+    }
+
+    const isLegacy = isLegacyEvent(event);
+    // For legacy events, use their cover image if available
+    const ogImage =
+      isLegacy && event.data.cover?.src
+        ? event.data.cover.src
+        : getOGImageWithFallback(pathname, { eventId, title: event.data.title });
+
+    return {
+      ...baseSEO,
+      title: event.data.title,
+      fullTitle: SITE.title.template.replace("%s", `${event.data.title} - Events`),
+      description,
+      ogImage,
+      type: "article",
+      article: {
+        publishedTime: event.data.dateTime.toISOString(),
+        tags: topics,
+      },
+      keywords: [...topics, "tech event", "meetup", event.venue?.title].filter(Boolean) as string[],
+      entity: {
+        type: "event",
+        data: event,
+        isLegacy,
+        shouldGenerateOG: !isLegacy,
+      },
+    };
+  } catch (error) {
+    console.error(`Failed to load event ${eventId}:`, error);
+    return baseSEO;
+  }
+}
+
+/**
+ * Decorate base SEO with venue data
+ */
+async function decorateVenueSEO(
+  baseSEO: SEOMetadata,
+  venueId: string,
+  pathname: string,
+): Promise<SEOMetadata> {
+  try {
+    const venue = await getVenue(venueId);
+
+    // Use venue description or fallback to default
+    const description =
+      venue.data.description ||
+      `${venue.data.title} - A venue for tech meetups and events in the Kansai region. Located in ${venue.data.city || "Osaka"}.`;
+
+    // Use venue's cover image if it exists, otherwise use base OG image
+    const ogImage = venue.data.cover?.src
+      ? venue.data.cover.src
+      : getOGImageWithFallback(pathname, { venueId, title: venue.data.title });
+
+    return {
+      ...baseSEO,
+      title: venue.data.title,
+      fullTitle: SITE.title.template.replace("%s", `${venue.data.title} - Venues`),
+      description,
+      ogImage,
+      type: "website",
+      keywords: ["venue", venue.data.title, venue.data.city, "tech meetup venue"].filter(
+        Boolean,
+      ) as string[],
+      entity: {
+        type: "venue",
+        data: venue,
+        shouldGenerateOG: !venue.data.cover?.src,
+      },
+    };
+  } catch (error) {
+    console.error(`Failed to load venue ${venueId}:`, error);
+    return baseSEO;
+  }
+}
+
+/**
+ * Get base SEO metadata that can be decorated by specific handlers
+ */
+function getBaseSEO(pathname: string): SEOMetadata {
+  const canonical = resolveFullUrl(pathname);
+  const homeSEO = SEO_DATA["/"];
+
+  // Create a basic title from the pathname as fallback
+  const segments = pathname.split("/").filter(Boolean);
+  const fallbackTitle =
+    segments[segments.length - 1]
+      ?.split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ") || "OKTech";
+
+  return {
+    title: fallbackTitle,
+    fullTitle: SITE.title.default,
+    description: homeSEO.description,
+    canonical,
+    ogImage: getOGImageWithFallback(pathname),
+    type: "website",
+    keywords: homeSEO.keywords,
+  };
 }
 
 /**
@@ -109,143 +272,29 @@ async function extractMarkdownDescription(
 export async function getSEO(url: string): Promise<SEOMetadata> {
   // Extract and normalize pathname using our URL helpers
   const pathname = extractPathname(url);
-  const canonical = resolveFullUrl(pathname);
 
-  // Check if this is a static page with SEO data
-  const staticSEO = SEO_DATA[pathname];
-  if (staticSEO) {
-    // Don't generate SEO meta tags for non-HTML resources
-    const isNonHtml = pathname.endsWith(".xml") || pathname.endsWith(".ics");
-    if (isNonHtml) {
-      // Return minimal SEO for non-HTML resources (they won't use it anyway)
-      return {
-        title: staticSEO.title,
-        fullTitle: SITE.title.default,
-        description: staticSEO.description,
-        canonical,
-        type: "website",
-        noindex: true,
-      };
-    }
+  // Start with base SEO that includes canonical and defaults
+  const baseSEO = getBaseSEO(pathname);
 
-    // Determine the title
-    const fullTitle =
-      pathname === "/" ? SITE.title.default : SITE.title.template.replace("%s", staticSEO.title);
+  // Determine page type and decorate accordingly
+  const pageInfo = parsePageType(pathname);
 
-    return {
-      title: staticSEO.title,
-      fullTitle,
-      description: staticSEO.description,
-      canonical,
-      ogImage: getOGImageWithFallback(pathname),
-      type: "website",
-      keywords: staticSEO.keywords,
-    };
+  if (pageInfo.type === "static") {
+    return decorateStaticPageSEO(baseSEO, pathname);
   }
 
-  // Individual event page
-  const eventId = extractEntityId(pathname, /^\/events\/([^/]+)$/);
-  if (eventId) {
-    try {
-      const event = await getEvent(eventId);
-      const topics = event.data.topics || [];
-
-      // Try to get description from markdown content
-      let description = await extractMarkdownDescription("eventsMarkdown", eventId);
-
-      // Fallback to topics if no markdown or too short
-      if (!description || description.length < 50) {
-        description = topics.length
-          ? `Topics: ${topics.join(", ")}. Join us for this tech meetup event!`
-          : "Join us for this exciting tech meetup event in the Osaka-Kyoto region!";
-      }
-
-      const isLegacy = isLegacyEvent(event);
-      // For legacy events, use their cover image if available
-      const ogImage =
-        isLegacy && event.data.cover?.src
-          ? event.data.cover.src
-          : getOGImageWithFallback(pathname, { eventId, title: event.data.title });
-
-      return {
-        title: event.data.title,
-        fullTitle: SITE.title.template.replace("%s", `${event.data.title} - Events`),
-        description,
-        canonical,
-        ogImage,
-        type: "article",
-        article: {
-          publishedTime: event.data.dateTime.toISOString(),
-          tags: topics,
-        },
-        keywords: [...topics, "tech event", "meetup", event.venue?.title].filter(
-          Boolean,
-        ) as string[],
-        entity: {
-          type: "event",
-          data: event,
-          isLegacy,
-          shouldGenerateOG: !isLegacy, // Generate OG for non-legacy events
-        },
-      };
-    } catch (error) {
-      console.error(`Failed to load event ${eventId}:`, error);
-    }
+  if (pageInfo.type === "event") {
+    return decorateEventSEO(baseSEO, pageInfo.id, pathname);
   }
 
-  // Individual venue page
-  const venueId = extractEntityId(pathname, /^\/venue\/([^/]+)$/);
-  if (venueId) {
-    try {
-      const venue = await getVenue(venueId);
-
-      // Try to get description from markdown content or use venue description
-      let description = await extractMarkdownDescription("venuesMarkdown", venueId);
-
-      // Fallback to venue description field or default
-      if (!description) {
-        description =
-          venue.data.description ||
-          `${venue.data.title} - A venue for tech meetups and events in the Kansai region. Located in ${venue.data.city || "Osaka"}.`;
-      }
-
-      // Use venue's cover image if it exists, otherwise generate OG image
-      const ogImage = venue.data.cover?.src
-        ? venue.data.cover.src
-        : getOGImageWithFallback(pathname, { venueId, title: venue.data.title });
-
-      return {
-        title: venue.data.title,
-        fullTitle: SITE.title.template.replace("%s", `${venue.data.title} - Venues`),
-        description,
-        canonical,
-        ogImage,
-        type: "website",
-        keywords: ["venue", venue.data.title, venue.data.city, "tech meetup venue"].filter(
-          Boolean,
-        ) as string[],
-        entity: {
-          type: "venue",
-          data: venue,
-          shouldGenerateOG: !venue.data.cover?.src, // Only generate OG if no cover image
-        },
-      };
-    } catch (error) {
-      console.error(`Failed to load venue ${venueId}:`, error);
-    }
+  if (pageInfo.type === "venue") {
+    return decorateVenueSEO(baseSEO, pageInfo.id, pathname);
   }
 
-  // Default fallback for any other pages - use home page SEO
-  const homeSEO = SEO_DATA["/"];
-  return {
-    title: "OKTech",
-    fullTitle: SITE.title.default,
-    description:
-      homeSEO?.description ||
-      "Join the Osaka Kyoto Tech Meetup Group - A vibrant community for tech enthusiasts.",
-    canonical,
-    ogImage: getOGImageWithFallback(pathname),
-    type: "website",
-    keywords: homeSEO?.keywords || ["tech meetup", "osaka", "kyoto"],
-  };
+  if (pageInfo.type === "markdown") {
+    return decorateMarkdownPageSEO(baseSEO, pageInfo.id);
+  }
+
+  // For unknown types, return the base SEO
+  return baseSEO;
 }

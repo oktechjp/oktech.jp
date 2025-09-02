@@ -6,6 +6,7 @@ import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 
 import redirects from "./redirects.json";
+import { remarkDescription, remarkReadingTime } from "./src/utils/remarkPlugins";
 
 // Determine the site URL and base path
 const isVercel = !!process.env.VERCEL_PROJECT_PRODUCTION_URL;
@@ -63,6 +64,9 @@ export default defineConfig({
   },
   integrations: [react(), icon()],
   redirects,
+  markdown: {
+    remarkPlugins: [remarkReadingTime, remarkDescription],
+  },
   experimental: {
     clientPrerender: true,
     contentIntellisense: true,

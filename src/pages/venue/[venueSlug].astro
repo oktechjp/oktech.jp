@@ -1,10 +1,10 @@
 ---
-import { getEntry, render } from "astro:content";
 import { EventCardList } from "@/components/EventCard/EventCard";
 import SidebarPageLayout from "@/layouts/SidebarPageLayout.astro";
 import { getVenue, getEvents, getVenues } from "@/content";
 import SimpleSection from "@/components/Common/SimpleSection";
 import LocationCardVenue from "@/components/LocationCard/LocationCardVenue";
+import MarkdownContent from "@/components/Common/MarkdownContent.astro";
 
 export async function getStaticPaths() {
   const venues = await getVenues();
@@ -22,18 +22,6 @@ const allEvents = await getEvents();
 const venueEvents = allEvents.filter(
   (event) => event.data.venue?.id === venue.data.meetupId.toString(),
 );
-
-// Get markdown content
-let Content: any = null;
-try {
-  const markdownFile = await getEntry("venuesMarkdown", venueSlug);
-  if (markdownFile) {
-    const rendered = await render(markdownFile);
-    Content = rendered.Content;
-  }
-} catch (e) {
-  // No markdown file found, which is fine
-}
 ---
 
 <SidebarPageLayout>
@@ -61,13 +49,7 @@ try {
     <h1 class="mt-12 mb-6 text-4xl">
       {venue.data.title}
     </h1>
-    {
-      Content && (
-        <div class="prose prose-lg max-w-none">
-          <Content />
-        </div>
-      )
-    }
+    <MarkdownContent markdown={`venues/${venueSlug}/venue.md`} />
   </Fragment>
 
   <Fragment slot="after-content">

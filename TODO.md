@@ -1,15 +1,14 @@
 ## vNow - fixes/refactoring
 
-- Add info button on the lightbox
-- Standardize importing of markdown to fix that stray css module.
 - Clean up codebase, removing AI stuff.
-- Replace extractMarkdownDescription with import step / LLM
 - Streamline logo style/props logic
 - Clean up sticky nav references
+- Refactor SEO and sitemap
+
 - Ensure the OGs aren't svg eg https://oktech.jp/_astro/cybozu-logo.Ch1fNYi9_1b9AFL.svg
-- Custom 404 page.
-- Fix osx chrome projector view.
-- Regenerate redirects, but disable on new site.
+- Add info button on the lightbox
+- Fix osx chrome projector view
+- Remove redirects
 - Remove map for online evnet
 
 ## vNext

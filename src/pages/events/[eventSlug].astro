@@ -3,7 +3,7 @@ import { getEvents, getEvent } from "@/content";
 import EventLinks from "@/components/Event/EventLinks.astro";
 import EventGallery from "@/components/Event/EventGallery";
 import SidebarPageLayout from "@/layouts/SidebarPageLayout.astro";
-import EntryMarkdown from "@/components/Common/EntryMarkdown.astro";
+import MarkdownContent from "@/components/Common/MarkdownContent.astro";
 import EventImageBig from "@/components/Event/EventImageBig";
 import LocationCardEvent from "@/components/LocationCard/LocationCardEvent";
 import EventTags from "@/components/Event/EventTags";
@@ -37,7 +37,7 @@ const event = await getEvent(eventSlug);
       {event.data.title}
     </h1>
     <EventTags tags={event.data.topics} />
-    <EntryMarkdown collection="eventsMarkdown" entryId={eventSlug} />
+    <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
   </Fragment>
 
   <Fragment slot="after-content">

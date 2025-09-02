@@ -1,3 +1,5 @@
+import { getCollection } from "astro:content";
+
 import { SEO_DATA } from "@/constants";
 import { getEvents, getVenues } from "@/content";
 
@@ -54,13 +56,36 @@ export async function buildSitemapEntries(): Promise<Entry[]> {
   entries.push(await getSitemapItem("/events"));
   entries.push(await getSitemapItem("/events/list"));
   entries.push(await getSitemapItem("/events/album"));
-  entries.push(await getSitemapItem("/code-of-conduct"));
   entries.push(await getSitemapItem("/sitemap"));
 
   // Non-HTML resources
   entries.push(await getSitemapItem("/rss.xml"));
   entries.push(await getSitemapItem("/oktech-events.ics"));
   entries.push(await getSitemapItem("/sitemap.xml"));
+
+  // Dynamic markdown pages from content collection
+  try {
+    const markdownPages = await getCollection("markdownPages");
+    const markdownEntries: Entry[] = await Promise.all(
+      markdownPages.map(async (page) => {
+        // Remove .md extension to get the URL path
+        const slug = page.id.replace(/\.md$/, "");
+        const href = `/${slug}`;
+        const seo = await getSEO(href);
+        return {
+          href,
+          title: seo.title,
+          fullUrl: resolveFullUrl(href),
+          description: seo.description,
+          keywords: seo.keywords,
+          ogImage: seo.ogImage,
+        };
+      }),
+    );
+    entries.push(...markdownEntries);
+  } catch (error) {
+    console.error("Error loading markdown pages for sitemap:", error);
+  }
 
   // Dynamic event pages
   const events = await getEvents();

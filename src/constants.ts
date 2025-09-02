@@ -80,7 +80,7 @@ export const SEO_DATA: Record<
   "/": {
     title: "Home",
     description:
-      "Join the Osaka Kyoto Tech Meetup Group - A vibrant community for web developers, designers, and tech enthusiasts in the Kansai region. Monthly events, workshops, and networking opportunities.",
+      "Join the OKTech Meetup Group - A vibrant community for web developers, designers, and tech enthusiasts in the Kansai region. Monthly events, workshops, and networking opportunities.",
     keywords: [
       "tech meetup",
       "osaka",
@@ -137,7 +137,7 @@ export const SEO_DATA: Record<
   "/about": {
     title: "About",
     description:
-      "Learn about OKTech - Osaka Kyoto Tech Meetup Group. Our mission is to build a thriving tech community through monthly events, workshops, and networking opportunities in Japan's Kansai region.",
+      "Learn about the OKTech Meetup Group. Our mission is to build a thriving tech community through monthly events, workshops, and networking opportunities in Japan's Kansai region.",
     keywords: [
       "about",
       "community",
@@ -149,37 +149,11 @@ export const SEO_DATA: Record<
       "volunteer",
     ],
   },
-  "/code-of-conduct": {
-    title: "Code of Conduct",
-    description:
-      "Our community guidelines and code of conduct for creating a safe, inclusive, and welcoming environment for all members of the Osaka Kyoto Tech Meetup Group.",
-    keywords: [
-      "code of conduct",
-      "community guidelines",
-      "inclusivity",
-      "safety",
-      "respect",
-      "diversity",
-    ],
-  },
   "/sitemap": {
     title: "Sitemap",
     description:
-      "Site navigation and structure for the Osaka Kyoto Tech Meetup Group website. Find all pages, events, and venues organized in one place.",
+      "Site navigation and structure for the OKTech Meetup Group website. Find all pages, events, and venues organized in one place.",
     keywords: ["sitemap", "navigation", "site structure", "pages", "directory"],
-  },
-  // Non-HTML resources for sitemap display only (not for SEO meta tags)
-  "/rss.xml": {
-    title: "RSS Feed",
-    description: "Subscribe to our RSS feed for the latest tech meetup events and updates.",
-  },
-  "/oktech-events.ics": {
-    title: "ICS Calendar Feed",
-    description: "Subscribe to our calendar feed to stay updated with upcoming tech events.",
-  },
-  "/sitemap.xml": {
-    title: "XML Sitemap",
-    description: "XML sitemap for search engines.",
   },
 };
 

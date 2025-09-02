@@ -70,6 +70,7 @@ export const venuesCollection = defineCollection({
         meetupId: frontmatter.meetupId as number,
         hasPage: frontmatter.hasPage as boolean | undefined,
         description: frontmatter.description as string | undefined,
+        readingTime: frontmatter.readingTime as string | undefined,
         devOnly: devOnly ?? false,
         cover,
         mapImage,
@@ -97,6 +98,7 @@ export const venuesCollection = defineCollection({
       meetupId: z.number(),
       hasPage: z.boolean().optional(),
       description: z.string().optional(),
+      readingTime: z.string().optional(),
       devOnly: z.boolean().optional().default(false),
       cover: z.string().optional(), // Changed from image() to z.string()
       mapImage: z.string().optional(), // Changed from image() to z.string()

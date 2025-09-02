@@ -60,6 +60,8 @@ export const eventsCollection = defineCollection({
         id: slug,
         cover,
         title: frontmatter.title as string,
+        description: frontmatter.description as string | undefined,
+        readingTime: frontmatter.readingTime as string | undefined,
         // Convert to UTC from JST (+09:00),
         dateTime: new Date(`${date}T${time}:00+09:00`),
         duration: frontmatter.duration,
@@ -75,6 +77,8 @@ export const eventsCollection = defineCollection({
     z.object({
       id: z.string(),
       title: z.string(),
+      description: z.string().optional(),
+      readingTime: z.string().optional(),
       dateTime: z.date(),
       duration: z.number().optional(),
       cover: z.string(), // Changed from image() to z.string()

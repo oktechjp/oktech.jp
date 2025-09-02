@@ -6,6 +6,9 @@ import Container from "@/components/Common/Container";
 import { getSEO } from "@/utils/seo";
 
 interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
   buttons?: Array<{
     href: string;
     icon: string;
@@ -16,8 +19,14 @@ interface Props {
   class?: string;
 }
 
-const seoData = await getSEO(Astro.url.href);
-const title = seoData.title;
+// Use passed title/description/keywords or fallback to SEO data
+let { title, description, keywords } = Astro.props;
+if (!title || !description) {
+  const seoData = await getSEO(Astro.url.href);
+  title = title || seoData.title;
+  description = description || seoData.description;
+  keywords = keywords || seoData.keywords;
+}
 
 const { buttons, active } = Astro.props;
 const hasHeaderSlot = Astro.slots.has("header");
@@ -25,7 +34,7 @@ const hasHeaderSlot = Astro.slots.has("header");
 
 <PageLayout className="pt-32 pb-22">
   <Container thin>
-    <div class="mb-12 flex items-center justify-between">
+    <div class="mb-12 flex items-start justify-between">
       <h1 class="text-5xl font-bold">{title}</h1>
       {hasHeaderSlot && <slot name="header" />}
       {
