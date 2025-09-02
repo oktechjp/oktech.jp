@@ -1,5 +1,6 @@
 import { twj } from "tw-to-css";
 
+import { formatDate, formatTime } from "@/utils/formatDate";
 import { themeColorsHex } from "@/utils/og/theme-colors";
 
 import OGLayout, { CalendarIcon, IconWrapper, LocationIcon } from "./OGLayout";
@@ -27,14 +28,7 @@ export default function OGEvent({ event }: OGEventProps) {
   const colors = themeColorsHex.light;
   // Format date
   const eventDate = new Date(event.data.dateTime);
-  const formattedDate = eventDate.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZone: "Asia/Tokyo",
-  });
+  const formattedDate = `${formatDate(eventDate, "long")}, ${formatTime(eventDate)}`;
 
   // Get venue info
   const venueLocation = event.venue

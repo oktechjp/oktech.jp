@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import { FaGoogle, FaYahoo } from "react-icons/fa6";
 import { LuCalendar, LuCalendarPlus } from "react-icons/lu";
 
 import CalendarFeeds from "@/components/Common/CalendarFeeds";
 import type { EventEnriched } from "@/content/events";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import { resolveBaseUrl } from "@/utils/urlResolver";
 
 interface AddToCalendarDropdownProps {
@@ -50,20 +51,11 @@ function Subsection({ title, children }: SubsectionProps) {
 export default function AddToCalendarDropdown({ event }: AddToCalendarDropdownProps) {
   const dropdownRef = useRef<HTMLDetailsElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        dropdownRef.current.open &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        dropdownRef.current.open = false;
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  useClickOutside(dropdownRef, () => {
+    if (dropdownRef.current?.open) {
+      dropdownRef.current.open = false;
+    }
+  });
 
   // Generate calendar URLs
   const baseUrl = resolveBaseUrl();

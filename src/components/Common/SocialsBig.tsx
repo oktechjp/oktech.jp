@@ -3,7 +3,7 @@ import { SOCIALS } from "@/constants";
 
 export default function SocialsBig() {
   const items: BlobIconGridItem[] = SOCIALS.map((social) => ({
-    type: (social as any).type === "calendar" ? "calendar" : ("a" as const),
+    type: "type" in social && social.type === "calendar" ? "calendar" : ("a" as const),
     title: social.label,
     description: social.description,
     icon: social.icon,

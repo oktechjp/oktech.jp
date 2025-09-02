@@ -325,17 +325,30 @@ export function EventFilterProvider({
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  const value: EventFilterContextType = {
-    items,
-    currentFilters,
-    availableFilters,
-    sortOptions,
-    filteredItems,
-    updateFilter,
-    clearFilter,
-    clearAllFilters,
-    removeFilterValue,
-  };
+  const value: EventFilterContextType = useMemo(
+    () => ({
+      items,
+      currentFilters,
+      availableFilters,
+      sortOptions,
+      filteredItems,
+      updateFilter,
+      clearFilter,
+      clearAllFilters,
+      removeFilterValue,
+    }),
+    [
+      items,
+      currentFilters,
+      availableFilters,
+      sortOptions,
+      filteredItems,
+      updateFilter,
+      clearFilter,
+      clearAllFilters,
+      removeFilterValue,
+    ],
+  );
 
   return <EventFilterContext.Provider value={value}>{children}</EventFilterContext.Provider>;
 }

@@ -12,6 +12,12 @@ const BADGE_BASE = "badge";
 const DEFAULT_BADGE_CLASS = `${BADGE_BASE} badge-accent`;
 const LIVE_BADGE_CLASS = `${BADGE_BASE} badge-info`;
 
+const MS_PER_SECOND = 1000;
+const MS_PER_MINUTE = 60 * MS_PER_SECOND;
+const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+const MS_PER_DAY = 24 * MS_PER_HOUR;
+const HOURS_THRESHOLD = 3;
+
 interface EventCardCountdownProps {
   event: EventEnriched;
   className?: string;
@@ -49,10 +55,10 @@ export default function EventCardCountdown({
       const isUpcoming = now < start;
       const difference = isUpcoming ? start - now : now - start;
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+      const days = Math.floor(difference / MS_PER_DAY);
+      const hours = Math.floor((difference % MS_PER_DAY) / MS_PER_HOUR);
+      const minutes = Math.floor((difference % MS_PER_HOUR) / MS_PER_MINUTE);
+      const seconds = Math.floor((difference % MS_PER_MINUTE) / MS_PER_SECOND);
 
       let timeStr = "";
       if (days > 0) {
@@ -78,8 +84,9 @@ export default function EventCardCountdown({
 
       // Adjust interval based on time remaining/elapsed
       const totalHours = days * 24 + hours;
-      const newInterval = totalHours >= 3 ? 60000 : 1000; // 1 minute if 3+ hours, otherwise 1 second
+      const newInterval = totalHours >= HOURS_THRESHOLD ? MS_PER_MINUTE : MS_PER_SECOND;
 
+      // Clear existing interval before creating a new one to prevent memory leaks
       if (intervalId) clearInterval(intervalId);
       intervalId = setInterval(calculateTime, newInterval);
     };

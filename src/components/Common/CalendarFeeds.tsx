@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import clsx from "clsx";
 import { LuArrowUp, LuCalendar, LuRss } from "react-icons/lu";
 
 import CopyText from "@/components/Common/CopyText";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import { resolveBaseUrl } from "@/utils/urlResolver";
 
 interface CalendarFeedsProps {
@@ -57,22 +58,13 @@ export default function CalendarFeeds({
   const icsUrl = `${baseUrl}/oktech-events.ics`;
   const rssUrl = `${baseUrl}/rss.xml`;
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        dropdownRef.current.open &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+  if (!inline) {
+    useClickOutside(dropdownRef, () => {
+      if (dropdownRef.current?.open) {
         dropdownRef.current.open = false;
       }
-    };
-
-    if (!inline) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [inline]);
+    });
+  }
 
   const feedsContent = (
     <div className={clsx((inline && className) || "flex flex-col gap-6")}>

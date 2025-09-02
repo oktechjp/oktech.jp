@@ -1,5 +1,7 @@
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
+import { LuSearch, LuX } from "react-icons/lu";
+
 import { useEventsFilter } from "./EventsFilterProvider";
 
 export default function EventsSearchInput() {
@@ -42,19 +44,7 @@ export default function EventsSearchInput() {
 
   return (
     <label className="input input-bordered join-item flex w-full items-center gap-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-4 w-4 opacity-70"
-      >
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.35-4.35"></path>
-      </svg>
+      <LuSearch className="h-4 w-4 opacity-70" />
       <input
         type="text"
         className="grow"
@@ -70,19 +60,7 @@ export default function EventsSearchInput() {
           onClick={handleClear}
           aria-label="Clear search"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          <LuX className="h-4 w-4" />
         </button>
       )}
     </label>

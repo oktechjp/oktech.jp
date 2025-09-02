@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import clsx from "clsx";
 
 import type { EventEnriched } from "@/content";
@@ -14,7 +16,7 @@ interface EventCardImageProps {
   cityComponent?: React.ReactNode;
 }
 
-export default function EventCardImage({ event, variant, first, last }: EventCardImageProps) {
+export default memo(function EventCardImage({ event, variant, first, last }: EventCardImageProps) {
   return (
     <div
       className={clsx(
@@ -49,4 +51,4 @@ export default function EventCardImage({ event, variant, first, last }: EventCar
       </figure>
     </div>
   );
-}
+});

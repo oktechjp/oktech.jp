@@ -8,7 +8,6 @@ interface ButtonProps {
   text: string;
   icon?: string;
   className?: string;
-  class?: string;
   iconLeft?: boolean;
   ariaLabel?: string;
 }

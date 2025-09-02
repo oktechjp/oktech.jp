@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import clsx from "clsx";
 
 import CityBadge from "@/components/Common/CityBadge";
@@ -10,7 +12,7 @@ import EventCardImage from "./EventCardImage";
 
 type Variant = "compact" | "polaroid" | "big";
 
-export default function EventCard({
+const EventCard = memo(function EventCard({
   event,
   index = 0,
   count = 1,
@@ -61,7 +63,9 @@ export default function EventCard({
       <EventCardDescription event={event} variant={variant} />
     </Link>
   );
-}
+});
+
+export default EventCard;
 
 export function EventCardList({ events }: { events: EventEnriched[] }) {
   return (

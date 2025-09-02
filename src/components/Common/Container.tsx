@@ -6,7 +6,6 @@ import Grid from "./Grid";
 
 interface ContainerProps {
   className?: string;
-  class?: string;
   wide?: boolean;
   thin?: boolean;
   grid?: boolean;
