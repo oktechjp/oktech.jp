@@ -42,35 +42,39 @@ function parsePageType(pathname: string): {
     return { type: "unknown", id: pathname };
   }
 
-  // Check static pages
-  if (SEO_DATA[pathname]) {
-    return { type: "static", id: pathname };
+  // Normalize pathname by removing .html extension
+  const normalizedPathname = pathname.replace(/\.html$/, "");
+
+  // Check static pages first (including /events/album and /events/list)
+  if (SEO_DATA[normalizedPathname]) {
+    return { type: "static", id: normalizedPathname };
   }
 
-  // Check event pages
-  const eventMatch = pathname.match(/^\/events\/([^/]+?)(?:\.html)?$/);
+  // Check event pages (but exclude static pages already handled above)
+  const eventMatch = normalizedPathname.match(/^\/events\/([^/]+?)$/);
   if (eventMatch && eventMatch[1]) {
     return { type: "event", id: eventMatch[1] };
   }
 
   // Check venue pages
-  const venueMatch = pathname.match(/^\/venue\/([^/]+?)(?:\.html)?$/);
+  const venueMatch = normalizedPathname.match(/^\/venue\/([^/]+?)$/);
   if (venueMatch && venueMatch[1]) {
     return { type: "venue", id: venueMatch[1] };
   }
 
   // These should never hit, as we're already hadnling them above, it's just a safety check
-  if (pathname.startsWith("/events") || pathname.startsWith("/venue")) {
-    return { type: "unknown", id: pathname };
+  // in case we mess up the config and don't include events or venues static SEO
+  if (normalizedPathname.startsWith("/events") || normalizedPathname.startsWith("/venue")) {
+    return { type: "unknown", id: normalizedPathname };
   }
 
   // Assume it's a markdown page if it doesn't match other patterns
-  const slug = pathname.replace(/^\//, "");
+  const slug = normalizedPathname.replace(/^\//, "");
   if (slug) {
     return { type: "markdown", id: slug };
   }
 
-  return { type: "unknown", id: pathname };
+  return { type: "unknown", id: normalizedPathname };
 }
 
 /**
