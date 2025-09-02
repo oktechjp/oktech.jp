@@ -4,23 +4,12 @@ import { twj } from "tw-to-css";
 
 import { themeColorsHex } from "@/utils/og/theme-colors";
 
-import { OKTechLogoIcon, OKTechLogoText } from "../Common/OKTechLogo";
+import OGLogo from "./OGLogos";
 
 interface OGLayoutProps {
   children: React.ReactNode;
   title?: string;
   subtitle?: string;
-}
-
-function scale(scale: number, type: "icon" | "text"): { width: number; height: number } {
-  const dimensions = {
-    icon: { width: 100, height: 100 },
-    text: { width: 274.88, height: 70.53 },
-  };
-  return {
-    width: Math.round(dimensions[type].width * scale),
-    height: Math.round(dimensions[type].height * scale),
-  };
 }
 
 export default function OGLayout({}: OGLayoutProps) {
@@ -34,20 +23,8 @@ export default function OGLayout({}: OGLayoutProps) {
         background: "linear-gradient(to bottom, #ffe, #dde)",
       }}
     >
-      {/* Header with Brand component */}
-      <div style={twj("flex items-center justify-center")}>
-        <div style={twj("flex justify-start items-center")}>
-          <OKTechLogoIcon active noStyle style={scale(2.35, "icon")} />
-          <OKTechLogoText style={scale(2.35, "text")} />
-        </div>
-      </div>
-      {/* Content area */}
-
-      {/* Simple footer */}
-      <div style={twj("flex flex-col items-center justify-between ")}>
-        <div style={twj("flex text-5xl")}>Technology Meetup Group in Kansai</div>
-      </div>
-      {/* TODO {children} */}
+      <OGLogo />
+      {/* TODO use {children} */}
     </div>
   );
 }

@@ -34,9 +34,10 @@ export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogo
         role="img"
         className={clsx(
           "transition-transform duration-300 ease-in-out group-hover:rotate-[-10deg]",
+          !active && "rotate-[7deg]",
           className,
         )}
-        style={{ transform: active ? "none" : "rotate(7deg)", ...style }}
+        style={style}
         fill="currentColor"
       >
         <defs>

@@ -49,6 +49,7 @@ export default function OGEvent({ event }: OGEventProps) {
 
   return (
     <OGLayout title={event.data.title} subtitle={subtitle}>
+      {/* note - this is not rendered currently as OGLayout does not use children */}
       <div style={twj("flex flex-col gap-6")}>
         <div style={twj("flex items-center gap-4")}>
           <IconWrapper>
