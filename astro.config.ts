@@ -2,10 +2,8 @@
 import react from "@astrojs/react";
 import yaml from "@rollup/plugin-yaml";
 import tailwindcss from "@tailwindcss/vite";
-import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 
-import redirects from "./redirects.json";
 import { remarkDescription, remarkReadingTime } from "./src/utils/remarkPlugins";
 
 // Determine the site URL and base path
@@ -62,8 +60,10 @@ export default defineConfig({
       exclude: ["@resvg/resvg-js"],
     },
   },
-  integrations: [react(), icon()],
-  redirects,
+  integrations: [react()],
+  redirects: {
+    discord: "https://discord.com/invite/k8xj8d75f6",
+  },
   markdown: {
     remarkPlugins: [remarkReadingTime, remarkDescription],
   },

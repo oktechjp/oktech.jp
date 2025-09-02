@@ -1,9 +1,6 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
-import Link from "@/components/Common/LinkAstro.astro";
-import { Icon } from "astro-icon/components";
 import Container from "@/components/Common/Container";
-import { getSEO } from "@/utils/seo";
 
 interface Props {
   title?: string;
@@ -19,39 +16,14 @@ interface Props {
   class?: string;
 }
 
-// Use passed title/description/keywords or fallback to SEO data
-let { title, description, keywords } = Astro.props;
-if (!title || !description) {
-  const seoData = await getSEO(Astro.url.href);
-  title = title || seoData.title;
-  description = description || seoData.description;
-  keywords = keywords || seoData.keywords;
-}
-
-const { buttons, active } = Astro.props;
-const hasHeaderSlot = Astro.slots.has("header");
+const { title } = Astro.props;
 ---
 
 <PageLayout className="pt-32 pb-22">
   <Container thin>
     <div class="mb-12 flex items-start justify-between">
       <h1 class="text-5xl font-bold">{title}</h1>
-      {hasHeaderSlot && <slot name="header" />}
-      {
-        !hasHeaderSlot && buttons && active && (
-          <div class="join">
-            {buttons.map((button) => (
-              <Link
-                href={button.href}
-                class={`btn join-item ${active === button.value ? "btn-active" : ""}`}
-                title={button.title || button.value}
-              >
-                <Icon name={button.icon} size={20} />
-              </Link>
-            ))}
-          </div>
-        )
-      }
+      <slot name="header" />
     </div>
     <div class="prose prose-lg max-w-none">
       <slot />

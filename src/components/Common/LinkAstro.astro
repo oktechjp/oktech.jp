@@ -1,7 +1,0 @@
----
-import { resolveInternalHref } from "@/utils/urlResolver";
-const { href = "", ...props } = Astro.props;
-const finalHref = resolveInternalHref(href);
----
-
-<a href={finalHref} {...props}><slot /></a>

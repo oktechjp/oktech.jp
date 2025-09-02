@@ -40,18 +40,13 @@ const config: KnipConfig = {
 
   // Ignore specific dependencies that are used indirectly
   ignoreDependencies: [
-    // Used in Tailwind config
-    "@tailwindcss/typography",
-    // Used by satori
-    "satori-html",
-    // Icon sets used via astro-icon
-    "@iconify-json/cib",
-    "@iconify-json/lucide",
-    // DaisyUI is a Tailwind plugin
-    "daisyui",
     // Tailwind is used via Vite plugin
     "tailwindcss",
-    // puppeteer is used for Map generation
+    "@tailwindcss/typography",
+    "daisyui",
+    // Used by satori
+    "satori-html",
+    // puppeteer is used by map generation library
     "puppeteer",
   ],
 
