@@ -1,29 +1,32 @@
 ## vNow - fixes/refactoring
 
-- Clean up codebase, removing AI stuff.
-- Streamline logo style/props logic
-- Clean up sticky nav references
+- Clean up codebase.
 - Refactor SEO and sitemap
+- Squash the git history.
 
-- Ensure the OGs aren't svg eg https://oktech.jp/_astro/cybozu-logo.Ch1fNYi9_1b9AFL.svg
-- Add info button on the lightbox
-- Fix osx chrome projector view
-- Remove redirects
-- Remove map for online evnet
-
-## vNext
+## Docs
 
 - Nicer Readme
-- implement evey's grid
-- Prettier touches like asanhoa / squares
-- Squash the git history.
-- Create a plan for cancelled events logic.
-- Blog / articles; ability to add articles dynamically (like coc).
-- Article for about History.
-- Thank you section on about
+- Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
+
+## Pending Theme
+
+- When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
 
 ## Later?
 
+- Nice projector view
+- Album gallery that randomly shows all the images
+- hide the chrome in the gallery lightbox when in fullscreen
+- fade between slides in gallery mode.
+- implement evey's grid
+- Prettier touches like asanhoa / squares
+- Create a plan for cancelled events logic.
+- Article for about History.
+- Thank you section on about
+- Test an event witout a map ?
+- Add searchable short description to events?
+- Add info button on the lightbox
 - Carousel for upcoming events
 - Random slideshow of all images
 - Tagging with LLMs and shiz.
@@ -31,3 +34,4 @@
 - Members: with hasPage: true.
 - Venue type ; inside / outside / etc.
 - Add interactive japan map somewhere, with heatmap of all the event locations.
+- Tree shaking animejs ?
