@@ -56,14 +56,20 @@ export const eventsCollection = defineCollection({
       const venueId = frontmatter.venue;
       const venue = venueId ? String(venueId) : undefined;
 
+      // Convert to UTC from JST (+09:00)
+      const dateTimeStr = `${date}T${time}:00+09:00`;
+      const dateTime = new Date(dateTimeStr);
+      if (isNaN(dateTime.getTime())) {
+        throw new Error(`Invalid date/time: ${dateTimeStr}`);
+      }
+
       return {
         id: slug,
         cover,
         title: frontmatter.title as string,
         description: frontmatter.description as string | undefined,
         readingTime: frontmatter.readingTime as string | undefined,
-        // Convert to UTC from JST (+09:00),
-        dateTime: new Date(`${date}T${time}:00+09:00`),
+        dateTime,
         duration: frontmatter.duration,
         devOnly: devOnly ?? false,
         venue,
@@ -181,7 +187,7 @@ export const getEvent = memoize(
     const event = await getEntry("events", eventSlug);
 
     if (!event) {
-      throw `No event found for slug ${eventSlug}`;
+      throw new Error(`No event found for slug ${eventSlug}`);
     }
 
     // Get venue data if the event has a venue reference

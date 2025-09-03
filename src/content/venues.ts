@@ -147,11 +147,11 @@ export const getVenues = memoize(async (): Promise<CollectionEntry<"venues">[]> 
 
 export const getVenue = memoize(async (venueSlug: string | undefined): Promise<VenueEnriched> => {
   if (!venueSlug) {
-    throw "Venue slug not defined";
+    throw new Error("Venue slug not defined");
   }
   const venue = await getEntry("venues", venueSlug);
   if (!venue) {
-    throw `No venue found for slug ${venueSlug}`;
+    throw new Error(`No venue found for slug ${venueSlug}`);
   }
 
   // Process venue to include map image
