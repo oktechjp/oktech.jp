@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import yaml from "@rollup/plugin-yaml";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import { visualizer } from "rollup-plugin-visualizer";
 
 import { remarkDescription, remarkReadingTime } from "./src/utils/remarkPlugins";
 
@@ -18,6 +19,7 @@ const base = process.env.BASE_PATH || "";
 const localSite = `http://localhost:${port}`;
 const siteUrl = process.env.SITE_URL || localSite;
 const isDev = process.env.NODE_ENV === "development";
+const isAnalyze = process.env.ANALYZE_BUNDLE === "true";
 
 // refactor this. my head hurts.
 const getSiteConfig = () => {
@@ -45,7 +47,21 @@ export default defineConfig({
     enabled: false,
   },
   vite: {
-    plugins: [tailwindcss(), yaml()],
+    plugins: [
+      tailwindcss(),
+      yaml(),
+      ...(isAnalyze
+        ? [
+            visualizer({
+              filename: "./dist/stats.html",
+              open: true,
+              gzipSize: true,
+              brotliSize: true,
+              template: "treemap",
+            }),
+          ]
+        : []),
+    ],
     ssr: {
       external: [
         "@resvg/resvg-js",
