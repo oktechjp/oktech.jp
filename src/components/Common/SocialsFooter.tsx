@@ -17,7 +17,7 @@ export default function SocialsFooter({ className = "" }: SocialsFooterProps) {
               <CalendarFeeds dropdownPosition="top" className="dropdown-end">
                 <span
                   aria-label={social.label}
-                  className="btn btn-ghost btn-circle btn-sm hover:text-primary"
+                  className="btn btn-circle btn-sm btn-ghost"
                   role="button"
                   tabIndex={0}
                 >
@@ -35,7 +35,7 @@ export default function SocialsFooter({ className = "" }: SocialsFooterProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={social.label}
-              className="btn btn-ghost btn-circle btn-sm hover:text-primary"
+              className="btn btn-circle btn-sm btn-ghost"
             >
               <IconComponent size={18} />
             </a>

@@ -30,7 +30,7 @@ export default function ThemeToggle({ testId = "theme-switcher" }: ThemeTogglePr
       tooltip={theme === "dark" ? "Light Mode" : "Dark Mode"}
       tooltipPosition="bottom"
       onClick={toggleTheme}
-      className="btn btn-ghost btn-circle btn-sm hover:text-primary"
+      className="btn btn-circle btn-sm btn-ghost"
       aria-label="Toggle theme"
       data-testid={testId}
     >
