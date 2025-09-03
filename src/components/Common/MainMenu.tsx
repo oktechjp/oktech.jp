@@ -1,4 +1,4 @@
-import LinkReact from "@/components/Common/Link";
+import Link from "@/components/Common/Link";
 import { MENU } from "@/constants";
 
 interface MainMenuProps {
@@ -17,14 +17,14 @@ export default function MainMenu({ variant = "default", className = "" }: MainMe
         {majorItems.map((item) => {
           const IconComponent = item.icon;
           return (
-            <LinkReact
+            <Link
               key={item.href}
               href={item.href}
               className="btn btn-ghost items-center justify-start gap-2 text-sm"
             >
               {IconComponent && <IconComponent />}
               {item.label}
-            </LinkReact>
+            </Link>
           );
         })}
       </nav>
@@ -36,13 +36,14 @@ export default function MainMenu({ variant = "default", className = "" }: MainMe
   return (
     <nav className={className} data-testid="main-menu">
       {items.map((item) => (
-        <LinkReact
+        <Link
           key={item.label}
           href={item.href}
           className="btn btn-ghost items-center justify-start gap-3 text-lg"
+          data-astro-prefetch
         >
           {item.label}
-        </LinkReact>
+        </Link>
       ))}
     </nav>
   );

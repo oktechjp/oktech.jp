@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-import LinkReact from "@/components/Common/Link";
+import Link from "@/components/Common/Link";
 
 type TooltipButtonProps = {
   tooltip: string;
@@ -33,12 +33,9 @@ export default function TooltipButton(props: TooltipButtonProps) {
   return (
     <div className={`tooltip ${tooltipClass}`} data-tip={tooltip}>
       {as === "link" ? (
-        <LinkReact
-          className={className}
-          {...(restProps as Extract<TooltipButtonProps, { as: "link" }>)}
-        >
+        <Link className={className} {...(restProps as Extract<TooltipButtonProps, { as: "link" }>)}>
           {children}
-        </LinkReact>
+        </Link>
       ) : (
         <button
           className={className}

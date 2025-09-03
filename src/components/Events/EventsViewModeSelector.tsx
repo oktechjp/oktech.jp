@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { LuGrid3X3, LuImage, LuList } from "react-icons/lu";
 
-import LinkReact from "../Common/Link";
+import Link from "../Common/Link";
 import { useEventsFilter } from "./EventsFilterProvider";
 
 interface EventsViewModeSelectorProps {
@@ -44,7 +44,7 @@ export function EventsViewModeSelector({ currentView }: EventsViewModeSelectorPr
       {views.map((view) => {
         const Icon = view.icon;
         return (
-          <LinkReact
+          <Link
             key={view.value}
             // as="link"
             href={view.href}
@@ -56,7 +56,7 @@ export function EventsViewModeSelector({ currentView }: EventsViewModeSelectorPr
           >
             <Icon className="h-4 w-4" />
             {view.label}
-          </LinkReact>
+          </Link>
         );
       })}
     </>

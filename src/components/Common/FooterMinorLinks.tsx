@@ -1,4 +1,4 @@
-import LinkReact from "@/components/Common/Link";
+import Link from "@/components/Common/Link";
 import { MENU } from "@/constants";
 
 export default function FooterMinorLinks() {
@@ -15,7 +15,7 @@ export default function FooterMinorLinks() {
 
         // Default link without icon
         return (
-          <LinkReact
+          <Link
             key={item.href}
             href={item.href}
             className="link link-hover"
@@ -23,7 +23,7 @@ export default function FooterMinorLinks() {
             rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
           >
             {item.label}
-          </LinkReact>
+          </Link>
         );
       })}
     </div>

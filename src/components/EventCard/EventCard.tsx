@@ -36,6 +36,7 @@ const EventCard = memo(function EventCard({
     <Link
       ref={prefetchRef}
       href={eventUrl}
+      data-astro-prefetch
       className={clsx(
         "hover:bg-base-100/100 glass-border transition-all duration-200",
         border && "rounded-box overflow-hidden",

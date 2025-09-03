@@ -3,7 +3,7 @@ import clsx from "clsx";
 import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
-import LinkReact from "../Common/Link";
+import Link from "../Common/Link";
 import AddToCalendarDropdown from "../Event/EventCalendarDropdown";
 import EventJoinButton from "../Event/EventJoinButton";
 import LocationCard from "./LocationCard";
@@ -54,9 +54,9 @@ export default function LocationCardEvent({
       </div>
       <div>
         {event.venue?.hasPage ? (
-          <LinkReact className="text-link" href={`/venue/${event.venue?.id}`}>
+          <Link className="text-link" href={`/venue/${event.venue?.id}`}>
             {event.venue?.title}
-          </LinkReact>
+          </Link>
         ) : (
           <span>{event.venue?.title}</span>
         )}

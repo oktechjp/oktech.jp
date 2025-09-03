@@ -88,7 +88,6 @@ export default defineConfig({
     contentIntellisense: true,
   },
   prefetch: {
-    prefetchAll: !isDev, // enabled in prod
     defaultStrategy: "viewport",
   },
   image: {

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { LuArrowUpRight, LuChevronLeft } from "react-icons/lu";
 
-import LinkReact from "./Link";
+import Link from "./Link";
 
 interface ButtonProps {
   href: string;
@@ -22,7 +22,7 @@ export default function Button({
   const needsSrText = ariaLabel && ariaLabel !== text;
 
   return (
-    <LinkReact className={clsx("btn btn-primary mx-auto", className)} href={href}>
+    <Link className={clsx("btn btn-primary mx-auto", className)} href={href}>
       {iconLeft && <LuChevronLeft />}
       {needsSrText ? (
         <>
@@ -33,6 +33,6 @@ export default function Button({
         text
       )}
       {!iconLeft && <LuArrowUpRight />}
-    </LinkReact>
+    </Link>
   );
 }

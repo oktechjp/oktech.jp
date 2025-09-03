@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import Brand from "@/components/Common/Brand";
 import Container from "@/components/Common/Container";
-import LinkReact from "@/components/Common/Link";
+import Link from "@/components/Common/Link";
 import { MENU } from "@/constants";
 
 function GlassCell({
@@ -57,16 +57,20 @@ export default function TopBar() {
       <Container>
         <div className="-mx-2 flex items-start justify-between pt-4 sm:-mx-2 lg:-mx-5">
           <GlassCell showBackground={showBackground} testId="navbar-logo">
-            <LinkReact href="/" className="group btn btn-glass sm:btn-lg md:btn-xl rounded-field">
+            <Link
+              href="/"
+              className="group btn btn-glass sm:btn-lg md:btn-xl rounded-field"
+              data-astro-prefetch
+            >
               <div className="-mr-1 -ml-2">
                 <Brand active={showBackground} className="w-28 sm:w-32 md:w-42" />
               </div>
-            </LinkReact>
+            </Link>
           </GlassCell>
           <GlassCell showBackground={showBackground} testId="navbar-menu">
             <div className="flex items-center">
               {items.map((item, i) => (
-                <LinkReact
+                <Link
                   key={item.label}
                   href={item.href}
                   className={clsx(
@@ -77,7 +81,7 @@ export default function TopBar() {
                   )}
                 >
                   {item.label}
-                </LinkReact>
+                </Link>
               ))}
             </div>
           </GlassCell>
