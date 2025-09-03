@@ -1,4 +1,4 @@
-import LinkReact from "@/components/Common/LinkReact";
+import LinkReact from "@/components/Common/Link";
 import { MENU } from "@/constants";
 
 interface MainMenuProps {

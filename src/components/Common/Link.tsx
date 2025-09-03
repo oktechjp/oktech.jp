@@ -7,7 +7,7 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
   ref?: React.RefObject<HTMLAnchorElement>;
 }
 
-const LinkReact = forwardRef<HTMLAnchorElement, LinkProps>(function LinkReact(
+const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   { href, children, ...rest },
   ref,
 ) {
@@ -20,4 +20,4 @@ const LinkReact = forwardRef<HTMLAnchorElement, LinkProps>(function LinkReact(
   );
 });
 
-export default LinkReact;
+export default Link;

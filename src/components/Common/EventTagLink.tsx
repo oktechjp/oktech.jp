@@ -1,4 +1,4 @@
-// import Link from "@/components/Common/LinkReact";
+// import Link from "@/components/Common/Link";
 
 interface EventTagLinkProps {
   tag: string;

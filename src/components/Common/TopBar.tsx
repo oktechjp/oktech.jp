@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import Brand from "@/components/Common/Brand";
 import Container from "@/components/Common/Container";
-import LinkReact from "@/components/Common/LinkReact";
+import LinkReact from "@/components/Common/Link";
 import { MENU } from "@/constants";
 
 function GlassCell({

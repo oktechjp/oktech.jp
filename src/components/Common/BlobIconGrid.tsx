@@ -5,7 +5,7 @@ import type { IconType } from "react-icons";
 
 import BlobCard from "@/components/Common/BlobCard";
 import CalendarFeeds from "@/components/Common/CalendarFeeds";
-import Link from "@/components/Common/LinkReact";
+import Link from "@/components/Common/Link";
 
 export interface BlobIconGridItem {
   type: "link" | "calendar" | "a";

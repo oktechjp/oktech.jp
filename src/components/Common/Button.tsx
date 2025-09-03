@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { LuArrowUpRight, LuChevronLeft } from "react-icons/lu";
 
-import LinkReact from "./LinkReact";
+import LinkReact from "./Link";
 
 interface ButtonProps {
   href: string;

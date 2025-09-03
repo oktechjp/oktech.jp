@@ -1,4 +1,4 @@
-import Link from "@/components/Common/LinkReact";
+import Link from "@/components/Common/Link";
 import type { Entry } from "@/utils/sitemap";
 
 interface SitemapCardProps {

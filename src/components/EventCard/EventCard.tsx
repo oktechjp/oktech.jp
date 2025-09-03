@@ -3,7 +3,7 @@ import { memo } from "react";
 import clsx from "clsx";
 
 import CityBadge from "@/components/Common/CityBadge";
-import Link from "@/components/Common/LinkReact";
+import Link from "@/components/Common/Link";
 import type { EventEnriched } from "@/content";
 import { useViewportPrefetch } from "@/utils/useViewportPrefetch";
 
