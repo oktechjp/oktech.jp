@@ -19,8 +19,8 @@ interface OGVenueProps {
 }
 
 export default function OGVenue({ venue }: OGVenueProps) {
-  const locationParts = [venue.data.city, venue.data.country].filter(Boolean);
-  const location = locationParts.join(", ");
+  // const locationParts = [venue.data.city, venue.data.country].filter(Boolean);
+  // const location = locationParts.join(", ");
 
   return <OGLayout>TODO</OGLayout>;
 }

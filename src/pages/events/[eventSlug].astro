@@ -7,6 +7,8 @@ import MarkdownContent from "@/components/Common/MarkdownContent.astro";
 import EventImageBig from "@/components/Event/EventImageBig";
 import LocationCardEvent from "@/components/LocationCard/LocationCardEvent";
 import EventTags from "@/components/Event/EventTags";
+import EventProjectorButton from "@/components/Event/EventProjectorButton";
+import Container from "@/components/Common/Container";
 
 export async function getStaticPaths() {
   const events = await getEvents();
@@ -33,9 +35,14 @@ const event = await getEvent(eventSlug);
     <div class="flex flex-col gap-6 lg:hidden">
       <LocationCardEvent event={event} horizontal client:load />
     </div>
-    <h1 class="mt-12 mb-6 text-4xl">
-      {event.data.title}
-    </h1>
+    <div class="group mt-12 mb-6 text-4xl">
+      <h1 class="inline">
+        {event.data.title}
+      </h1>
+      <div class="inline-block opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <EventProjectorButton event={event} client:visible />
+      </div>
+    </div>
     <EventTags tags={event.data.topics} />
     <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
   </Fragment>

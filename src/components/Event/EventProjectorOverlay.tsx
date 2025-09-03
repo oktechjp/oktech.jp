@@ -81,7 +81,7 @@ export default function EventProjectorOverlay({
           {/* Top: Title and Description */}
           <div className="flex flex-col" style={{ gap: "2vw" }}>
             <h1
-              className="text-base-content line-clamp-3 leading-tight font-bold"
+              className="text-base-content line-clamp-4 leading-tight font-bold"
               style={{ fontSize: "4.5vw" }}
               data-testid="projector-title"
             >
