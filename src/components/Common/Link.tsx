@@ -1,23 +1,51 @@
-import { forwardRef } from "react";
+import { useEffect, useRef } from "react";
+
+import { prefetch } from "astro:prefetch";
 
 import { resolveInternalHref } from "@/utils/urlResolver";
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
-  ref?: React.RefObject<HTMLAnchorElement>;
+  "data-astro-prefetch"?: string | boolean;
 }
 
-const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { href, children, ...rest },
-  ref,
-) {
+export default function Link({ href, children, ...rest }: LinkProps) {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const pfProp = rest["data-astro-prefetch"];
+    const shouldPrefetch = pfProp !== undefined && pfProp !== false && pfProp !== "false";
+
+    if (!shouldPrefetch || !linkRef.current) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            prefetch(href);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: "100px",
+      },
+    );
+
+    observer.observe(linkRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [href, rest["data-astro-prefetch"]]);
+
   const finalHref = resolveInternalHref(href);
 
   return (
-    <a ref={ref} href={finalHref} {...rest}>
+    <a ref={linkRef} href={finalHref} {...rest}>
       {children}
     </a>
   );
-});
-
-export default Link;
+}

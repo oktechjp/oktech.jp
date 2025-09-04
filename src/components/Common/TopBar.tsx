@@ -73,6 +73,7 @@ export default function TopBar() {
                 <Link
                   key={item.label}
                   href={item.href}
+                  data-astro-prefetch
                   className={clsx(
                     "btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field font-bold",
                     // "-mr-1 -ml-1",

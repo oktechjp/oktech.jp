@@ -35,7 +35,12 @@ export function EventsViewModeSelector({ currentView }: EventsViewModeSelectorPr
 
     return [
       { value: "grid", label: "Grid", icon: LuGrid3X3, href: `/events${query}` },
-      { value: "compact", label: "List", icon: LuList, href: `/events/list${query}` },
+      {
+        value: "compact",
+        label: "List",
+        icon: LuList,
+        href: `/events/list${query}`,
+      },
       { value: "album", label: "Album", icon: LuImage, href: `/events/album${query}` },
     ];
   }, [currentFilters]);
@@ -47,13 +52,12 @@ export function EventsViewModeSelector({ currentView }: EventsViewModeSelectorPr
         return (
           <Link
             key={view.value}
-            // as="link"
             href={view.href}
-            // tooltip={view.label}
             className={`join-item btn ${currentView === view.value ? "btn-accent" : ""}`}
             data-view={view.value}
             data-testid={`view-mode-${view.value}`}
             aria-label={view.label}
+            data-astro-prefetch // TODO disable if it's too expensive
           >
             <Icon className="h-4 w-4" />
             {view.label}

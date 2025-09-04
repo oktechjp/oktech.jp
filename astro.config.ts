@@ -87,6 +87,7 @@ export default defineConfig({
     clientPrerender: true,
     contentIntellisense: true,
   },
+  // astro prefetch config only applies to astro links, mostly it's handled in Link.tsx
   prefetch: {
     prefetchAll: false,
     defaultStrategy: "viewport",
