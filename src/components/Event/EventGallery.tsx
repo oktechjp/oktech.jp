@@ -1,7 +1,7 @@
 import GalleryDisclaimer from "@/components/Common/GalleryDisclaimer";
+import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 
-import SimpleSection from "../Common/SimpleSection";
 import EventGalleryImages from "./EventGalleryImages";
 
 interface Props {

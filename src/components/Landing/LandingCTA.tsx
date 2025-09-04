@@ -3,7 +3,7 @@ import { LuCalendarPlus, LuMessageCircleCode } from "react-icons/lu";
 
 import BlobIconGrid, { type BlobIconGridItem } from "@/components/Common/BlobIconGrid";
 
-export default function GetInvolved() {
+export default function LandingCTA() {
   const items: BlobIconGridItem[] = [
     {
       type: "a",

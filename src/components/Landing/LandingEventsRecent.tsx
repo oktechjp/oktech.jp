@@ -1,16 +1,16 @@
 import clsx from "clsx";
 
+import EventCard from "@/components/Common/EventCard";
 import type { EventEnriched } from "@/content";
 import { filterRecentEvents } from "@/utils/eventFilters";
 
-import EventCard from "../EventCard/EventCard";
-
-interface EventsRecentProps {
+export default function LandingEventsRecent({
+  events,
+  limit = 6,
+}: {
   events: EventEnriched[];
   limit?: number;
-}
-
-export default function EventsRecent({ events, limit = 6 }: EventsRecentProps) {
+}) {
   const recentEvents = filterRecentEvents(events).slice(0, limit);
 
   return (

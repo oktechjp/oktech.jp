@@ -10,7 +10,7 @@ interface Props {
   class?: string;
 }
 
-export default function VenueMapImage({ mapImage, mapDarkImage, marker, className }: Props) {
+export default function LocationMapImage({ mapImage, mapDarkImage, marker, className }: Props) {
   return (
     <figure className={`relative h-full w-full ${className}`}>
       {mapImage || mapDarkImage ? (

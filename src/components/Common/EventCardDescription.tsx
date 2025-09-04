@@ -6,7 +6,7 @@ import { LuArrowUpRight, LuBuilding2, LuCalendar, LuClock } from "react-icons/lu
 import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
-import CityBadge from "../Common/CityBadge";
+import CityBadge from "./CityBadge";
 import EventCardCountdown from "./EventCardCountdown";
 
 type Variant = "compact" | "polaroid" | "big";

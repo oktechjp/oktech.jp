@@ -24,11 +24,10 @@ import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
+import Container from "@/components/Common/Container";
 import type { EventEnriched, GalleryImage } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { formatDate } from "@/utils/formatDate";
-
-import Container from "../Common/Container";
 
 interface Props {
   event: EventEnriched;

@@ -1,13 +1,8 @@
+import EventCard from "@/components/Common/EventCard";
 import type { EventEnriched } from "@/content";
 import { filterUpcomingEvents } from "@/utils/eventFilters";
 
-import EventCard from "../EventCard/EventCard";
-
-interface EventsUpcomingProps {
-  events: EventEnriched[];
-}
-
-export default function EventsUpcoming({ events }: EventsUpcomingProps) {
+export default function LandingEventsUpcoming({ events }: { events: EventEnriched[] }) {
   const futureEvents = filterUpcomingEvents(events).reverse();
   const [nextEvent] = futureEvents;
 

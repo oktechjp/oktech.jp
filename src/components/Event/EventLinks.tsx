@@ -1,4 +1,5 @@
-import SimpleSection from "../Common/SimpleSection";
+import SimpleSection from "@/components/Common/SimpleSection";
+
 import EventLinkCard from "./EventLinkCard";
 
 export interface EventLink {

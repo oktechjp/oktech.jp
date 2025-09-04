@@ -1,19 +1,14 @@
+import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 import { filterUpcomingEvents } from "@/utils/eventFilters";
 
-import SimpleSection from "../Common/SimpleSection";
-import EventsRecent from "./EventsRecent";
-import EventsUpcoming from "./EventsUpcoming";
-
-interface EventsSectionProps {
-  events: EventEnriched[];
-  variant: "upcoming" | "recent";
-}
+import LandingEventsRecent from "./LandingEventsRecent";
+import LandingEventsUpcoming from "./LandingEventsUpcoming";
 
 function UpcomingSection({ events }: { events: EventEnriched[] }) {
   return (
     <SimpleSection title="Upcoming Events">
-      <EventsUpcoming events={events} />
+      <LandingEventsUpcoming events={events} />
     </SimpleSection>
   );
 }
@@ -21,12 +16,18 @@ function UpcomingSection({ events }: { events: EventEnriched[] }) {
 function RecentSection({ events }: { events: EventEnriched[] }) {
   return (
     <SimpleSection title="Recent Events" wide button={{ text: "All Events", href: "/events" }}>
-      <EventsRecent events={events} />
+      <LandingEventsRecent events={events} />
     </SimpleSection>
   );
 }
 
-export default function EventsSection({ events, variant }: EventsSectionProps) {
+export default function EventsSection({
+  events,
+  variant,
+}: {
+  events: EventEnriched[];
+  variant: "upcoming" | "recent";
+}) {
   const hasUpcoming = filterUpcomingEvents(events).length > 0;
 
   // show the recent events, or upcoming if there aren't any recents.

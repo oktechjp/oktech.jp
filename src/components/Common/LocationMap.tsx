@@ -1,6 +1,6 @@
 import type { ProcessedVenue } from "@/content";
 
-import VenueMapImage from "./VenueMapImage";
+import LocationMapImage from "./LocationMapImage";
 
 interface Props {
   venue: ProcessedVenue;
@@ -9,7 +9,7 @@ interface Props {
   className?: string;
 }
 
-export default function VenueMap({ venue, marker, link = false, className }: Props) {
+export default function LocationMap({ venue, marker, link = false, className }: Props) {
   // Generate map URL - use gmaps if available, otherwise create from address
   const getMapUrl = () => {
     // Show link if either showMarker is true or marker prop is provided
@@ -34,7 +34,7 @@ export default function VenueMap({ venue, marker, link = false, className }: Pro
     return (
       <>
         <a href={mapUrl} target="_blank" rel="noopener noreferrer">
-          <VenueMapImage
+          <LocationMapImage
             mapImage={venue.mapImage}
             mapDarkImage={venue.mapDarkImage}
             marker={marker}
@@ -47,7 +47,7 @@ export default function VenueMap({ venue, marker, link = false, className }: Pro
 
   return (
     <>
-      <VenueMapImage
+      <LocationMapImage
         mapImage={venue.mapImage}
         mapDarkImage={venue.mapDarkImage}
         marker={marker}

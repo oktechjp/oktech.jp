@@ -1,4 +1,4 @@
-import OGDefault from "../components/OG/OGDefault";
+import OGDefault from "../components/OGImage/OGDefault";
 import { createOGImageRoute } from "../utils/og";
 
 export const GET = createOGImageRoute(async () => {

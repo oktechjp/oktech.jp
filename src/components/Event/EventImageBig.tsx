@@ -1,6 +1,5 @@
+import EventCardCountdown from "@/components/Common/EventCardCountdown";
 import type { EventEnriched } from "@/content";
-
-import EventCardCountdown from "../EventCard/EventCardCountdown";
 
 export default function EventImageBig({ event }: { event: EventEnriched }) {
   return (

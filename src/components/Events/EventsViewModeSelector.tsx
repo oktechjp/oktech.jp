@@ -2,7 +2,8 @@ import { useMemo } from "react";
 
 import { LuGrid3X3, LuImage, LuList } from "react-icons/lu";
 
-import Link from "../Common/Link";
+import Link from "@/components/Common/Link";
+
 import { useEventsFilter } from "./EventsFilterProvider";
 
 interface EventsViewModeSelectorProps {

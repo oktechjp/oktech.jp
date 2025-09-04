@@ -1,9 +1,9 @@
+import Container from "@/components/Common/Container";
 import { EventsFilter } from "@/components/Events/EventsFilter";
 import { EventFilterProvider } from "@/components/Events/EventsFilterProvider";
 import { useEventsFilter } from "@/components/Events/EventsFilterProvider";
 import type { EventEnriched } from "@/content";
 
-import Container from "../Common/Container";
 import EventsView from "./EventsView";
 
 export type EventsOrganizerViews = "grid" | "compact" | "album";

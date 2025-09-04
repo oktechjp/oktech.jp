@@ -1,11 +1,10 @@
 import Container from "@/components/Common/Container";
+import { EventCardList } from "@/components/Common/EventCard";
+import GalleryDisclaimer from "@/components/Common/GalleryDisclaimer";
+import SimpleSection from "@/components/Common/SimpleSection";
 import EventGalleryImages from "@/components/Event/EventGalleryImages";
-import { EventCardList } from "@/components/EventCard/EventCard";
 import type { EventEnriched } from "@/content";
 import { filterRecentEvents } from "@/utils/eventFilters";
-
-import GalleryDisclaimer from "../Common/GalleryDisclaimer";
-import SimpleSection from "../Common/SimpleSection";
 
 interface Props {
   events: EventEnriched[];

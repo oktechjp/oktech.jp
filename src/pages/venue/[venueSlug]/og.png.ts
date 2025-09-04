@@ -1,6 +1,6 @@
 import type { GetStaticPaths } from "astro";
 
-import OGVenue from "@/components/OG/OGVenue";
+import OGVenue from "@/components/OGImage/OGVenue";
 import { getVenue, getVenues } from "@/content";
 import { createOGImageRoute } from "@/utils/og";
 

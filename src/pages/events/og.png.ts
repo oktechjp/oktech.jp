@@ -1,6 +1,6 @@
-import OGEventsView from "../../components/OG/OGEventsView";
-import { SEO_DATA } from "../../constants";
-import { createOGImageRoute } from "../../utils/og";
+import OGEventsView from "@/components/OGImage/OGEventsView";
+import { SEO_DATA } from "@/constants";
+import { createOGImageRoute } from "@/utils/og";
 
 export const GET = createOGImageRoute(async () => {
   const seoData = SEO_DATA["/events"];

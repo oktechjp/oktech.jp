@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
-import CityBadge from "@/components/Common/CityBadge";
 import type { ProcessedVenue } from "@/content";
 
-import VenueMap from "../Venue/VenueMap";
+import CityBadge from "./CityBadge";
+import VenueMap from "./LocationMap";
 
 export default function LocationCard({
   below,

@@ -118,7 +118,7 @@ export default function EventProjectorOverlay({
           {/* Top: Branding */}
           <div className="flex justify-end">
             <div className="text-base-content" style={{ width: "20vw" }}>
-              <Brand className="w-full" />
+              <Brand active className="w-full" />
             </div>
           </div>
 

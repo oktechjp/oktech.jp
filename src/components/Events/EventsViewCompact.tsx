@@ -1,8 +1,8 @@
+import { EventCardList } from "@/components/Common/EventCard";
+import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 import { groupEventsByYearAndUpcoming } from "@/utils/eventGrouping";
 
-import SimpleSection from "../Common/SimpleSection";
-import { EventCardList } from "../EventCard/EventCard";
 import { useEventsFilter } from "./EventsFilterProvider";
 
 interface Props {

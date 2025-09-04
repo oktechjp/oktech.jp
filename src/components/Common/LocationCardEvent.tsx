@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
+import Link from "@/components/Common/Link";
 import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
-import Link from "../Common/Link";
 import AddToCalendarDropdown from "../Event/EventCalendarDropdown";
 import EventJoinButton from "../Event/EventJoinButton";
 import LocationCard from "./LocationCard";

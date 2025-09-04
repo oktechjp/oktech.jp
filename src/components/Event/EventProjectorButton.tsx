@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import { LuProjector } from "react-icons/lu";
 
+import Button from "@/components/Common/Button";
 import TooltipButton from "@/components/Common/TooltipButton";
 import type { EventEnriched } from "@/content";
 
-import Button from "../Common/Button";
 import EventProjectorOverlay from "./EventProjectorOverlay";
 
 interface EventProjectorButtonProps {

@@ -2,11 +2,11 @@
 import PageLayout from "@/layouts/PageLayout.astro";
 import LandingHero from "@/components/Landing/LandingHero.astro";
 import LandingAbout from "@/components/Landing/LandingAbout.astro";
-import GetInvolved from "@/components/Landing/GetInvolved";
+import LandingCTA from "@/components/Landing/LandingCTA";
 import { getEvents } from "@/content";
 import Container from "@/components/Common/Container";
 import Cut from "@/components/Common/Cut";
-import EventsSection from "@/components/Events/EventsSection";
+import EventsSection from "@/components/Landing/LandingEventsSection";
 
 const events = await getEvents(6);
 ---
@@ -19,6 +19,6 @@ const events = await getEvents(6);
   </Cut>
   <EventsSection client:load events={events} variant="recent" />
   <Container>
-    <GetInvolved client:visible />
+    <LandingCTA client:visible />
   </Container>
 </PageLayout>

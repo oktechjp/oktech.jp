@@ -1,20 +1,21 @@
 ## vNow - fixes/refactoring
 
-- Clean up codebase.
-- Refactor SEO and sitemap
+- Refactor SEO, sitemap, og cache.
 - Squash the git history.
 
 ## Docs
 
-- Nicer Readme
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
 
 ## Pending Theme
 
+- Update OG Image template
+- Try making a nice theme.
 - When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
 
 ## Later?
 
+- Random blob on hover
 - Nice projector view
 - Album gallery that randomly shows all the images
 - hide the chrome in the gallery lightbox when in fullscreen

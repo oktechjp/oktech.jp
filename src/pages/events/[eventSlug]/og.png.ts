@@ -1,7 +1,7 @@
 import type { GetStaticPaths } from "astro";
 import path from "path";
 
-import OGEvent from "@/components/OG/OGEvent";
+import OGEvent from "@/components/OGImage/OGEvent";
 import { getEvents } from "@/content";
 import { isLegacyEvent } from "@/utils/eventFilters";
 import { createOGImageRoute, loadImageAsBase64 } from "@/utils/og";

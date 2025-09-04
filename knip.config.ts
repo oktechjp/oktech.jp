@@ -36,6 +36,7 @@ const config: KnipConfig = {
     "public/**",
     "content/**",
     ".devcontainer/**",
+    "src/utils/remarkPlugins.ts",
   ],
 
   // Ignore specific dependencies that are used indirectly

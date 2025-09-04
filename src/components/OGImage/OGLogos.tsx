@@ -1,6 +1,6 @@
 import { twj } from "tw-to-css";
 
-import { OKTechLogoIcon, OKTechLogoText } from "../Common/OKTechLogo";
+import { OKTechLogoIcon, OKTechLogoText } from "@/components/Common/OKTechLogo";
 
 function scale(scale: number, type: "icon" | "text"): { width: number; height: number } {
   const dimensions = {
