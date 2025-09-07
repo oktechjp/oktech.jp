@@ -52,23 +52,21 @@ Photos are assigned to events through a configuration-based system:
 ### Content Processing
 
 - **Events**: Creates structured markdown with frontmatter, manages photo galleries
-  - Processes cover images with Sharp for consistent encoding
+  - Processes new images with Sharp
   - Maintains frontmatter field order for zero-diff builds
   - Skips existing images to avoid re-processing
 - **Venues**: Generates venue pages with maps (light and dark themes)
   - Static map generation with configurable providers
-  - Supports both free and API-key based providers
 
 Note: Venues are automatically generated, but descriptions and `hasPage` flags must be added manually.
 
 ### Image Processing
 
-All images are processed with Sharp for:
+All images are processed with:
 
 - Consistent WebP encoding at 85% quality
 - Maximum width of 1920px (configurable)
 - Preservation of aspect ratio
-- Existing images are skipped to maintain consistency
 
 ## Usage
 
@@ -162,28 +160,12 @@ You can find more providers here: https://leaflet-extras.github.io/leaflet-provi
 
 ## Environment Variables
 
-Optional environment configuration in `.env.local`:
+Optional environment configuration in `.env.local` or github repo secrets:
 
 ```bash
 # Map provider API key (required for Stadia Maps)
 STADIA_MAPS_API_KEY=your_key_here
 
-# GitHub token (only needed in CI environment)
+# GitHub token (only needed in CI environment, automatically set in github actions)
 GITHUB_TOKEN=your_token_here
 ```
-
-## Development
-
-### Project Structure
-
-- **Entry Point**: `index.ts` - Minimal entry point that calls the CLI
-- **CLI**: `lib/cli.ts` - Command parsing, validation, and routing
-- **Orchestration**: `lib/importer.ts` - Coordinates the import pipeline
-- **Processing**: `lib/processor.ts` - Base class and implementations for content processing
-- **Services**:
-  - `lib/github.ts` - GitHub API interactions
-  - `lib/photos.ts` - Photo processing and gallery management
-  - `lib/maps.ts` - Static map generation
-- **Utilities**:
-  - `lib/cleaner.ts` - File cleanup strategies
-  - `lib/logger.ts` - Colored console output

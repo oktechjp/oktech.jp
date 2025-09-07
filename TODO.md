@@ -1,7 +1,17 @@
 ## vNow - fixes/refactoring
 
-- Refactor SEO, sitemap, og cache.
+- Add base 100 to hero
+- Fix RGB
+- Refactor SEO, sitemap, og cache, utils
 - Squash the git history.
+- Fix projector on mobile
+- Update github link
+- Martial font mono
+- List of people in photos
+- ICS bug with trailing slash
+- Better mobile projector view button
+- use notosans jp for all pages
+- markdown
 
 ## Docs
 
@@ -15,6 +25,7 @@
 
 ## Later?
 
+- Fade in / out 'Greeting'
 - Random blob on hover
 - Nice projector view
 - Album gallery that randomly shows all the images
@@ -36,3 +47,4 @@
 - Venue type ; inside / outside / etc.
 - Add interactive japan map somewhere, with heatmap of all the event locations.
 - Tree shaking animejs ?
+- Backlog Idea: maybe add the event date to the URL so its easier to see in links how old events are.
