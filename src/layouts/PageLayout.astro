@@ -10,7 +10,7 @@ const { flush, className } = Astro.props;
 <RootLayout>
   <div class="flex min-h-screen flex-col">
     <header>
-      <TopBar client:load />
+      <TopBar client:load transition:persist="topbar" />
     </header>
     <!-- mt-16 for sticky header -->
     <main class={clsx(`bg-base-300 flex-1`, flush ? "" : "pt-22", className)}>

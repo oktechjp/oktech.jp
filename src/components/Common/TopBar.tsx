@@ -56,7 +56,7 @@ export default function TopBar() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLogoActive(true);
-    }, 1500);
+    }, 500);
 
     const handleFocus = () => setLogoActive(true);
     const handleBlur = () => setLogoActive(false);

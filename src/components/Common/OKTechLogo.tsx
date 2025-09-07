@@ -21,7 +21,7 @@ type OKTechLogoItemProps = OKTechLogoProps & {
   style?: React.CSSProperties;
 };
 
-const transitionClass = "transition-colors duration-[1000ms] ease-in-out";
+const transitionClass = "transition-colors duration-[200ms] ease-in-out";
 const hoverClass = "group-hover:[fill:var(--hover-color)]";
 
 export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogoItemProps) {
@@ -68,19 +68,19 @@ export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogo
             fill={active ? colors.RED : undefined}
             style={!active ? ({ "--hover-color": colors.RED } as React.CSSProperties) : undefined}
             className={clsx(transitionClass, !active && hoverClass)}
-            d="M82.85,60.57c1.56-4.84,2.08-10.1,1.31-15.48-.76-5.29-2.69-10.13-5.47-14.29l-18.13,18.26,22.3,11.51Z"
+            d="M72.26,23.65c-5.94-5.02-13.55-8.02-21.67-8.15l3.77,26.19,17.91-18.03Z"
           />
           <path
             fill={active ? colors.GREEN : undefined}
             style={!active ? ({ "--hover-color": colors.GREEN } as React.CSSProperties) : undefined}
             className={clsx(transitionClass, !active && hoverClass)}
-            d="M56.68,57.87l3.6,25.07c7.68-2.39,14.08-7.34,18.37-13.73l-21.97-11.33Z"
+            d="M82.85,60.57c1.56-4.84,2.08-10.1,1.31-15.48-.76-5.29-2.69-10.13-5.47-14.29l-18.13,18.26,22.3,11.51Z"
           />
           <path
             fill={active ? colors.BLUE : undefined}
             style={!active ? ({ "--hover-color": colors.BLUE } as React.CSSProperties) : undefined}
             className={clsx(transitionClass, !active && hoverClass)}
-            d="M72.26,23.65c-5.94-5.02-13.55-8.02-21.67-8.15l3.77,26.19,17.91-18.03Z"
+            d="M56.68,57.87l3.6,25.07c7.68-2.39,14.08-7.34,18.37-13.73l-21.97-11.33Z"
           />
         </g>
       </svg>
