@@ -28,6 +28,7 @@ function GlassCell({
 export default function TopBar() {
   const items = MENU.filter((item) => item.header === true);
   const [showBackground, setShowBackground] = useState(false);
+  const [logoActive, setLogoActive] = useState(false);
 
   useEffect(() => {
     let last = window.scrollY > 0;
@@ -52,6 +53,24 @@ export default function TopBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLogoActive(true);
+    }, 1500);
+
+    const handleFocus = () => setLogoActive(true);
+    const handleBlur = () => setLogoActive(false);
+
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("blur", handleBlur);
+    };
+  }, []);
+
   return (
     <div data-testid="top-bar" className="fixed top-0 z-50 w-full">
       <Container>
@@ -63,7 +82,7 @@ export default function TopBar() {
               data-astro-prefetch
             >
               <div className="-mr-1 -ml-2">
-                <Brand active={showBackground} className="w-28 sm:w-32 md:w-42" />
+                <Brand active={logoActive} className="w-28 sm:w-32 md:w-42" />
               </div>
             </Link>
           </GlassCell>
