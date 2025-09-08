@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import clsx from "clsx";
-import { PiArrowArcRightBold } from "react-icons/pi";
 
 import BlobMask from "@/components/Common/BlobMask";
 import useBloop from "@/hooks/useBloop";
@@ -12,51 +11,40 @@ interface BlobCardProps {
   preset?: number;
   className?: string;
   bgClass?: string;
-  showTip?: boolean;
 }
-
-// Define preset groups with non-repeating blob indices
-const BLOB_PRESETS = [
-  [1, 2, 0],
-  [3, 4, 5],
-  [6, 7, 8],
-  [2, 3, 4],
-  [5, 4, 1],
-  [7, 1, 3],
-];
 
 export default function BlobCard({
   children,
   preset = 0,
   className = "",
-  bgClass = "bg-primary/20 group-hover:bg-primary/40 group-active:bg-primary/60",
-  showTip = false,
+  bgClass = "bg-primary/0 group-hover:bg-primary/40 group-active:bg-primary/60",
 }: BlobCardProps) {
   const uniqueId = React.useId();
   const [currentState, setCurrentState] = useState<"default" | "hover" | "active">("default");
   const [isHovering, setIsHovering] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const playBloopHover = useBloop({ preset: 15 }); // Reverse bass for hover
   const playBloopActive = useBloop({ preset: 27 }); // Zap for active/click
   const activeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  // Detect mobile on mount
-  React.useEffect(() => {
-    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-  }, []);
+  // Use the preset directly as the default blob index
+  const defaultIndex = preset % BLOBS.length;
 
-  // Get the preset group, cycling through available presets
-  const presetGroup = BLOB_PRESETS[preset % BLOB_PRESETS.length];
-
-  // Get blob indices for each state from the preset group
-  const [defaultIndex, hoverIndex, activeIndex] = presetGroup.map((idx) => idx % BLOBS.length);
+  // Function to get a random blob index that's different from the current one
+  const getRandomBlobIndex = (excludeIndex: number): number => {
+    const availableIndices = Array.from({ length: BLOBS.length }, (_, i) => i).filter(
+      (idx) => idx !== excludeIndex,
+    );
+    return availableIndices[Math.floor(Math.random() * availableIndices.length)];
+  };
 
   const getCurrentPath = () => {
     switch (currentState) {
       case "hover":
-        return BLOBS[hoverIndex];
+        return BLOBS[hoverIndex ?? defaultIndex];
       case "active":
-        return BLOBS[activeIndex];
+        return BLOBS[activeIndex ?? defaultIndex];
       default:
         return BLOBS[defaultIndex];
     }
@@ -65,6 +53,9 @@ export default function BlobCard({
   const handleMouseEnter = () => {
     setIsHovering(true);
     if (currentState !== "active") {
+      // Pick a random blob index different from the default
+      const newHoverIndex = getRandomBlobIndex(defaultIndex);
+      setHoverIndex(newHoverIndex);
       setCurrentState("hover");
       playBloopHover();
     }
@@ -83,12 +74,21 @@ export default function BlobCard({
       clearTimeout(activeTimeoutRef.current);
     }
 
+    // Pick a random active index that's different from the current hover index (or default if no hover)
+    const currentIndex = hoverIndex ?? defaultIndex;
+    const newActiveIndex = getRandomBlobIndex(currentIndex);
+    setActiveIndex(newActiveIndex);
     setCurrentState("active");
     playBloopActive();
 
-    // Keep active state for 500ms, then return to hover if still hovering
+    // Keep active state for 500ms, then return to previous state
     activeTimeoutRef.current = setTimeout(() => {
-      setCurrentState(isHovering ? "hover" : "default");
+      if (isHovering) {
+        // Return to the previous hover state (keep the same hoverIndex)
+        setCurrentState("hover");
+      } else {
+        setCurrentState("default");
+      }
     }, 500);
   };
 
@@ -103,16 +103,6 @@ export default function BlobCard({
 
   return (
     <div className={clsx("group relative", className)}>
-      {/* Tap to boop tip - outside the margin-affected container */}
-      {showTip && (
-        <div className="text-primary-content/50 pointer-events-none absolute -top-10 -left-12 z-20 animate-bounce">
-          <div className="flex items-center gap-1">
-            <span className="whitespace-nowrap">{isMobile ? "Tap" : "Click"} to Bloop</span>
-            <PiArrowArcRightBold className="h-5 w-5 rotate-45" />
-          </div>
-        </div>
-      )}
-
       {/* Inner container with margin changes */}
       <div
         className={clsx(
