@@ -5,6 +5,7 @@ import { resolveInternalHref } from "@/utils/urlResolver";
 import SEO from "./SEO.astro";
 import { ClientRouter } from "astro:transitions";
 import ThemeEditor from "@/components/DevTools/ThemeEditor";
+import DynamicFavicon from "@/components/Common/DynamicFavicon";
 
 import "@fontsource/noto-sans/400.css";
 import "@fontsource/noto-sans/700.css";
@@ -61,6 +62,7 @@ import "@fontsource/space-mono/400.css";
   <body class="bg-base-100">
     <ClientRouter />
     <ThemeEditor client:only="react" />
+    <DynamicFavicon client:only="react" />
     <slot />
   </body>
 </html>

@@ -6,6 +6,7 @@ interface OKTechLogoProps {
   className?: string;
   active?: boolean;
   noStyle?: boolean;
+  unrotate?: boolean;
 }
 
 // TODO use colors picked from wintle's image
@@ -24,7 +25,13 @@ type OKTechLogoItemProps = OKTechLogoProps & {
 const transitionClass = "transition-colors duration-[200ms] ease-in-out";
 const hoverClass = "group-hover:[fill:var(--hover-color)]";
 
-export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogoItemProps) {
+export function OKTechLogoIcon({
+  noStyle,
+  className,
+  style,
+  active,
+  unrotate,
+}: OKTechLogoItemProps) {
   return (
     <>
       <svg
@@ -59,29 +66,35 @@ export function OKTechLogoIcon({ noStyle, className, style, active }: OKTechLogo
             </style>
           )}
         </defs>
-        <path
-          className="base-responsive"
-          d="M39.85,17.02l9.7,67.48c-16.71-.19-31.25-12.53-33.7-29.58-2.45-17.06,8.03-33,24-37.89Z"
-        />
-        <g>
+        <g transform={unrotate ? "rotate(10 50 50)" : undefined}>
           <path
-            fill={active ? colors.RED : undefined}
-            style={!active ? ({ "--hover-color": colors.RED } as React.CSSProperties) : undefined}
-            className={clsx(transitionClass, !active && hoverClass)}
-            d="M72.26,23.65c-5.94-5.02-13.55-8.02-21.67-8.15l3.77,26.19,17.91-18.03Z"
+            className="base-responsive"
+            d="M39.85,17.02l9.7,67.48c-16.71-.19-31.25-12.53-33.7-29.58-2.45-17.06,8.03-33,24-37.89Z"
           />
-          <path
-            fill={active ? colors.GREEN : undefined}
-            style={!active ? ({ "--hover-color": colors.GREEN } as React.CSSProperties) : undefined}
-            className={clsx(transitionClass, !active && hoverClass)}
-            d="M82.85,60.57c1.56-4.84,2.08-10.1,1.31-15.48-.76-5.29-2.69-10.13-5.47-14.29l-18.13,18.26,22.3,11.51Z"
-          />
-          <path
-            fill={active ? colors.BLUE : undefined}
-            style={!active ? ({ "--hover-color": colors.BLUE } as React.CSSProperties) : undefined}
-            className={clsx(transitionClass, !active && hoverClass)}
-            d="M56.68,57.87l3.6,25.07c7.68-2.39,14.08-7.34,18.37-13.73l-21.97-11.33Z"
-          />
+          <g>
+            <path
+              fill={active ? colors.RED : "currentColor"}
+              style={!active ? ({ "--hover-color": colors.RED } as React.CSSProperties) : undefined}
+              className={clsx(transitionClass, !active && hoverClass)}
+              d="M72.26,23.65c-5.94-5.02-13.55-8.02-21.67-8.15l3.77,26.19,17.91-18.03Z"
+            />
+            <path
+              fill={active ? colors.GREEN : "currentColor"}
+              style={
+                !active ? ({ "--hover-color": colors.GREEN } as React.CSSProperties) : undefined
+              }
+              className={clsx(transitionClass, !active && hoverClass)}
+              d="M82.85,60.57c1.56-4.84,2.08-10.1,1.31-15.48-.76-5.29-2.69-10.13-5.47-14.29l-18.13,18.26,22.3,11.51Z"
+            />
+            <path
+              fill={active ? colors.BLUE : "currentColor"}
+              style={
+                !active ? ({ "--hover-color": colors.BLUE } as React.CSSProperties) : undefined
+              }
+              className={clsx(transitionClass, !active && hoverClass)}
+              d="M56.68,57.87l3.6,25.07c7.68-2.39,14.08-7.34,18.37-13.73l-21.97-11.33Z"
+            />
+          </g>
         </g>
       </svg>
     </>
