@@ -36,7 +36,7 @@ export default function StatsItem({
   const Icon = statsIcons[stat.iconKey];
 
   return (
-    <div className={`${colorClass} flex h-full w-full items-start p-8`}>
+    <div className={`${colorClass} flex h-full w-full items-start p-4 md:p-8`}>
       <div className="flex h-full flex-col gap-4">
         <div className="flex items-center gap-2">
           <Icon className="h-5 w-5" />
