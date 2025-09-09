@@ -22,8 +22,6 @@ export default function BlobCard({
   const uniqueId = React.useId();
   const [currentState, setCurrentState] = useState<"default" | "hover" | "active">("default");
   const [isHovering, setIsHovering] = useState(false);
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const playBloopHover = useBloop({ preset: 15 }); // Reverse bass for hover
   const playBloopActive = useBloop({ preset: 27 }); // Zap for active/click
   const activeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -31,20 +29,16 @@ export default function BlobCard({
   // Use the preset directly as the default blob index
   const defaultIndex = preset % BLOBS.length;
 
-  // Function to get a random blob index that's different from the current one
-  const getRandomBlobIndex = (excludeIndex: number): number => {
-    const availableIndices = Array.from({ length: BLOBS.length }, (_, i) => i).filter(
-      (idx) => idx !== excludeIndex,
-    );
-    return availableIndices[Math.floor(Math.random() * availableIndices.length)];
-  };
+  // Initialize counters - hover starts at i+1, poke starts at i+2
+  const [hoverCounter, setHoverCounter] = useState((defaultIndex + 1) % BLOBS.length);
+  const [pokeCounter, setPokeCounter] = useState((defaultIndex + 2) % BLOBS.length);
 
   const getCurrentPath = () => {
     switch (currentState) {
       case "hover":
-        return BLOBS[hoverIndex ?? defaultIndex];
+        return BLOBS[hoverCounter];
       case "active":
-        return BLOBS[activeIndex ?? defaultIndex];
+        return BLOBS[pokeCounter];
       default:
         return BLOBS[defaultIndex];
     }
@@ -53,11 +47,10 @@ export default function BlobCard({
   const handleMouseEnter = () => {
     setIsHovering(true);
     if (currentState !== "active") {
-      // Pick a random blob index different from the default
-      const newHoverIndex = getRandomBlobIndex(defaultIndex);
-      setHoverIndex(newHoverIndex);
       setCurrentState("hover");
       playBloopHover();
+      // Increment hover counter for next time
+      setHoverCounter((prev) => (prev + 3) % BLOBS.length);
     }
   };
 
@@ -74,17 +67,14 @@ export default function BlobCard({
       clearTimeout(activeTimeoutRef.current);
     }
 
-    // Pick a random active index that's different from the current hover index (or default if no hover)
-    const currentIndex = hoverIndex ?? defaultIndex;
-    const newActiveIndex = getRandomBlobIndex(currentIndex);
-    setActiveIndex(newActiveIndex);
     setCurrentState("active");
     playBloopActive();
+    // Increment poke counter for next time
+    setPokeCounter((prev) => (prev + 3) % BLOBS.length);
 
     // Keep active state for 500ms, then return to previous state
     activeTimeoutRef.current = setTimeout(() => {
       if (isHovering) {
-        // Return to the previous hover state (keep the same hoverIndex)
         setCurrentState("hover");
       } else {
         setCurrentState("default");
