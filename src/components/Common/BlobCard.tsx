@@ -118,7 +118,16 @@ export default function BlobCard({
             bgClass,
           )}
         >
-          {pattern && <Pattern type={pattern} className={patternClass} />}
+          {pattern && (
+            <Pattern
+              type={pattern}
+              className={clsx(
+                "transition-opacity duration-300",
+                currentState === "default" ? "opacity-0" : "opacity-100",
+                patternClass,
+              )}
+            />
+          )}
         </BlobMask>
 
         {/* Content layer */}
