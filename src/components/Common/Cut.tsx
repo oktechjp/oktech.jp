@@ -1,15 +1,8 @@
 import clsx from "clsx";
 
+import Pattern, { type Patterns } from "@/components/Common/Pattern";
+
 type CutDirection = boolean | "up" | "down";
-
-type BgStyle = "digital" | "wave";
-
-const digitalSvg = `
-<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
-  <rect x="20" y="0" width="20" height="20" fill="black" />
-  <rect x="0" y="20" width="20" height="20" fill="black" />
-</svg>
-`;
 
 export default function Cut({
   top = false,
@@ -17,7 +10,8 @@ export default function Cut({
   both = true,
   className = "py-4",
   bgClass = "bg-primary/20",
-  bgStyle,
+  pattern,
+  patternClass,
   children,
 }: {
   top?: CutDirection;
@@ -26,7 +20,8 @@ export default function Cut({
   children: React.ReactNode;
   bgClass?: string;
   className?: string;
-  bgStyle?: BgStyle;
+  pattern?: Patterns;
+  patternClass?: string;
 }) {
   const cutSize = "5rem"; // Base cut height (32px)
 
@@ -67,19 +62,7 @@ export default function Cut({
           clipPath: getClipPath(),
         }}
       >
-        {bgStyle === "digital" && (
-          <div
-            className="absolute inset-0 z-0 bg-gradient-to-b from-white/20 to-white/0"
-            style={{
-              maskImage: `url("data:image/svg+xml,${encodeURIComponent(digitalSvg)}")`,
-              maskSize: "40px 40px",
-              maskRepeat: "repeat",
-              WebkitMaskImage: `url("data:image/svg+xml,${encodeURIComponent(digitalSvg)}")`,
-              WebkitMaskSize: "40px 40px",
-              WebkitMaskRepeat: "repeat",
-            }}
-          />
-        )}
+        {pattern && <Pattern type={pattern} className={patternClass} />}
       </div>
       <div className="relative z-10 w-full">{children}</div>
     </div>

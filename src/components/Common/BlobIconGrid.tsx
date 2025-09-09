@@ -6,6 +6,7 @@ import type { IconType } from "react-icons";
 import BlobCard from "@/components/Common/BlobCard";
 import CalendarFeeds from "@/components/Common/CalendarFeeds";
 import Link from "@/components/Common/Link";
+import { type Patterns, patterns } from "@/components/Common/Pattern";
 
 export interface BlobIconGridItem {
   type: "link" | "calendar" | "a";
@@ -49,15 +50,22 @@ function GridItem({
 function BlobWrapper({
   children,
   preset,
+  pattern,
   className,
 }: {
   children: ReactNode;
   preset: number;
+  pattern?: Patterns;
   className?: string;
 }) {
   return (
     <div className={clsx("flex items-center justify-center", className)}>
-      <BlobCard preset={preset} className="mt-5 -mb-5 h-70 w-70">
+      <BlobCard
+        preset={preset}
+        pattern={pattern}
+        patternClass="bg-primary-content/5"
+        className="mt-5 -mb-5 h-70 w-70"
+      >
         <div className="flex h-full w-full items-center justify-center">{children}</div>
       </BlobCard>
     </div>
@@ -65,30 +73,42 @@ function BlobWrapper({
 }
 
 export default function BlobIconGrid({ items, className = "" }: BlobIconGridProps) {
+  const patternKeys = Object.keys(patterns) as Patterns[];
+
   return (
     <div className={clsx("flex flex-wrap justify-center gap-28 pb-12 md:pb-24", className)}>
-      {items.map((item, index) => (
-        <BlobWrapper key={`${item.title}-${index}`} preset={index} className="-mb-12 md:-mb-24">
-          {item.type === "link" ? (
-            <Link href={item.href || "#"} className="">
-              <GridItem title={item.title} description={item.description} Icon={item.icon} />
-            </Link>
-          ) : item.type === "calendar" ? (
-            <CalendarFeeds className="" dropdownPosition="bottom">
-              <GridItem title={item.title} description={item.description} Icon={item.icon} />
-            </CalendarFeeds>
-          ) : (
-            <a
-              href={item.href || "#"}
-              target={item.target}
-              rel={item.rel}
-              data-testid={item.testId}
-            >
-              <GridItem title={item.title} description={item.description} Icon={item.icon} />
-            </a>
-          )}
-        </BlobWrapper>
-      ))}
+      {items.map((item, index) => {
+        const patternIndex = index % patternKeys.length;
+        const pattern = patternKeys[patternIndex];
+
+        return (
+          <BlobWrapper
+            key={`${item.title}-${index}`}
+            preset={index}
+            pattern={pattern}
+            className="-mb-12 md:-mb-24"
+          >
+            {item.type === "link" ? (
+              <Link href={item.href || "#"} className="">
+                <GridItem title={item.title} description={item.description} Icon={item.icon} />
+              </Link>
+            ) : item.type === "calendar" ? (
+              <CalendarFeeds className="" dropdownPosition="bottom">
+                <GridItem title={item.title} description={item.description} Icon={item.icon} />
+              </CalendarFeeds>
+            ) : (
+              <a
+                href={item.href || "#"}
+                target={item.target}
+                rel={item.rel}
+                data-testid={item.testId}
+              >
+                <GridItem title={item.title} description={item.description} Icon={item.icon} />
+              </a>
+            )}
+          </BlobWrapper>
+        );
+      })}
     </div>
   );
 }

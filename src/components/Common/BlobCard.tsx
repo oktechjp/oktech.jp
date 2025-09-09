@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 
 import BlobMask from "@/components/Common/BlobMask";
+import Pattern, { type Patterns } from "@/components/Common/Pattern";
 import useBloop from "@/hooks/useBloop";
 import { BLOBS } from "@/utils/blobs";
 
@@ -11,6 +12,8 @@ interface BlobCardProps {
   preset?: number;
   className?: string;
   bgClass?: string;
+  pattern?: Patterns;
+  patternClass?: string;
 }
 
 export default function BlobCard({
@@ -18,6 +21,8 @@ export default function BlobCard({
   preset = 0,
   className = "",
   bgClass = "bg-primary/0 group-hover:bg-primary/40 group-active:bg-primary/60",
+  pattern,
+  patternClass = "bg-primary-content/10",
 }: BlobCardProps) {
   const uniqueId = React.useId();
   const [currentState, setCurrentState] = useState<"default" | "hover" | "active">("default");
@@ -112,7 +117,9 @@ export default function BlobCard({
             "pointer-events-none absolute inset-0 z-0 transition-all duration-300",
             bgClass,
           )}
-        />
+        >
+          {pattern && <Pattern type={pattern} className={patternClass} />}
+        </BlobMask>
 
         {/* Content layer */}
         <div className="relative z-10 h-full w-full">{children}</div>
