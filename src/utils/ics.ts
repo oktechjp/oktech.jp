@@ -16,7 +16,8 @@ export function generateEventICS(event: EventEnriched): string {
   const durationMinutes = event.data.duration || 120;
   endDate.setMinutes(endDate.getMinutes() + durationMinutes);
 
-  const eventUrl = resolveFullUrl(`/events/${event.id}/`);
+  const eventUrl = resolveFullUrl(`/events/${event.id}`);
+
   const location = event.venue?.title
     ? `${event.venue.title}${event.venue.address ? `, ${event.venue.address}` : ""}`
     : "TBD";
