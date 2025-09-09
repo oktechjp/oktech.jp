@@ -1,5 +1,7 @@
 ---
-import LandingStatsSlideshow from "@/components/Landing/LandingStatsSlideshow";
+import StatsSlideshow from "@/components/Common/StatsSlideshow";
+import StatsGrid from "@/components/Common/StatsGrid";
+import { icons } from "@/components/Common/StatsItem";
 
 import Container from "@/components/Common/Container";
 import { getEvents } from "@/content/events";
@@ -13,12 +15,49 @@ const venues = await getVenues();
 // Calculate stats
 const totalEvents = events.length;
 const uniqueVenues = venues.length;
+
+// Define stats with icon keys
+const stats = [
+  {
+    title: "First Event",
+    value: "2014",
+    iconKey: icons.calendar,
+    subTitle: "Started our Journey",
+  },
+  {
+    title: "Total Events",
+    value: totalEvents.toString(),
+    iconKey: icons.calendarDays,
+    subTitle: "Events and Counting",
+  },
+  {
+    title: "Locations",
+    value: uniqueVenues.toString() + "+",
+    iconKey: icons.mapPin,
+    subTitle: "Places We've Met",
+  },
+  {
+    title: "Participants",
+    value: "2000+",
+    iconKey: icons.users,
+    subTitle: "Community Members",
+  },
+];
 ---
 
 <Container>
-  <div class="flex flex-col items-center justify-center gap-20 lg:flex-row">
+  <div class="flex flex-col items-center justify-center gap-30 xl:flex-row">
+    <!-- the old slideshow -->
+    <!-- 
+      <div class="h-90 w-90">
+        <StatsSlideshow client:visible stats={stats} />
+      </div> 
+    -->
+
     <div class="h-90 w-90">
-      <LandingStatsSlideshow client:visible totalEvents={totalEvents} uniqueVenues={uniqueVenues} />
+      <div class="-m-14">
+        <StatsGrid client:visible stats={stats} />
+      </div>
     </div>
 
     <div class="flex max-w-xl flex-col gap-8 text-center">
