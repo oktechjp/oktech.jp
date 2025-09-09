@@ -25,7 +25,7 @@ export async function GET() {
       title: event.data.title,
       description: `Event on ${formatDate(event.data.dateTime, "long")}`,
       pubDate: new Date(event.data.dateTime),
-      link: resolveFullUrl(`/events/${event.id}/`),
+      link: resolveFullUrl(`/events/${event.id}`),
     })),
     customData: `<language>en-us</language>`,
   });
