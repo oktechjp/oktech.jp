@@ -24,10 +24,6 @@
   color: var(--color-primary-content);
 }
 
-code {
-  @apply bg-base-100/50 rounded-field px-2;
-}
-
 body > div {
   @apply overflow-x-clip;
 }
@@ -35,3 +31,4 @@ body > div {
 body {
   @apply text-pretty;
 }
+

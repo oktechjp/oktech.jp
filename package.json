@@ -29,8 +29,6 @@
     "@astrojs/react": "^4.3.0",
     "@astrojs/rss": "^4.0.12",
     "@fontsource/lexend": "^5.2.9",
-    "@fontsource/noto-sans": "^5.2.7",
-    "@fontsource/space-mono": "^5.2.8",
     "@playwright/test": "^1.53.1",
     "@resvg/resvg-js": "^2.6.2",
     "@rollup/plugin-yaml": "^4.1.2",
@@ -70,6 +68,8 @@
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.0",
-    "yet-another-react-lightbox": "^3.25.0"
+    "yet-another-react-lightbox": "^3.25.0",
+    "@fontsource-variable/martian-mono": "^5.2.6",
+    "@fontsource-variable/noto-sans-jp": "^5.2.7"
   }
 }
