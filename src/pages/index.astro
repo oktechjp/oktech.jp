@@ -11,10 +11,10 @@ import EventsSection from "@/components/Landing/LandingEventsSection";
 const events = await getEvents(6);
 ---
 
-<PageLayout flush className="flex flex-col gap-32 pb-24">
+<PageLayout flush className="flex flex-col gap-42 pb-24">
   <LandingHero />
   <EventsSection client:load events={events} variant="upcoming" />
-  <Cut bgClass="bg-primary/60" pattern="waves" patternClass="bg-primary-content/3">
+  <Cut bgClass="bg-primary/10">
     <LandingAbout />
   </Cut>
   <EventsSection client:load events={events} variant="recent" />

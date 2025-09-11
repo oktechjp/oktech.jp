@@ -7,6 +7,7 @@ import Container from "@/components/Common/Container";
 import { getEvents } from "@/content/events";
 import { getVenues } from "@/content/venues";
 import SimpleSection from "../Common/SimpleSection";
+import Button from "../Common/Button";
 
 // Use the filtered getters which already handle devOnly filtering
 const events = await getEvents();
@@ -46,32 +47,30 @@ const stats = [
 ---
 
 <Container>
-  <div class="flex flex-col items-center justify-center gap-30 xl:flex-row">
-    <!-- the old slideshow -->
-    <!-- 
-      <div class="h-90 w-90">
-        <StatsSlideshow client:visible stats={stats} />
-      </div> 
-    -->
-
-    <div class="h-90 w-90">
-      <div class="-m-2 sm:-m-14">
-        <StatsGrid client:visible stats={stats} />
-      </div>
-    </div>
-
-    <div class="flex max-w-xl flex-col gap-8 text-center">
-      <SimpleSection
-        title="About OKTech"
-        button={{ text: "Learn More", href: "/about", ariaLabel: "Learn More About OKTech" }}
-      >
+  <div class="grid gap-16 lg:grid-cols-2">
+    <div class="flex items-center justify-center lg:order-2 lg:items-start">
+      <div class="flex max-w-[40em] flex-col gap-12 py-6 text-center lg:text-left">
+        <h2 class="text-4xl">About OKTech</h2>
         <p class="text-lg">
           A volunteer, non-profit group organizing monthly meetups in the Kansai region of Japan. We
           invite people from all walks of web-life and encourage members to present topics they
           enjoy. Join us for technical workshops, study sessions, and social gatherings in Osaka and
           Kyoto.
         </p>
-      </SimpleSection>
+        <p>
+          <Button
+            className="btn-lg"
+            text="Learn More"
+            href="/about"
+            ariaLabel="Learn More About OKTech"
+          />
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center justify-center lg:order-1 lg:-my-20">
+      <div class="mx-auto max-w-[50em]">
+        <StatsGrid client:visible stats={stats} />
+      </div>
     </div>
   </div>
 </Container>
