@@ -15,6 +15,7 @@ export type ExternalPhoto = {
   res?: [number, number][];
   corners?: string[];
   removed?: boolean;
+  instructional?: boolean;
 };
 
 export type ExternalPhotoJSON = {
@@ -57,7 +58,7 @@ export class PhotoService {
         if (!photosByEvent[eventId]) {
           photosByEvent[eventId] = [];
         }
-        photosByEvent[eventId].push(...batch.photos);
+        photosByEvent[eventId].push(...batch.photos.filter(photo => ! photo.instructional));
         assignedCount++;
 
         if (config.photoEventPatches[batch.timestamp]) {
