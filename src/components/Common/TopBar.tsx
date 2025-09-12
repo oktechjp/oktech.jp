@@ -57,7 +57,12 @@ export default function TopBar() {
   return (
     <div data-testid="top-bar" className="fixed top-0 z-50 w-full">
       <Container>
-        <div className={clsx("pt-4", showBackground ? "m-auto max-w-[60em]" : "-mx-2 lg:-mx-5")}>
+        <div
+          className={clsx(
+            "m-auto pt-6 transition-all duration-200",
+            showBackground ? "max-w-[20em] sm:max-w-[60em]" : "max-w-full",
+          )}
+        >
           <GlassCell
             showBackground={showBackground}
             testId="navbar-logo"
