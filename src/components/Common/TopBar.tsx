@@ -60,7 +60,7 @@ export default function TopBar() {
         <div
           className={clsx(
             "m-auto pt-6 transition-all duration-200",
-            showBackground ? "max-w-[20em] sm:max-w-[60em]" : "max-w-full",
+            showBackground ? "mx-10 sm:mx-20" : "-mx-2",
           )}
         >
           <GlassCell
