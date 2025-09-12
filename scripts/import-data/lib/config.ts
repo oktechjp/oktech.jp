@@ -142,9 +142,13 @@ export function getMapProviderConfig(
 }
 
 // Export data source URLs
-export function getDataUrls(commitHash: string) {
+export function getDataUrls(commitHash: string, customRepo?: string) {
+  const repo = customRepo || GITHUB_REPO;
+  const getRawUrl = (file: string) =>
+    `https://raw.githubusercontent.com/${repo}/${commitHash}/${file}`;
+
   return {
-    events: config.github.getRawUrl(commitHash, "events.json"),
-    photos: config.github.getRawUrl(commitHash, "photos.json"),
+    events: getRawUrl("events.json"),
+    photos: getRawUrl("photos.json"),
   };
 }

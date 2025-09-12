@@ -42,6 +42,10 @@ function showHelp(): void {
   logger.info(
     "  --overwrite-maps <theme>          Regenerate only light or dark maps (theme: light|dark)",
   );
+  logger.info(
+    "  --repo <owner/repo>               Use custom GitHub repository (default: oktechjp/public)",
+  );
+  logger.info("  --commit <sha>                    Use specific commit SHA instead of latest");
   logger.info("");
   logger.info("Clear Types:");
   logger.info("  markdown         Clear all markdown files (events and venues)");
@@ -86,7 +90,7 @@ async function handleImport(args: string[]): Promise<void> {
   const options = parseArgs(args);
 
   // Validate known options
-  const validOptions = ["overwrite-maps"];
+  const validOptions = ["overwrite-maps", "repo", "commit"];
   for (const key of Object.keys(options)) {
     if (!validOptions.includes(key)) {
       logger.error(`Unknown option: --${key}`);
@@ -94,6 +98,8 @@ async function handleImport(args: string[]): Promise<void> {
       logger.error("Valid options:");
       logger.error("  --overwrite-maps              - Regenerate all maps");
       logger.error("  --overwrite-maps <theme>      - Regenerate light or dark maps");
+      logger.error("  --repo <owner/repo>           - Use custom GitHub repository");
+      logger.error("  --commit <sha>                - Use specific commit SHA");
       logger.error("");
       logger.error("Use --help for more information");
       process.exit(1);
@@ -120,8 +126,14 @@ async function handleImport(args: string[]): Promise<void> {
     overwriteMaps = options["overwrite-maps"] as "light" | "dark";
   }
 
+  const importOptions = {
+    overwriteMaps,
+    customRepo: options["repo"] as string | undefined,
+    customCommit: options["commit"] as string | undefined,
+  };
+
   const importer = new Importer();
-  await importer.run({ overwriteMaps });
+  await importer.run(importOptions);
 }
 
 /**

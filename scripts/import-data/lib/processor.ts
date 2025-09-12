@@ -46,6 +46,7 @@ export type ExternalEvent = {
   topics: string[];
   venue: string;
   howToFindUs?: string;
+  linkedIn?: string;
 };
 
 export type ExternalVenue = {
@@ -200,6 +201,10 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
       frontmatter.howToFindUs = event.howToFindUs;
     }
 
+    if (event.linkedIn) {
+      frontmatter.linkedIn = event.linkedIn;
+    }
+
     return frontmatter;
   }
 
@@ -262,6 +267,10 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
 
     if (event.howToFindUs) {
       frontmatter.howToFindUs = event.howToFindUs;
+    }
+
+    if (event.linkedIn) {
+      frontmatter.linkedIn = event.linkedIn;
     }
 
     // Get body content
