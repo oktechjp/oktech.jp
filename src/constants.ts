@@ -172,7 +172,7 @@ export const SOCIALS = [
   },
   {
     icon: FaGithub,
-    href: "https://github.com/owddm/owddm.com",
+    href: "https://github.com/oktechjp/oktech.jp",
     label: "GitHub",
     description: "Our open-source projects and this website's source code",
   },
