@@ -28,6 +28,8 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^4.3.0",
     "@astrojs/rss": "^4.0.12",
+    "@fontsource-variable/martian-mono": "^5.2.6",
+    "@fontsource-variable/noto-sans-jp": "^5.2.7",
     "@fontsource/lexend": "^5.2.9",
     "@playwright/test": "^1.53.1",
     "@resvg/resvg-js": "^2.6.2",
@@ -37,7 +39,6 @@
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "animejs": "^4.1.2",
     "astro": "^5.13.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.43",
@@ -68,8 +69,9 @@
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.0",
-    "yet-another-react-lightbox": "^3.25.0",
-    "@fontsource-variable/martian-mono": "^5.2.6",
-    "@fontsource-variable/noto-sans-jp": "^5.2.7"
+    "yet-another-react-lightbox": "^3.25.0"
+  },
+  "dependencies": {
+    "@react-spring/web": "^10.0.2"
   }
 }

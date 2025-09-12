@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
-import { type JSAnimation, animate } from "animejs";
+import { animated, useSpring } from "@react-spring/web";
 
 interface ParallaxProps {
   children: ReactNode;
@@ -17,17 +17,19 @@ export default function Parallax({
   speed = 0.2,
 }: ParallaxProps) {
   const hostRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<JSAnimation | null>(null);
+
+  const [springs, api] = useSpring(() => ({
+    y: 0,
+    config: { mass: 1, tension: 280, friction: 120 },
+  }));
 
   useEffect(() => {
     const el = hostRef.current;
-    const contentEl = contentRef.current;
-    if (!el || !contentEl) return;
+    if (!el) return;
 
     let rafId: number | null = null;
     let latestScrollY = window.scrollY;
-    let lastApplied = -1; // last y we sent to anime
+    let lastApplied = -1; // last y we sent to spring
     let pageVisible = !document.hidden;
     let inViewport = true; // will be refined by IO below
 
@@ -43,14 +45,7 @@ export default function Parallax({
       if (Math.abs(offset - lastApplied) >= 0.5) {
         lastApplied = offset;
         // fire only if value changed enough
-        if (animationRef.current) {
-          animationRef.current.pause();
-        }
-        animationRef.current = animate(contentEl, {
-          translateY: offset,
-          duration: 400,
-          easing: "outQuad",
-        });
+        api.start({ y: offset });
       }
     };
 
@@ -102,22 +97,19 @@ export default function Parallax({
       io.disconnect();
       ro.disconnect();
       if (rafId != null) cancelAnimationFrame(rafId);
-      if (animationRef.current) {
-        animationRef.current.pause();
-      }
     };
-  }, [maxOffset, speed]);
+  }, [api, maxOffset, speed]);
 
   return (
     <div ref={hostRef} className={`relative ${className}`}>
-      <div
-        ref={contentRef}
+      <animated.div
         style={{
+          transform: springs.y.to((y) => `translate3d(0, ${y}px, 0)`),
           willChange: "transform",
         }}
       >
         {children}
-      </div>
+      </animated.div>
     </div>
   );
 }
