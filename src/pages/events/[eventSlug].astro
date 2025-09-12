@@ -8,6 +8,7 @@ import EventImageBig from "@/components/Event/EventImageBig";
 import LocationCardEvent from "@/components/Common/LocationCardEvent";
 import EventTags from "@/components/Event/EventTags";
 import EventProjectorButton from "@/components/Event/EventProjectorButton";
+import EventRSVPAlert from "@/components/Event/EventRSVPAlert";
 
 export async function getStaticPaths() {
   const events = await getEvents();
@@ -25,6 +26,9 @@ const event = await getEvent(eventSlug);
 ---
 
 <SidebarPageLayout>
+  <Fragment slot="before-layout">
+    <EventRSVPAlert event={event} client:visible />
+  </Fragment>
   <Fragment slot="sidebar">
     <LocationCardEvent event={event} client:load />
   </Fragment>

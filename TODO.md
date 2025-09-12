@@ -1,9 +1,8 @@
 ## vNow - fixes/refactoring
 
-- Smoother parralax?
-- Refactor SEO, sitemap, og cache, utils
 - Fix projector on mobile, Better mobile projector view button
-- Update github link (owddm -> oktech)
+- Refactor SEO, sitemap, og cache, utils
+- Sign up to figma
 
 ## Docs
 
@@ -12,6 +11,7 @@
 ## Pending Theme
 
 - COLORS
+- Rejig the header
 - Update OG Image template
 - Try making a nice theme.
 - When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
