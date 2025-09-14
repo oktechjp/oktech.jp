@@ -31,6 +31,7 @@
     "@fontsource-variable/noto-sans-jp": "^5.2.7",
     "@fontsource/lexend": "^5.2.9",
     "@playwright/test": "^1.53.1",
+    "@react-spring/web": "^10.0.2",
     "@resvg/resvg-js": "^2.6.2",
     "@rollup/plugin-yaml": "^4.1.2",
     "@tailwindcss/typography": "^0.5.16",
@@ -68,7 +69,6 @@
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.0",
-    "yet-another-react-lightbox": "^3.25.0",
-    "@react-spring/web": "^10.0.2"
+    "yet-another-react-lightbox": "^3.25.0"
   }
 }

@@ -6,6 +6,7 @@ import SEO from "./SEO.astro";
 import { ClientRouter } from "astro:transitions";
 import ThemeEditor from "@/components/DevTools/ThemeEditor";
 import DynamicFavicon from "@/components/Common/DynamicFavicon";
+import NavigationProgress from "@/components/Common/NavigationProgress";
 
 // Variable fonts - includes all weights
 import "@fontsource-variable/noto-sans-jp";
@@ -61,6 +62,7 @@ import "@fontsource-variable/martian-mono";
   </head>
   <body class="bg-base-100">
     <ClientRouter />
+    <NavigationProgress client:only="react" />
     <ThemeEditor client:only="react" />
     <DynamicFavicon client:only="react" />
     <slot />

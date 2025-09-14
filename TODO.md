@@ -1,8 +1,6 @@
 ## vNow - fixes/refactoring
 
-- Fix projector on mobile, Better mobile projector view button
 - Refactor SEO, sitemap, og cache, utils
-- Progress bar / nav indicator for oktech site
 - Fix too much caching / memo in dev mode.
 
 ## Docs
@@ -12,6 +10,7 @@
 ## Pending Evey's new Design
 
 - COLORS
+- Projector styling
 - Rejig the header
 - OG images
 - Update OG Image template
@@ -60,3 +59,7 @@
 - OG images
 - Astro and React Pain
 - Claude
+- Hover peresitance on mobile
+- Blob saga
+- Explain client:only="react" and other astro directives
+- `<TopBar client:load transition:persist="topbar" />`
