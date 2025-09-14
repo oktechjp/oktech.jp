@@ -2,23 +2,24 @@
 
 - Fix projector on mobile, Better mobile projector view button
 - Refactor SEO, sitemap, og cache, utils
-- Sign up to figma
+- Progress bar / nav indicator for oktech site
+- Fix too much caching / memo in dev mode.
 
 ## Docs
 
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
 
-## Pending Theme
+## Pending Evey's new Design
 
 - COLORS
 - Rejig the header
+- OG images
 - Update OG Image template
 - Try making a nice theme.
 - When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
 
 ## New Features
 
-- Redirect / Meetup / Share Link?
 - Static Links to files within markdown links.
 
 ## Release
@@ -28,6 +29,7 @@
 ## Later?
 
 - Preview builds for PRs
+- Random mode okat tech album
 - Fade in / out 'Greeting'
 - Random blob on hover
 - Nice projector view
@@ -52,6 +54,7 @@
 
 ## Presnetation Topic Ideazs
 
+- Workflows
 - Content Collections
 - The SVGs
 - OG images

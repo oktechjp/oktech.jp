@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import type { EventEnriched } from "@/content";
 
-import EventCardCountdown from "./EventCardCountdown";
+import EventCountdown from "./EventCountdown";
 
 type Variant = "compact" | "polaroid" | "big";
 
@@ -30,7 +30,7 @@ export default memo(function EventCardImage({ event, variant, first, last }: Eve
       {/* {JSON.stringify({ first, last })} */}
       {variant !== "compact" && (
         <div className="absolute top-3 left-3">
-          <EventCardCountdown event={event} />
+          <EventCountdown event={event} />
         </div>
       )}
       <figure

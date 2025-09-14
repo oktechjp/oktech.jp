@@ -1,6 +1,9 @@
+"use client";
+
 import { LuCalendarCheck, LuTicket } from "react-icons/lu";
 
 import Alert from "@/components/Common/Alert";
+import EventCountdown from "@/components/Common/EventCountdown";
 import { MEETUP_EVENT_URL } from "@/constants";
 import type { EventEnriched } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";
@@ -20,7 +23,18 @@ export default function EventRSVPAlert({ event }: EventRSVPAlertProps) {
   return (
     <Alert
       icon={<LuCalendarCheck />}
-      message="This event is starting soon! Reserve your spot now on Meetup.com before it's too late."
+      message={
+        <div className="flex flex-wrap">
+          <div className="mr-4 text-xl">
+            This event{" "}
+            <b>
+              <EventCountdown event={event} asString capitalize={false} />
+            </b>
+            !
+          </div>
+          <div>Reserve your spot now on Meetup.com before it's too late.</div>
+        </div>
+      }
       ctaText="RSVP Now"
       ctaHref={meetupUrl}
       ctaIcon={<LuTicket />}

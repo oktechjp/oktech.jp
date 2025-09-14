@@ -5,7 +5,7 @@ import { LuX } from "react-icons/lu";
 
 interface AlertProps {
   icon?: ReactNode;
-  message: string;
+  message: string | ReactNode;
   ctaText?: string;
   ctaHref?: string;
   ctaIcon?: ReactNode;

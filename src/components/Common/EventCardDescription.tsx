@@ -7,7 +7,7 @@ import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
 import CityBadge from "./CityBadge";
-import EventCardCountdown from "./EventCardCountdown";
+import EventCountdown from "./EventCountdown";
 
 type Variant = "compact" | "polaroid" | "big";
 
@@ -47,7 +47,7 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
       )}
     >
       {variant === "compact" && (
-        <EventCardCountdown
+        <EventCountdown
           event={event}
           className="badge-md"
           wrapper={(content) => <InfoItem variant={variant}>{content}</InfoItem>}

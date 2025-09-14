@@ -38,16 +38,16 @@ const event = await getEvent(eventSlug);
     <div class="flex flex-col gap-6 lg:hidden">
       <LocationCardEvent event={event} horizontal client:load />
     </div>
-    <div class="group mt-12 mb-6 text-4xl">
-      <h1 class="inline">
+    <div class="mt-12 mb-6 text-4xl">
+      <h1>
         {event.data.title}
       </h1>
-      <div class="inline-block opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <EventProjectorButton event={event} client:visible />
-      </div>
     </div>
     <EventTags tags={event.data.topics} />
     <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
+    <div class="mt-6">
+      <EventProjectorButton event={event} client:visible />
+    </div>
   </Fragment>
 
   <Fragment slot="after-content">
