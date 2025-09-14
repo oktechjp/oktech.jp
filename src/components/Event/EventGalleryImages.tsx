@@ -1,43 +1,24 @@
 import "react-photo-album/rows.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import "yet-another-react-lightbox/styles.css";
 
 import { useMemo, useState } from "react";
 
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuImageOff,
-  LuMaximize,
-  LuMinimize,
-  LuPause,
-  LuPlay,
-  LuX,
-  LuZoomIn,
-  LuZoomOut,
-} from "react-icons/lu";
+import { LuImageOff } from "react-icons/lu";
 import { RowsPhotoAlbum } from "react-photo-album";
 import SSR from "react-photo-album/ssr";
-import Lightbox from "yet-another-react-lightbox";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-import Container from "@/components/Common/Container";
+import EventGalleryLightbox from "@/components/Event/EventGalleryLightbox";
 import type { EventEnriched, GalleryImage } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";
-import { formatDate } from "@/utils/formatDate";
 
 interface Props {
   event: EventEnriched;
   class?: string;
 }
 
-// Helper function to transform images for gallery and lightbox
-const transformImages = (images: GalleryImage[], useFullResolution: boolean = false) => {
+// Helper function to transform images for gallery
+const transformImagesForGallery = (images: GalleryImage[]) => {
   return images.map((img) => {
-    const imageData = useFullResolution ? img.full : img.thumbnail;
+    const imageData = img.thumbnail;
 
     // Extract srcSet items for responsive images
     const srcSetItems = imageData.srcSet
@@ -53,7 +34,7 @@ const transformImages = (images: GalleryImage[], useFullResolution: boolean = fa
 
     const { width, height } = img.dimensions;
 
-    const baseProps = {
+    return {
       src: imageData.src,
       width,
       height,
@@ -63,23 +44,9 @@ const transformImages = (images: GalleryImage[], useFullResolution: boolean = fa
         width: item.width,
         height: Math.round(item.width * (height / width)),
       })),
+      key: img.id,
+      title: img.data.caption || "",
     };
-
-    if (useFullResolution) {
-      // Lightbox-specific properties
-      return {
-        ...baseProps,
-        title: "", // We'll handle title/date in custom overlay
-        description: img.data.caption || "",
-      };
-    } else {
-      // Gallery-specific properties
-      return {
-        ...baseProps,
-        key: img.id,
-        title: img.data.caption || "",
-      };
-    }
   });
 };
 
@@ -92,12 +59,7 @@ export default function EventGalleryImages({ event }: Props) {
   const isUpcoming = isEventUpcoming(event);
 
   // Transform images for react-photo-album
-  const thumbs = useMemo(() => transformImages(reversedImages, false), [reversedImages]);
-
-  // Transform images for lightbox with full resolution
-  const slides = useMemo(() => transformImages(reversedImages, true), [reversedImages]);
-
-  // Format the event date and title for the overlay
+  const thumbs = useMemo(() => transformImagesForGallery(reversedImages), [reversedImages]);
 
   if (isUpcoming || galleryImages.length === 0) {
     return (
@@ -137,69 +99,13 @@ export default function EventGalleryImages({ event }: Props) {
           </SSR>
         </div>
       </div>
-      <Lightbox
-        open={selectedIndex !== null}
-        index={selectedIndex || 0}
-        close={() => setSelectedIndex(null)}
-        slides={slides}
-        plugins={[Fullscreen, Slideshow, Thumbnails, Zoom]}
-        thumbnails={{
-          position: "bottom",
-          imageFit: "cover",
-          width: 100,
-          height: 100,
-          border: 0,
-          borderRadius: 16,
-          padding: 0,
-          vignette: true,
-        }}
-        slideshow={{
-          autoplay: false,
-          delay: 3000,
-        }}
-        zoom={{
-          maxZoomPixelRatio: 5,
-          scrollToZoom: true,
-          wheelZoomDistanceFactor: 500,
-        }}
-        carousel={{
-          finite: false,
-          preload: 10,
-          imageFit: "contain",
-          imageProps: {
-            loading: "eager",
-          },
-        }}
-        controller={{
-          closeOnBackdropClick: true,
-          closeOnPullDown: true,
-          closeOnPullUp: true,
-        }}
-        render={{
-          iconPrev: () => <LuChevronLeft size={36} className="text-white text-shadow-black" />,
-          iconNext: () => <LuChevronRight size={36} className="text-white text-shadow-black" />,
-          iconClose: () => <LuX size={24} className="text-white text-shadow-black" />,
-          iconZoomIn: () => <LuZoomIn size={24} className="text-white text-shadow-black" />,
-          iconZoomOut: () => <LuZoomOut size={24} className="text-white text-shadow-black" />,
-          iconEnterFullscreen: () => (
-            <LuMaximize size={24} className="text-white text-shadow-black" />
-          ),
-          iconExitFullscreen: () => (
-            <LuMinimize size={24} className="text-white text-shadow-black" />
-          ),
-          iconSlideshowPause: () => <LuPause size={24} className="text-white text-shadow-black" />,
-          iconSlideshowPlay: () => <LuPlay size={24} className="text-white text-shadow-black" />,
-          controls: () => (
-            <div className="absolute right-0 bottom-0 left-0 z-0 bg-gradient-to-t from-black to-transparent">
-              <Container>
-                <div className="flex flex-wrap items-baseline justify-between gap-2 pt-16 pb-6 text-white text-shadow-black">
-                  <div className="font-header mr-4 text-2xl font-bold">{event.data.title}</div>
-                  <div className="text-lg">{formatDate(event.data.dateTime, "long")}</div>
-                </div>
-              </Container>
-            </div>
-          ),
-        }}
+      <EventGalleryLightbox
+        event={event}
+        images={reversedImages}
+        isOpen={selectedIndex !== null}
+        initialIndex={selectedIndex || 0}
+        onClose={() => setSelectedIndex(null)}
+        autoplay={false}
       />
     </>
   );

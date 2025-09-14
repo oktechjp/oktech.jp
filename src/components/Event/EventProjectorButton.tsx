@@ -22,7 +22,7 @@ export default function EventProjectorButton({ event }: EventProjectorButtonProp
         className="btn"
         aria-label="Open projector view"
         tooltip="Projector view"
-        tooltipPosition="top"
+        tooltipPosition="right"
       >
         <LuProjector className="h-5 w-5" />
       </TooltipButton>
