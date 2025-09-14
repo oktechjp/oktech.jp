@@ -90,7 +90,7 @@ function generateModule() {
   const output = `// Auto-generated from src/styles/themes.css
 // Run: npm run extract-themes
 
-export const themeColors = ${JSON.stringify(themeHex, null, 2)} as const;
+export const themeColorsHex = ${JSON.stringify(themeHex, null, 2)} as const;
 `;
 
   const outputPath = join(process.cwd(), "src/utils/og/theme-colors.ts");

@@ -4,7 +4,6 @@ import { SITE } from "@/constants";
 import { resolveInternalHref } from "@/utils/urlResolver";
 import SEO from "./SEO.astro";
 import { ClientRouter } from "astro:transitions";
-import ThemeEditor from "@/components/DevTools/ThemeEditor";
 import DynamicFavicon from "@/components/Common/DynamicFavicon";
 import NavigationProgress from "@/components/Common/NavigationProgress";
 
@@ -63,7 +62,6 @@ import "@fontsource-variable/martian-mono";
   <body class="bg-base-100">
     <ClientRouter />
     <NavigationProgress client:only="react" />
-    <ThemeEditor client:only="react" />
     <DynamicFavicon client:only="react" />
     <slot />
   </body>

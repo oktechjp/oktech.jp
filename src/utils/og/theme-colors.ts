@@ -30,7 +30,7 @@ export const themeColorsHex = {
     "base-300": "#e7e2df",
     baseContent: "#291334",
     primary: "#4bc9aa",
-    primaryContent: "#1f5e4e",
+    primaryContent: "#002920",
     secondary: "#e9d4ff",
     secondaryContent: "#6b0bad",
     accent: "#ffd6a7",
