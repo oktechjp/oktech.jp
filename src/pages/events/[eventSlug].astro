@@ -1,6 +1,6 @@
 ---
 import { getEvents, getEvent } from "@/content";
-import EventLinks from "@/components/Event/EventLinks";
+import EventAttachments from "@/components/Event/EventAttachments";
 import EventGallery from "@/components/Event/EventGallery";
 import SidebarPageLayout from "@/layouts/SidebarPageLayout.astro";
 import MarkdownContent from "@/components/Common/MarkdownContent.astro";
@@ -51,7 +51,7 @@ const event = await getEvent(eventSlug);
   </Fragment>
 
   <Fragment slot="after-content">
-    <EventLinks event={event} />
+    <EventAttachments event={event} />
     <EventGallery event={event} client:visible />
   </Fragment>
 </SidebarPageLayout>
