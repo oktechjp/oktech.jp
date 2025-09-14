@@ -3,6 +3,7 @@ import { memo } from "react";
 import clsx from "clsx";
 
 import type { EventEnriched } from "@/content";
+import { isEventUpcoming } from "@/utils/eventFilters";
 
 import EventCountdown from "./EventCountdown";
 
@@ -28,7 +29,7 @@ export default memo(function EventCardImage({ event, variant, first, last }: Eve
       )}
     >
       {/* {JSON.stringify({ first, last })} */}
-      {variant !== "compact" && (
+      {variant !== "compact" && isEventUpcoming(event) && (
         <div className="absolute top-3 left-3">
           <EventCountdown event={event} />
         </div>

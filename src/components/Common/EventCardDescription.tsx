@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { LuArrowUpRight, LuBuilding2, LuCalendar, LuClock } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
+import { isEventUpcoming } from "@/utils/eventFilters";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
 import CityBadge from "./CityBadge";
@@ -46,7 +47,7 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
         variant === "big" && "flex-col gap-2 sm:text-lg",
       )}
     >
-      {variant === "compact" && (
+      {variant === "compact" && isEventUpcoming(event) && (
         <EventCountdown
           event={event}
           className="badge-md"
