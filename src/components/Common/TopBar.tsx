@@ -70,7 +70,7 @@ export default function TopBar() {
           >
             <Link
               href="/"
-              className="group btn btn-glass sm:btn-lg md:btn-xl rounded-field opacity-90 transition-opacity hover:opacity-100 active:opacity-90"
+              className="group btn btn-glass sm:btn-lg md:btn-xl rounded-field"
               data-astro-prefetch
             >
               <div className="-mr-1 -ml-2">
@@ -87,10 +87,7 @@ export default function TopBar() {
                   data-astro-prefetch
                   className={clsx(
                     "btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field font-bold",
-                    "opacity-90 transition-opacity hover:opacity-100 active:opacity-90",
-                    // "-mr-1 -ml-1",
                     i > 0 && "-ml-2",
-                    // i === items.length - 1 && "-mr-0",
                   )}
                 >
                   {item.label}

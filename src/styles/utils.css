@@ -14,7 +14,12 @@
 
 .btn-glass {
   @apply bg-base-100/0 border-none shadow-none;
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-base-100/90;
+    }
+  }
+  &:active {
     @apply bg-base-100/90;
   }
 }
