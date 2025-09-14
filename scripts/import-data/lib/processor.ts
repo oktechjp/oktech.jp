@@ -46,7 +46,7 @@ export type ExternalEvent = {
   topics: string[];
   venue: string;
   howToFindUs?: string;
-  linkedIn?: string;
+  links?: Record<string, string>;
 };
 
 export type ExternalVenue = {
@@ -201,8 +201,22 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
       frontmatter.howToFindUs = event.howToFindUs;
     }
 
-    if (event.linkedIn) {
-      frontmatter.linkedIn = event.linkedIn;
+    // Handle links structure
+    if (event.links) {
+      // Validate known link types
+      const knownLinkTypes = ["linkedIn", "luma", "discord"];
+      for (const key of Object.keys(event.links)) {
+        if (key === "meetup") {
+          logger.warn(
+            `Event ${event.id} has "meetup" in links object. Meetup URLs should be generated from meetupId field instead.`,
+          );
+        } else if (!knownLinkTypes.includes(key)) {
+          logger.warn(
+            `Unknown link type "${key}" in event ${event.id}. Consider adding it to the presets.`,
+          );
+        }
+      }
+      frontmatter.links = event.links;
     }
 
     return frontmatter;
@@ -269,8 +283,22 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
       frontmatter.howToFindUs = event.howToFindUs;
     }
 
-    if (event.linkedIn) {
-      frontmatter.linkedIn = event.linkedIn;
+    // Handle links structure
+    if (event.links) {
+      // Validate known link types
+      const knownLinkTypes = ["linkedIn", "luma", "discord"];
+      for (const key of Object.keys(event.links)) {
+        if (key === "meetup") {
+          logger.warn(
+            `Event ${event.id} has "meetup" in links object. Meetup URLs should be generated from meetupId field instead.`,
+          );
+        } else if (!knownLinkTypes.includes(key)) {
+          logger.warn(
+            `Unknown link type "${key}" in event ${event.id}. Consider adding it to the presets.`,
+          );
+        }
+      }
+      frontmatter.links = event.links;
     }
 
     // Get body content

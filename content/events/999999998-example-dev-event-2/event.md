@@ -14,6 +14,34 @@ meetupId: 999999998
 group: 15632202
 venue: 999999996
 howToFindUs: "Enter through the main entrance and follow the neon arrows to the Innovation Hub on the 7th floor. The venue is located right next to the coffee bar. Look for the OK Tech signs and friendly volunteers wearing bright orange t-shirts!"
+links:
+  luma: https://lu.ma/oktechtest2025
+  discord: https://discord.gg/oktech-test
+attachments:
+  - icon: slides
+    title: React Presentation Slides
+    description: The presentation slides from the talk about React hooks and performance
+    url: https://example.com/react-slides
+  - icon: github
+    title: Code Examples Repository
+    description: All the code examples shown during the presentation
+    url: https://github.com/example/react-demo
+  - icon: youtube
+    title: Recording on YouTube
+    description: Full recording of the presentation
+    url: https://youtube.com/watch?v=example
+  - icon: docs
+    title: React Documentation
+    description: Official React documentation for hooks
+    url: https://react.dev/reference/react
+  - icon: blog
+    title: Follow-up Blog Post
+    description: Detailed blog post covering the key points from the talk
+    url: https://example.com/blog/react-performance
+  - icon: tutorial
+    title: Interactive Tutorial
+    description: Step-by-step tutorial to practice what was covered
+    url: https://example.com/tutorial/react-hooks
 ---
 
 **This is a test event that only appears in development mode.**

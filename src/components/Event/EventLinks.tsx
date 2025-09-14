@@ -1,19 +1,22 @@
 import SimpleSection from "@/components/Common/SimpleSection";
+import type { EventEnriched } from "@/content/events";
 
 import EventLinkCard from "./EventLinkCard";
 
 export interface EventLink {
-  type: string;
+  icon: string;
   title: string;
   description?: string;
   url: string;
 }
 
 interface Props {
-  links: EventLink[];
+  event: EventEnriched;
 }
 
-export default function EventLinks({ links }: Props) {
+export default function EventLinks({ event }: Props) {
+  const links = event.data.attachments || [];
+
   if (links.length === 0) {
     return null;
   }

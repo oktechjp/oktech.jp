@@ -1,8 +1,34 @@
-import { LuLink } from "react-icons/lu";
+import { type IconType } from "react-icons";
+import { FaGithub, FaYoutube } from "react-icons/fa6";
+import {
+  LuBook,
+  LuCode,
+  LuFileText,
+  LuGraduationCap,
+  LuLink,
+  LuPresentation,
+  LuVideo,
+} from "react-icons/lu";
+
+// Icon presets for common attachment types
+const ICON_PRESETS: Record<string, IconType> = {
+  slides: LuPresentation,
+  presentation: LuPresentation,
+  github: FaGithub,
+  code: LuCode,
+  video: LuVideo,
+  youtube: FaYoutube,
+  documentation: LuBook,
+  docs: LuBook,
+  blog: LuFileText,
+  article: LuFileText,
+  tutorial: LuGraduationCap,
+  course: LuGraduationCap,
+};
 
 interface EventLinkCardProps {
   link: {
-    type: string;
+    icon: string;
     title: string;
     description?: string;
     url: string;
@@ -10,6 +36,9 @@ interface EventLinkCardProps {
 }
 
 export default function EventLinkCard({ link }: EventLinkCardProps) {
+  // Get icon from presets or use default link icon
+  const Icon = ICON_PRESETS[link.icon] || LuLink;
+
   return (
     <a
       href={link.url}
@@ -20,7 +49,7 @@ export default function EventLinkCard({ link }: EventLinkCardProps) {
       <div className="card-body">
         <div className="flex items-start gap-4">
           <div className="text-primary">
-            <LuLink size={32} />
+            <Icon size={32} />
           </div>
           <div className="flex-1">
             <h3 className="card-title text-lg">{link.title}</h3>

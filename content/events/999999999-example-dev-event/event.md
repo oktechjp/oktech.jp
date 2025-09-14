@@ -14,6 +14,9 @@ meetupId: 999999999
 group: 15632202
 venue: 999999997
 howToFindUs: "Take the quantum elevator to floor 42. Look for the holographic OK Tech banner floating near the neural interface lounge. If you get lost, just think about the venue and our AI guide will telepathically direct you!"
+links:
+  linkedIn: https://www.linkedin.com/events/test-event-7354435879374897152/
+  customWebsite: https://example.com/oktech-event
 ---
 
 **This is a test event that only appears in development mode.**
