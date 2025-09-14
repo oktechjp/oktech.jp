@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import { animate, createScope, createSpring, svg, utils } from "animejs";
+import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
 
 interface Props {
@@ -11,58 +11,32 @@ interface Props {
 }
 
 export default function BlobMask({ id, blobPath, className = "", children }: Props) {
-  const stiffness = 180;
-  const damping = 9;
-  const mass = 0.8;
   const clipPathUnits = "objectBoundingBox";
   const offset = { x: 0.05, y: 0.05 };
   const maskId = `blob-mask-${id}`;
   const scale = 1 / 110;
   const transform = `translate(${offset.x} ${offset.y}) scale(${scale})`;
 
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const pathRef = useRef<SVGPathElement | null>(null);
-  const tmpTargetRef = useRef<SVGPathElement | null>(null);
-  const initialPathRef = useRef<string | null>(null);
+  const [currentPath, setCurrentPath] = useState(blobPath);
 
-  // Scope Anime to the hidden SVG (no wrapper div)
+  const springs = useSpring({
+    from: { d: currentPath },
+    to: { d: blobPath },
+    config: { mass: 0.8, tension: 180, friction: 9 },
+    onChange: ({ value }) => {
+      if (value.d !== currentPath) {
+        setCurrentPath(value.d as string);
+      }
+    },
+  });
+
   useEffect(() => {
-    if (!svgRef.current) return;
-    const scope = createScope({ root: svgRef });
-    return () => {
-      scope.revert();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!pathRef.current || !tmpTargetRef.current) return;
-
-    // Store initial path on first render
-    if (initialPathRef.current === null) {
-      initialPathRef.current = blobPath;
-      return;
-    }
-
-    // Update hidden target for morphTo
-    utils.set(tmpTargetRef.current, { d: blobPath });
-
-    const spring = createSpring({ stiffness, damping, mass });
-
-    const controls = animate(pathRef.current, {
-      d: [{ to: svg.morphTo(tmpTargetRef.current), ease: spring }],
-      // You can optionally tweak these to affect stop conditions:
-      // restSpeed: 0.001, restDelta: 0.001
-    });
-
-    return () => {
-      controls.cancel();
-    };
-  }, [blobPath, stiffness, damping, mass]);
+    setCurrentPath(blobPath);
+  }, [blobPath]);
 
   return (
     <>
       <svg
-        ref={svgRef}
         width="0"
         height="0"
         style={{ position: "absolute", width: 0, height: 0 }}
@@ -71,16 +45,8 @@ export default function BlobMask({ id, blobPath, className = "", children }: Pro
         <defs>
           <clipPath id={maskId} clipPathUnits={clipPathUnits}>
             {/* animated path (scaled into 0–1 space) */}
-            <path ref={pathRef} d={initialPathRef.current || blobPath} transform={transform} />
+            <animated.path d={springs.d} transform={transform} />
           </clipPath>
-
-          {/* hidden morph target with same transform */}
-          <path
-            ref={tmpTargetRef}
-            d={initialPathRef.current || blobPath}
-            transform={transform}
-            style={{ display: "none" }}
-          />
         </defs>
       </svg>
 

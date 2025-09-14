@@ -57,8 +57,17 @@ export default function TopBar() {
   return (
     <div data-testid="top-bar" className="fixed top-0 z-50 w-full">
       <Container>
-        <div className="-mx-2 flex items-start justify-between pt-4 sm:-mx-2 lg:-mx-5">
-          <GlassCell showBackground={showBackground} testId="navbar-logo">
+        <div
+          className={clsx(
+            "m-auto pt-6 transition-all duration-200",
+            showBackground ? "mx-10 sm:mx-20" : "-mx-2",
+          )}
+        >
+          <GlassCell
+            showBackground={showBackground}
+            testId="navbar-logo"
+            className="flex w-full justify-between"
+          >
             <Link
               href="/"
               className="group btn btn-glass sm:btn-lg md:btn-xl rounded-field opacity-90 transition-opacity hover:opacity-100 active:opacity-90"
@@ -68,8 +77,8 @@ export default function TopBar() {
                 <Brand active={logoActive} className="w-28 sm:w-32 md:w-42" />
               </div>
             </Link>
-          </GlassCell>
-          <GlassCell showBackground={showBackground} testId="navbar-menu">
+            {/* </GlassCell>
+          <GlassCell showBackground={showBackground} testId="navbar-menu"> */}
             <div className="flex items-center">
               {items.map((item, i) => (
                 <Link

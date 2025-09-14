@@ -1,17 +1,8 @@
 ## vNow - fixes/refactoring
 
-- Add base 100 to hero
-- Fix RGB
+- Fix projector on mobile, Better mobile projector view button
 - Refactor SEO, sitemap, og cache, utils
-- Squash the git history.
-- Fix projector on mobile
-- Update github link
-- Martial font mono
-- List of people in photos
-- ICS bug with trailing slash
-- Better mobile projector view button
-- use notosans jp for all pages
-- markdown
+- Sign up to figma
 
 ## Docs
 
@@ -19,20 +10,30 @@
 
 ## Pending Theme
 
+- COLORS
+- Rejig the header
 - Update OG Image template
 - Try making a nice theme.
 - When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
 
+## New Features
+
+- Redirect / Meetup / Share Link?
+- Static Links to files within markdown links.
+
+## Release
+
+- Squash the git history.
+
 ## Later?
 
+- Preview builds for PRs
 - Fade in / out 'Greeting'
 - Random blob on hover
 - Nice projector view
 - Album gallery that randomly shows all the images
 - hide the chrome in the gallery lightbox when in fullscreen
 - fade between slides in gallery mode.
-- implement evey's grid
-- Prettier touches like asanhoa / squares
 - Create a plan for cancelled events logic.
 - Article for about History.
 - Thank you section on about
@@ -48,3 +49,11 @@
 - Add interactive japan map somewhere, with heatmap of all the event locations.
 - Tree shaking animejs ?
 - Backlog Idea: maybe add the event date to the URL so its easier to see in links how old events are.
+
+## Presnetation Topic Ideazs
+
+- Content Collections
+- The SVGs
+- OG images
+- Astro and React Pain
+- Claude

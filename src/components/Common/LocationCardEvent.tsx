@@ -5,7 +5,7 @@ import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
 import AddToCalendarDropdown from "../Event/EventCalendarDropdown";
-import EventJoinButton from "../Event/EventJoinButton";
+import EventSocialButtons from "../Event/EventSocialButtons";
 import LocationCard from "./LocationCard";
 
 export default function LocationCardEvent({
@@ -30,9 +30,7 @@ export default function LocationCardEvent({
       }
       below={
         <div className={clsx("flex gap-6", horizontal ? "flex-col sm:flex-row" : "flex-col")}>
-          <div className="w-full">
-            <EventJoinButton event={event} />
-          </div>
+          <EventSocialButtons event={event} />
           <div className="w-full">
             <AddToCalendarDropdown event={event} />
           </div>

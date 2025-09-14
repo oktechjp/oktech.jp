@@ -76,6 +76,7 @@ export const eventsCollection = defineCollection({
         topics: frontmatter.topics as string[] | undefined,
         howToFindUs: frontmatter.howToFindUs as string | undefined,
         meetupId: frontmatter.meetupId as number | undefined,
+        linkedIn: frontmatter.linkedIn as string | undefined,
       };
     });
   },
@@ -93,6 +94,7 @@ export const eventsCollection = defineCollection({
       topics: z.array(z.string()).optional(),
       howToFindUs: z.string().optional(),
       meetupId: z.number().optional(),
+      linkedIn: z.string().optional(),
     }),
 });
 

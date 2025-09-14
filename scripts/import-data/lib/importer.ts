@@ -195,9 +195,11 @@ export class Importer {
   async run(
     options: {
       overwriteMaps?: boolean | "light" | "dark";
+      customRepo?: string;
+      customCommit?: string;
     } = {},
   ): Promise<void> {
-    const { overwriteMaps = false } = options;
+    const { overwriteMaps = false, customRepo, customCommit } = options;
 
     // Log options
     if (overwriteMaps === true) {
@@ -206,14 +208,33 @@ export class Importer {
       logger.info(`Map overwrite mode enabled for ${overwriteMaps} theme only`);
     }
 
-    // Fetch commit info
+    if (customRepo) {
+      logger.info(`Using custom repository: ${customRepo}`);
+    }
+
+    if (customCommit) {
+      logger.info(`Using custom commit: ${customCommit}`);
+    }
+
+    // Fetch commit info or use custom commit
     logger.section("Fetching Repository Info");
-    const commitInfo = await this.github.getLatestCommit();
-    logger.info(`Latest commit: ${commitInfo.sha}`);
-    logger.info(`Commit date: ${commitInfo.date}`);
+    let commitInfo: { sha: string; date: string };
+
+    if (customCommit) {
+      // Use provided commit SHA
+      commitInfo = {
+        sha: customCommit,
+        date: new Date().toISOString(), // Use current date for custom commit
+      };
+      logger.info(`Using custom commit: ${commitInfo.sha}`);
+    } else {
+      commitInfo = await this.github.getLatestCommit(customRepo);
+      logger.info(`Latest commit: ${commitInfo.sha}`);
+      logger.info(`Commit date: ${commitInfo.date}`);
+    }
 
     // Get data URLs
-    const urls = getDataUrls(commitInfo.sha);
+    const urls = getDataUrls(commitInfo.sha, customRepo);
 
     // Fetch data
     logger.section("Fetching Data");

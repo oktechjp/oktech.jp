@@ -10,6 +10,10 @@ export const DEV_MODE = process.env.NODE_ENV === "development";
 // Maximum width for images (they will be resized if larger during import)
 export const MAX_IMAGE_WIDTH = 1920;
 
+// Meetup.com URLs
+export const MEETUP_BASE_URL = "https://www.meetup.com/osaka-web-designers-and-developers-meetup";
+export const MEETUP_EVENT_URL = `${MEETUP_BASE_URL}/events`;
+
 const shortName = "OKTech";
 const longName = "Technology Meetup Group in Osaka, Kyoto, Kansai";
 const name = `${shortName} - ${longName}`;
@@ -172,7 +176,7 @@ export const SOCIALS = [
   },
   {
     icon: FaGithub,
-    href: "https://github.com/owddm/owddm.com",
+    href: "https://github.com/oktechjp/oktech.jp",
     label: "GitHub",
     description: "Our open-source projects and this website's source code",
   },

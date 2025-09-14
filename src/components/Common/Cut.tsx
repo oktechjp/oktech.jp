@@ -23,6 +23,8 @@ export default function Cut({
   pattern?: Patterns;
   patternClass?: string;
 }) {
+  const disabled = true;
+
   const cutSize = "5rem"; // Base cut height (32px)
 
   // Default to both if no props are passed
@@ -47,6 +49,10 @@ export default function Cut({
   };
 
   const cutClasses = [showTop && `-top-[5rem]`, showBottom && `-bottom-[4rem]`];
+
+  if (disabled) {
+    return <div className={clsx("relative", className)}>{children}</div>;
+  }
 
   return (
     <div className={clsx("relative", className)}>

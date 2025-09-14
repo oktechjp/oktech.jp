@@ -60,9 +60,10 @@ export class GitHubService {
   /**
    * Get the latest commit information for the main branch
    */
-  async getLatestCommit(): Promise<{ sha: string; date: string }> {
+  async getLatestCommit(customRepo?: string): Promise<{ sha: string; date: string }> {
     try {
-      const url = config.github.getApiUrl("/commits/main");
+      const repo = customRepo || config.github.repo;
+      const url = `https://api.github.com/repos/${repo}/commits/main`;
       const data = await this.fetchJSON<any>(url);
 
       return {

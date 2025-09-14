@@ -9,6 +9,7 @@ export type SimpleSectionProps = {
   wide?: boolean;
   grid?: boolean;
   children?: React.ReactNode;
+  textAlign?: string;
   subTitle?: string | React.ReactNode;
   className?: string;
   button?: {
@@ -27,30 +28,33 @@ export default function SimpleSection({
   children,
   subTitle,
   button,
-  className,
 }: SimpleSectionProps) {
   return (
-    <section className={clsx("flex flex-col gap-12", className)}>
-      <Container className="flex flex-col items-center justify-center gap-4">
-        <div className="flex items-center justify-center gap-4">
-          <h2 className="text-center text-4xl font-bold">{title}</h2>
-          {element}
+    <section className="flex flex-col gap-16">
+      <Container className="flex flex-col gap-4">
+        <div className={clsx("flex", button ? "justify-between" : "justify-center")}>
+          <div className="flex gap-4">
+            <h2 className="text-4xl font-bold">{title}</h2>
+            {element}
+          </div>
+          {button && (
+            <Button
+              href={button.href}
+              text={button.text}
+              className={button.className || "btn-lg"}
+              ariaLabel={button.ariaLabel}
+            />
+          )}
         </div>
-        {subTitle && <div className="text-base-content/80 text-center">{subTitle}</div>}
+        {subTitle && (
+          <div className={clsx("text-base-content/80", button ? "text-left" : "text-center")}>
+            {subTitle}
+          </div>
+        )}
       </Container>
       {children && (
         <Container wide={wide} grid={grid}>
           {children}
-        </Container>
-      )}
-      {button && (
-        <Container className="flex justify-center">
-          <Button
-            href={button.href}
-            text={button.text}
-            className={button.className || "btn-lg"}
-            ariaLabel={button.ariaLabel}
-          />
         </Container>
       )}
     </section>
