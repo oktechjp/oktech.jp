@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Brand from "@/components/Common/Brand";
 import Container from "@/components/Common/Container";
 import Link from "@/components/Common/Link";
+import ThemeToggle from "@/components/Common/ThemeToggle";
 import { MENU } from "@/constants";
 import { useFocus } from "@/utils/hooks/useFocus";
 
@@ -93,6 +94,7 @@ export default function TopBar() {
                   {item.label}
                 </Link>
               ))}
+              <ThemeToggle className="btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field -ml-2 font-bold" />
             </div>
           </GlassCell>
         </div>

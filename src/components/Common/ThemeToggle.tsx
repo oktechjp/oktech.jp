@@ -2,15 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+import clsx from "clsx";
 import { LuMoon, LuSun } from "react-icons/lu";
-
-import TooltipButton from "@/components/Common/TooltipButton";
 
 interface ThemeToggleProps {
   testId?: string;
+  onClick?: () => void;
+  className?: string;
 }
 
-export default function ThemeToggle({ testId = "theme-switcher" }: ThemeToggleProps) {
+export default function ThemeToggle({
+  testId = "theme-switcher",
+  onClick,
+  className,
+}: ThemeToggleProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
@@ -23,19 +28,18 @@ export default function ThemeToggle({ testId = "theme-switcher" }: ThemeTogglePr
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
+    onClick?.();
   };
 
   return (
-    <TooltipButton
-      tooltip={theme === "dark" ? "Light Mode" : "Dark Mode"}
-      tooltipPosition="bottom"
+    <button
       onClick={toggleTheme}
-      className="btn btn-circle btn-sm btn-ghost"
+      className={clsx("flex items-center justify-center", className)}
       aria-label="Toggle theme"
       data-testid={testId}
     >
       <LuMoon className="hidden h-[18px] w-[18px] dark:block" />
       <LuSun className="block h-[18px] w-[18px] dark:hidden" />
-    </TooltipButton>
+    </button>
   );
 }

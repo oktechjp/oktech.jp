@@ -36,8 +36,6 @@
   --radius-field: 9999rem;
   --radius-box: 2rem;
   --logo-base-color: var(--color-base-content);
-  --logo-ring-color: var(--logo-base-color);
-  --logo-base-color: var(--logo-base-color);
   --logo-color-1: var(--color-red-400);
   --logo-color-2: var(--color-green-400);
   --logo-color-3: var(--color-blue-400);
@@ -72,8 +70,6 @@
   --radius-field: 9999rem;
   --radius-box: 2rem;
   --logo-base-color: var(--color-base-content);
-  --logo-ring-color: var(--logo-base-color);
-  --logo-base-color: var(--logo-base-color);
   --logo-color-1: var(--color-red-400);
   --logo-color-2: var(--color-green-400);
   --logo-color-3: var(--color-blue-400);

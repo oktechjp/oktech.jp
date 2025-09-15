@@ -7,7 +7,6 @@ import { formatDate } from "@/utils/formatDate";
 import { meta } from "@/utils/meta";
 
 import Brand from "./Brand";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Footer() {
   return (
@@ -16,7 +15,6 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
           <MainMenu variant="footer" />
           <div className="flex items-center gap-2">
-            <ThemeToggle testId="theme-switcher" />
             <SocialsFooter />
           </div>
         </div>
