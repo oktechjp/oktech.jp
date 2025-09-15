@@ -13,11 +13,15 @@ const eventPages = allEntries.filter(
 
 const venuePages = allEntries.filter((e) => e.href?.startsWith("/venue/"));
 
-// Get markdown/article pages
-const markdownPages = allEntries.filter(
+// Get article pages
+const articlePages = allEntries.filter((e) => e.href?.startsWith("/articles/"));
+
+// Get other markdown pages (excluding articles)
+const otherMarkdownPages = allEntries.filter(
   (e) =>
     !e.href?.startsWith("/events/") &&
     !e.href?.startsWith("/venue/") &&
+    !e.href?.startsWith("/articles/") &&
     !e.href?.endsWith(".xml") &&
     !e.href?.endsWith(".ics") &&
     e.href !== "/" &&
@@ -35,16 +39,17 @@ const mainRoutes = [
   allEntries.find((e) => e.href === "/events/list"),
   allEntries.find((e) => e.href === "/events/album"),
   allEntries.find((e) => e.href === "/about"),
-  ...markdownPages.sort((a, b) => a.title.localeCompare(b.title)), // Add sorted markdown pages here
+  ...otherMarkdownPages.sort((a, b) => a.title.localeCompare(b.title)), // Add non-article markdown pages here
   allEntries.find((e) => e.href === "/sitemap"),
   allEntries.find((e) => e.href === "/sitemap.xml"),
   allEntries.find((e) => e.href === "/rss.xml"),
   allEntries.find((e) => e.href === "/oktech-events.ics"),
 ].filter((entry): entry is Entry => entry !== undefined); // Type guard to ensure only Entry types
 
-// Sort events and venues alphabetically
+// Sort events, venues, and articles alphabetically
 eventPages.sort((a, b) => a.title.localeCompare(b.title));
 venuePages.sort((a, b) => a.title.localeCompare(b.title));
+articlePages.sort((a, b) => a.title.localeCompare(b.title));
 ---
 
 <PageLayout>
@@ -62,6 +67,9 @@ venuePages.sort((a, b) => a.title.localeCompare(b.title));
 
     <!-- Main Routes Section -->
     <SitemapSection title="Main Pages" entries={mainRoutes} client:load />
+
+    <!-- Articles Section -->
+    <SitemapSection title="Articles" entries={articlePages} client:load />
 
     <!-- Events Section -->
     <SitemapSection title="Events" entries={eventPages} client:load />

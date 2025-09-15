@@ -49,6 +49,8 @@ const config: KnipConfig = {
     "satori-html",
     // puppeteer is used by map generation library
     "puppeteer",
+    // Font used in OG image generation (ogHandler.ts)
+    "@fontsource/noto-sans-jp",
   ],
 
   // Ignore specific exports (common false positives)

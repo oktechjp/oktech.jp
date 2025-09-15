@@ -2,7 +2,7 @@ import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 
-import { removeBasePath, resolveInternalHref } from "../urlResolver";
+import { normalizePathname, removeBasePath, resolveInternalHref } from "../urlResolver";
 import { themeColorsHex } from "./theme-colors";
 
 // ============================================================================
@@ -67,7 +67,8 @@ export class OGImageCache {
    * @returns The OG image path (e.g. "/og.png?v=abc123", "/event/123/og.png?v=def456")
    */
   static getOGImagePath(href: string, data?: any): string {
-    const cleanHref = removeBasePath(href);
+    // Remove base path and normalize by removing .html extension
+    const cleanHref = normalizePathname(removeBasePath(href));
 
     // Default path
     let ogPath = "/og.png";

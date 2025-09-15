@@ -20,7 +20,7 @@
     "test": "npm run test:dev",
     "test:dev": "playwright test",
     "test:screenshots": "rm -rf test/screenshots/output && TEST_TYPE=screenshots playwright test",
-    "test:rebuild": "npm run build && TEST_BUILD=true playwright test",
+    "test:build": "npm run build && TEST_BUILD=true playwright test",
     "test:dist": "TEST_BUILD=true playwright test"
   },
   "devDependencies": {
@@ -69,6 +69,7 @@
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.0",
-    "yet-another-react-lightbox": "^3.25.0"
+    "yet-another-react-lightbox": "^3.25.0",
+    "@fontsource/noto-sans-jp": "^5.2.7"
   }
 }

@@ -112,3 +112,12 @@ export function extractPathname(url: string): string {
     return removeBasePath(pathname);
   }
 }
+
+/**
+ * Normalize pathname by removing .html extension
+ * @param pathname - The pathname that may include .html extension
+ * @returns The pathname without .html extension
+ */
+export function normalizePathname(pathname: string): string {
+  return pathname.replace(/\.html$/, "");
+}

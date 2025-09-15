@@ -3,7 +3,7 @@ import { type EventEnriched, getEvent, getVenue } from "@/content";
 import { type VenueEnriched } from "@/content/venues";
 import { isLegacyEvent } from "@/utils/eventFilters";
 import { getOGImageWithFallback } from "@/utils/og";
-import { extractPathname, resolveFullUrl } from "@/utils/urlResolver";
+import { extractPathname, normalizePathname, resolveFullUrl } from "@/utils/urlResolver";
 
 export interface SEOMetadata {
   title: string; // Plain title without site suffix
@@ -43,7 +43,7 @@ function parsePageType(pathname: string): {
   }
 
   // Normalize pathname by removing .html extension
-  const normalizedPathname = pathname.replace(/\.html$/, "");
+  const normalizedPathname = normalizePathname(pathname);
 
   // Check static pages first (including /events/album and /events/list)
   if (SEO_DATA[normalizedPathname]) {
