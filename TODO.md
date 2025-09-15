@@ -1,8 +1,5 @@
 ## vNow - fixes/refactoring
 
-- Refactor SEO, sitemap, og cache, utils
-- Fix too much caching / memo in dev mode.
-
 ## Docs
 
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
@@ -10,12 +7,15 @@
 ## Pending Evey's new Design
 
 - COLORS
+- Venue OG images, no SVGs
 - Projector styling
 - Rejig the header
 - OG images
 - Update OG Image template
 - Try making a nice theme.
 - When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
+- Refactor SEO, sitemap, og cache, utils
+- Fix too much caching / memo in dev mode.
 
 ## New Features
 
