@@ -1,4 +1,4 @@
-name: Import Data, Build, and Deploy to Github Pages
+name: Import, Build, Test, Deploy
 
 on:
   push:
@@ -131,19 +131,42 @@ jobs:
 
           # Check if there are changes to commit
           if [ -n "$(git status --porcelain content/)" ]; then
-            # Read upstream commit from meta.json
-            UPSTREAM_COMMIT=$(jq -r '.commitHash' content/meta.json)
-            echo "Upstream commit from meta.json: $UPSTREAM_COMMIT"
-            
+            # Get the previous meta.json values before staging
+            if [ -f content/meta.json ]; then
+              # Fetch the previous version from git
+              git show HEAD:content/meta.json > /tmp/old_meta.json 2>/dev/null || echo '{}' > /tmp/old_meta.json
+
+              OLD_COMMIT=$(jq -r '.commitHash // ""' /tmp/old_meta.json)
+              OLD_EVENT_SLUG=$(jq -r '.nextEventSlug // ""' /tmp/old_meta.json)
+
+              # Read new values from meta.json
+              NEW_COMMIT=$(jq -r '.commitHash' content/meta.json)
+              NEW_EVENT_SLUG=$(jq -r '.nextEventSlug // ""' content/meta.json)
+
+              echo "Old commit: $OLD_COMMIT"
+              echo "New commit: $NEW_COMMIT"
+              echo "Old event slug: $OLD_EVENT_SLUG"
+              echo "New event slug: $NEW_EVENT_SLUG"
+            fi
+
             # Stage content changes, including content/meta.json
             git add content/
-            
-            # Create commit message with upstream reference
-            git commit -m "Auto import content from https://github.com/oktechjp/public/commit/$UPSTREAM_COMMIT"
-            
+
+            # Determine commit message based on what changed
+            if [ "$OLD_COMMIT" != "$NEW_COMMIT" ]; then
+              # Commit hash changed, new content imported (highest priority)
+              git commit -m "Auto import content from https://github.com/oktechjp/public/commit/$NEW_COMMIT"
+            elif [ -n "$OLD_EVENT_SLUG" ] && [ "$OLD_EVENT_SLUG" != "$NEW_EVENT_SLUG" ]; then
+              # Event slug changed, meaning the previous event ended
+              git commit -m "Auto event end rebuild: $OLD_EVENT_SLUG"
+            else
+              # Default commit message
+              git commit -m "Auto import content from https://github.com/oktechjp/public/commit/$NEW_COMMIT"
+            fi
+
             # Push changes
             git push
-            
+
             echo "Content updates committed and pushed"
           else
             echo "No content changes to commit"

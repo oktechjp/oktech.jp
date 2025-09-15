@@ -317,6 +317,7 @@ export class Importer {
 
     // Calculate next event end time
     let nextEventEnds: string | null = null;
+    let nextEventSlug: string | null = null;
 
     // Convert events for filtering
     const allEvents = [];
@@ -347,8 +348,9 @@ export class Importer {
       const nextEventToEnd = upcomingEvents[0];
       const endTime = getEventEndTimeWithBuffer(nextEventToEnd);
       nextEventEnds = endTime.toISOString();
+      nextEventSlug = nextEventToEnd.id;
 
-      logger.info(`Next event ends: ${nextEventEnds} (Event: "${nextEventToEnd.title}")`);
+      logger.info(`Next event ends: ${nextEventEnds} (Event: "${nextEventToEnd.title}", Slug: ${nextEventSlug})`);
     } else {
       logger.info("No upcoming events found");
     }
@@ -359,6 +361,7 @@ export class Importer {
       commitHash: commitInfo.sha,
       repository: "https://github.com/oktechjp/public",
       nextEventEnds,
+      nextEventSlug,
     };
 
     const metaPath = path.join(config.paths.content, "meta.json");
