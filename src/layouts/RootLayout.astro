@@ -1,7 +1,7 @@
 ---
 import "@/styles/global.css";
 import { SITE } from "@/constants";
-import { resolveInternalHref } from "@/utils/urlResolver";
+import { urls } from "@/utils/urls";
 import SEO from "./SEO.astro";
 import { ClientRouter } from "astro:transitions";
 import DynamicFavicon from "@/components/Common/DynamicFavicon";
@@ -26,13 +26,13 @@ import "@fontsource-variable/martian-mono";
       rel="alternate"
       type="application/rss+xml"
       title={`${SITE.name} - Events RSS Feed`}
-      href={resolveInternalHref(`/rss.xml`)}
+      href={urls.withBase(`/rss.xml`)}
     />
     <link
       rel="alternate"
       type="text/calendar"
       title={`${SITE.name} - Events Calendar Feed`}
-      href={resolveInternalHref(`/oktech-events.ics`)}
+      href={urls.withBase(`/oktech-events.ics`)}
     />
     <script is:inline>
       // Apply theme from localStorage or system preference

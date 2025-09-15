@@ -1,7 +1,7 @@
 import { SITE } from "@/constants";
 import type { EventEnriched } from "@/content";
 
-import { resolveFullUrl } from "./urlResolver";
+import { urls } from "./urls";
 
 export function formatICSDate(date: Date): string {
   return date
@@ -16,7 +16,7 @@ export function generateEventICS(event: EventEnriched): string {
   const durationMinutes = event.data.duration || 120;
   endDate.setMinutes(endDate.getMinutes() + durationMinutes);
 
-  const eventUrl = resolveFullUrl(`/events/${event.id}`);
+  const eventUrl = urls.toAbsolute(`/events/${event.id}`);
 
   const location = event.venue?.title
     ? `${event.venue.title}${event.venue.address ? `, ${event.venue.address}` : ""}`

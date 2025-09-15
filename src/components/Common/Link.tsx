@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { prefetch } from "astro:prefetch";
 
-import { resolveInternalHref } from "@/utils/urlResolver";
+import { urls } from "@/utils/urls";
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -41,7 +41,7 @@ export default function Link({ href, children, ...rest }: LinkProps) {
     };
   }, [href, rest["data-astro-prefetch"]]);
 
-  const finalHref = resolveInternalHref(href);
+  const finalHref = urls.withBase(href);
 
   return (
     <a ref={linkRef} href={finalHref} {...rest}>

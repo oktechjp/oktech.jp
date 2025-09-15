@@ -3,7 +3,7 @@ import { type EventEnriched, getEvent, getVenue } from "@/content";
 import { type VenueEnriched } from "@/content/venues";
 import { isLegacyEvent } from "@/utils/eventFilters";
 import { getOGImageWithFallback } from "@/utils/og";
-import { extractPathname, normalizePathname, resolveFullUrl } from "@/utils/urlResolver";
+import { urls } from "@/utils/urls";
 
 export interface SEOMetadata {
   title: string; // Plain title without site suffix
@@ -43,7 +43,7 @@ function parsePageType(pathname: string): {
   }
 
   // Normalize pathname by removing .html extension
-  const normalizedPathname = normalizePathname(pathname);
+  const normalizedPathname = urls.normalize(pathname);
 
   // Check static pages first (including /events/album and /events/list)
   if (SEO_DATA[normalizedPathname]) {
@@ -248,7 +248,7 @@ async function decorateVenueSEO(
  * Get base SEO metadata that can be decorated by specific handlers
  */
 function getBaseSEO(pathname: string): SEOMetadata {
-  const canonical = resolveFullUrl(pathname);
+  const canonical = urls.toAbsolute(pathname);
   const homeSEO = SEO_DATA["/"];
 
   // Create a basic title from the pathname as fallback
@@ -275,7 +275,7 @@ function getBaseSEO(pathname: string): SEOMetadata {
  */
 export async function getSEO(url: string): Promise<SEOMetadata> {
   // Extract and normalize pathname using our URL helpers
-  const pathname = extractPathname(url);
+  const pathname = urls.parse(url)?.pathname || url;
 
   // Start with base SEO that includes canonical and defaults
   const baseSEO = getBaseSEO(pathname);

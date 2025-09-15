@@ -4,7 +4,7 @@ import { SITE } from "@/constants";
 import { getEvents } from "@/content";
 
 import { formatDate } from "../utils/formatDate";
-import { resolveBaseUrl, resolveFullUrl } from "../utils/urlResolver";
+import { urls } from "../utils/urls";
 
 export async function GET() {
   const events = await getEvents();
@@ -15,7 +15,7 @@ export async function GET() {
   );
 
   // Use the resolved base URL for the site
-  const site = resolveBaseUrl();
+  const site = urls.getBaseUrl();
 
   return rss({
     title: `${SITE.name} - Events`,
@@ -25,7 +25,7 @@ export async function GET() {
       title: event.data.title,
       description: `Event on ${formatDate(event.data.dateTime, "long")}`,
       pubDate: new Date(event.data.dateTime),
-      link: resolveFullUrl(`/events/${event.id}`),
+      link: urls.toAbsolute(`/events/${event.id}`),
     })),
     customData: `<language>en-us</language>`,
   });

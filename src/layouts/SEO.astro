@@ -1,7 +1,7 @@
 ---
 import { SITE } from "@/constants";
 import { getSEO } from "@/utils/seo";
-import { resolveFullUrl } from "@/utils/urlResolver";
+import { urls } from "@/utils/urls";
 
 const seoData = await getSEO(Astro.url.href);
 
@@ -37,7 +37,7 @@ const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "f
     <>
       <meta
         property="og:image"
-        content={ogImage.startsWith("http") ? ogImage : resolveFullUrl(ogImage)}
+        content={ogImage.startsWith("http") ? ogImage : urls.toAbsolute(ogImage)}
       />
       <meta property="og:image:alt" content={title || SITE.name} />
       <meta property="og:image:width" content="1200" />

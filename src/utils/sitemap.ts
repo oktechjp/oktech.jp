@@ -4,7 +4,7 @@ import { SEO_DATA } from "@/constants";
 import { getEvents, getVenues } from "@/content";
 
 import { getSEO } from "./seo";
-import { resolveFullUrl } from "./urlResolver";
+import { urls } from "./urls";
 
 export interface Entry {
   title: string;
@@ -26,7 +26,7 @@ async function getSitemapItem(path: string, overrideTitle?: string): Promise<Ent
     return {
       title: overrideTitle || seoData?.title || path,
       href: path,
-      fullUrl: resolveFullUrl(path),
+      fullUrl: urls.toAbsolute(path),
       description: seoData?.description,
       keywords: seoData?.keywords,
     };
@@ -37,7 +37,7 @@ async function getSitemapItem(path: string, overrideTitle?: string): Promise<Ent
   return {
     title: overrideTitle || seo.title,
     href: path,
-    fullUrl: resolveFullUrl(path),
+    fullUrl: urls.toAbsolute(path),
     description: seo.description,
     keywords: seo.keywords,
     ogImage: seo.ogImage,
@@ -75,7 +75,7 @@ export async function buildSitemapEntries(): Promise<Entry[]> {
         return {
           href,
           title: seo.title,
-          fullUrl: resolveFullUrl(href),
+          fullUrl: urls.toAbsolute(href),
           description: seo.description,
           keywords: seo.keywords,
           ogImage: seo.ogImage,
@@ -96,7 +96,7 @@ export async function buildSitemapEntries(): Promise<Entry[]> {
       return {
         href,
         title: e.data.title,
-        fullUrl: resolveFullUrl(href),
+        fullUrl: urls.toAbsolute(href),
         ogImage: seo.ogImage,
         description: seo.description,
         keywords: seo.keywords,
@@ -114,7 +114,7 @@ export async function buildSitemapEntries(): Promise<Entry[]> {
       return {
         href,
         title: v.data.title,
-        fullUrl: resolveFullUrl(href),
+        fullUrl: urls.toAbsolute(href),
         description: seo.description,
         keywords: seo.keywords,
         ogImage: seo.ogImage,
@@ -135,7 +135,7 @@ export function extractUrlsFromEntries(entries: Entry[]): string[] {
 
 /**
  * Generate a list of absolute URLs used in sitemaps.
- * Uses resolveFullUrl to ensure consistent URL generation.
+ * Uses urls.toAbsolute to ensure consistent URL generation.
  *
  * @returns Array of URL strings.
  */
@@ -147,5 +147,5 @@ export async function generateSitemapURLs(): Promise<string[]> {
   const htmlPaths = paths.filter((path) => !path.endsWith(".xml") && !path.endsWith(".ics"));
 
   // Convert to absolute URLs
-  return htmlPaths.map((path) => resolveFullUrl(path));
+  return htmlPaths.map((path) => urls.toAbsolute(path));
 }

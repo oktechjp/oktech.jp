@@ -2,7 +2,7 @@ import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 
-import { normalizePathname, removeBasePath, resolveInternalHref } from "../urlResolver";
+import { urls } from "../urls";
 import { themeColorsHex } from "./theme-colors";
 
 // ============================================================================
@@ -68,7 +68,7 @@ export class OGImageCache {
    */
   static getOGImagePath(href: string, data?: any): string {
     // Remove base path and normalize by removing .html extension
-    const cleanHref = normalizePathname(removeBasePath(href));
+    const cleanHref = urls.normalize(urls.withoutBase(href));
 
     // Default path
     let ogPath = "/og.png";
@@ -225,5 +225,5 @@ export function getOGImageWithFallback(href: string, data?: any): string {
   // Always generate a cache key based on the route at minimum
   const cacheData = data || { route: href };
   const ogPath = OGImageCache.getOGImagePath(href, cacheData);
-  return resolveInternalHref(ogPath);
+  return urls.withBase(ogPath);
 }

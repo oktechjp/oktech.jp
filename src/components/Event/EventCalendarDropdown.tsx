@@ -6,7 +6,7 @@ import { LuCalendar, LuCalendarPlus } from "react-icons/lu";
 import CalendarFeeds from "@/components/Common/CalendarFeeds";
 import type { EventEnriched } from "@/content/events";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { resolveBaseUrl } from "@/utils/urlResolver";
+import { urls } from "@/utils/urls";
 
 interface AddToCalendarDropdownProps {
   event: EventEnriched;
@@ -58,7 +58,7 @@ export default function AddToCalendarDropdown({ event }: AddToCalendarDropdownPr
   });
 
   // Generate calendar URLs
-  const baseUrl = resolveBaseUrl();
+  const baseUrl = urls.getBaseUrl();
   const eventUrl = `${baseUrl}/events/${event.id}`;
 
   // Format dates for calendar links

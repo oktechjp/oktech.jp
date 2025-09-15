@@ -5,7 +5,7 @@ import { LuArrowUp, LuCalendar, LuRss } from "react-icons/lu";
 
 import CopyText from "@/components/Common/CopyText";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { resolveBaseUrl } from "@/utils/urlResolver";
+import { urls } from "@/utils/urls";
 
 interface CalendarFeedsProps {
   children?: React.ReactNode;
@@ -54,7 +54,7 @@ export default function CalendarFeeds({
   inline = false,
 }: CalendarFeedsProps) {
   const dropdownRef = useRef<HTMLDetailsElement>(null);
-  const baseUrl = resolveBaseUrl();
+  const baseUrl = urls.getBaseUrl();
   const icsUrl = `${baseUrl}/oktech-events.ics`;
   const rssUrl = `${baseUrl}/rss.xml`;
 
