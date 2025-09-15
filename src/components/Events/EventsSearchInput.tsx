@@ -46,7 +46,7 @@ export default function EventsSearchInput() {
     <label className="input input-bordered join-item flex w-full items-center gap-2">
       <LuSearch className="h-4 w-4 opacity-70" />
       <input
-        type="text"
+        type="search"
         className="grow"
         placeholder="Search events..."
         value={localValue}
