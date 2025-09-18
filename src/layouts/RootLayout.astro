@@ -65,7 +65,7 @@ import "@fontsource-variable/martian-mono";
     <ClientRouter />
     <NavigationProgress client:only="react" />
     <DynamicFavicon client:only="react" />
-    <Toast client:load />
+    <Toast client:load transition:persist="toast" />
     <slot />
   </body>
 </html>
