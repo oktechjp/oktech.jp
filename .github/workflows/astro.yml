@@ -58,7 +58,21 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      # Cache node_modules to avoid reinstalling (shared with import workflow)
+      - name: Restore node_modules cache
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.BUILD_PATH }}/node_modules
+            ~/.cache/puppeteer
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-node-modules-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
       - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
 
@@ -74,20 +88,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-
 
-      # ===== Playwright browser cache =====
-      - name: Get Playwright minor version
-        id: playwright-version
-        run: echo "version=$(npx playwright --version | sed 's/Version //' | cut -d. -f1,2)" >> $GITHUB_OUTPUT
-        working-directory: ${{ env.BUILD_PATH }}
-
-      - name: Restore Playwright browser cache
-        id: playwright-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.CACHE_KEY }}-${{ steps.playwright-version.outputs.version }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-${{ env.CACHE_KEY }}-
 
       - name: Print env
         run: |
@@ -104,13 +104,24 @@ jobs:
 
       # Install Playwright browsers if not cached
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Run tests
         run: npm run test:dist
         working-directory: ${{ env.BUILD_PATH }}
+
+      # Save node_modules cache if it wasn't cached
+      - name: Save node_modules cache
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ${{ env.BUILD_PATH }}/node_modules
+            ~/.cache/puppeteer
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-node-modules-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
 
       # IMPORTANT: Always save Astro cache so new variants produced this run are kept.
       # Append run_id to avoid "already exists", and rely on the restore prefix above to pick the newest next time.
@@ -120,13 +131,6 @@ jobs:
           path: ${{ env.BUILD_PATH }}/node_modules/.astro
           key: ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-${{ hashFiles('**/astro.config.*','**/package-lock.json','**/pnpm-lock.yaml','**/yarn.lock','public/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','src/assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','content/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}-${{ github.run_id }}
 
-      # Save Playwright browser cache if it was downloaded
-      - name: Save Playwright browser cache
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.CACHE_KEY }}-${{ steps.playwright-version.outputs.version }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -24,7 +24,21 @@ jobs:
           node-version: "22"
           cache: "npm"
 
+      # Cache node_modules to avoid reinstalling
+      - name: Restore node_modules cache
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/puppeteer
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
       - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Import content
@@ -32,6 +46,17 @@ jobs:
         env:
           STADIA_MAPS_API_KEY: ${{ secrets.STADIA_MAPS_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Save node_modules cache if it wasn't cached
+      - name: Save node_modules cache
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/puppeteer
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Commit content updates
         run: |
