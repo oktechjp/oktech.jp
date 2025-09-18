@@ -88,7 +88,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-
 
-
       - name: Print env
         run: |
           echo "vars.SITE_URL='${{ vars.SITE_URL }}'"
@@ -130,7 +129,6 @@ jobs:
         with:
           path: ${{ env.BUILD_PATH }}/node_modules/.astro
           key: ${{ runner.os }}-astro-cache-${{ env.CACHE_KEY }}-${{ hashFiles('**/astro.config.*','**/package-lock.json','**/pnpm-lock.yaml','**/yarn.lock','public/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','src/assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg}','content/**/*.{png,jpg,jpeg,webp,avif,gif,svg}') }}-${{ github.run_id }}
-
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

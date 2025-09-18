@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import clsx from "clsx";
 import { LuConstruction, LuX } from "react-icons/lu";
 
 export default function Toast() {
@@ -42,11 +43,12 @@ export default function Toast() {
 
   return (
     <div
-      className={`fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transition-opacity duration-500 ${
-        isVisible ? "opacity-100" : "pointer-events-none opacity-0"
-      }`}
+      className={clsx(
+        "fixed right-2 bottom-2 left-2 z-50 transition-opacity duration-500",
+        isVisible ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
     >
-      <div className="alert alert-soft alert-warning max-w-md shadow-lg">
+      <div className="alert alert-soft alert-warning m-auto max-w-md">
         <LuConstruction className="h-5 w-5" />
         <span>We're actively working on this site. You will encounter visual inconsistencies.</span>
         <button
