@@ -191,6 +191,17 @@ export class Importer {
   }
 
   /**
+   * Helper to fetch raw content from a URL
+   */
+  private async fetchRawContent(url: string): Promise<string> {
+    const response = await this.github.fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    }
+    return response.text();
+  }
+
+  /**
    * Run the import process
    */
   async run(
@@ -237,12 +248,18 @@ export class Importer {
     // Get data URLs
     const urls = getDataUrls(commitInfo.sha, customRepo);
 
-    // Fetch data
+    // Fetch data - we need both parsed JSON and raw content for hash calculation
     logger.section("Fetching Data");
-    const [eventsWithVenuesJSON, photosJSON] = await Promise.all([
-      this.github.fetchJSON<ExternalEventsWithVenuesJSON>(urls.events),
-      this.github.fetchJSON<ExternalPhotoJSON>(urls.photos),
+
+    // Fetch raw content for hash calculation (to match workflow behavior)
+    const [eventsRawContent, photosRawContent] = await Promise.all([
+      this.fetchRawContent(urls.events),
+      this.fetchRawContent(urls.photos),
     ]);
+
+    // Parse the JSON for processing
+    const eventsWithVenuesJSON = JSON.parse(eventsRawContent) as ExternalEventsWithVenuesJSON;
+    const photosJSON = JSON.parse(photosRawContent) as ExternalPhotoJSON;
 
     // Count total events
     let totalEvents = 0;
@@ -300,8 +317,14 @@ export class Importer {
       }
     }
 
-    // Create meta.json
-    await this.createMetadata(eventsWithVenuesJSON, photosJSON, commitInfo);
+    // Create meta.json (pass raw content for hash calculation)
+    await this.createMetadata(
+      eventsWithVenuesJSON,
+      photosJSON,
+      commitInfo,
+      eventsRawContent,
+      photosRawContent,
+    );
 
     // Display statistics
     this.stats.displaySummary();
@@ -314,6 +337,8 @@ export class Importer {
     eventsJSON: ExternalEventsWithVenuesJSON,
     photosJSON: ExternalPhotoJSON,
     commitInfo: { sha: string; date: string },
+    eventsRawContent: string,
+    photosRawContent: string,
   ): Promise<void> {
     logger.section("Creating Metadata");
 
@@ -359,10 +384,9 @@ export class Importer {
       logger.info("No upcoming events found");
     }
 
-    // Compute content hash from combined events and photos JSON
-    const eventsString = JSON.stringify(eventsJSON);
-    const photosString = JSON.stringify(photosJSON);
-    const combinedContent = eventsString + photosString;
+    // Compute content hash from raw content (to match workflow behavior)
+    // The workflow uses raw concatenated content, not re-stringified JSON
+    const combinedContent = eventsRawContent + photosRawContent;
     const contentHash = createHash("sha256").update(combinedContent).digest("hex");
 
     logger.info(`Content hash: ${contentHash}`);
