@@ -7,45 +7,36 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-for-updates:
-    name: Check for content updates
+  check-and-trigger:
+    name: Check for updates and trigger build
     runs-on: ubuntu-latest
-    outputs:
-      has-updates: ${{ steps.check-updates.outputs.has-updates }}
-      new-commit: ${{ steps.check-updates.outputs.new-commit }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check for new upstream commit or event end
+      - name: Check for content updates or event end
         id: check-updates
         run: |
           UPSTREAM_REPO="oktechjp/public"
 
-          # Read current commit from meta.json
+          # Read current values from meta.json
           CURRENT_COMMIT=$(jq -r '.commitHash' content/meta.json)
-          echo "Current commit: $CURRENT_COMMIT"
-
-          # Read nextEventEnds from meta.json
+          CURRENT_CONTENT_HASH=$(jq -r '.contentHash // ""' content/meta.json)
           NEXT_EVENT_ENDS=$(jq -r '.nextEventEnds' content/meta.json)
+
+          echo "Current commit: $CURRENT_COMMIT"
+          echo "Current content hash: $CURRENT_CONTENT_HASH"
           echo "Next event ends: $NEXT_EVENT_ENDS"
 
           # Get latest commit from upstream main branch
           LATEST_COMMIT=$(curl -s "https://api.github.com/repos/$UPSTREAM_REPO/commits/main" | jq -r '.sha')
           echo "Latest upstream commit: $LATEST_COMMIT"
 
-          # Check if we need to trigger a build
+          # Initialize NEEDS_BUILD flag
           NEEDS_BUILD=false
 
-          # Check for new commit
-          if [ "$CURRENT_COMMIT" != "$LATEST_COMMIT" ]; then
-            echo "New commit detected!"
-            NEEDS_BUILD=true
-            echo "new-commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
-          fi
-
-          # Check if an event has ended and we need to rebuild
+          # First check if an event has ended (this always needs checking)
           if [ "$NEXT_EVENT_ENDS" != "null" ] && [ "$NEXT_EVENT_ENDS" != "" ]; then
             CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
             if [[ "$CURRENT_TIME" > "$NEXT_EVENT_ENDS" ]]; then
@@ -54,21 +45,46 @@ jobs:
             fi
           fi
 
-          if [ "$NEEDS_BUILD" = true ]; then
-            echo "has-updates=true" >> $GITHUB_OUTPUT
-          else
-            echo "No updates needed"
-            echo "has-updates=false" >> $GITHUB_OUTPUT
+          # Early exit if commits are the same and no event ended
+          if [ "$CURRENT_COMMIT" = "$LATEST_COMMIT" ] && [ "$NEEDS_BUILD" = false ]; then
+            echo "Commits are identical and no event has ended. No updates needed."
+            echo "NEEDS_BUILD=false" >> $GITHUB_ENV
+            exit 0
           fi
 
-  trigger-build:
-    name: Trigger build
-    needs: check-for-updates
-    if: needs.check-for-updates.outputs.has-updates == 'true'
-    runs-on: ubuntu-latest
+          # Only fetch content if commits are different
+          if [ "$CURRENT_COMMIT" != "$LATEST_COMMIT" ]; then
+            echo "Commit has changed, fetching content to check for actual changes..."
 
-    steps:
+            # Fetch and hash the content from latest commit
+            EVENTS_URL="https://raw.githubusercontent.com/$UPSTREAM_REPO/$LATEST_COMMIT/events.json"
+            PHOTOS_URL="https://raw.githubusercontent.com/$UPSTREAM_REPO/$LATEST_COMMIT/photos.json"
+
+            echo "Fetching events.json and photos.json from latest commit..."
+
+            # Download both files and compute combined hash
+            EVENTS_CONTENT=$(curl -sL "$EVENTS_URL")
+            PHOTOS_CONTENT=$(curl -sL "$PHOTOS_URL")
+
+            # Compute hash of combined content
+            COMBINED_CONTENT="${EVENTS_CONTENT}${PHOTOS_CONTENT}"
+            NEW_CONTENT_HASH=$(echo -n "$COMBINED_CONTENT" | sha256sum | cut -d' ' -f1)
+
+            echo "New content hash: $NEW_CONTENT_HASH"
+
+            # Check for content changes (via hash)
+            if [ "$CURRENT_CONTENT_HASH" != "$NEW_CONTENT_HASH" ]; then
+              echo "Content has changed (hash mismatch)!"
+              NEEDS_BUILD=true
+            else
+              echo "Commit changed but content is identical (hash match)"
+            fi
+          fi
+
+          echo "NEEDS_BUILD=$NEEDS_BUILD" >> $GITHUB_ENV
+
       - name: Trigger builder workflow
+        if: env.NEEDS_BUILD == 'true'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -79,3 +95,4 @@ jobs:
               workflow_id: 'astro.yml',
               ref: 'main'
             })
+            console.log('Build workflow triggered successfully')

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -300,7 +301,7 @@ export class Importer {
     }
 
     // Create meta.json
-    await this.createMetadata(eventsWithVenuesJSON, commitInfo);
+    await this.createMetadata(eventsWithVenuesJSON, photosJSON, commitInfo);
 
     // Display statistics
     this.stats.displaySummary();
@@ -311,6 +312,7 @@ export class Importer {
    */
   private async createMetadata(
     eventsJSON: ExternalEventsWithVenuesJSON,
+    photosJSON: ExternalPhotoJSON,
     commitInfo: { sha: string; date: string },
   ): Promise<void> {
     logger.section("Creating Metadata");
@@ -357,10 +359,19 @@ export class Importer {
       logger.info("No upcoming events found");
     }
 
+    // Compute content hash from combined events and photos JSON
+    const eventsString = JSON.stringify(eventsJSON);
+    const photosString = JSON.stringify(photosJSON);
+    const combinedContent = eventsString + photosString;
+    const contentHash = createHash("sha256").update(combinedContent).digest("hex");
+
+    logger.info(`Content hash: ${contentHash}`);
+
     // Write metadata
     const metaData = {
       commitDate: commitInfo.date,
       commitHash: commitInfo.sha,
+      contentHash,
       repository: "https://github.com/oktechjp/public",
       nextEventEnds,
       nextEventSlug,
