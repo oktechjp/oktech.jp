@@ -127,9 +127,9 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
             ))}
           </div>
 
-          <div className="btn btn-sm btn-circle">
+          {/* <div className="btn btn-sm btn-circle">
             <LuArrowUpRight className="h-4 w-4" />
-          </div>
+          </div> */}
         </div>
       )}
     </div>

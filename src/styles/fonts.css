@@ -1,7 +1,7 @@
 /* Define CSS variables for Fontsource fonts */
 :root {
-  --font-body: "Noto Sans JP Variable", Arial, sans-serif;
-  --font-header: "Lexend", "Helvetica Neue", Helvetica, sans-serif;
+  --font-body: "Lexend", "Noto Sans JP Variable", Arial, sans-serif;
+  --font-header: "Lexend", "Noto Sans JP Variable", "Helvetica Neue", Helvetica, sans-serif;
   --font-mono: "Martian Mono Variable", "Courier New", monospace;
 }
 

@@ -13,10 +13,14 @@ const events = await getEvents(6);
 
 <PageLayout flush className="flex flex-col gap-42 pb-24">
   <LandingHero />
-  <EventsSection client:load events={events} variant="upcoming" />
-  <Cut bgClass="bg-primary/10">
+  <div class="bg-base-200 py-20">
+    <!-- <Container className="bg-red-200"> -->
+    <EventsSection client:load events={events} variant="upcoming" />
+    <!-- </Container> -->
+  </div>
+  <Container wide>
     <LandingAbout />
-  </Cut>
+  </Container>
   <EventsSection client:load events={events} variant="recent" />
   <Container>
     <LandingCTA client:visible />

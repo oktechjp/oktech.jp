@@ -44,16 +44,18 @@ async function loadFonts(): Promise<FontData[]> {
   const path = await import("path");
   const fontsDir = path.join(process.cwd(), "node_modules/@fontsource");
 
-  const [notoRegular, notoBold, lexendBold] = await Promise.all([
+  const [lexendRegular, lexendBold, notoRegular, notoBold] = await Promise.all([
+    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-400-normal.woff")),
+    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-700-normal.woff")),
     fs.readFile(path.join(fontsDir, "noto-sans-jp/files/noto-sans-jp-latin-400-normal.woff")),
     fs.readFile(path.join(fontsDir, "noto-sans-jp/files/noto-sans-jp-latin-700-normal.woff")),
-    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-700-normal.woff")),
   ]);
 
   cachedFonts = [
+    { name: "Lexend", data: lexendRegular, weight: 400 as const, style: "normal" as const },
+    { name: "Lexend", data: lexendBold, weight: 700 as const, style: "normal" as const },
     { name: "Noto Sans JP", data: notoRegular, weight: 400 as const, style: "normal" as const },
     { name: "Noto Sans JP", data: notoBold, weight: 700 as const, style: "normal" as const },
-    { name: "Lexend", data: lexendBold, weight: 700 as const, style: "normal" as const },
   ];
 
   return cachedFonts;

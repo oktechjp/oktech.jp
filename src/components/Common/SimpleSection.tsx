@@ -34,7 +34,7 @@ export default function SimpleSection({
       <Container className="flex flex-col gap-4">
         <div className={clsx("flex", button ? "justify-between" : "justify-center")}>
           <div className="flex gap-4">
-            <h2 className="text-4xl font-bold">{title}</h2>
+            <h2 className="text-base-300 text-7xl">{title}</h2>
             {element}
           </div>
           {button && (
@@ -47,7 +47,7 @@ export default function SimpleSection({
           )}
         </div>
         {subTitle && (
-          <div className={clsx("text-base-content/80", button ? "text-left" : "text-center")}>
+          <div className={clsx("text-base-300", button ? "text-left" : "text-center")}>
             {subTitle}
           </div>
         )}

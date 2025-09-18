@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
 
 import Brand from "@/components/Common/Brand";
@@ -7,6 +8,7 @@ import Container from "@/components/Common/Container";
 import Link from "@/components/Common/Link";
 import ThemeToggle from "@/components/Common/ThemeToggle";
 import { MENU } from "@/constants";
+import { useBelowBreakpoint } from "@/utils/hooks/useBreakpoint";
 import { useFocus } from "@/utils/hooks/useFocus";
 
 function GlassCell({
@@ -30,7 +32,13 @@ function GlassCell({
 export default function TopBar() {
   const items = MENU.filter((item) => item.header === true);
   const [showBackground, setShowBackground] = useState(false);
+  const isMobile = useBelowBreakpoint("sm");
   const logoActive = useFocus();
+
+  const springs = useSpring({
+    margin: showBackground ? (isMobile ? 10 : 40) : 0,
+    config: { mass: 0.8, tension: 180, friction: 9 },
+  });
 
   useEffect(() => {
     let last = window.scrollY > 0;
@@ -58,11 +66,12 @@ export default function TopBar() {
   return (
     <div data-testid="top-bar" className="fixed top-0 z-50 w-full">
       <Container>
-        <div
-          className={clsx(
-            "m-auto pt-6 transition-all duration-200",
-            showBackground ? "mx-10 sm:mx-20" : "-mx-2",
-          )}
+        <animated.div
+          className="m-auto pt-6"
+          style={{
+            marginLeft: springs.margin.to((m) => `${m}px`),
+            marginRight: springs.margin.to((m) => `${m}px`),
+          }}
         >
           <GlassCell
             showBackground={showBackground}
@@ -97,7 +106,7 @@ export default function TopBar() {
               <ThemeToggle className="btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field -ml-2 font-bold" />
             </div>
           </GlassCell>
-        </div>
+        </animated.div>
       </Container>
     </div>
   );

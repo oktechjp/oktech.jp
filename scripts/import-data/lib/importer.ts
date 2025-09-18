@@ -350,7 +350,9 @@ export class Importer {
       nextEventEnds = endTime.toISOString();
       nextEventSlug = nextEventToEnd.id;
 
-      logger.info(`Next event ends: ${nextEventEnds} (Event: "${nextEventToEnd.title}", Slug: ${nextEventSlug})`);
+      logger.info(
+        `Next event ends: ${nextEventEnds} (Event: "${nextEventToEnd.title}", Slug: ${nextEventSlug})`,
+      );
     } else {
       logger.info("No upcoming events found");
     }

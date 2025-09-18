@@ -20,7 +20,7 @@ export default function Parallax({
 
   const [springs, api] = useSpring(() => ({
     y: 0,
-    config: { mass: 1, tension: 280, friction: 120 },
+    config: { mass: 2, tension: 20, friction: 5 },
   }));
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Parallax({
       if (!shouldRun()) return;
 
       const offset = Math.min(latestScrollY * speed, maxOffset);
-      if (Math.abs(offset - lastApplied) >= 0.5) {
+      if (Math.abs(offset - lastApplied) >= 0.1) {
         lastApplied = offset;
         // fire only if value changed enough
         api.start({ y: offset });

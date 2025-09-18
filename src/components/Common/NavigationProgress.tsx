@@ -3,6 +3,14 @@ import { useEffect, useRef } from "react";
 import { animated, useSpring } from "@react-spring/web";
 
 export default function NavigationProgress() {
+  // Configuration variables for progress behavior
+  const INITIAL_DELAY_MS = 200; // Wait before showing progress bar
+  const UPDATE_INTERVAL_MS = 500; // How often to update progress (increased for smoother animation)
+  const TIME_DECAY_DURATION_MS = 15000; // How long until progress updates slow to minimum
+  const MIN_TIME_DECAY = 0.3; // Minimum speed multiplier (30% of original speed)
+  const COMPLETION_DELAY_MS = 150; // Delay before fading out after completion
+  const FADE_OUT_DURATION_MS = 200; // How long the fade out animation takes
+
   const progressRef = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const startTimeRef = useRef<number>(0);
@@ -14,8 +22,8 @@ export default function NavigationProgress() {
     progress: 0,
     opacity: 0,
     config: {
-      tension: 200,
-      friction: 30,
+      tension: 180,
+      friction: 40,
       clamp: false,
     },
   }));
@@ -47,7 +55,9 @@ export default function NavigationProgress() {
       }
 
       // Apply time-based decay - slower progress over time
-      const timeDecay = Math.max(0.1, 1 - elapsed / 10000);
+      // Decay from 1.0 to MIN_TIME_DECAY over TIME_DECAY_DURATION_MS
+      const decayProgress = Math.min(elapsed / TIME_DECAY_DURATION_MS, 1);
+      const timeDecay = 1 - decayProgress * (1 - MIN_TIME_DECAY);
       increment *= timeDecay;
 
       const newProgress = Math.min(currentProgress + increment, 94);
@@ -85,7 +95,7 @@ export default function NavigationProgress() {
       progressRef.current = 0;
       startTimeRef.current = Date.now();
 
-      // Wait 200ms before showing the progress bar
+      // Wait INITIAL_DELAY_MS before showing the progress bar
       // This avoids flashing for fast navigations
       delayTimerRef.current = setTimeout(() => {
         // Only show if still active (navigation hasn't completed)
@@ -96,15 +106,15 @@ export default function NavigationProgress() {
           progress: 10,
           opacity: 1,
           config: {
-            tension: 400,
-            friction: 30,
+            tension: 280,
+            friction: 18,
           },
         });
         progressRef.current = 10;
 
         // Start trickling
-        intervalRef.current = setInterval(trickleProgress, 300);
-      }, 200);
+        intervalRef.current = setInterval(trickleProgress, UPDATE_INTERVAL_MS);
+      }, INITIAL_DELAY_MS);
     };
 
     const completeProgress = () => {
@@ -125,8 +135,8 @@ export default function NavigationProgress() {
         progress: 100,
         opacity: 1,
         config: {
-          tension: 400,
-          friction: 25,
+          tension: 260,
+          friction: 16,
         },
         onRest: () => {
           // Fade out after completion
@@ -134,7 +144,7 @@ export default function NavigationProgress() {
             api.start({
               opacity: 0,
               config: {
-                duration: 200,
+                duration: FADE_OUT_DURATION_MS,
               },
               onRest: () => {
                 // Reset progress after fade out
@@ -142,7 +152,7 @@ export default function NavigationProgress() {
                 progressRef.current = 0;
               },
             });
-          }, 150);
+          }, COMPLETION_DELAY_MS);
         },
       });
     };

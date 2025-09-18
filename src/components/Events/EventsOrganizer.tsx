@@ -18,11 +18,11 @@ function EventsOrganizerInner({
   const { availableFilters } = useEventsFilter();
 
   return (
-    <div className="py-10">
-      <Container>
-        <EventsFilter availableFilters={availableFilters} currentView={view} />
-      </Container>
-      <EventsView events={events} view={view} />
+    <div className="flex flex-col py-10">
+      <EventsFilter availableFilters={availableFilters} currentView={view} />
+      <div className="bg-base-200">
+        <EventsView events={events} view={view} />
+      </div>
     </div>
   );
 }

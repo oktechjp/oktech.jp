@@ -38,8 +38,8 @@ export default function ThemeToggle({
       aria-label="Toggle theme"
       data-testid={testId}
     >
-      <LuMoon className="hidden h-[18px] w-[18px] dark:block" />
-      <LuSun className="block h-[18px] w-[18px] dark:hidden" />
+      <LuMoon className="hidden h-4 w-4 sm:h-[18px] sm:w-[18px] md:h-5 md:w-5 dark:block" />
+      <LuSun className="block h-4 w-4 sm:h-[18px] sm:w-[18px] md:h-5 md:w-5 dark:hidden" />
     </button>
   );
 }
