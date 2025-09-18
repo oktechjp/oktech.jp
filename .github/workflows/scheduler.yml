@@ -1,4 +1,4 @@
-name: Daily Rebuild Check
+name: Rebuild Check
 
 on:
   schedule:
@@ -83,7 +83,7 @@ jobs:
 
           echo "NEEDS_BUILD=$NEEDS_BUILD" >> $GITHUB_ENV
 
-      - name: Trigger builder workflow
+      - name: Trigger import workflow
         if: env.NEEDS_BUILD == 'true'
         uses: actions/github-script@v7
         with:
@@ -92,7 +92,7 @@ jobs:
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'astro.yml',
+              workflow_id: 'import.yml',
               ref: 'main'
             })
-            console.log('Build workflow triggered successfully')
+            console.log('Import workflow triggered successfully')

@@ -1,0 +1,83 @@
+name: Import and Commit Content
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  import-and-commit:
+    name: Import content and commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Import content
+        run: npm run import
+        env:
+          STADIA_MAPS_API_KEY: ${{ secrets.STADIA_MAPS_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit content updates
+        run: |
+          # Configure git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Check if there are changes to commit
+          if [ -n "$(git status --porcelain content/)" ]; then
+            # Get the previous meta.json values before staging
+            if [ -f content/meta.json ]; then
+              # Fetch the previous version from git
+              git show HEAD:content/meta.json > /tmp/old_meta.json 2>/dev/null || echo '{}' > /tmp/old_meta.json
+
+              OLD_COMMIT=$(jq -r '.commitHash // ""' /tmp/old_meta.json)
+              OLD_EVENT_SLUG=$(jq -r '.nextEventSlug // ""' /tmp/old_meta.json)
+
+              # Read new values from meta.json
+              NEW_COMMIT=$(jq -r '.commitHash' content/meta.json)
+              NEW_EVENT_SLUG=$(jq -r '.nextEventSlug // ""' content/meta.json)
+
+              echo "Old commit: $OLD_COMMIT"
+              echo "New commit: $NEW_COMMIT"
+              echo "Old event slug: $OLD_EVENT_SLUG"
+              echo "New event slug: $NEW_EVENT_SLUG"
+            fi
+
+            # Stage content changes
+            git add content/
+
+            # Determine commit message based on what changed
+            if [ "$OLD_COMMIT" != "$NEW_COMMIT" ]; then
+              # Commit hash changed, new content imported
+              git commit -m "Auto import content from https://github.com/oktechjp/public/commit/$NEW_COMMIT"
+            elif [ -n "$OLD_EVENT_SLUG" ] && [ "$OLD_EVENT_SLUG" != "$NEW_EVENT_SLUG" ]; then
+              # Event slug changed, meaning the previous event ended
+              git commit -m "Auto event end rebuild: $OLD_EVENT_SLUG"
+            else
+              # Default commit message
+              git commit -m "Auto import content from https://github.com/oktechjp/public/commit/$NEW_COMMIT"
+            fi
+
+            # Push changes
+            git push
+
+            echo "Content updates committed and pushed"
+          else
+            echo "No content changes to commit"
+          fi
