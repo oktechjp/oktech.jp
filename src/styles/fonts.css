@@ -19,7 +19,7 @@ button,
 .btn {
   font-family: var(--font-header);
   font-weight: 700;
-  @apply leading-snug;
+  @apply leading-[1.3em];
 }
 
 code,

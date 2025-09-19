@@ -11,23 +11,8 @@ import { MENU } from "@/constants";
 import { useBelowBreakpoint } from "@/utils/hooks/useBreakpoint";
 import { useFocus } from "@/utils/hooks/useFocus";
 
-function GlassCell({
-  children,
-  showBackground,
-  testId,
-  className,
-}: {
-  children: React.ReactNode;
-  showBackground: boolean;
-  testId?: string;
-  className?: string;
-}) {
-  return (
-    <div className={clsx("soft-glass", !showBackground && "no-bg", className)} data-testid={testId}>
-      {children}
-    </div>
-  );
-}
+const BUTTON_CLASS =
+  "btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field font-bold border-none shadow-none bg-base-100/0 hover:bg-base-100/60 active:bg-base-100/90";
 
 export default function TopBar() {
   const items = MENU.filter((item) => item.header === true);
@@ -73,39 +58,36 @@ export default function TopBar() {
             marginRight: springs.margin.to((m) => `${m}px`),
           }}
         >
-          <GlassCell
-            showBackground={showBackground}
-            testId="navbar-logo"
-            className="flex w-full justify-between"
+          <div
+            className={clsx(
+              "rounded-box flex w-full justify-between border p-px transition-all duration-300",
+              !showBackground
+                ? "bg-base-100/0 border-base-100/0"
+                : "bg-base-100/50 border-base-100/50",
+            )}
+            style={{
+              backdropFilter: "brightness(1.4) saturate(1.3) blur(30px)",
+            }}
           >
-            <Link
-              href="/"
-              className="group btn btn-glass sm:btn-lg md:btn-xl rounded-field"
-              data-astro-prefetch
-            >
+            <Link href="/" className={clsx(BUTTON_CLASS)} data-astro-prefetch>
               <div className="-mr-1 -ml-2">
                 <Brand active={logoActive} className="w-28 sm:w-32 md:w-42" />
               </div>
             </Link>
-            {/* </GlassCell>
-          <GlassCell showBackground={showBackground} testId="navbar-menu"> */}
             <div className="flex items-center">
               {items.map((item, i) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   data-astro-prefetch
-                  className={clsx(
-                    "btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field font-bold",
-                    i > 0 && "-ml-2",
-                  )}
+                  className={clsx(BUTTON_CLASS, i > 0 && "-ml-2")}
                 >
                   {item.label}
                 </Link>
               ))}
-              <ThemeToggle className="btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field -ml-2 font-bold" />
+              <ThemeToggle className={clsx(BUTTON_CLASS, "-ml-2")} />
             </div>
-          </GlassCell>
+          </div>
         </animated.div>
       </Container>
     </div>

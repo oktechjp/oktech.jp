@@ -23,7 +23,7 @@ export default function Container({
     <div
       className={clsx([
         "mx-auto px-4 sm:px-6 lg:px-8",
-        wide && "w-full max-w-[1800px]",
+        wide && "w-full max-w-[1680px]",
         thin && "max-w-4xl",
         !wide && !thin && "w-full max-w-6xl",
         className,

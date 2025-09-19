@@ -22,7 +22,7 @@ export default function Button({
   const needsSrText = ariaLabel && ariaLabel !== text;
 
   return (
-    <Link className={clsx("btn btn-primary", className)} href={href}>
+    <Link className={clsx("btn", className)} href={href}>
       {iconLeft && <LuChevronLeft />}
       {needsSrText ? (
         <>

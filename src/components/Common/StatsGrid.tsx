@@ -13,7 +13,7 @@ const tileColors = [
 
 export default function StatsGrid({ stats }: StatsGridProps) {
   return (
-    <div className="rounded-box grid aspect-square grid-cols-2 gap-4 overflow-hidden">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       {stats.map((stat, index) => (
         <div key={index} className="aspect-square">
           <StatsItem stat={stat} colorClass={tileColors[index % tileColors.length]} />

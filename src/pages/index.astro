@@ -18,9 +18,7 @@ const events = await getEvents(6);
     <EventsSection client:load events={events} variant="upcoming" />
     <!-- </Container> -->
   </div>
-  <Container wide>
-    <LandingAbout />
-  </Container>
+  <LandingAbout />
   <EventsSection client:load events={events} variant="recent" />
   <Container>
     <LandingCTA client:visible />

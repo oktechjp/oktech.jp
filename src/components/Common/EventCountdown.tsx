@@ -8,9 +8,8 @@ import { LuCalendarClock } from "react-icons/lu";
 import type { EventEnriched } from "@/content";
 import { isEventRecent } from "@/utils/eventFilters";
 
-const BADGE_BASE = "badge";
-const DEFAULT_BADGE_CLASS = `${BADGE_BASE} badge-accent`;
-const LIVE_BADGE_CLASS = `${BADGE_BASE} badge-info`;
+const DEFAULT_BADGE_CLASS = `badge badge-warning`;
+const LIVE_BADGE_CLASS = `badge badge-info`;
 
 const MS_PER_SECOND = 1000;
 const MS_PER_MINUTE = 60 * MS_PER_SECOND;

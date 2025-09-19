@@ -1,21 +1,13 @@
 ## vNow - fixes/refactoring
 
-## Docs
-
-- Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
-
-## Pending Evey's new Design
-
-- COLORS
-- Venue OG images, no SVGs
+- Implement Theme
 - Projector styling
-- Rejig the header
-- OG images
-- Update OG Image template
-- Try making a nice theme.
-- When theme is finalized, harmonize the theme.css and remove the editor, and use colors from logo
+- Check on mobile, safari
+- Update OG Image template, Venue OG images, no SVGs
 - Refactor SEO, sitemap, og cache, utils
-- Fix too much caching / memo in dev mode.
+- Fix too much content caching / memoization in dev mode.
+- Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
+- Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
 
 ## New Features
 

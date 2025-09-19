@@ -11,11 +11,13 @@ import Button from "../Common/Button";
 
 // Use the filtered getters which already handle devOnly filtering
 const events = await getEvents();
-const venues = await getVenues();
+
+const venues = events.map((event) => event.venue?.title).filter((venue) => venue !== undefined);
+const uniqueVenues = new Set(venues);
+const uniqueVenuesCount = uniqueVenues.size;
 
 // Calculate stats
 const totalEvents = events.length;
-const uniqueVenues = venues.length;
 
 // Define stats with icon keys
 const stats = [
@@ -29,48 +31,46 @@ const stats = [
     title: "Total Events",
     value: totalEvents.toString(),
     iconKey: icons.calendarDays,
-    subTitle: "Events and Counting",
+    subTitle: "Events and counting",
   },
   {
-    title: "Locations",
-    value: uniqueVenues.toString() + "+",
+    title: "Venues",
+    value: uniqueVenuesCount.toString() + "+",
     iconKey: icons.mapPin,
-    subTitle: "Places We've Met",
+    subTitle: "Places we've met",
   },
   {
     title: "Participants",
-    value: "2000+",
+    value: "2K+",
     iconKey: icons.users,
-    subTitle: "Community Members",
+    subTitle: "Community members",
   },
 ];
 ---
 
-<Container>
-  <div class="grid gap-16 lg:grid-cols-2">
-    <div class="flex items-center justify-center lg:order-2 lg:items-start">
-      <div class="flex max-w-[40em] flex-col gap-12 py-6 text-center lg:text-left">
-        <h2 class="text-4xl">About OKTech</h2>
-        <p class="text-lg">
-          A volunteer, non-profit group organizing monthly meetups in the Kansai region of Japan. We
-          invite people from all walks of web-life and encourage members to present topics they
-          enjoy. Join us for technical workshops, study sessions, and social gatherings in Osaka and
-          Kyoto.
-        </p>
-        <p>
-          <Button
-            className="btn-lg"
-            text="Learn More"
-            href="/about"
-            ariaLabel="Learn More About OKTech"
-          />
-        </p>
+<Container wide>
+  <div class="flex flex-col gap-32">
+    <div class="flex items-center justify-center">
+      <div class="flex flex-col gap-32 py-6 text-center lg:flex-row lg:text-left">
+        <h2 class="text-base-300 text-7xl">About OKTech</h2>
+        <div class="flex flex-col gap-12">
+          <p class="text-xl">
+            A volunteer, non-profit group organizing monthly meetups in the Kansai region of Japan.
+            We invite people from all walks of web-life and encourage members to present topics they
+            enjoy. Join us for technical workshops, study sessions, and social gatherings in Osaka
+            and Kyoto.
+          </p>
+          <p>
+            <Button
+              className="btn-lg"
+              text="Learn More"
+              href="/about"
+              ariaLabel="Learn More About OKTech"
+            />
+          </p>
+        </div>
       </div>
     </div>
-    <div class="flex items-center justify-center lg:order-1 lg:-my-20">
-      <div class="mx-auto max-w-[50em]">
-        <StatsGrid client:visible stats={stats} />
-      </div>
-    </div>
+    <StatsGrid client:visible stats={stats} />
   </div>
 </Container>

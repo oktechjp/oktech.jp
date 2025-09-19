@@ -36,14 +36,16 @@ export default function StatsItem({
   const Icon = statsIcons[stat.iconKey];
 
   return (
-    <div className={`${colorClass} flex h-full w-full items-start p-4 md:p-8`}>
-      <div className="flex h-full flex-col gap-4">
-        <div className="flex items-center gap-2">
-          <Icon className="h-5 w-5" />
+    <div className={`${colorClass} rounded-box flex h-full w-full items-start rounded-br-none`}>
+      <div className="flex h-full flex-col gap-3 px-4 py-6">
+        <div className="text-base-content flex items-center gap-2">
+          {/* <Icon className="h-5 w-5" /> */}
           <span className="font-header">{stat.title}</span>
         </div>
-        <div className="font-header flex-grow text-5xl font-bold">{stat.value}</div>
-        {stat.subTitle && <div className="text-sm opacity-75">{stat.subTitle}</div>}
+        <div className="font-header flex-grow text-5xl tracking-tighter">{stat.value}</div>
+        {stat.subTitle && (
+          <div className="text-base-content text-sm opacity-75">{stat.subTitle}</div>
+        )}
       </div>
     </div>
   );
