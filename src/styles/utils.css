@@ -15,7 +15,7 @@
 
 .ok-card {
   @apply bg-base-100/80 hover:bg-base-100/100 active:bg-base-100/100 rounded-box overflow-hidden shadow-[0px_4px_25px_0_rgba(0,0,0,0.07)];
-  @apply hover:scale-105 transition-all duration-200;
+  @apply transition-colors duration-200;
 }
 
 .fade-overflow {

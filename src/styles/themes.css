@@ -7,10 +7,7 @@
  * Run: npm run extract-themes
  */
 
- /* Note: in the Theme the RGB colors are mapped to Error, Success, and Info. Warning is Yellow.  */
-
-
-
+/* Note: in the Theme the RGB colors are mapped to Error, Success, and Info. Warning is Yellow.  */
 
 @plugin "daisyui/theme" {
   name: "dark";
@@ -47,17 +44,15 @@
 }
 
 @plugin "daisyui/theme" {
+  --logo-red: #fd4d69;
+  --logo-red-light: #ffdbe1;
+  --logo-green: #49d773;
+  --logo-green-light: #e4f9ea;
+  --logo-blue: #459bc9;
+  --logo-blue-light: #c7e1ef;
+  --logo-yellow: #d97708;
+  --logo-yellow-light: #ffefd9;
 
-  --logo-red: #FD4D69;
-  --logo-red-light: #FFDBE1;
-  --logo-green: #49D773;
-  --logo-green-light: #E4F9EA;
-  --logo-blue: #459BC9;
-  --logo-blue-light: #C7E1EF;
-  --logo-yellow: #D97708;
-  --logo-yellow-light: #FFEFD9;
-
-  
   name: "light";
   default: true;
   prefersdark: false;
@@ -75,7 +70,7 @@
   --color-neutral: oklch(27% 0.006 286.033);
   --color-neutral-content: oklch(92% 0.004 286.32);
   --color-info: var(--logo-blue-light);
-  --color-info-content: var(--logo-blue); 
+  --color-info-content: var(--logo-blue);
   --color-success: var(--logo-green-light);
   --color-success-content: var(--logo-green);
   --color-warning: var(--logo-yellow-light);
