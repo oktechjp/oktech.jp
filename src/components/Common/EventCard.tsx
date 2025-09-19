@@ -43,6 +43,10 @@ const EventCard = memo(function EventCard({
       }}
       onMouseEnter={() => api.start({ scale: 1.05 })}
       onMouseLeave={() => api.start({ scale: 1 })}
+      onMouseDown={() => api.start({ scale: 0.98 })}
+      onMouseUp={() => api.start({ scale: 1.05 })}
+      onTouchStart={() => api.start({ scale: 0.98 })}
+      onTouchEnd={() => api.start({ scale: 1 })}
     >
       <Link
         href={eventUrl}
