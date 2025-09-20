@@ -5,22 +5,28 @@ import LandingAbout from "@/components/Landing/LandingAbout.astro";
 import LandingCTA from "@/components/Landing/LandingCTA";
 import { getEvents } from "@/content";
 import Container from "@/components/Common/Container";
-import Cut from "@/components/Common/Cut";
+
 import EventsSection from "@/components/Landing/LandingEventsSection";
 
 const events = await getEvents(6);
 ---
 
-<PageLayout flush className="flex flex-col gap-42 pb-24">
+<PageLayout flush className="flex flex-col pb-24">
   <LandingHero />
   <div class="bg-base-200 py-20">
     <!-- <Container className="bg-red-200"> -->
     <EventsSection client:load events={events} variant="upcoming" />
     <!-- </Container> -->
   </div>
-  <LandingAbout />
-  <EventsSection client:load events={events} variant="recent" />
-  <Container>
-    <LandingCTA client:visible />
-  </Container>
+  <div class="py-20">
+    <LandingAbout />
+  </div>
+  <div class="bg-base-200 py-20">
+    <EventsSection client:load events={events} variant="recent" />
+  </div>
+  <div class="py-20">
+    <Container>
+      <LandingCTA client:visible />
+    </Container>
+  </div>
 </PageLayout>
