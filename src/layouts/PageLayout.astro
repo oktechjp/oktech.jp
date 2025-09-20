@@ -13,7 +13,7 @@ const { flush, className } = Astro.props;
       <TopBar client:load transition:persist="topbar" />
     </header>
     <!-- mt-16 for sticky header -->
-    <main class={clsx(`bg-base-100 flex-1`, flush ? "" : "pt-22", className)}>
+    <main class={clsx(`flex-1`, flush ? "" : "pt-22", className)}>
       <slot />
     </main>
     <footer>

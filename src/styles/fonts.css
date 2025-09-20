@@ -1,13 +1,19 @@
 /* Define CSS variables for Fontsource fonts */
 :root {
-  --font-body: "Lexend", "Noto Sans JP Variable", Arial, sans-serif;
-  --font-header: "Lexend", "Noto Sans JP Variable", "Helvetica Neue", Helvetica, sans-serif;
+  --font-body: "Lexend", "Noto Sans JP Variable", sans-serif;
+  --font-header: "Lexend", "Noto Sans JP Variable", sans-serif;
   --font-mono: "Martian Mono Variable", "Courier New", monospace;
 }
 
-body {
+body, .font-body {
   font-family: var(--font-body);
+  font-weight: 300;
 }
+
+b, bold, .font-bold { 
+  font-weight: 600;
+}
+
 
 h1,
 h2,
@@ -15,11 +21,13 @@ h3,
 h4,
 h5,
 h6,
-button,
-.btn {
+.font-header {
   font-family: var(--font-header);
-  font-weight: 700;
+  font-weight: 600;
   @apply leading-[1.3em];
+  &.font-bold {
+    font-weight: 800;
+  }
 }
 
 code,
@@ -28,16 +36,10 @@ samp,
 pre {
   font-family: var(--font-mono);
 }
-
-.font-body {
-  font-family: var(--font-body);
-}
-
-.font-header {
-  font-family: var(--font-header);
-  font-weight: 700;
-}
-
 .font-mono {
   font-family: var(--font-mono);
+}
+
+.btn {
+  font-weight: 300;
 }
