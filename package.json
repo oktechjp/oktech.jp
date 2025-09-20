@@ -28,9 +28,11 @@
     "@astrojs/react": "^4.3.0",
     "@astrojs/rss": "^4.0.12",
     "@fontsource-variable/martian-mono": "^5.2.6",
+    "@fontsource-variable/noto-sans-jp": "^5.2.7",
+    "@fontsource/lexend": "^5.2.10",
     "@fontsource/noto-sans-jp": "^5.2.7",
     "@playwright/test": "^1.53.1",
-    "@react-spring/web": "^10.0.2",
+    "@react-spring/web": "^10.0.3",
     "@resvg/resvg-js": "^2.6.2",
     "@rollup/plugin-yaml": "^4.1.2",
     "@tailwindcss/typography": "^0.5.16",
@@ -68,8 +70,6 @@
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.0",
-    "yet-another-react-lightbox": "^3.25.0",
-    "@fontsource-variable/noto-sans-jp": "^5.2.7",
-    "@fontsource/lexend": "^5.2.10"
+    "yet-another-react-lightbox": "^3.25.0"
   }
 }

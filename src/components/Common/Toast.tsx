@@ -44,7 +44,7 @@ export default function Toast() {
   return (
     <div
       className={clsx(
-        "fixed right-2 bottom-2 left-2 z-50 transition-opacity duration-500",
+        "fixed right-2 bottom-6 left-2 z-50 transition-opacity duration-500",
         isVisible ? "opacity-100" : "pointer-events-none opacity-0",
       )}
     >
