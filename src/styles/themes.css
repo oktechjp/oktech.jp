@@ -58,7 +58,7 @@
   prefersdark: false;
   color-scheme: "light";
   --color-base-100: #ffffff;
-  --color-base-200: rgb(245, 245, 245); /* #fbfbfb; ? */
+  --color-base-200: #FAFAFA; /* #fbfbfb; ? */
   --color-base-300: rgb(180, 180, 180);
   --color-base-content: #111;
   --color-primary: oklch(0.757 0.12 173.7);
