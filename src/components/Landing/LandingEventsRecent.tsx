@@ -19,7 +19,9 @@ export default function LandingEventsRecent({
       data-testid="events-recent"
     >
       {recentEvents.map((event, index) => (
-        <div
+        <EventCard
+          event={event}
+          variant="polaroid"
           key={event.id}
           data-testid="event-card"
           className={clsx([
@@ -27,9 +29,7 @@ export default function LandingEventsRecent({
             index === 4 && "hidden lg:block xl:hidden",
             index === 5 && "hidden lg:block xl:hidden",
           ])}
-        >
-          <EventCard event={event} variant="polaroid" />
-        </div>
+        />
       ))}
     </div>
   );

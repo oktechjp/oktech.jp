@@ -17,11 +17,13 @@ const EventCard = memo(function EventCard({
   index = 0,
   count = 1,
   variant = "compact",
+  className = "",
 }: {
   event: EventEnriched;
   index?: number;
   count?: number;
   variant?: Variant;
+  className?: string;
 }) {
   const first = index === 0;
   const last = index === count - 1;
@@ -42,6 +44,7 @@ const EventCard = memo(function EventCard({
       data-astro-prefetch
       className={clsx(
         "ok-card",
+        className,
         // border && "rounded-box overflow-hidden",
         // !border && "border-t-0 border-r-0 border-l-0",
         variant === "compact" && "flex items-center",
