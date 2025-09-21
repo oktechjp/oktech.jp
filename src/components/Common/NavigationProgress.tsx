@@ -1,6 +1,4 @@
-import { useEffect, useRef } from "react";
-
-import { animated, useSpring } from "@react-spring/web";
+import { useEffect, useRef, useState } from "react";
 
 export default function NavigationProgress() {
   // Configuration variables for progress behavior
@@ -18,15 +16,8 @@ export default function NavigationProgress() {
   const fadeOutTimerRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const isActiveRef = useRef(false);
 
-  const [{ progress, opacity }, api] = useSpring(() => ({
-    progress: 0,
-    opacity: 0,
-    config: {
-      tension: 180,
-      friction: 40,
-      clamp: false,
-    },
-  }));
+  const [progress, setProgress] = useState(0);
+  const [opacity, setOpacity] = useState(0);
 
   useEffect(() => {
     const trickleProgress = () => {
@@ -63,10 +54,8 @@ export default function NavigationProgress() {
       const newProgress = Math.min(currentProgress + increment, 94);
       progressRef.current = newProgress;
 
-      api.start({
-        progress: newProgress,
-        opacity: 1,
-      });
+      setProgress(newProgress);
+      setOpacity(1);
     };
 
     const cleanupTimers = () => {
@@ -102,14 +91,8 @@ export default function NavigationProgress() {
         if (!isActiveRef.current) return;
 
         // Initial burst to show immediate feedback
-        api.start({
-          progress: 10,
-          opacity: 1,
-          config: {
-            tension: 280,
-            friction: 18,
-          },
-        });
+        setProgress(10);
+        setOpacity(1);
         progressRef.current = 10;
 
         // Start trickling
@@ -126,35 +109,25 @@ export default function NavigationProgress() {
 
       // If progress never started (fast navigation), just reset
       if (progressRef.current === 0) {
-        api.set({ progress: 0, opacity: 0 });
+        setProgress(0);
+        setOpacity(0);
         return;
       }
 
       // Quickly go to 100%
-      api.start({
-        progress: 100,
-        opacity: 1,
-        config: {
-          tension: 260,
-          friction: 16,
-        },
-        onRest: () => {
-          // Fade out after completion
-          fadeOutTimerRef.current = setTimeout(() => {
-            api.start({
-              opacity: 0,
-              config: {
-                duration: FADE_OUT_DURATION_MS,
-              },
-              onRest: () => {
-                // Reset progress after fade out
-                api.set({ progress: 0 });
-                progressRef.current = 0;
-              },
-            });
-          }, COMPLETION_DELAY_MS);
-        },
-      });
+      setProgress(100);
+      setOpacity(1);
+      progressRef.current = 100;
+
+      // Fade out after completion
+      fadeOutTimerRef.current = setTimeout(() => {
+        setOpacity(0);
+        // Reset progress after fade out completes
+        setTimeout(() => {
+          setProgress(0);
+          progressRef.current = 0;
+        }, FADE_OUT_DURATION_MS);
+      }, COMPLETION_DELAY_MS);
     };
 
     const handlePreparation = () => {
@@ -179,25 +152,25 @@ export default function NavigationProgress() {
       document.removeEventListener("astro:after-swap", handleSwap);
       document.removeEventListener("astro:page-load", handleLoad);
     };
-  }, [api]);
+  }, []);
 
   return (
-    <animated.div
-      className="pointer-events-none fixed top-0 right-0 left-0 z-[9999] h-1"
+    <div
+      className="pointer-events-none fixed top-0 right-0 left-0 z-[9999] h-1 transition-opacity duration-200"
       style={{ opacity }}
       role="progressbar"
       aria-label="Page navigation progress"
-      aria-valuenow={Math.round(progressRef.current)}
+      aria-valuenow={Math.round(progress)}
       aria-valuemin={0}
       aria-valuemax={100}
     >
-      <animated.div
-        className="bg-primary shadow-primary/50 h-full shadow-sm"
+      <div
+        className="bg-success-content h-full transition-all duration-500 ease-out"
         style={{
-          width: progress.to((p) => `${p}%`),
+          width: `${progress}%`,
           transformOrigin: "left",
         }}
       />
-    </animated.div>
+    </div>
   );
 }
