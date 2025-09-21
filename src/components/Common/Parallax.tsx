@@ -13,8 +13,8 @@ interface ParallaxProps {
 export default function Parallax({
   children,
   className = "",
-  maxOffset = 128,
-  speed = 0.2,
+  maxOffset = 180,
+  speed = 0.3,
 }: ParallaxProps) {
   const hostRef = useRef<HTMLDivElement>(null);
 

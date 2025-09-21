@@ -19,45 +19,45 @@ const TAGS = [
 ];
 ---
 
-<div class="bg-base-100">
-  <Container wide>
-    <div class="grid items-center gap-32 py-42 lg:grid-cols-2">
-      <div>
-        <div class="flex max-w-2xl flex-col gap-8">
-          <div class="flex flex-col gap-2">
-            <h2 class="text-5xl font-bold xl:text-6xl 2xl:text-7xl">
-              Together<br />in tech and life
-            </h2>
-            <div class="text-xl">Build cool things, share life hacks, and meet kind minds.</div>
+<Container wide>
+  <div class="grid items-center gap-32 pt-16 md:grid-cols-12 md:gap-12">
+    <div class="md:col-span-7">
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-5xl font-bold sm:text-6xl md:text-5xl xl:text-6xl">
+            Together<br />in tech and life
+          </h2>
+          <div class="text-lg sm:text-xl md:text-lg lg:text-xl">
+            Build cool things, share life hacks, and meet kind minds.
           </div>
-          <div class="text-base-300 flex flex-col gap-2">
-            <div class="">
-              <b class="mr-2">2k+ attendees</b> Kansai's largest English speaking Technology Meetup Group
-            </div>
-            <div class="mt-2 flex flex-wrap justify-start gap-2">
-              {TAGS.map((tag) => <span class="badge badge-outline">{tag}</span>)}
-            </div>
+        </div>
+        <div class="text-base-400 flex flex-col gap-2 text-sm md:text-xs lg:text-sm">
+          <div>
+            <b class="mr-2">2k+ Attendees</b> Kansai's largest English speaking Technology Meetup Group
+          </div>
+          <div class="mt-2 flex max-w-[36em] flex-wrap justify-start gap-2">
+            {TAGS.map((tag) => <span class="badge badge-outline badge-sm">{tag}</span>)}
           </div>
         </div>
       </div>
-      <div>
-        <Parallax client:idle className="">
-          <BlobSlideshow
-            startTimeOffset={1000}
-            images={[
-              "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0847033052.webp",
-              "/content/events/301456891-workshop-like-s3/gallery/IMG_7669.webp",
-              "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0847554502.webp",
-              "/content/events/263532260-hot-summer-hot-topics-osaka-web-dev-and-design-meetup-in-august/gallery/255202.webp",
-              "/content/events/299830334-vim-and-noise/gallery/IMG_20240413_1728142.webp",
-              "/content/events/299335046-osaka-hanami-2024/gallery/IMG_9924.webp",
-              "/content/events/302995505-how-to-present-and-sql/gallery/DSCF0941.webp",
-              "/content/events/299455127-wasm-airplanes-and-llm/gallery/IMG_9659.webp",
-              "/content/events/308580120-agentic-sentiments/gallery/PXL_20250719_0946379792.webp",
-            ]}
-          />
-        </Parallax>
-      </div>
     </div>
-  </Container>
-</div>
+    <div class="md:col-span-5">
+      <Parallax client:idle className="md:-mr-12">
+        <BlobSlideshow
+          startTimeOffset={1000}
+          images={[
+            "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0847033052.webp",
+            "/content/events/301456891-workshop-like-s3/gallery/IMG_7669.webp",
+            "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0847554502.webp",
+            "/content/events/263532260-hot-summer-hot-topics-osaka-web-dev-and-design-meetup-in-august/gallery/255202.webp",
+            "/content/events/299830334-vim-and-noise/gallery/IMG_20240413_1728142.webp",
+            "/content/events/299335046-osaka-hanami-2024/gallery/IMG_9924.webp",
+            "/content/events/302995505-how-to-present-and-sql/gallery/DSCF0941.webp",
+            "/content/events/299455127-wasm-airplanes-and-llm/gallery/IMG_9659.webp",
+            "/content/events/308580120-agentic-sentiments/gallery/PXL_20250719_0946379792.webp",
+          ]}
+        />
+      </Parallax>
+    </div>
+  </div>
+</Container>

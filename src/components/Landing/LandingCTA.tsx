@@ -24,7 +24,7 @@ export default function LandingCTA() {
     {
       type: "a",
       title: "Make a Presentation",
-      description: "Submit your talk proposal and share your ideas",
+      description: "Share your ideas",
       icon: LuMessageCircleCode,
       href: "https://discord.com/channels/1034792577293094972/1034862103653257306",
       target: "_blank",

@@ -6,7 +6,6 @@ import type { IconType } from "react-icons";
 import BlobCard from "@/components/Common/BlobCard";
 import CalendarFeeds from "@/components/Common/CalendarFeeds";
 import Link from "@/components/Common/Link";
-import { type Patterns, patterns } from "@/components/Common/Pattern";
 
 export interface BlobIconGridItem {
   type: "link" | "calendar" | "a";
@@ -35,13 +34,12 @@ function GridItem({
   Icon: IconType;
 }) {
   return (
-    <div className="-mt-10 flex flex-col items-center justify-center gap-8 text-center transition-all group-hover:-mt-24 group-hover:scale-110 group-hover:gap-12">
-      <div className="bg-primary/50 text-primary-content group-hover:bg-primary/100 rounded-field flex aspect-square items-center justify-center p-4 transition-all group-hover:scale-125">
-        <Icon className="text-5xl" />
-      </div>
+    <div className="flex flex-col items-center justify-center gap-4 text-center">
+      <Icon className="text-4xl" />
+
       <div className="text-base-content hover:text-primary-content flex flex-col items-center justify-center">
         <h3 className="mb-1 text-lg font-bold">{title}</h3>
-        <p className="max-w-52">{description}</p>
+        <p className="text-base-400 max-w-52">{description}</p>
       </div>
     </div>
   );
@@ -50,20 +48,17 @@ function GridItem({
 function BlobWrapper({
   children,
   preset,
-  pattern,
   className,
 }: {
   children: ReactNode;
   preset: number;
-  pattern?: Patterns;
   className?: string;
 }) {
   return (
     <div className={clsx("flex items-center justify-center", className)}>
       <BlobCard
         preset={preset}
-        pattern={pattern}
-        patternClass="bg-primary-content/5"
+        bgClass="bg-info/0 group-hover:bg-info"
         className="mt-5 -mb-5 h-70 w-70"
       >
         <div className="flex h-full w-full items-center justify-center">{children}</div>
@@ -73,21 +68,11 @@ function BlobWrapper({
 }
 
 export default function BlobIconGrid({ items, className = "" }: BlobIconGridProps) {
-  const patternKeys = Object.keys(patterns) as Patterns[];
-
   return (
-    <div className={clsx("flex flex-wrap justify-center gap-28 pb-12 md:pb-24", className)}>
+    <div className={clsx("grid md:grid-cols-3", className)}>
       {items.map((item, index) => {
-        const patternIndex = index % patternKeys.length;
-        const pattern = patternKeys[patternIndex];
-
         return (
-          <BlobWrapper
-            key={`${item.title}-${index}`}
-            preset={index}
-            pattern={pattern}
-            className="-mb-12 md:-mb-24"
-          >
+          <BlobWrapper key={`${item.title}-${index}`} preset={index}>
             {item.type === "link" ? (
               <Link href={item.href || "#"} className="">
                 <GridItem title={item.title} description={item.description} Icon={item.icon} />

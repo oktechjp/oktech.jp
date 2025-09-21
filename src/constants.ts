@@ -163,6 +163,13 @@ export const SEO_DATA: Record<
 
 export const SOCIALS = [
   {
+    icon: LuCalendar,
+    href: "#",
+    label: "Calendar Subscription",
+    description: "Subscribe to our event calendar and RSS feeds",
+    type: "calendar" as const,
+  },
+  {
     icon: FaDiscord,
     href: "/discord",
     label: "Discord",
@@ -185,12 +192,5 @@ export const SOCIALS = [
     href: "https://www.linkedin.com/company/owddm-kwddm",
     label: "LinkedIn",
     description: "For the professionals to connect and explore career opportunities",
-  },
-  {
-    icon: LuCalendar,
-    href: "#",
-    label: "Calendar Subscription",
-    description: "Subscribe to our event calendar and RSS feeds",
-    type: "calendar" as const,
   },
 ] as const;

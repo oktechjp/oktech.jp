@@ -22,7 +22,7 @@ export default function MainMenu({ variant = "default", className = "" }: MainMe
               href={item.href}
               className="btn btn-ghost items-center justify-start gap-2 text-sm"
             >
-              {IconComponent && <IconComponent />}
+              {/* {IconComponent && <IconComponent />} */}
               {item.label}
             </Link>
           );

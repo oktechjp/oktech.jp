@@ -29,11 +29,10 @@ export default function Footer() {
             <a
               href={`${meta.repository}/commit/${meta.commitHash}`}
               target="_blank"
-              className="link text-link"
+              className="link text-link tooltip md:tooltip-left"
+              data-tip={`${formatDate(new Date(), "datetime")} UTC · ${meta.commitHash.substring(0, 7)}`}
             >
-              Built with <code>{`<3`}</code> at{" "}
-              <code>{formatDate(new Date(), "datetime")} UTC</code> using{" "}
-              <code>{meta.commitHash.substring(0, 7)}</code>
+              Built with <code>{`<3`}</code>
             </a>
           </div>
         </div>
