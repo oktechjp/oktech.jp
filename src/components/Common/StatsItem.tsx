@@ -37,7 +37,7 @@ export default function StatsItem({
 
   return (
     <div className={`${colorClass} rounded-box flex h-full w-full items-start rounded-br-none`}>
-      <div className="flex h-full flex-col gap-3 px-8 py-12 md:px-4 md:py-6 xl:px-8 xl:py-12">
+      <div className="flex h-full flex-col gap-3 px-8 py-4 md:py-6 xl:px-8 xl:py-12">
         <div className="text-base-content flex items-center gap-2 lg:text-lg">
           {/* <Icon className="h-5 w-5" /> */}
           <span className="font-header">{stat.title}</span>
@@ -46,7 +46,7 @@ export default function StatsItem({
           {stat.value}
         </div>
         {stat.subTitle && (
-          <div className="text-base-content text-sm opacity-75 lg:text-lg">{stat.subTitle}</div>
+          <div className="text-base-content text-sm opacity-75 lg:text-base">{stat.subTitle}</div>
         )}
       </div>
     </div>

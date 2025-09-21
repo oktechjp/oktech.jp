@@ -2,6 +2,7 @@
 
 @import "./fonts.css";
 @import "./utils.css";
+
 @import "./themes.css";
 
 /* ??? */
@@ -9,10 +10,6 @@
 @source not "../../test/**";
 
 @plugin "@tailwindcss/typography";
-
-@theme {
-  --breakpoint-2xl: 1536px;
-}
 
 /* Text selection highlight using DaisyUI primary color */
 ::selection {
