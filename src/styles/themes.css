@@ -3,54 +3,50 @@
 @plugin "daisyui";
 
 @theme {
-  --color-base-400: rgb(146, 146, 146); 
-  --color-base-500: rgb(110, 110, 110); 
+  /* additional base colors - they need to be here to extend tailwind with text-base-500, etc. */
+  --color-base-0: rgb(255, 255, 255); /* FFFFFF */
+  --color-base-100: rgb(250, 250, 250); /* FAFAFA */
+  --color-base-200: rgb(224, 224, 224); /* E0E0E0 */
+  --color-base-300: rgb(214, 214, 214); /* D6D6D6 */
+  --color-base-400: rgb(184, 184, 184); /* B8B8B8 */
+  --color-base-500: rgb(146, 146, 146); /* 929292 */
+  --color-base-600: rgb(110, 110, 110); /* 6E6E6E */
+  --color-base-700: rgb(75, 75, 75); /* 4B4B4B */
+  --color-base-800: rgb(43, 43, 43); /* 2B2B2B */
+  --color-base-900: rgb(17, 17, 17); /* 111111 */
+
+  /* custom variables - again, needs to be here to extend tailwind */
   --breakpoint-2xl: 1536px;
 }
 
+/* TODO: Maybe update these for btn-primary, etc. */
 /* 
- * To update OG image colors after modifying theme colors:
- * Run: npm run extract-themes
- */
-
-/* Note: in the Theme the RGB colors are mapped to Error, Success, and Info. Warning is Yellow.  */
+--color-primary: oklch(0.757 0.12 173.7);
+--color-primary-content: oklch(0.25 0.05 173.7);
+--color-secondary: oklch(90% 0.063 306.703);
+--color-secondary-content: oklch(43% 0.218 303.724);
+--color-accent: oklch(90% 0.076 70.697);
+--color-accent-content: oklch(47% 0.157 37.304); 
+*/
 
 @plugin "daisyui/theme" {
   name: "dark";
   default: false;
   prefersdark: true;
   color-scheme: "dark";
-  --color-base-100: oklch(21% 0.006 56.043);
-  --color-base-200: oklch(14% 0.004 49.25);
-  --color-base-300: oklch(0% 0 0);
-  --color-base-400: oklch(7% 0.002 49.25);
-  --color-base-content: oklch(84.955% 0 0);
-  --color-primary: oklch(77.48% 0.204 60.62);
-  --color-primary-content: oklch(19.693% 0.004 196.779);
-  --color-secondary: oklch(45.98% 0.248 305.03);
-  --color-secondary-content: oklch(89.196% 0.049 305.03);
-  --color-accent: oklch(64.8% 0.223 136.073);
-  --color-accent-content: oklch(0% 0 0);
-  --color-neutral: oklch(24.371% 0.046 65.681);
-  --color-neutral-content: oklch(84.874% 0.009 65.681);
-  --color-info: oklch(54.615% 0.215 262.88);
-  --color-info-content: oklch(90.923% 0.043 262.88);
-  --color-success: oklch(62.705% 0.169 149.213);
-  --color-success-content: oklch(12.541% 0.033 149.213);
-  --color-warning: oklch(66.584% 0.157 58.318);
-  --color-warning-content: oklch(13.316% 0.031 58.318);
-  --color-error: oklch(65.72% 0.199 27.33);
-  --color-error-content: oklch(13.144% 0.039 27.33);
-  --radius-selector: 9999rem;
-  --radius-field: 9999rem;
-  --radius-box: 2rem;
-  --logo-base-color: var(--color-base-content);
-  --logo-color-1: var(--color-red-400);
-  --logo-color-2: var(--color-green-400);
-  --logo-color-3: var(--color-blue-400);
-}
 
-@plugin "daisyui/theme" {
+  --color-base-0: rgb(20, 20, 20); /* 141414 */
+  --color-base-100: rgb(34, 34, 34); /* 222222 */
+  --color-base-200: rgb(39, 39, 39); /* 272727 */
+  --color-base-300: rgb(43, 43, 43); /* 2B2B2B */
+  --color-base-400: rgb(79, 79, 79); /* 4F4F4F */
+  --color-base-500: rgb(112, 112, 112); /* 707070 */
+  --color-base-600: rgb(115, 115, 115); /* 737373 */
+  --color-base-700: rgb(173, 173, 173); /* ADBDBD */
+  --color-base-800: rgb(241, 241, 241); /* 2B2B2B */
+  --color-base-900: rgb(255, 255, 255); /* 111111 */
+
+  /* logo colors */
   --logo-red: #fd4d69;
   --logo-red-light: #ffdbe1;
   --logo-green: #49d773;
@@ -59,25 +55,12 @@
   --logo-blue-light: #c7e1ef;
   --logo-yellow: #d97708;
   --logo-yellow-light: #ffefd9;
+  --logo-base-color: var(--color-base-content);
 
-  name: "light";
-  default: true;
-  prefersdark: false;
-  color-scheme: "light";
-  --color-base-100: rgb(255, 255, 255);
-  --color-base-200: rgb(250, 250, 250);
-  --color-base-300: rgb(180, 180, 180);
-  --color-base-400: rgb(146, 146, 146);
-  --color-base-500: rgb(110, 110, 110);
-  --color-base-content: #111;
-  --color-primary: oklch(0.757 0.12 173.7);
-  --color-primary-content: oklch(0.25 0.05 173.7);
-  --color-secondary: oklch(90% 0.063 306.703);
-  --color-secondary-content: oklch(43% 0.218 303.724);
-  --color-accent: oklch(90% 0.076 70.697);
-  --color-accent-content: oklch(47% 0.157 37.304);
-  --color-neutral: rgb(0,0,0);
-  --color-neutral-content: rgb(255,255,255);
+  /* daisy ui overrides */
+  --color-base-content: var(--color-base-900);
+  --color-neutral: var(--color-base-900);
+  --color-neutral-content: var(--color-base-0);
   --color-info: var(--logo-blue-light);
   --color-info-content: var(--logo-blue);
   --color-success: var(--logo-green-light);
@@ -87,20 +70,70 @@
   --color-error: var(--logo-red-light);
   --color-error-content: var(--logo-red);
 
-  --radius-selector: 2rem;
-  --radius-field: 2rem;
-  --radius-box: 2rem;
-  --logo-base-color: var(--color-base-content);
-  --logo-color-1: var(--color-red-400);
-  --logo-color-2: var(--color-green-400);
-  --logo-color-3: var(--color-blue-400);
-}
-/* --size-selector: 0.5rem; */
-/* --size-field: 0.5rem; */
-/* --border: 1px; */
-/* --depth: 1; */
-/* --noise: 0; */
+  /* also, map primary, secondary, accent */
+  --color-primary: var(--logo-blue-light);
+  --color-primary-content: var(--logo-blue);
+  --color-secondary: var(--logo-green-light);
+  --color-secondary-content: var(--logo-green);
+  --color-accent: var(--logo-red-light);
+  --color-accent-content: var(--logo-red);
 
-.btn {
-  @apply border-none shadow-none;
+  --radius-selector: 10rem;
+  --radius-field: 10rem;
+  --radius-box: 1.5rem;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+
+  /* additional base colors */
+  --color-base-0: rgb(255, 255, 255); /* FFFFFF */
+  --color-base-100: rgb(250, 250, 250); /* FAFAFA */
+  --color-base-200: rgb(224, 224, 224); /* E0E0E0 */
+  --color-base-300: rgb(214, 214, 214); /* D6D6D6 */
+  --color-base-400: rgb(184, 184, 184); /* B8B8B8 */
+  --color-base-500: rgb(146, 146, 146); /* 929292 */
+  --color-base-600: rgb(110, 110, 110); /* 6E6E6E */
+  --color-base-700: rgb(75, 75, 75); /* 4B4B4B */
+  --color-base-800: rgb(43, 43, 43); /* 2B2B2B */
+  --color-base-900: rgb(17, 17, 17); /* 111111 */
+
+  /* logo colors */
+  --logo-red: #fd4d69;
+  --logo-red-light: #ffdbe1;
+  --logo-green: #49d773;
+  --logo-green-light: #e4f9ea;
+  --logo-blue: #459bc9;
+  --logo-blue-light: #c7e1ef;
+  --logo-yellow: #d97708;
+  --logo-yellow-light: #ffefd9;
+  --logo-base-color: var(--color-base-content);
+
+  /* daisy ui overrides */
+  --color-base-content: var(--color-base-900);
+  --color-neutral: var(--color-base-900);
+  --color-neutral-content: var(--color-base-0);
+  --color-info: var(--logo-blue-light);
+  --color-info-content: var(--logo-blue);
+  --color-success: var(--logo-green-light);
+  --color-success-content: var(--logo-green);
+  --color-warning: var(--logo-yellow-light);
+  --color-warning-content: var(--logo-yellow);
+  --color-error: var(--logo-red-light);
+  --color-error-content: var(--logo-red);
+
+  /* also, map primary, secondary, accent */
+  --color-primary: var(--logo-blue-light);
+  --color-primary-content: var(--logo-blue);
+  --color-secondary: var(--logo-green-light);
+  --color-secondary-content: var(--logo-green);
+  --color-accent: var(--logo-red-light);
+  --color-accent-content: var(--logo-red);
+
+  --radius-selector: 10rem;
+  --radius-field: 10rem;
+  --radius-box: 1.5rem;
 }

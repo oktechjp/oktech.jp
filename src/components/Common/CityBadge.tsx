@@ -20,9 +20,10 @@ export default function CityBadge({ city, className }: CityBadgeProps) {
   return (
     <span
       className={clsx(
-        isOsaka && "badge text-error bg-error-content",
-        isKyoto && "badge text-info bg-info-content",
-        isOther && "badge text-success bg-success-content",
+        "badge",
+        isOsaka && "text-error bg-error-content",
+        isKyoto && "text-info bg-info-content",
+        isOther && "text-success bg-success-content",
         className,
       )}
     >

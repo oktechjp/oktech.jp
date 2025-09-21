@@ -34,12 +34,12 @@ function GridItem({
   Icon: IconType;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 text-center">
+    <div className="text-base-900 flex flex-col items-center justify-center gap-4 text-center">
       <Icon className="text-4xl" />
 
-      <div className="text-base-content hover:text-primary-content flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center">
         <h3 className="mb-1 text-lg font-bold">{title}</h3>
-        <p className="text-base-400 max-w-52">{description}</p>
+        <p className="text-base-500 max-w-52">{description}</p>
       </div>
     </div>
   );
@@ -55,10 +55,10 @@ function BlobWrapper({
   className?: string;
 }) {
   return (
-    <div className={clsx("flex items-center justify-center", className)}>
+    <div className={clsx("group flex items-center justify-center", className)}>
       <BlobCard
         preset={preset}
-        bgClass="bg-info/0 group-hover:bg-info"
+        bgClass="bg-info/0 group-hover:bg-info group-active:bg-info"
         className="mt-5 -mb-5 h-70 w-70"
       >
         <div className="flex h-full w-full items-center justify-center">{children}</div>

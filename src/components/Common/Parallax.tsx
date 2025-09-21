@@ -3,20 +3,40 @@ import type { ReactNode } from "react";
 
 import { animated, useSpring } from "@react-spring/web";
 
+import { useBreakpoint } from "@/utils/hooks/useBreakpoint";
+
 interface ParallaxProps {
   children: ReactNode;
   className?: string;
-  maxOffset?: number; // max offset in pixels
-  speed?: number; // e.g. 0.2
 }
 
-export default function Parallax({
-  children,
-  className = "",
-  maxOffset = 180,
-  speed = 0.3,
-}: ParallaxProps) {
+export default function Parallax({ children, className = "" }: ParallaxProps) {
   const hostRef = useRef<HTMLDivElement>(null);
+  const currentBreakpoint = useBreakpoint();
+
+  // Hardcoded values based on breakpoint
+  const getParallaxConfig = () => {
+    const smallConfig = { maxOffset: 40, speed: 0.1 };
+    const bigConfig = { maxOffset: 180, speed: 0.3 };
+    switch (currentBreakpoint) {
+      case "base":
+        return smallConfig;
+      case "sm":
+        return smallConfig;
+      case "md":
+        return bigConfig;
+      case "lg":
+        return bigConfig;
+      case "xl":
+        return bigConfig;
+      case "2xl":
+        return bigConfig;
+      default:
+        return smallConfig;
+    }
+  };
+
+  const { maxOffset, speed } = getParallaxConfig();
 
   const [springs, api] = useSpring(() => ({
     y: 0,
@@ -98,7 +118,7 @@ export default function Parallax({
       ro.disconnect();
       if (rafId != null) cancelAnimationFrame(rafId);
     };
-  }, [api, maxOffset, speed]);
+  }, [api, maxOffset, speed, currentBreakpoint]);
 
   return (
     <div ref={hostRef} className={`relative ${className}`}>

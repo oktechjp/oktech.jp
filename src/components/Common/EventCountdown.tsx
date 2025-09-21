@@ -8,8 +8,8 @@ import { LuCalendarClock } from "react-icons/lu";
 import type { EventEnriched } from "@/content";
 import { isEventRecent } from "@/utils/eventFilters";
 
-const DEFAULT_BADGE_CLASS = `badge badge-warning`;
-const LIVE_BADGE_CLASS = `badge badge-info`;
+const DEFAULT_BADGE_CLASS = `badge-warning`;
+const LIVE_BADGE_CLASS = `badge-info`;
 
 const MS_PER_SECOND = 1000;
 const MS_PER_MINUTE = 60 * MS_PER_SECOND;
@@ -145,7 +145,7 @@ export default function EventCountdown({
   const badgeText = !isHydrated ? (capitalize ? "Starts soon" : "starts soon") : displayText;
 
   const content = (
-    <div className={clsx(badgeClass, "flex items-center gap-2", className)}>
+    <div className={clsx(badgeClass, "badge text-base-800 dark:text-base-100 gap-2", className)}>
       <LuCalendarClock />
       {badgeText}
     </div>

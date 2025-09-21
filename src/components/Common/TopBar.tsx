@@ -8,14 +8,14 @@ import { MENU } from "@/constants";
 import { useFocus } from "@/utils/hooks/useFocus";
 
 const BUTTON_CLASS =
-  "btn btn-glass btn-md font-bold sm:btn-lg md:btn-xl rounded-field font-bold border-none shadow-none bg-base-100/0 hover:bg-base-100/60 active:bg-base-100/90";
+  "btn btn-glass btn-md font-bold sm:btn-lg md:btn-xl rounded-field font-bold border-none shadow-none bg-base-0/0 hover:bg-base-0/60 active:bg-base-0/90";
 
 export default function TopBar() {
   const items = MENU.filter((item) => item.header === true);
   const logoActive = useFocus();
 
   return (
-    <div data-testid="top-bar" className="fixed top-0 z-50 w-full">
+    <div data-testid="top-bar" className="text-base-800 fixed top-0 z-50 w-full">
       <ShrinkingNavbar>
         <Link href="/" className={clsx(BUTTON_CLASS)} data-astro-prefetch>
           <div className="-mr-1 -ml-2">

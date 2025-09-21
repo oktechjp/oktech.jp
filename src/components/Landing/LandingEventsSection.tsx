@@ -2,22 +2,34 @@ import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 import { filterUpcomingEvents } from "@/utils/eventFilters";
 
+import Button from "../Common/Button";
+import Container from "../Common/Container";
 import LandingEventsRecent from "./LandingEventsRecent";
 import LandingEventsUpcoming from "./LandingEventsUpcoming";
 
 function UpcomingSection({ events }: { events: EventEnriched[] }) {
   return (
-    <SimpleSection title="Upcoming Events">
+    <Container className="gap-responsive flex flex-col md:items-center">
+      <h2 className="section-title">Upcoming Events</h2>
       <LandingEventsUpcoming events={events} />
-    </SimpleSection>
+    </Container>
   );
 }
 
 function RecentSection({ events }: { events: EventEnriched[] }) {
   return (
-    <SimpleSection title="Recent Events" wide button={{ text: "All Events", href: "/events" }}>
+    <Container className="gap-responsive flex flex-col items-center">
+      <div className="flex w-full items-center justify-between gap-4">
+        <h2 className="section-title">Recent Events</h2>
+        <div className="hidden md:block">
+          <Button text="All Events" href="/events" className="btn-lg btn-neutral" />
+        </div>
+      </div>
       <LandingEventsRecent events={events} />
-    </SimpleSection>
+      <div className="ml-auto md:hidden">
+        <Button text="All Events" href="/events" className="btn-lg btn-neutral ml-auto md:hidden" />
+      </div>
+    </Container>
   );
 }
 

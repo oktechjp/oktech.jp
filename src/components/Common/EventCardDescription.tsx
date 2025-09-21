@@ -25,14 +25,20 @@ function InfoItem({
   if (!children || Children.count(children) === 0) return null;
 
   return (
-    <div
-      className={clsx(
-        "flex items-center gap-2",
-        variant === "compact" ? "text-sm whitespace-nowrap md:text-base" : "line-clamp-2",
+    <div className={clsx("flex items-start gap-2")}>
+      {Icon && (
+        <div className="mt-0.5 flex w-4 flex-shrink-0 items-start">
+          <Icon />
+        </div>
       )}
-    >
-      {Icon && <Icon />}
-      {children}
+      <div
+        className={clsx(
+          "flex-shrink",
+          variant === "compact" ? "whitespace-nowrap md:text-base" : "line-clamp-3",
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -41,7 +47,7 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
   return (
     <div
       className={clsx(
-        "text-base-content/70 flex",
+        "text-base-700 flex text-sm",
         variant === "compact" && "fade-overflow flex-row items-center gap-4",
         variant === "polaroid" && "flex-col gap-2",
         variant === "big" && "flex-col gap-2 sm:text-lg",
@@ -71,6 +77,8 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
       </InfoItem>
       <InfoItem variant={variant} Icon={LuBuilding2}>
         {event.venue?.title}
+        <br />
+        {event.venue?.address}
       </InfoItem>
       {variant === "compact" && <InfoItem variant={variant}>{event.venue?.address}</InfoItem>}
     </div>
@@ -88,7 +96,7 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
     <div
       className={clsx(
         "flex min-w-0 flex-1 flex-col justify-between",
-        smallPolaroid && "justify-between gap-4 px-6 py-4",
+        smallPolaroid && "justify-between gap-4 px-4 py-4",
       )}
     >
       {/* title and info */}
@@ -104,7 +112,7 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
           <h3
             className={clsx(
               "line-clamp-2",
-              variant === "compact" && "truncate text-base sm:text-lg md:text-xl",
+              variant === "compact" && "truncate text-base sm:text-xl md:text-xl",
               smallPolaroid && "text-xl",
               variant === "big" && "sm:text-2xl",
             )}
@@ -121,7 +129,7 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
           <CityBadge city={event.venue?.city} />
           <div className="fade-overflow flex gap-2 whitespace-nowrap">
             {event.data.topics?.map((topic) => (
-              <span key={topic} className="text-base-content/70 text-sm">
+              <span key={topic} className="text-base-500 text-xs">
                 #{topic.replace(" ", "")}
               </span>
             ))}

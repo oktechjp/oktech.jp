@@ -9,6 +9,9 @@
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
 - Remove SimpleSection, shouldn't be used
+- Replace calendar tooltip with modal
+- Update theme script
+- Use the py-responseive and gap-responseive classes more.
 
 ## New Features
 
@@ -21,12 +24,6 @@
 ## Later?
 
 - Preview builds for PRs
-- Random mode okat tech album
-- Fade in / out 'Greeting'
-- Random blob on hover
-- Nice projector view
-- Album gallery that randomly shows all the images
-- hide the chrome in the gallery lightbox when in fullscreen
 - fade between slides in gallery mode.
 - Create a plan for cancelled events logic.
 - Article for about History.

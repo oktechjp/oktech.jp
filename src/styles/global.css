@@ -13,13 +13,13 @@
 
 /* Text selection highlight using DaisyUI primary color */
 ::selection {
-  background-color: color-mix(in srgb, var(--color-primary) 70%, transparent);
-  color: var(--color-primary-content);
+  background-color: color-mix(in srgb, var(--color-primary) 80%, transparent);
+  color: color-mix(in srgb, currentColor 90%, transparent);
 }
 
 ::-moz-selection {
-  background-color: color-mix(in srgb, var(--color-primary) 70%, transparent);
-  color: var(--color-primary-content);
+  background-color: color-mix(in srgb, var(--color-primary) 80%, transparent);
+  color: color-mix(in srgb, currentColor 90%, transparent);
 }
 
 body > div {
@@ -28,4 +28,12 @@ body > div {
 
 body {
   @apply text-pretty;
+}
+
+.btn {
+  @apply border-none shadow-none;
+}
+
+.badge:not(.badge-outline) {
+  @apply border-none shadow-none;
 }

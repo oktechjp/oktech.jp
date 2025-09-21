@@ -79,7 +79,7 @@ export default function ShrinkingNavbar({ children, className }: ShrinkingNavbar
         >
           <div
             className={clsx(
-              "rounded-box flex w-full justify-between border p-px transition-all duration-300",
+              "rounded-field flex w-full justify-between border p-px transition-all duration-300",
               !showBackground
                 ? "bg-base-100/0 border-base-100/0"
                 : "bg-base-100/50 border-base-100/50",
