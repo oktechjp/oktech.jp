@@ -2,6 +2,10 @@
 
 @plugin "daisyui";
 
+@theme {
+  --color-base-400: oklch(85% 0.005 240);
+}
+
 /* 
  * To update OG image colors after modifying theme colors:
  * Run: npm run extract-themes
@@ -17,6 +21,7 @@
   --color-base-100: oklch(21% 0.006 56.043);
   --color-base-200: oklch(14% 0.004 49.25);
   --color-base-300: oklch(0% 0 0);
+  --color-base-400: oklch(7% 0.002 49.25);
   --color-base-content: oklch(84.955% 0 0);
   --color-primary: oklch(77.48% 0.204 60.62);
   --color-primary-content: oklch(19.693% 0.004 196.779);
@@ -57,9 +62,10 @@
   default: true;
   prefersdark: false;
   color-scheme: "light";
-  --color-base-100: #ffffff;
-  --color-base-200: #FAFAFA; /* #fbfbfb; ? */
+  --color-base-100: rgb(255, 255, 255);
+  --color-base-200: rgb(250, 250, 250);
   --color-base-300: rgb(180, 180, 180);
+  --color-base-400: rgb(110, 110, 110);
   --color-base-content: #111;
   --color-primary: oklch(0.757 0.12 173.7);
   --color-primary-content: oklch(0.25 0.05 173.7);
@@ -92,7 +98,6 @@
 /* --depth: 1; */
 /* --noise: 0; */
 
-
 .btn {
-  @apply shadow-none border-none;
+  @apply border-none shadow-none;
 }
