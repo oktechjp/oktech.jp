@@ -25,7 +25,7 @@ export default memo(function EventCardImage({ event, variant, first, last }: Eve
         variant === "compact" && "rounded-box-inner-tight hidden sm:block",
         variant === "compact" && first && "first",
         variant === "compact" && last && "last",
-        variant !== "compact" && "rounded-box-inner",
+        variant !== "compact" && "rounded-box-inner !rounded-br-none",
       )}
     >
       {/* {JSON.stringify({ first, last })} */}

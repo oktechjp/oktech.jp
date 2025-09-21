@@ -8,7 +8,7 @@ import { MENU } from "@/constants";
 import { useFocus } from "@/utils/hooks/useFocus";
 
 const BUTTON_CLASS =
-  "btn btn-glass btn-md sm:btn-lg md:btn-xl rounded-field font-bold border-none shadow-none bg-base-100/0 hover:bg-base-100/60 active:bg-base-100/90";
+  "btn btn-glass btn-md font-bold sm:btn-lg md:btn-xl rounded-field font-bold border-none shadow-none bg-base-100/0 hover:bg-base-100/60 active:bg-base-100/90";
 
 export default function TopBar() {
   const items = MENU.filter((item) => item.header === true);

@@ -8,6 +8,7 @@
 - Fix too much content caching / memoization in dev mode.
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
+- Remove SimpleSection, shouldn't be used
 
 ## New Features
 

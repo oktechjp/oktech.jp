@@ -17,8 +17,8 @@ const BREAKPOINT_MAX_WIDTHS = {
   sm: 580, // max-w-sm
   md: 720, // max-w-lg
   lg: 888, // max-w-3xl
-  xl: 1100, // max-w-4xl
-  "2xl": 1100, // max-w-6xl
+  xl: 1000, // max-w-4xl
+  "2xl": 1000, // max-w-6xl
 };
 
 const BACKGROUND_PADDING = 12;

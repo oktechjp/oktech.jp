@@ -41,7 +41,7 @@ export default function SimpleSection({
             <Button
               href={button.href}
               text={button.text}
-              className={button.className || "btn-lg"}
+              className={button.className || "btn-lg btn-neutral"}
               ariaLabel={button.ariaLabel}
             />
           )}
