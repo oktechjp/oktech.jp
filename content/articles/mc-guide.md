@@ -26,9 +26,9 @@ It is good to have an eye out on who comes to the event. Have a peek at the gues
 
 - [ ] Do you know how many people signed up for?
 - [ ] Do you know how the presenters want to be called? _(By their nickname? Full name? Do they have a professional title?, ...)_
-- [ ] Do you know what to highlight about the presenters? _(Are they a long time member? Are they a first time presenter? Have they presented at other venues?)_
+- [ ] Do you know what to highlight about the presenters? _(Are they a long time member? Are they a first time presenter? Have they presented at other venues?,...)_
 - [ ] Do you know what the presenter wants out of the meetup? _(Some just want to share, others want to interact with the audience, ...)_
-- [ ] Do you have a way to contact the presenters? _(Are you discord friends, do you have some messenger or Line contact, telephone number?,...)
+- [ ] Do you have a way to contact the presenters? _(Are you Discord friends, do you have some messenger or Line contact, telephone number?,...)_
 
 With this information, it is easier for you to get in the weeds.
 
@@ -54,7 +54,7 @@ This is not a strict checklist, if you forget something: that is fine, the list 
 
 As MC **you are the main person responsible for the event**. If something happens, you are the one to tell people what to do. In emergencies or other unexpected situations its up to you to make everyone stay calm. If you feel stressed about this: communicate with other volunteers at the event. They can help you figure this out. In preparation, maybe give following things a thought:
 
-- [ ] Read the [Code of Conduct](https://oktech.jp/code-of-conduct)?
+- [ ] Read the [Code of Conduct](https://oktech.jp/code-of-conduct)
 - [ ] What do you do if a presenter is late or has to cancel? _(It happens rarely but sometimes does)_
 - [ ] Are you mentally prepared for an Earthquake? _(Recommendation: visit the [Abeno Disaster Prevention Center](https://en.osaka-info.jp/spot/osaka-abeno-life-safety-learning-center/))_
 - [ ] Do you know what to do if someone needs to go to a hospital?
