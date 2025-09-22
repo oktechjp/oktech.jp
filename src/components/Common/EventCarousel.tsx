@@ -218,7 +218,7 @@ const EventCarousel = memo(function EventCarousel({
         }}
       >
         <Container wide>
-          <div className="-mx-10 md:-mx-4">
+          <div className="-mx-10">
             <div
               className="flex p-4"
               style={{
