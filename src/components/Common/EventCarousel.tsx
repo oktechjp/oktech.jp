@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 
+import { useSpring } from "@react-spring/web";
 import clsx from "clsx";
 import { LuChevronLeft, LuChevronRight, LuSparkles } from "react-icons/lu";
 
@@ -32,6 +33,25 @@ const EventCarousel = memo(function EventCarousel({
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isHydrated, setIsHydrated] = useState(false);
 
+  // Spring animation with bounce effect
+  const [, api] = useSpring(
+    () => ({
+      scrollX: scrollDistance,
+      onChange: ({ value }) => {
+        if (scrollContainerRef.current && value.scrollX !== undefined) {
+          scrollContainerRef.current.scrollLeft = value.scrollX;
+        }
+      },
+      config: {
+        mass: 0.6,
+        tension: 50,
+        friction: 7, // bounce: 4,
+        // clamp: false,
+      },
+    }),
+    [],
+  );
+
   // On mount, mark as hydrated and set initial scroll
   useEffect(() => {
     setIsHydrated(true);
@@ -39,16 +59,18 @@ const EventCarousel = memo(function EventCarousel({
     if (scrollContainerRef.current) {
       const initialScroll = scrollDistance;
       scrollContainerRef.current.scrollLeft = initialScroll;
+      // Set initial spring value without animation
+      api.set({ scrollX: initialScroll });
     }
-  }, [scrollDistance]);
+  }, [scrollDistance, api]);
 
-  // Update scroll position when index changes
+  // Animate scroll position when index changes
   useEffect(() => {
-    if (scrollContainerRef.current && isHydrated) {
+    if (isHydrated) {
       const targetScroll = currentIndex * scrollDistance;
-      scrollContainerRef.current.scrollLeft = targetScroll;
+      api.start({ scrollX: targetScroll });
     }
-  }, [currentIndex, scrollDistance, isHydrated]);
+  }, [currentIndex, scrollDistance, isHydrated, api]);
 
   const scrollTo = useCallback(
     (direction: "left" | "right") => {
