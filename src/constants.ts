@@ -6,6 +6,8 @@ import { LuCalendar, LuFileText, LuHouse, LuInfo, LuMap } from "react-icons/lu";
 
 // Development mode flag - automatically detected based on environment
 export const DEV_MODE = process.env.NODE_ENV === "development";
+export const SHOW_DEV_ENTRIES_IN_PROD = true;
+export const SHOW_DEV_ENTRIES = DEV_MODE || SHOW_DEV_ENTRIES_IN_PROD;
 
 // Maximum width for images (they will be resized if larger during import)
 export const MAX_IMAGE_WIDTH = 1920;

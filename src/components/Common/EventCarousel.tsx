@@ -9,44 +9,43 @@ import type { EventEnriched } from "@/content";
 
 import Container from "./Container";
 
-type Variant = "compact" | "polaroid" | "big";
+type Variant = "polaroid" | "big";
 
-const widthByVariant: Record<Variant, { className: string; width: number }> = {
-  compact: { className: "w-96", width: 384 },
-  polaroid: { className: "w-80", width: 320 },
-  big: { className: "w-[60em]", width: 960 },
+const configByVariant: Record<Variant, { className: string; width: number; gap: number }> = {
+  polaroid: { className: "w-80", width: 320, gap: 24 },
+  big: { className: "w-[60em]", width: 960, gap: 32 },
 };
 
 const EventCarousel = memo(function EventCarousel({
   events,
   variant = "big",
+  moreText,
+  moreIcon: MoreIcon,
+  showMore = true,
 }: {
   events: EventEnriched[];
   variant?: Variant;
+  moreText?: string;
+  moreIcon?: React.ComponentType<{ className?: string }>;
+  showMore?: boolean;
 }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { className: itemWidthClass, width: itemPixelWidth } = widthByVariant[variant];
-  const gap = 24;
+  const { className: itemWidthClass, width: itemPixelWidth, gap } = configByVariant[variant];
   const scrollDistance = itemPixelWidth + gap;
 
   // Track current index (1 = first event, not 0 which is padding)
-  const [currentIndex, setCurrentIndex] = useState(1);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [shadowIndex, setShadowIndex] = useState(1);
+  const isAnimating = useRef(false);
 
-  // Spring animation with bounce effect
+  // Spring animation with bounce effect - only used for button clicks
   const [, api] = useSpring(
     () => ({
-      scrollX: scrollDistance,
-      onChange: ({ value }) => {
-        if (scrollContainerRef.current && value.scrollX !== undefined) {
-          scrollContainerRef.current.scrollLeft = value.scrollX;
-        }
-      },
+      from: { scrollX: scrollDistance },
       config: {
         mass: 0.6,
         tension: 50,
-        friction: 7, // bounce: 4,
-        // clamp: false,
+        friction: 7,
       },
     }),
     [],
@@ -59,80 +58,110 @@ const EventCarousel = memo(function EventCarousel({
     if (scrollContainerRef.current) {
       const initialScroll = scrollDistance;
       scrollContainerRef.current.scrollLeft = initialScroll;
-      // Set initial spring value without animation
-      api.set({ scrollX: initialScroll });
     }
-  }, [scrollDistance, api]);
+  }, [scrollDistance]);
 
-  // Animate scroll position when index changes
-  useEffect(() => {
-    if (isHydrated) {
-      const targetScroll = currentIndex * scrollDistance;
-      api.start({ scrollX: targetScroll });
+  // Handle manual scrolling to update shadowIndex
+  const handleScroll = useCallback(() => {
+    if (!scrollContainerRef.current || isAnimating.current) {
+      return;
     }
-  }, [currentIndex, scrollDistance, isHydrated, api]);
+
+    const scrollLeft = scrollContainerRef.current.scrollLeft;
+    const nearestIndex = Math.round(scrollLeft / scrollDistance);
+    const newIndex = Math.max(1, Math.min(events.length, nearestIndex));
+
+    setShadowIndex(newIndex);
+  }, [scrollDistance, events.length]);
 
   const scrollTo = useCallback(
     (direction: "left" | "right") => {
-      // Calculate target index based on direction
+      // Calculate target index based on shadowIndex (current scroll position)
       // Don't allow going to padding (index 0) - minimum is 1 (first event)
       const targetIndex =
         direction === "left"
-          ? Math.max(1, currentIndex - 1)
-          : Math.min(events.length, currentIndex + 1);
+          ? Math.max(1, shadowIndex - 1)
+          : Math.min(events.length, shadowIndex + 1);
 
       // Don't do anything if we're already at the target
-      if (targetIndex === currentIndex) {
+      if (targetIndex === shadowIndex) {
         return;
       }
 
-      // Update state - the useEffect will handle the actual scrolling
-      setCurrentIndex(targetIndex);
+      // Update shadowIndex immediately for responsive button state
+      setShadowIndex(targetIndex);
+
+      // Animate to the new position
+      const targetScroll = targetIndex * scrollDistance;
+      isAnimating.current = true;
+
+      api.start({
+        from: { scrollX: scrollContainerRef.current?.scrollLeft || 0 },
+        to: { scrollX: targetScroll },
+        onChange: ({ value }) => {
+          if (scrollContainerRef.current && value.scrollX !== undefined) {
+            scrollContainerRef.current.scrollLeft = value.scrollX;
+          }
+        },
+        onRest: () => {
+          isAnimating.current = false;
+        },
+      });
     },
-    [currentIndex, events.length],
+    [shadowIndex, events.length, scrollDistance, api],
   );
 
   return (
     <>
       <div
         ref={scrollContainerRef}
-        className="no-scrollbar w-full overflow-x-auto py-12"
+        className="no-scrollbar overflow-x-auto py-12"
+        onScroll={handleScroll}
         style={{
           WebkitOverflowScrolling: "touch",
         }}
       >
         <Container wide>
-          <div
-            className="flex gap-6 p-4"
-            style={{
-              // Use negative margin before hydration to show first event
-              // Remove it after hydration when we set scroll position
-              marginLeft: isHydrated ? 0 : `-${scrollDistance}px`,
-            }}
-          >
-            {/* Invisible padding card that allows bounce effect space */}
-            <div className={clsx("flex-none", itemWidthClass)} />
-            {events.map((event, index) => (
-              <EventCard
-                key={event.id}
-                className={clsx("flex-none", itemWidthClass)}
-                event={event}
-                variant={variant}
-                index={index}
-                count={events.length}
-              />
-            ))}
+          <div className="-mx-4">
             <div
-              className={clsx(
-                "flex flex-none flex-col items-center justify-center",
-                "text-base-600 mx-20 gap-8",
-              )}
+              className="flex p-4"
+              style={{
+                gap: `${gap}px`,
+                // Use negative margin before hydration to show first event
+                // Remove it after hydration when we set scroll position
+                marginLeft: isHydrated ? 0 : `-${scrollDistance}px`,
+              }}
             >
-              <LuSparkles className="h-18 w-18" />
-              <p className="text-lg">...and more to come soon!</p>
+              {/* Invisible padding card that allows bounce effect space */}
+              <div className={clsx("flex-none", itemWidthClass)} />
+              {events.map((event, index) => (
+                <EventCard
+                  key={event.id}
+                  className={clsx("flex-none", itemWidthClass)}
+                  event={event}
+                  variant={variant}
+                  index={index}
+                  count={events.length}
+                />
+              ))}
+              {showMore && (
+                <div
+                  className={clsx(
+                    "flex flex-none flex-col items-center justify-center gap-8",
+                    "text-base-600 mx-20",
+                  )}
+                >
+                  {MoreIcon ? (
+                    <MoreIcon className="h-18 w-18" />
+                  ) : (
+                    <LuSparkles className="h-18 w-18" />
+                  )}
+                  <p className="text-lg">{moreText || "...and more to come soon!"}</p>
+                </div>
+              )}
+              {/* padding to allow scrolling to the end */}
+              <div className="flex-none" style={{ width: `${scrollDistance}px` }} />
             </div>
-            {/* padding to allow scrolling to the end */}
-            <div className="w-[100vw] flex-none" />
           </div>
         </Container>
       </div>
@@ -142,7 +171,7 @@ const EventCarousel = memo(function EventCarousel({
             onClick={() => scrollTo("left")}
             className="btn btn-circle btn-neutral btn-xl"
             aria-label="Scroll left"
-            disabled={currentIndex <= 1}
+            disabled={shadowIndex <= 1}
           >
             <LuChevronLeft className="h-6 w-6" />
           </button>
@@ -150,7 +179,7 @@ const EventCarousel = memo(function EventCarousel({
             onClick={() => scrollTo("right")}
             className="btn btn-circle btn-neutral btn-xl"
             aria-label="Scroll right"
-            disabled={currentIndex >= events.length}
+            disabled={shadowIndex >= events.length}
           >
             <LuChevronRight className="h-6 w-6" />
           </button>

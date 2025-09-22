@@ -8,7 +8,7 @@ import {
 } from "astro:content";
 import path from "path";
 
-import { DEV_MODE } from "@/constants";
+import { SHOW_DEV_ENTRIES } from "@/constants";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { memoize } from "@/utils/memoize";
 import {
@@ -173,7 +173,10 @@ export const getEvents = memoize(
     const allEvents = await getCollection("events");
 
     // Filter out devOnly events in production
-    const filteredEvents = DEV_MODE ? allEvents : allEvents.filter((event) => !event.data.devOnly);
+
+    const filteredEvents = SHOW_DEV_ENTRIES
+      ? allEvents
+      : allEvents.filter((event) => !event.data.devOnly);
 
     // Enrich each event with venue and gallery data using getEvent logic
     const enrichedEvents = await Promise.all(

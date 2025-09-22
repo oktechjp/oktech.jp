@@ -8,7 +8,7 @@ import {
 } from "astro:content";
 import path from "path";
 
-import { DEV_MODE } from "@/constants";
+import { DEV_MODE, SHOW_DEV_ENTRIES } from "@/constants";
 import { memoize } from "@/utils/memoize";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
@@ -139,7 +139,9 @@ export const getVenues = memoize(async (): Promise<CollectionEntry<"venues">[]> 
   const allVenues = await getCollection("venues");
 
   // Filter out devOnly venues in production
-  const filteredVenues = DEV_MODE ? allVenues : allVenues.filter((venue) => !venue.data.devOnly);
+  const filteredVenues = SHOW_DEV_ENTRIES
+    ? allVenues
+    : allVenues.filter((venue) => !venue.data.devOnly);
 
   // Only return venues that have a page
   return filteredVenues.filter((venue) => venue.data.hasPage);

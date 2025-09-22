@@ -7,8 +7,13 @@ import { getEvents } from "@/content";
 import Container from "@/components/Common/Container";
 
 import EventsSection from "@/components/Landing/LandingEventsSection";
+import { filterUpcomingEvents } from "@/utils/eventFilters";
 
-const events = await getEvents(6);
+// always get at least 12 latest events, plus the upcoming events.
+const allEvents = await getEvents();
+const upcomingEvents = filterUpcomingEvents(allEvents);
+const events = allEvents.slice(0, upcomingEvents.length + 12);
+const totalEvents = allEvents.length;
 ---
 
 <PageLayout flush className="flex flex-col pb-24">
@@ -17,14 +22,14 @@ const events = await getEvents(6);
   </div>
   <div class="bg-base-100 py-16">
     <!-- <Container className="bg-red-200"> -->
-    <EventsSection client:load events={events} variant="upcoming" />
+    <EventsSection client:load events={events} totalEvents={totalEvents} variant="upcoming" />
     <!-- </Container> -->
   </div>
   <div class="py-responsive">
     <LandingAbout />
   </div>
   <div class="bg-base-100 py-16">
-    <EventsSection client:load events={events} variant="recent" />
+    <EventsSection client:load events={events} totalEvents={totalEvents} variant="recent" />
   </div>
   <div class="pt-12">
     <Container>
