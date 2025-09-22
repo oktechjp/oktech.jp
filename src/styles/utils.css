@@ -47,7 +47,7 @@
 }
 
 .section-title {
-  @apply text-base-300 text-4xl md:text-6xl dark:text-base-600;
+  @apply text-base-300 dark:text-base-600 text-4xl md:text-6xl;
 }
 
 .gap-responsive {
@@ -56,4 +56,13 @@
 
 .py-responsive {
   @apply py-12 md:py-32;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
