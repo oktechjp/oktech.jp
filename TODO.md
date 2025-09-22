@@ -12,6 +12,7 @@
 - Replace calendar tooltip with modal
 - Update theme script
 - Use the py-responseive and gap-responseive classes more.
+- Use react-spring for parralax
 
 ## New Features
 

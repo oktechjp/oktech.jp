@@ -211,7 +211,7 @@ const EventCarousel = memo(function EventCarousel({
     <>
       <div
         ref={scrollContainerRef}
-        className="no-scrollbar overflow-x-auto py-12"
+        className="no-scrollbar py-responsive-tight overflow-x-auto"
         onScroll={handleScroll}
         style={{
           WebkitOverflowScrolling: "touch",

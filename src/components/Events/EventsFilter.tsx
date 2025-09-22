@@ -55,7 +55,7 @@ export function EventsFilter({ availableFilters, currentView }: EventsFilterProp
           )}
         </div>
       </div>
-      <div className="bg-base-200 mt-16 pt-16">
+      <div className="mt-16 pt-16">
         <Container>
           <div className="flex items-center justify-between">
             <div className="join flex items-center">

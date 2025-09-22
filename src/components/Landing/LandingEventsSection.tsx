@@ -27,7 +27,6 @@ function RecentSection({ events, remaining }: { events: EventEnriched[]; remaini
           <Button text="All Events" href="/events" className="btn-lg btn-neutral" />
         </div>
       </Container>
-
       <EventCarousel
         events={events}
         variant="polaroid"
