@@ -23,7 +23,9 @@ function RecentSection({ events, remaining }: { events: EventEnriched[]; remaini
     <>
       <Container wide className="gap-responsive flex justify-between">
         <h2 className="section-title">Recent Events</h2>
-        <Button text="All Events" href="/events" className="btn-lg btn-neutral" />
+        <div className="hidden md:block">
+          <Button text="All Events" href="/events" className="btn-lg btn-neutral" />
+        </div>
       </Container>
 
       <EventCarousel
@@ -31,6 +33,11 @@ function RecentSection({ events, remaining }: { events: EventEnriched[]; remaini
         variant="polaroid"
         moreText={`...and ${remaining} past events!`}
         moreIcon={LuCalendarDays}
+        cta={
+          <div className="block md:hidden">
+            <Button text="All Events" href="/events" className="btn-lg btn-neutral" />
+          </div>
+        }
       />
     </>
   );

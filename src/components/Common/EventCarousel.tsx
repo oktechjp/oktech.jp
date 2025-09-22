@@ -27,12 +27,14 @@ const EventCarousel = memo(function EventCarousel({
   moreText,
   moreIcon: MoreIcon,
   showMore = true,
+  cta,
 }: {
   events: EventEnriched[];
   variant?: Variant;
   moreText?: string;
   moreIcon?: React.ComponentType<{ className?: string }>;
   showMore?: boolean;
+  cta?: React.ReactNode;
 }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { width: screenWidth } = useScreenDimensions();
@@ -216,7 +218,7 @@ const EventCarousel = memo(function EventCarousel({
         }}
       >
         <Container wide>
-          <div className="-mx-4">
+          <div className="-mx-10 md:-mx-4">
             <div
               className="flex p-4"
               style={{
@@ -243,7 +245,7 @@ const EventCarousel = memo(function EventCarousel({
                 <div
                   className={clsx(
                     "flex flex-none flex-col items-center justify-center gap-8",
-                    "text-base-600",
+                    "text-base-300 dark:text-base-600",
                   )}
                   style={{ width: `${MORE_WIDTH}px` }}
                 >
@@ -262,6 +264,7 @@ const EventCarousel = memo(function EventCarousel({
         </Container>
       </div>
       <Container wide className="flex items-center justify-between">
+        {cta && <div className="mr-auto">{cta}</div>}
         <div className="ml-auto flex items-center gap-4">
           <button
             onClick={() => scrollTo("left")}
