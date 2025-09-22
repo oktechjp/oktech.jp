@@ -50,7 +50,7 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
         "text-base-700 flex text-sm",
         variant === "compact" && "fade-overflow flex-row items-center gap-4",
         variant === "polaroid" && "flex-col gap-2",
-        variant === "big" && "flex-col gap-2 sm:text-lg",
+        variant === "big" && "flex-col gap-2",
       )}
     >
       {variant === "compact" && isEventUpcoming(event) && (
@@ -114,7 +114,7 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
               "line-clamp-2",
               variant === "compact" && "truncate text-base sm:text-xl md:text-xl",
               smallPolaroid && "text-xl",
-              variant === "big" && "sm:text-2xl",
+              variant === "big" && "text-xl",
             )}
           >
             {event.data.title}

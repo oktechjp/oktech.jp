@@ -12,10 +12,14 @@ import Container from "./Container";
 
 type Variant = "polaroid" | "big";
 
-const configByVariant: Record<Variant, { className: string; width: number; gap: number }> = {
-  polaroid: { className: "w-80", width: 320, gap: 24 },
-  big: { className: "w-[60em]", width: 960, gap: 32 },
+const configByVariant: Record<Variant, { width: number; gap: number }> = {
+  polaroid: { width: 320, gap: 24 },
+  big: { width: 780, gap: 32 },
 };
+
+const SCROLL_PADDING = 80; // Padding in pixels at start and end of carousel for scroll positioning
+const BIG_SCREEN_MIN_WIDTH = 800; // switch to polaroid variant if screen is less than this width
+const MORE_WIDTH = 320; // Width of the "more" section
 
 const EventCarousel = memo(function EventCarousel({
   events,
@@ -34,22 +38,52 @@ const EventCarousel = memo(function EventCarousel({
   const { width: screenWidth } = useScreenDimensions();
 
   // Auto-switch to polaroid variant if screen is too small for big variant
-  const padding = 80; // Total padding for margins
-  const variant =
-    screenWidth > 0 && screenWidth < configByVariant.big.width + padding ? "polaroid" : variantProp;
-
-  const { className: itemWidthClass, width: itemPixelWidth, gap } = configByVariant[variant];
-  const scrollDistance = itemPixelWidth + gap;
 
   // Track current index (1 = first event, not 0 which is padding)
   const [isHydrated, setIsHydrated] = useState(false);
-  const [shadowIndex, setShadowIndex] = useState(1);
+  const [shadowIndex, setShadowIndex] = useState(0);
+  const [manuallyScrolledToEnd, setManuallyScrolledToEnd] = useState(false);
+  const [lastItemFullyVisible, setLastItemFullyVisible] = useState(false);
+
+  // fallback to variantProp until hydrated
+  const variant = !isHydrated
+    ? variantProp
+    : screenWidth < BIG_SCREEN_MIN_WIDTH
+      ? "polaroid"
+      : variantProp;
+
+  const { width: itemPixelWidth, gap } = configByVariant[variant];
+  const scrollDistance = itemPixelWidth + gap;
+  // Total number of scrollable items (events + "more" section if shown)
+  const totalItems = events.length + (showMore ? 1 : 0);
   const isAnimating = useRef(false);
+
+  // Helper function to calculate target scroll position for an index
+  const calculateTargetScroll = useCallback(
+    (targetIndex: number, containerWidth?: number) => {
+      let targetScroll = SCROLL_PADDING + targetIndex * scrollDistance;
+
+      // Special position for "more" section - align it to the right edge of container
+      if (showMore && targetIndex === totalItems - 1 && containerWidth) {
+        targetScroll =
+          SCROLL_PADDING +
+          events.length * scrollDistance +
+          gap +
+          MORE_WIDTH -
+          containerWidth +
+          SCROLL_PADDING; // Use SCROLL_PADDING for bounce space
+        targetScroll = Math.max(0, targetScroll);
+      }
+
+      return targetScroll;
+    },
+    [showMore, totalItems, scrollDistance, events.length, gap],
+  );
 
   // Spring animation with bounce effect - only used for button clicks
   const [, api] = useSpring(
     () => ({
-      from: { scrollX: scrollDistance },
+      from: { scrollX: SCROLL_PADDING },
       config: {
         mass: 0.6,
         tension: 50,
@@ -64,23 +98,32 @@ const EventCarousel = memo(function EventCarousel({
     setIsHydrated(true);
     // When we remove the negative margin, we need to scroll to maintain position
     if (scrollContainerRef.current) {
-      const initialScroll = scrollDistance;
+      const initialScroll = SCROLL_PADDING;
       scrollContainerRef.current.scrollLeft = initialScroll;
     }
-  }, [scrollDistance]);
+  }, []);
 
-  // Calculate shadowIndex based on current scroll position
+  // Calculate shadowIndex and check if at end based on current scroll position
   const updateShadowIndex = useCallback(() => {
     if (!scrollContainerRef.current) {
       return;
     }
 
-    const scrollLeft = scrollContainerRef.current.scrollLeft;
-    const nearestIndex = Math.round(scrollLeft / scrollDistance);
-    const newIndex = Math.max(1, Math.min(events.length, nearestIndex));
+    const container = scrollContainerRef.current;
+    const scrollLeft = container.scrollLeft;
+    const adjustedScroll = Math.max(0, scrollLeft - SCROLL_PADDING);
+    const nearestIndex = Math.round(adjustedScroll / scrollDistance);
+    const newIndex = Math.max(0, Math.min(totalItems - 1, nearestIndex));
 
     setShadowIndex(newIndex);
-  }, [scrollDistance, events.length]);
+
+    // Check if manually scrolled to the end position
+    const targetScrollForLastItem = calculateTargetScroll(totalItems - 1, container.clientWidth);
+
+    // Check if we're at or past the target scroll position
+    const atEndPosition = scrollLeft >= targetScrollForLastItem - 5; // 5px tolerance
+    setManuallyScrolledToEnd(atEndPosition);
+  }, [scrollDistance, totalItems, calculateTargetScroll]);
 
   // Handle manual scrolling to update shadowIndex
   const handleScroll = useCallback(() => {
@@ -101,11 +144,10 @@ const EventCarousel = memo(function EventCarousel({
   const scrollTo = useCallback(
     (direction: "left" | "right") => {
       // Calculate target index based on shadowIndex (current scroll position)
-      // Don't allow going to padding (index 0) - minimum is 1 (first event)
       const targetIndex =
         direction === "left"
-          ? Math.max(1, shadowIndex - 1)
-          : Math.min(events.length, shadowIndex + 1);
+          ? Math.max(0, shadowIndex - 1)
+          : Math.min(totalItems - 1, shadowIndex + 1);
 
       // Don't do anything if we're already at the target
       if (targetIndex === shadowIndex) {
@@ -115,8 +157,27 @@ const EventCarousel = memo(function EventCarousel({
       // Update shadowIndex immediately for responsive button state
       setShadowIndex(targetIndex);
 
+      // Reset manual scroll flag when using buttons
+      setManuallyScrolledToEnd(false);
+
+      // Check if the last item would be fully visible after this navigation
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        const targetScroll = calculateTargetScroll(targetIndex, container.clientWidth);
+        const lastItemStart = SCROLL_PADDING + (totalItems - 1) * scrollDistance;
+        const lastItemWidth =
+          showMore && totalItems - 1 === events.length ? MORE_WIDTH : itemPixelWidth;
+        const lastItemEnd = lastItemStart + lastItemWidth;
+        const viewportEnd = targetScroll + container.clientWidth;
+        const wouldLastBeFullyVisible = lastItemEnd <= viewportEnd;
+        setLastItemFullyVisible(wouldLastBeFullyVisible);
+      }
+
       // Animate to the new position
-      const targetScroll = targetIndex * scrollDistance;
+      const targetScroll = calculateTargetScroll(
+        targetIndex,
+        scrollContainerRef.current?.clientWidth,
+      );
       isAnimating.current = true;
 
       api.start({
@@ -132,7 +193,16 @@ const EventCarousel = memo(function EventCarousel({
         },
       });
     },
-    [shadowIndex, events.length, scrollDistance, api],
+    [
+      shadowIndex,
+      totalItems,
+      api,
+      calculateTargetScroll,
+      scrollDistance,
+      showMore,
+      events.length,
+      itemPixelWidth,
+    ],
   );
 
   return (
@@ -153,15 +223,16 @@ const EventCarousel = memo(function EventCarousel({
                 gap: `${gap}px`,
                 // Use negative margin before hydration to show first event
                 // Remove it after hydration when we set scroll position
-                marginLeft: isHydrated ? 0 : `-${scrollDistance}px`,
+                marginLeft: isHydrated ? 0 : `-${SCROLL_PADDING}px`,
               }}
             >
-              {/* Invisible padding card that allows bounce effect space */}
-              <div className={clsx("flex-none", itemWidthClass)} />
+              {/* Start padding */}
+              <div className="flex-none" style={{ width: `${SCROLL_PADDING}px` }} />
               {events.map((event, index) => (
                 <EventCard
                   key={event.id}
-                  className={clsx("flex-none", itemWidthClass)}
+                  className="flex-none"
+                  style={{ width: `${itemPixelWidth}px` }}
                   event={event}
                   variant={variant}
                   index={index}
@@ -172,8 +243,9 @@ const EventCarousel = memo(function EventCarousel({
                 <div
                   className={clsx(
                     "flex flex-none flex-col items-center justify-center gap-8",
-                    "text-base-600 mx-20",
+                    "text-base-600",
                   )}
+                  style={{ width: `${MORE_WIDTH}px` }}
                 >
                   {MoreIcon ? (
                     <MoreIcon className="h-18 w-18" />
@@ -183,8 +255,8 @@ const EventCarousel = memo(function EventCarousel({
                   <p className="text-lg">{moreText || "...and more to come soon!"}</p>
                 </div>
               )}
-              {/* padding to allow scrolling to the end */}
-              <div className="flex-none" style={{ width: `${scrollDistance}px` }} />
+              {/* End padding */}
+              <div className="flex-none" style={{ width: `${SCROLL_PADDING}px` }} />
             </div>
           </div>
         </Container>
@@ -195,7 +267,7 @@ const EventCarousel = memo(function EventCarousel({
             onClick={() => scrollTo("left")}
             className="btn btn-circle btn-neutral btn-xl"
             aria-label="Scroll left"
-            disabled={shadowIndex <= 1}
+            disabled={shadowIndex <= 0}
           >
             <LuChevronLeft className="h-6 w-6" />
           </button>
@@ -203,7 +275,9 @@ const EventCarousel = memo(function EventCarousel({
             onClick={() => scrollTo("right")}
             className="btn btn-circle btn-neutral btn-xl"
             aria-label="Scroll right"
-            disabled={shadowIndex >= events.length}
+            disabled={
+              shadowIndex >= totalItems - 1 || manuallyScrolledToEnd || lastItemFullyVisible
+            }
           >
             <LuChevronRight className="h-6 w-6" />
           </button>

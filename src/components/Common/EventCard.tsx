@@ -18,12 +18,14 @@ const EventCard = memo(function EventCard({
   count = 1,
   variant = "compact",
   className = "",
+  style,
 }: {
   event: EventEnriched;
   index?: number;
   count?: number;
   variant?: Variant;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const first = index === 0;
   const last = index === count - 1;
@@ -54,6 +56,7 @@ const EventCard = memo(function EventCard({
       )}
       data-testid={`event-card-${event.id}`}
       style={{
+        ...style,
         transform: springs.scale.to((s) => `scale3d(${s}, ${s}, 1)`),
         transformStyle: "preserve-3d",
         willChange: "transform",
