@@ -1,3 +1,5 @@
+import { animated, useTrail } from "@react-spring/web";
+
 import StatsItem, { type Stat } from "@/components/Common/StatsItem";
 
 interface StatsGridProps {
@@ -12,12 +14,19 @@ const tileColors = [
 ];
 
 export default function StatsGrid({ stats }: StatsGridProps) {
+  const trail = useTrail(stats.length, {
+    from: { opacity: 0, transform: "translate3d(0,-80px,0)" },
+    to: { opacity: 1, transform: "translate3d(0,0px,0)" },
+    config: { mass: 2, tension: 60, friction: 30 },
+    delay: 300,
+  });
+
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-      {stats.map((stat, index) => (
-        <div key={index} className="aspect-square">
-          <StatsItem stat={stat} colorClass={tileColors[index % tileColors.length]} />
-        </div>
+      {trail.map((style, index) => (
+        <animated.div key={index} style={style} className="aspect-square">
+          <StatsItem stat={stats[index]} colorClass={tileColors[index % tileColors.length]} />
+        </animated.div>
       ))}
     </div>
   );

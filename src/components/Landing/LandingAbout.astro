@@ -18,6 +18,7 @@ const uniqueVenuesCount = uniqueVenues.size;
 
 // Calculate stats
 const totalEvents = events.length;
+const currentYear = new Date().getFullYear();
 
 // Define stats with icon keys
 const stats = [
@@ -26,6 +27,7 @@ const stats = [
     value: "2014",
     iconKey: icons.calendar,
     subTitle: "Started our Journey",
+    countdown: currentYear,
   },
   {
     title: "Total Events",
