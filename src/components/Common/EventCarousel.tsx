@@ -6,6 +6,7 @@ import { LuChevronLeft, LuChevronRight, LuSparkles } from "react-icons/lu";
 
 import EventCard from "@/components/Common/EventCard";
 import type { EventEnriched } from "@/content";
+import useScreenDimensions from "@/utils/useScreenDimensions";
 
 import Container from "./Container";
 
@@ -18,7 +19,7 @@ const configByVariant: Record<Variant, { className: string; width: number; gap: 
 
 const EventCarousel = memo(function EventCarousel({
   events,
-  variant = "big",
+  variant: variantProp = "big",
   moreText,
   moreIcon: MoreIcon,
   showMore = true,
@@ -30,6 +31,13 @@ const EventCarousel = memo(function EventCarousel({
   showMore?: boolean;
 }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { width: screenWidth } = useScreenDimensions();
+
+  // Auto-switch to polaroid variant if screen is too small for big variant
+  const padding = 80; // Total padding for margins
+  const variant =
+    screenWidth > 0 && screenWidth < configByVariant.big.width + padding ? "polaroid" : variantProp;
+
   const { className: itemWidthClass, width: itemPixelWidth, gap } = configByVariant[variant];
   const scrollDistance = itemPixelWidth + gap;
 
@@ -61,9 +69,9 @@ const EventCarousel = memo(function EventCarousel({
     }
   }, [scrollDistance]);
 
-  // Handle manual scrolling to update shadowIndex
-  const handleScroll = useCallback(() => {
-    if (!scrollContainerRef.current || isAnimating.current) {
+  // Calculate shadowIndex based on current scroll position
+  const updateShadowIndex = useCallback(() => {
+    if (!scrollContainerRef.current) {
       return;
     }
 
@@ -73,6 +81,22 @@ const EventCarousel = memo(function EventCarousel({
 
     setShadowIndex(newIndex);
   }, [scrollDistance, events.length]);
+
+  // Handle manual scrolling to update shadowIndex
+  const handleScroll = useCallback(() => {
+    if (isAnimating.current) {
+      return;
+    }
+    updateShadowIndex();
+  }, [updateShadowIndex]);
+
+  // Recalculate shadowIndex when screen resizes (and variant/scrollDistance changes)
+  useEffect(() => {
+    if (screenWidth === 0) {
+      return;
+    }
+    updateShadowIndex();
+  }, [updateShadowIndex, screenWidth]);
 
   const scrollTo = useCallback(
     (direction: "left" | "right") => {
