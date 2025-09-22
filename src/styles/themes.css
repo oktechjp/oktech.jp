@@ -17,6 +17,11 @@
 
   /* custom variables - again, needs to be here to extend tailwind */
   --breakpoint-2xl: 1536px;
+  
+  --color-highlight: #FFEFD9;
+  
+  /* appears on top of colored backgrounds */
+  --color-dark-neutral: var(--color-base-800); 
 }
 
 /* TODO: Maybe update these for btn-primary, etc. */
@@ -46,17 +51,22 @@
   --color-base-800: rgb(241, 241, 241); /* 2B2B2B */
   --color-base-900: rgb(255, 255, 255); /* 111111 */
 
+  --color-dark-neutral: var(--color-base-100); 
+
+
   /* logo colors */
   --logo-red: #fd4d69;
-  --logo-red-light: #ffdbe1;
+  --logo-red-light: #F5CFD5;
   --logo-green: #49d773;
-  --logo-green-light: #e4f9ea;
+  --logo-green-light: #CBF5D7;
   --logo-blue: #459bc9;
-  --logo-blue-light: #c7e1ef;
-  --logo-yellow: #d97708;
-  --logo-yellow-light: #ffefd9;
+  --logo-blue-light: #B8DDF1;
+  --logo-yellow: #DA9A00;
+  --logo-yellow-light: #F2D5AB;
   --logo-base-color: var(--color-base-content);
 
+  --highlight: #F1F18D;
+  
   /* daisy ui overrides */
   --color-base-content: var(--color-base-900);
   --color-neutral: var(--color-base-900);
@@ -112,6 +122,8 @@
   --logo-yellow-light: #ffefd9;
   --logo-base-color: var(--color-base-content);
 
+  --highlight: #FFEFD9;
+
   /* daisy ui overrides */
   --color-base-content: var(--color-base-900);
   --color-neutral: var(--color-base-900);
@@ -132,6 +144,9 @@
   --color-secondary-content: var(--logo-green);
   --color-accent: var(--logo-red-light);
   --color-accent-content: var(--logo-red);
+
+  --color-dark-neutral: var(--color-base-800); 
+
 
   --radius-selector: 10rem;
   --radius-field: 10rem;

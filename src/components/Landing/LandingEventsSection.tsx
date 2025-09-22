@@ -1,4 +1,3 @@
-import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 import { filterUpcomingEvents } from "@/utils/eventFilters";
 
