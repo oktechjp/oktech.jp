@@ -2,6 +2,8 @@ import "@/styles/animations.css";
 
 import React, { useEffect, useState } from "react";
 
+import type { SpringConfig } from "@react-spring/web";
+
 import BlobMask from "@/components/Common/BlobMask";
 import { BLOBS } from "@/utils/blobs";
 
@@ -21,6 +23,8 @@ interface BlobSlideshowProps<T = string | ImageData> {
   containerClassName?: string;
   blobOffset?: number; // optional offset for starting blob index
   startTimeOffset?: number; // optional delay before starting transitions (milliseconds)
+  fadeSpeed?: number; // duration of opacity transition in milliseconds
+  springConfig?: SpringConfig; // react-spring animation config for blob morphing
 }
 
 export default function BlobSlideshow<T = string | ImageData>({
@@ -33,6 +37,8 @@ export default function BlobSlideshow<T = string | ImageData>({
   containerClassName = "",
   blobOffset = 0,
   startTimeOffset = 0,
+  fadeSpeed = 1000,
+  springConfig,
 }: BlobSlideshowProps<T>) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentBlob, setCurrentBlob] = useState(0);
@@ -92,15 +98,17 @@ export default function BlobSlideshow<T = string | ImageData>({
           id={uniqueId}
           blobPath={blobs[(currentBlob + blobOffset) % blobs.length]}
           className={`absolute inset-0 ${className}`}
+          springConfig={springConfig}
         >
           {isDataMode
             ? // Render custom data with renderer
               data!.map((item, index) => (
                 <div
                   key={index}
-                  className={`absolute inset-0 transition-opacity duration-[1000ms] ${
+                  className={`absolute inset-0 transition-opacity ${
                     index === currentIndex ? "opacity-100" : "opacity-0"
                   }`}
+                  style={{ transitionDuration: `${fadeSpeed}ms` }}
                 >
                   {renderer!(item, index)}
                 </div>
@@ -116,9 +124,10 @@ export default function BlobSlideshow<T = string | ImageData>({
                 return (
                   <div
                     key={index}
-                    className={`bg-base-300 absolute inset-0 transition-opacity duration-[1000ms] ${
+                    className={`bg-base-300 absolute inset-0 transition-opacity ${
                       index === currentIndex ? "opacity-100" : "opacity-0"
                     }`}
+                    style={{ transitionDuration: `${fadeSpeed}ms` }}
                   >
                     <img
                       src={src}

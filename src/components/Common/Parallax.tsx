@@ -2,20 +2,30 @@ import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
 import { animated, useSpring } from "@react-spring/web";
+import type { SpringConfig } from "@react-spring/web";
 
 import { useBreakpoint } from "@/utils/hooks/useBreakpoint";
 
 interface ParallaxProps {
   children: ReactNode;
   className?: string;
+  maxOffset?: number | "infinity";
+  speed?: number;
+  springConfig?: SpringConfig;
 }
 
-export default function Parallax({ children, className = "" }: ParallaxProps) {
+export default function Parallax({
+  children,
+  className = "",
+  maxOffset: propMaxOffset,
+  speed: propSpeed,
+  springConfig,
+}: ParallaxProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const currentBreakpoint = useBreakpoint();
 
-  // Hardcoded values based on breakpoint
-  const getParallaxConfig = () => {
+  // Default values based on breakpoint if not provided
+  const getDefaultConfig = () => {
     const smallConfig = { maxOffset: 40, speed: 0.1 };
     const bigConfig = { maxOffset: 180, speed: 0.3 };
     switch (currentBreakpoint) {
@@ -36,11 +46,13 @@ export default function Parallax({ children, className = "" }: ParallaxProps) {
     }
   };
 
-  const { maxOffset, speed } = getParallaxConfig();
+  const defaults = getDefaultConfig();
+  const maxOffset = propMaxOffset !== undefined ? propMaxOffset : defaults.maxOffset;
+  const speed = propSpeed !== undefined ? propSpeed : defaults.speed;
 
   const [springs, api] = useSpring(() => ({
     y: 0,
-    config: { mass: 2, tension: 20, friction: 5 },
+    config: springConfig || { mass: 2, tension: 20, friction: 5 },
   }));
 
   useEffect(() => {
@@ -61,7 +73,10 @@ export default function Parallax({ children, className = "" }: ParallaxProps) {
       rafId = null;
       if (!shouldRun()) return;
 
-      const offset = Math.min(latestScrollY * speed, maxOffset);
+      const offset =
+        maxOffset === "infinity"
+          ? latestScrollY * speed
+          : Math.min(latestScrollY * speed, maxOffset);
       if (Math.abs(offset - lastApplied) >= 0.1) {
         lastApplied = offset;
         // fire only if value changed enough

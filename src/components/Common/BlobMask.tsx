@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { animated, useSpring } from "@react-spring/web";
+import type { SpringConfig } from "@react-spring/web";
 import clsx from "clsx";
 
 interface Props {
@@ -8,9 +9,10 @@ interface Props {
   blobPath: string; // target path "d" (same command structure for best results)
   className?: string;
   children?: React.ReactNode;
+  springConfig?: SpringConfig;
 }
 
-export default function BlobMask({ id, blobPath, className = "", children }: Props) {
+export default function BlobMask({ id, blobPath, className = "", children, springConfig }: Props) {
   const clipPathUnits = "objectBoundingBox";
   const offset = { x: 0.05, y: 0.05 };
   const maskId = `blob-mask-${id}`;
@@ -22,7 +24,7 @@ export default function BlobMask({ id, blobPath, className = "", children }: Pro
   const springs = useSpring({
     from: { d: currentPath },
     to: { d: blobPath },
-    config: { mass: 0.8, tension: 180, friction: 9 },
+    config: springConfig || { mass: 0.8, tension: 180, friction: 9 },
     onChange: ({ value }) => {
       if (value.d !== currentPath) {
         setCurrentPath(value.d as string);
