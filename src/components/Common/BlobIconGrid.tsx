@@ -49,16 +49,25 @@ function BlobWrapper({
   children,
   preset,
   className,
+  index,
 }: {
   children: ReactNode;
   preset: number;
   className?: string;
+  index: number;
 }) {
+  const bgClasses = [
+    "bg-error/0 group-hover:bg-error group-active:bg-error dark:opacity-20",
+    "bg-success/0 group-hover:bg-success group-active:bg-success dark:opacity-20",
+    "bg-info/0 group-hover:bg-info group-active:bg-info dark:opacity-20",
+  ];
+  const bgClass = bgClasses[index % 3];
+
   return (
     <div className={clsx("group flex items-center justify-center", className)}>
       <BlobCard
         preset={preset}
-        bgClass="bg-info/0 group-hover:bg-info group-active:bg-info dark:opacity-20 "
+        bgClass={bgClass}
         className="mt-5 -mb-5 h-70 w-70"
       >
         <div className="flex h-full w-full items-center justify-center">{children}</div>
@@ -72,7 +81,7 @@ export default function BlobIconGrid({ items, className = "" }: BlobIconGridProp
     <div className={clsx("grid md:grid-cols-3", className)}>
       {items.map((item, index) => {
         return (
-          <BlobWrapper key={`${item.title}-${index}`} preset={index}>
+          <BlobWrapper key={`${item.title}-${index}`} preset={index} index={index}>
             {item.type === "link" ? (
               <Link href={item.href || "#"} className="">
                 <GridItem title={item.title} description={item.description} Icon={item.icon} />

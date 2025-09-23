@@ -46,6 +46,7 @@ export default function EventsViewGrid({ events }: Props) {
   // Apply year grouping when no search filter or only location/topic filters
   const eventGroups = groupEventsByYearAndUpcoming(events, currentFilters.sort);
 
+  // TODO: for upcoming events, use the caoursel
   return (
     <>
       {eventGroups.map((group) => {
@@ -62,9 +63,7 @@ export default function EventsViewGrid({ events }: Props) {
               </div>
             ) : (
               group.events.map((event) => (
-                <div key={event.id} data-testid="event-card">
-                  <EventCard event={event} variant="polaroid" />
-                </div>
+                <EventCard key={event.id} event={event} variant="polaroid" />
               ))
             )}
           </SimpleSection>

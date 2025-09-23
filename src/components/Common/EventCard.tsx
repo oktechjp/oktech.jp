@@ -65,8 +65,6 @@ const EventCard = memo(function EventCard({
       onMouseLeave={() => api.start({ scale: 1 })}
       onMouseDown={() => api.start({ scale: 0.98 })}
       onMouseUp={() => api.start({ scale: 1.05 })}
-      onTouchStart={() => api.start({ scale: 0.98 })}
-      onTouchEnd={() => api.start({ scale: 1 })}
     >
       <EventCardImage
         event={event}

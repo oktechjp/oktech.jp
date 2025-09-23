@@ -69,7 +69,7 @@ export default function BlurryBlobBackground() {
               speed={blobConfigs.red.parallaxSpeed}
               springConfig={blobConfigs.red.parallaxSpring}
             >
-              <div className="-mx-20 aspect-square opacity-25 blur-2xl">
+              <div className="-mx-20 aspect-square opacity-35 mix-blend-screen blur-2xl">
                 <BlobSlideshow
                   className={blobConfigs.red.className}
                   startTimeOffset={blobConfigs.red.startTimeOffset}
@@ -88,7 +88,7 @@ export default function BlurryBlobBackground() {
               speed={blobConfigs.green.parallaxSpeed}
               springConfig={blobConfigs.green.parallaxSpring}
             >
-              <div className="-mx-10 mt-90 aspect-square pt-20 opacity-25 blur-2xl">
+              <div className="-mx-10 mt-90 aspect-square pt-20 opacity-35 mix-blend-screen blur-2xl">
                 <BlobSlideshow
                   className={blobConfigs.green.className}
                   startTimeOffset={blobConfigs.green.startTimeOffset}
@@ -107,7 +107,7 @@ export default function BlurryBlobBackground() {
               speed={blobConfigs.blue.parallaxSpeed}
               springConfig={blobConfigs.blue.parallaxSpring}
             >
-              <div className="-mx-10 aspect-square opacity-25 blur-2xl">
+              <div className="-mx-10 aspect-square opacity-35 mix-blend-screen blur-2xl">
                 <BlobSlideshow
                   className={blobConfigs.blue.className}
                   startTimeOffset={blobConfigs.blue.startTimeOffset}
