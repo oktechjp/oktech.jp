@@ -65,11 +65,7 @@ function BlobWrapper({
 
   return (
     <div className={clsx("group flex items-center justify-center", className)}>
-      <BlobCard
-        preset={preset}
-        bgClass={bgClass}
-        className="mt-5 -mb-5 h-70 w-70"
-      >
+      <BlobCard preset={preset} bgClass={bgClass} className="mt-5 -mb-5 h-70 w-70">
         <div className="flex h-full w-full items-center justify-center">{children}</div>
       </BlobCard>
     </div>

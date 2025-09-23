@@ -1,0 +1,27 @@
+---
+import BlobParagraphsClient from "./BlobParagraphsClient";
+import { getResponsiveImage } from "@/utils/responsiveImage";
+
+interface Paragraph {
+  title: string;
+  text: string;
+  images: string[];
+}
+
+interface Props {
+  paragraphs: Paragraph[];
+}
+
+const { paragraphs } = Astro.props;
+
+const processedParagraphs = await Promise.all(
+  paragraphs.map(async (paragraph) => ({
+    ...paragraph,
+    images: await Promise.all(
+      paragraph.images.map((path) => getResponsiveImage(path, "blobSlideshow")),
+    ),
+  })),
+);
+---
+
+<BlobParagraphsClient paragraphs={processedParagraphs} client:visible />

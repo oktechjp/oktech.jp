@@ -13,6 +13,10 @@
 - Update theme script
 - Use the py-responseive and gap-responseive classes more.
 - Use react-spring for parralax
+- Implement react spring elsewhere
+- fix carousel on wide screen
+- Fix bug where the gallery item doesn't open the correct image
+- Increase font to 24?
 
 ## New Features
 

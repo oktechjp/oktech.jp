@@ -54,6 +54,10 @@
   @apply gap-6 md:gap-24;
 }
 
+.gap-responsive-tight {
+  @apply gap-3 md:gap-8;
+}
+
 .py-responsive {
   @apply py-12 md:py-32;
 }

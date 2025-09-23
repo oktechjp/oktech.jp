@@ -70,6 +70,7 @@
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.0",
-    "yet-another-react-lightbox": "^3.25.0"
+    "yet-another-react-lightbox": "^3.25.0",
+    "@react-spring/parallax": "^10.0.3"
   }
 }
