@@ -1,6 +1,6 @@
 import "@/styles/animations.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import type { SpringConfig } from "@react-spring/web";
 
@@ -25,6 +25,9 @@ interface BlobSlideshowProps<T = string | ImageData> {
   startTimeOffset?: number; // optional delay before starting transitions (milliseconds)
   fadeSpeed?: number; // duration of opacity transition in milliseconds
   springConfig?: SpringConfig; // react-spring animation config for blob morphing
+  activeRange?: { start: number; end: number }; // control which images are active
+  controlledIndex?: number; // external control of current index
+  onIndexChange?: (index: number) => void; // callback when index changes
 }
 
 export default function BlobSlideshow<T = string | ImageData>({
@@ -39,44 +42,117 @@ export default function BlobSlideshow<T = string | ImageData>({
   startTimeOffset = 0,
   fadeSpeed = 1000,
   springConfig,
+  activeRange,
+  controlledIndex,
+  onIndexChange,
 }: BlobSlideshowProps<T>) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentBlob, setCurrentBlob] = useState(0);
+  const [currentGlobalIndex, setCurrentGlobalIndex] = useState(0);
   const [renderedImages, setRenderedImages] = useState<Set<number>>(new Set([0, 1]));
 
   // Determine which mode we're in
   const items = data || images || [];
   const isDataMode = !!data && !!renderer;
+  const isControlled = controlledIndex !== undefined;
+
+  // Use activeRange to determine cycling boundaries, but work with full items array
+  const rangeStart = activeRange?.start ?? 0;
+  const rangeEnd = activeRange?.end ?? items.length - 1;
+  const rangeLength = rangeEnd - rangeStart + 1;
+
+  // Calculate current index - always global
+  const currentIndex = isControlled
+    ? Math.min(controlledIndex + rangeStart, items.length - 1)
+    : currentGlobalIndex;
+
+  // Calculate the blob index based on global position
+  const currentBlobIndex = currentIndex % blobs.length;
+
+  // Centralized transition handler - works with global indices
+  const handleTransition = useCallback(
+    (newGlobalIndex: number) => {
+      setCurrentGlobalIndex(newGlobalIndex);
+      if (onIndexChange && activeRange) {
+        // Report the index relative to the range
+        onIndexChange(newGlobalIndex - rangeStart);
+      } else if (onIndexChange) {
+        onIndexChange(newGlobalIndex);
+      }
+    },
+    [onIndexChange, activeRange, rangeStart],
+  );
+
+  // Handle range changes - smoothly transition to the new range's first image
+  useEffect(() => {
+    if (!activeRange || items.length === 0) return;
+
+    // Preload images around the new range start
+    setRenderedImages((prev) => {
+      const newSet = new Set(prev);
+      for (let i = rangeStart; i <= Math.min(rangeStart + 2, rangeEnd); i++) {
+        newSet.add(i);
+      }
+      return newSet;
+    });
+
+    // Smoothly transition to the first image of the new range
+    const timer = setTimeout(() => {
+      handleTransition(rangeStart);
+    }, 50); // Small delay to ensure images are in DOM
+
+    return () => clearTimeout(timer);
+  }, [activeRange?.start, activeRange?.end, rangeStart, rangeEnd, handleTransition]);
+
+  // Update global index when controlled index changes
+  useEffect(() => {
+    if (isControlled && controlledIndex !== undefined) {
+      const globalIndex = activeRange ? rangeStart + controlledIndex : controlledIndex;
+      setCurrentGlobalIndex(globalIndex);
+    }
+  }, [controlledIndex, isControlled, activeRange, rangeStart]);
 
   // Progressively include images in the DOM as we advance through slides
   useEffect(() => {
-    if (!isDataMode && images && images.length > 0) {
-      // Always include current and next two images
-      const nextIndex = (currentIndex + 1) % images.length;
-      const nextNextIndex = (currentIndex + 2) % images.length;
-
+    if (!isDataMode && items.length > 0) {
       setRenderedImages((prev) => {
         const newSet = new Set(prev);
         newSet.add(currentIndex);
-        newSet.add(nextIndex);
-        newSet.add(nextNextIndex);
+
+        // Add next images within range boundaries
+        if (activeRange) {
+          const next1 = currentIndex + 1 <= rangeEnd ? currentIndex + 1 : rangeStart;
+          const next2 = next1 + 1 <= rangeEnd ? next1 + 1 : rangeStart;
+          newSet.add(next1);
+          newSet.add(next2);
+        } else {
+          newSet.add((currentIndex + 1) % items.length);
+          newSet.add((currentIndex + 2) % items.length);
+        }
         return newSet;
       });
     }
-  }, [currentIndex, images, isDataMode]);
+  }, [currentIndex, items.length, isDataMode, activeRange, rangeStart, rangeEnd]);
 
   // Synchronize slide and blob transitions
   useEffect(() => {
-    if (items.length <= 1) return;
+    if (items.length === 0 || isControlled) return;
+    if (activeRange && rangeLength <= 1) return;
 
     let intervalTimer: NodeJS.Timeout;
 
-    // Reason: Delay the start of transitions if startTimeOffset is provided
+    // Delay the start of transitions if startTimeOffset is provided
     const startTimer = setTimeout(() => {
       intervalTimer = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % items.length);
-        // Reason: Loop through same number of blobs as items to maintain 1:1 correspondence
-        setCurrentBlob((prev) => (prev + 1) % items.length);
+        setCurrentGlobalIndex((prev) => {
+          let nextIndex;
+          if (activeRange) {
+            // Cycle within range
+            nextIndex = prev + 1 <= rangeEnd ? prev + 1 : rangeStart;
+          } else {
+            // Cycle through all items
+            nextIndex = (prev + 1) % items.length;
+          }
+          return nextIndex;
+        });
       }, slideDelay);
     }, startTimeOffset);
 
@@ -84,7 +160,16 @@ export default function BlobSlideshow<T = string | ImageData>({
       clearTimeout(startTimer);
       if (intervalTimer) clearInterval(intervalTimer);
     };
-  }, [items.length, slideDelay, startTimeOffset]);
+  }, [
+    items.length,
+    slideDelay,
+    startTimeOffset,
+    isControlled,
+    activeRange,
+    rangeStart,
+    rangeEnd,
+    rangeLength,
+  ]);
 
   if (items.length === 0) return null;
 
@@ -96,34 +181,40 @@ export default function BlobSlideshow<T = string | ImageData>({
       <div className="absolute inset-0 -mx-20 -my-10 md:-mx-16 md:-my-16 lg:-mx-12 lg:-my-12">
         <BlobMask
           id={uniqueId}
-          blobPath={blobs[(currentBlob + blobOffset) % blobs.length]}
+          blobPath={blobs[(currentBlobIndex + blobOffset) % blobs.length]}
           className={`absolute inset-0 ${className}`}
           springConfig={springConfig}
         >
           {isDataMode
             ? // Render custom data with renderer
-              data!.map((item, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity ${
-                    index === currentIndex ? "opacity-100" : "opacity-0"
-                  }`}
-                  style={{ transitionDuration: `${fadeSpeed}ms` }}
-                >
-                  {renderer!(item, index)}
-                </div>
-              ))
+              items.map((item, index) => {
+                // Only render items within the active range if specified
+                if (activeRange && (index < rangeStart || index > rangeEnd)) {
+                  return null;
+                }
+                return (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity ${
+                      index === currentIndex ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{ transitionDuration: `${fadeSpeed}ms` }}
+                  >
+                    {renderer!(item as T, index)}
+                  </div>
+                );
+              })
             : // Render images
-              images!.map((image, index) => {
+              items.map((image, index) => {
                 const isString = typeof image === "string";
-                const src = isString ? image : image.src;
+                const src = isString ? image : (image as ImageData).src;
                 const shouldRender = renderedImages.has(index);
 
                 if (!shouldRender) return null;
 
                 return (
                   <div
-                    key={index}
+                    key={`img-${index}`}
                     className={`bg-base-300 absolute inset-0 transition-opacity ${
                       index === currentIndex ? "opacity-100" : "opacity-0"
                     }`}
@@ -131,12 +222,14 @@ export default function BlobSlideshow<T = string | ImageData>({
                   >
                     <img
                       src={src}
-                      srcSet={!isString ? image.srcSet : undefined}
-                      sizes={!isString ? image.sizes || "100vw" : undefined}
+                      srcSet={!isString ? (image as ImageData).srcSet : undefined}
+                      sizes={!isString ? (image as ImageData).sizes || "100vw" : undefined}
                       alt=""
                       className="bg-base-content/20 absolute inset-0 h-full w-full object-cover"
-                      loading={index === 0 || index === 1 ? "eager" : "lazy"}
-                      fetchPriority={index === 0 ? "high" : index === 1 ? "low" : "auto"}
+                      loading={index <= rangeStart + 1 ? "eager" : "lazy"}
+                      fetchPriority={
+                        index === rangeStart ? "high" : index === rangeStart + 1 ? "low" : "auto"
+                      }
                     />
                   </div>
                 );

@@ -6,13 +6,15 @@ interface Paragraph {
   title: string;
   text: string;
   images: string[];
+  blobs?: string[];
 }
 
 interface Props {
   paragraphs: Paragraph[];
+  blobs?: string[];
 }
 
-const { paragraphs } = Astro.props;
+const { paragraphs, blobs } = Astro.props;
 
 const processedParagraphs = await Promise.all(
   paragraphs.map(async (paragraph) => ({
@@ -24,4 +26,4 @@ const processedParagraphs = await Promise.all(
 );
 ---
 
-<BlobParagraphsClient paragraphs={processedParagraphs} client:visible />
+<BlobParagraphsClient paragraphs={processedParagraphs} blobs={blobs} client:visible />
