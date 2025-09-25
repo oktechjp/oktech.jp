@@ -17,7 +17,7 @@ type Paragraph = {
   title: string;
   text: string;
   images: (string | ImageData)[];
-  blobs?: string[];
+  blobs?: number[];
 };
 
 function BlobParagraph({
@@ -72,7 +72,7 @@ function BlobParagraphsDesktop({
   paragraphs: Paragraph[];
   allImages: (string | ImageData)[];
   blobArray: string[];
-  blobs?: string[];
+  blobs?: number[];
 }) {
   const [activeParagraphIndex, setActiveParagraphIndex] = useState(0);
   const paragraphRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -159,7 +159,7 @@ function BlobParagraphsMobile({
   paragraphs: Paragraph[];
   allImages: (string | ImageData)[];
   blobArray: string[];
-  blobs?: string[];
+  blobs?: number[];
 }) {
   const [activeParagraphIndex, setActiveParagraphIndex] = useState(0);
   const [spacerHeight, setSpacerHeight] = useState(0);
@@ -204,11 +204,10 @@ function BlobParagraphsMobile({
     };
 
     // Measure after a small delay to ensure rendering is complete
-    const timeoutId = setTimeout(measureHeights, 100);
+    measureHeights();
 
     window.addEventListener("resize", measureHeights);
     return () => {
-      clearTimeout(timeoutId);
       window.removeEventListener("resize", measureHeights);
     };
   }, [paragraphs.length]);
@@ -217,7 +216,7 @@ function BlobParagraphsMobile({
   useEffect(() => {
     const handleScroll = () => {
       // Use fixed threshold: top-16 (64px) + spacer height
-      const blobBottomThreshold = 64 + spacerHeight;
+      const blobBottomThreshold = 180 + spacerHeight;
 
       let newActiveIndex = 0;
 
@@ -290,10 +289,10 @@ function BlobParagraphsMobile({
 
 export default function BlobParagraphsClient({
   paragraphs,
-  blobs: globalBlobs,
+  blobs: globalBlobIndices,
 }: {
   paragraphs: Paragraph[];
-  blobs?: string[];
+  blobs?: number[];
 }) {
   const isDesktop = useBreakpoint("md");
 
@@ -307,14 +306,19 @@ export default function BlobParagraphsClient({
     const result: string[] = [];
 
     paragraphs.forEach((paragraph) => {
-      const paragraphBlobs = paragraph.blobs || globalBlobs || BLOBS;
+      // Map indices to actual blob strings
+      const paragraphBlobIndices = paragraph.blobs || globalBlobIndices;
+      const paragraphBlobs = paragraphBlobIndices
+        ? paragraphBlobIndices.map((index) => BLOBS[index])
+        : BLOBS;
+
       // Each image in the paragraph gets a blob based on its position within the paragraph
       paragraph.images.forEach((_, idx) => {
         result.push(paragraphBlobs[idx % paragraphBlobs.length]);
       });
     });
     return result;
-  }, [paragraphs, globalBlobs]);
+  }, [paragraphs, globalBlobIndices]);
 
   // Calculate image range for active paragraph
   return isDesktop ? (
@@ -322,14 +326,14 @@ export default function BlobParagraphsClient({
       paragraphs={paragraphs}
       allImages={allImages}
       blobArray={blobArray}
-      blobs={globalBlobs}
+      blobs={globalBlobIndices}
     />
   ) : (
     <BlobParagraphsMobile
       paragraphs={paragraphs}
       allImages={allImages}
       blobArray={blobArray}
-      blobs={globalBlobs}
+      blobs={globalBlobIndices}
     />
   );
 }
