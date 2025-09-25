@@ -7,36 +7,28 @@ import BlobSlideshow from "./BlobSlideshow";
 import Container from "./Container";
 import ParallaxSpring from "./ParallaxSpring";
 
-interface ImageData {
+type ImageData = {
   src: string;
   srcSet?: string;
   sizes?: string;
-}
+};
 
-interface Paragraph {
+type Paragraph = {
   title: string;
   text: string;
   images: (string | ImageData)[];
   blobs?: string[];
-}
+};
 
-interface BlobParagraphsProps {
-  paragraphs: Paragraph[];
-  blobs?: string[];
-}
-
-interface BlobParagraphsInternalProps extends BlobParagraphsProps {
-  allImages: (string | ImageData)[];
-  blobArray: string[];
-}
-
-interface BlobParagraphProps {
+function BlobParagraph({
+  paragraph,
+  isActive,
+  onRef,
+}: {
   paragraph: Paragraph;
   isActive: boolean;
   onRef: (el: HTMLDivElement | null) => void;
-}
-
-function BlobParagraph({ paragraph, isActive, onRef }: BlobParagraphProps) {
+}) {
   return (
     <div
       ref={onRef}
@@ -50,17 +42,15 @@ function BlobParagraph({ paragraph, isActive, onRef }: BlobParagraphProps) {
   );
 }
 
-interface BlobParagraphSlideshowProps {
-  allImages: (string | ImageData)[];
-  activeImageRange: { start: number; end: number };
-  blobArray: string[];
-}
-
 function BlobParagraphSlideshow({
   allImages,
   activeImageRange,
   blobArray,
-}: BlobParagraphSlideshowProps) {
+}: {
+  allImages: (string | ImageData)[];
+  activeImageRange: { start: number; end: number };
+  blobArray: string[];
+}) {
   return (
     <BlobSlideshow
       images={allImages}
@@ -74,7 +64,16 @@ function BlobParagraphSlideshow({
   );
 }
 
-function BlobParagraphsDesktop({ paragraphs, allImages, blobArray }: BlobParagraphsInternalProps) {
+function BlobParagraphsDesktop({
+  paragraphs,
+  allImages,
+  blobArray,
+}: {
+  paragraphs: Paragraph[];
+  allImages: (string | ImageData)[];
+  blobArray: string[];
+  blobs?: string[];
+}) {
   const [activeParagraphIndex, setActiveParagraphIndex] = useState(0);
   const paragraphRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -152,7 +151,16 @@ function BlobParagraphsDesktop({ paragraphs, allImages, blobArray }: BlobParagra
   );
 }
 
-function BlobParagraphsMobile({ paragraphs, allImages, blobArray }: BlobParagraphsInternalProps) {
+function BlobParagraphsMobile({
+  paragraphs,
+  allImages,
+  blobArray,
+}: {
+  paragraphs: Paragraph[];
+  allImages: (string | ImageData)[];
+  blobArray: string[];
+  blobs?: string[];
+}) {
   const [activeParagraphIndex, setActiveParagraphIndex] = useState(0);
   const [spacerHeight, setSpacerHeight] = useState(0);
   const [totalContentHeight, setTotalContentHeight] = useState(0);
@@ -283,8 +291,11 @@ function BlobParagraphsMobile({ paragraphs, allImages, blobArray }: BlobParagrap
 export default function BlobParagraphsClient({
   paragraphs,
   blobs: globalBlobs,
-}: BlobParagraphsProps) {
-  const isDesktop = useBreakpoint("lg");
+}: {
+  paragraphs: Paragraph[];
+  blobs?: string[];
+}) {
+  const isDesktop = useBreakpoint("md");
 
   // Collect all images from all paragraphs
   const allImages = useMemo(() => {
