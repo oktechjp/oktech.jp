@@ -19,7 +19,7 @@ export default function EventsSortSelector({ "data-testid": dataTestId }: Props 
   return (
     <button
       type="button"
-      className="btn btn-accent join-item"
+      className="btn btn-outline"
       onClick={toggleSort}
       data-testid={dataTestId}
       aria-label={`Sort by ${isNewestFirst ? "oldest" : "newest"} first`}

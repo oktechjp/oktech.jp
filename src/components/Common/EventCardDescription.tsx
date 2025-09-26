@@ -76,9 +76,10 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
         )}
       </InfoItem>
       <InfoItem variant={variant} Icon={LuBuilding2}>
-        {event.venue?.title}
-        <br />
-        {event.venue?.address}
+        <div className={clsx("flex", variant !== "compact" ? "flex-col gap-1" : "gap-1")}>
+          <div>{event.venue?.title}</div>
+          <div>{event.venue?.address}</div>
+        </div>
       </InfoItem>
       {variant === "compact" && <InfoItem variant={variant}>{event.venue?.address}</InfoItem>}
     </div>
@@ -103,12 +104,12 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
       <div
         className={clsx(
           "flex flex-grow flex-col",
-          variant === "compact" && "gap-2 px-5 py-4",
+          variant === "compact" && "gap-2 p-2 md:gap-4 md:p-4",
           smallPolaroid && "gap-4",
           variant === "big" && "md:justify-center md:gap-6",
         )}
       >
-        <div className="flex justify-between gap-8">
+        <div className={clsx("flex justify-between", variant === "compact" ? "gap-4" : "gap-8")}>
           <h3
             className={clsx(
               "line-clamp-2",
@@ -119,7 +120,9 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
           >
             {event.data.title}
           </h3>
-          {variant === "compact" && <CityBadge city={event.venue?.city} />}
+          {variant === "compact" && (
+            <CityBadge className="badge-sm sm:badge-md" city={event.venue?.city} />
+          )}
         </div>
         <Info event={event} variant={variant} />
       </div>

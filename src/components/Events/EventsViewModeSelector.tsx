@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import clsx from "clsx";
 import { LuGrid3X3, LuImage, LuList } from "react-icons/lu";
 
 import Link from "@/components/Common/Link";
@@ -46,24 +47,31 @@ export function EventsViewModeSelector({ currentView }: EventsViewModeSelectorPr
   }, [currentFilters]);
 
   return (
-    <>
+    // TODO update based on theme
+    // <div className="bg-base-300 rounded-field p-1">
+    <div className="join rounded-field flex">
       {views.map((view) => {
-        const Icon = view.icon;
+        // const Icon = view.icon;
         return (
           <Link
             key={view.value}
             href={view.href}
-            className={`join-item btn ${currentView === view.value ? "btn-accent" : ""}`}
+            className={clsx(
+              "join-item btn",
+              currentView === view.value ? "btn-neutral" : "btn-outline",
+            )}
             data-view={view.value}
             data-testid={`view-mode-${view.value}`}
             aria-label={view.label}
-            data-astro-prefetch // TODO disable if it's too expensive
+            // TODO check if this works in react
+            data-astro-prefetch // TODO disable if it's too expensive?
           >
-            <Icon className="h-4 w-4" />
+            {/* <Icon className="h-4 w-4" /> */}
             {view.label}
           </Link>
         );
       })}
-    </>
+      {/* </div> */}
+    </div>
   );
 }

@@ -29,11 +29,6 @@ export default function EventsSearchInput() {
     [updateFilter],
   );
 
-  const handleClear = useCallback(() => {
-    setLocalValue("");
-    clearFilter("search");
-  }, [clearFilter]);
-
   useEffect(() => {
     return () => {
       if (debounceTimerRef.current) {
@@ -43,26 +38,16 @@ export default function EventsSearchInput() {
   }, []);
 
   return (
-    <label className="input input-bordered join-item flex w-full items-center gap-2">
+    <label className="input input-bordered join-item flex w-full items-center gap-2 md:max-w-[20em]">
       <LuSearch className="h-4 w-4 opacity-70" />
       <input
-        type="search"
+        type="text"
         className="grow"
         placeholder="Search events..."
         value={localValue}
         onChange={handleInputChange}
-        data-testid="events-search-input"
+        data-testid="events-search-input "
       />
-      {localValue && (
-        <button
-          type="button"
-          className="btn btn-ghost btn-xs"
-          onClick={handleClear}
-          aria-label="Clear search"
-        >
-          <LuX className="h-4 w-4" />
-        </button>
-      )}
     </label>
   );
 }
