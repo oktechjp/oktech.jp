@@ -6,6 +6,7 @@ import Container from "@/components/Common/Container";
 import ContentSection from "@/components/Common/ContentSection";
 import BlurryBlobBackground from "@/components/Common/BlurryBlobBackground";
 import BlobParagraphs from "@/components/Common/BlobParagraphs.astro";
+import Timeline from "@/components/Common/Timeline";
 import { BLOBS } from "@/utils/blobs";
 ---
 
@@ -69,6 +70,18 @@ import { BLOBS } from "@/utils/blobs";
         },
       ]}
     />
+    <div class="pt-90">
+      <Container wide>
+        <Timeline 
+          items={[
+            { title: "item one", description: "hello some lorem isum", icon: "todo", date: new Date()},
+            { title: "item two", description: "hello", icon: "todo", date: new Date()},
+            { title: "item three", description: "hello", icon: "todo", date: new Date()},
+            { title: "item four", description: "hello", icon: "todo", date: new Date()}
+          ]} 
+        />
+      </Container>
+    </div>
     <div class="py-responsive">
       <ContentSection title="OK History">
         <div class="prose prose-lg grid max-w-none grid-cols-1 gap-16 md:grid-cols-2">
