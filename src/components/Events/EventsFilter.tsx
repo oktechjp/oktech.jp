@@ -24,9 +24,7 @@ export function EventsFilter({ availableFilters, currentView }: EventsFilterProp
 
   return (
     <Container wide>
-      <div className="flex flex-col gap-6 md:flex-row md:gap-24">
-        {/* search bar group */}
-
+      <div className="flex flex-col gap-6 md:flex-row md:gap-12">
         <div className="join flex w-full">
           {availableFilters.locations.length > 0 && (
             <EventsFilterDropdown
@@ -40,14 +38,13 @@ export function EventsFilter({ availableFilters, currentView }: EventsFilterProp
           {hasActiveFilters && (
             <button
               type="button"
-              className="btn btn-neutral join-item"
+              className="btn btn-outline join-item"
               onClick={clearAllFilters}
               data-testid="clear-all-filters"
             >
-              <LuX />
+              <LuX className="-ml-1" />
             </button>
           )}
-
           {/* TODO: Add topics back in */}
           {false && availableFilters.topics.length > 0 && (
             <EventsFilterDropdown

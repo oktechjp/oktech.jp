@@ -1,8 +1,8 @@
 import { EventCardList } from "@/components/Common/EventCard";
-import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 import { groupEventsByYearAndUpcoming } from "@/utils/eventGrouping";
 
+import SubSection from "../Common/SubSection";
 import { useEventsFilter } from "./EventsFilterProvider";
 
 interface Props {
@@ -16,9 +16,9 @@ export default function EventsViewCompact({ events }: Props) {
   return (
     <>
       {eventGroups.map((group) => (
-        <SimpleSection key={group.label} title={group.label}>
+        <SubSection key={group.label} title={group.label}>
           <EventCardList events={group.events} />
-        </SimpleSection>
+        </SubSection>
       ))}
     </>
   );

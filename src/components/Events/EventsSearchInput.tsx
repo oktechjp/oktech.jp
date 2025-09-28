@@ -1,6 +1,6 @@
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { LuSearch, LuX } from "react-icons/lu";
+import { LuSearch } from "react-icons/lu";
 
 import { useEventsFilter } from "./EventsFilterProvider";
 
@@ -39,7 +39,6 @@ export default function EventsSearchInput() {
 
   return (
     <label className="input input-bordered join-item flex w-full items-center gap-2 md:max-w-[20em]">
-      <LuSearch className="h-4 w-4 opacity-70" />
       <input
         type="text"
         className="grow"
@@ -48,6 +47,7 @@ export default function EventsSearchInput() {
         onChange={handleInputChange}
         data-testid="events-search-input "
       />
+      <LuSearch className="h-4 w-4" />
     </label>
   );
 }

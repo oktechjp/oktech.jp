@@ -80,42 +80,26 @@ export default function EventsFilterDropdown({
         ref={buttonRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={clsx(
-          `btn join-item whitespace-nowrap`,
-          selected.length > 0 ? "btn-neutral" : "btn-outline",
-        )}
+        className={clsx(`btn join-item btn-outline whitespace-nowrap`)}
       >
         {getButtonLabel()}
         <LuChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
-        <div
-          ref={dropdownRef}
-          // className="absolute top-full -right-10 z-50 mt-2 flex w-[25em] items-end justify-end md:right-auto md:-left-10 md:w-[30em] md:justify-start lg:w-[40em]"
-          className="absolute top-full left-0 mt-2 flex"
-        >
-          {/* <div className="soft-glass inline-flex flex-wrap gap-2 p-4!"> */}
-          <div className="bg-base-200 rounded-field join flex p-1">
-            {options
-              .filter((option) => !selected.includes(option))
-              .map((option, i) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => handleOptionChange(option)}
-                  // TODO FIX ME?
-                  className={"btn btn-outline join-item"}
-                  data-testid={`${id === "topics" ? "topic" : "location"}-option`}
-                >
-                  {id === "location" ? capitalizeFirst(option) : option}
-                </button>
-              ))}
-            {selected.length > 0 && (
-              <button onClick={() => handleOptionChange("")} className="join-item btn btn-neutral">
-                <LuX />
+        <div ref={dropdownRef} className="absolute top-full left-0 mt-2 flex">
+          <div className="btn-group">
+            {options.map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => handleOptionChange(option)}
+                className={clsx("btn", selected.includes(option) ? "btn-active" : "btn-ghost")}
+                data-testid={`${id === "topics" ? "topic" : "location"}-option`}
+              >
+                {id === "location" ? capitalizeFirst(option) : option}
               </button>
-            )}
+            ))}
           </div>
         </div>
       )}

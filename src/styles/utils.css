@@ -39,6 +39,10 @@
   @apply text-base-300 dark:text-base-600 text-4xl md:text-6xl;
 }
 
+.sub-title {
+  @apply text-base-900 text-3xl md:text-4xl;
+}
+
 .gap-responsive {
   @apply gap-6 md:gap-24;
 }
@@ -63,3 +67,17 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.btn-group {
+  @apply bg-base-200 rounded-field flex px-1.5 py-1;
+
+  
+  .btn {
+    @apply h-9 rounded-field;
+  }
+  
+  .btn-active {
+    @apply bg-base-0;
+  }
+}
+

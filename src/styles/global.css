@@ -31,6 +31,7 @@ body {
 }
 
 .btn { 
+  --btn-p: 1.2rem;
   @apply shadow-none; 
 }
 
@@ -46,3 +47,11 @@ body {
   @apply border-none;
 }
 
+.btn-outline {
+  --btn-border: var(--color-base-300);
+}
+
+.input { 
+  border-color: var(--color-base-300);
+  background-color: var(--color-base-0);
+}

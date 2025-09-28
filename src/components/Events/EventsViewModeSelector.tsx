@@ -47,31 +47,22 @@ export function EventsViewModeSelector({ currentView }: EventsViewModeSelectorPr
   }, [currentFilters]);
 
   return (
-    // TODO update based on theme
-    // <div className="bg-base-300 rounded-field p-1">
-    <div className="join rounded-field flex">
+    <div className="btn-group">
       {views.map((view) => {
-        // const Icon = view.icon;
         return (
           <Link
             key={view.value}
             href={view.href}
-            className={clsx(
-              "join-item btn",
-              currentView === view.value ? "btn-neutral" : "btn-outline",
-            )}
+            className={clsx("btn", currentView === view.value ? "btn-active" : "btn-ghost")}
             data-view={view.value}
             data-testid={`view-mode-${view.value}`}
             aria-label={view.label}
-            // TODO check if this works in react
             data-astro-prefetch // TODO disable if it's too expensive?
           >
-            {/* <Icon className="h-4 w-4" /> */}
             {view.label}
           </Link>
         );
       })}
-      {/* </div> */}
     </div>
   );
 }
