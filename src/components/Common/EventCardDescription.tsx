@@ -25,7 +25,9 @@ function InfoItem({
   if (!children || Children.count(children) === 0) return null;
 
   return (
-    <div className={clsx("flex items-start gap-2")}>
+    <div
+      className={clsx("flex", variant === "compact" ? "items-center gap-1" : "items-start gap-2")}
+    >
       {Icon && (
         <div className="mt-0.5 flex w-4 flex-shrink-0 items-start">
           <Icon />

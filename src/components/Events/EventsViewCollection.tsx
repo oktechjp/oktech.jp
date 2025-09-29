@@ -27,18 +27,11 @@ function EventsBlockList({ title, events }: EventsBlockProps) {
 }
 
 function EventBlockGrid({ title, events }: EventsBlockProps) {
-  const cardVariant = events.length <= 2 ? "big" : "polaroid";
   return (
-    <SubSection title={title} grid={cardVariant !== "big"}>
-      {cardVariant === "big" ? (
-        <div className="mx-auto flex max-w-md flex-col gap-8">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} variant="big" />
-          ))}
-        </div>
-      ) : (
-        events.map((event) => <EventCard key={event.id} event={event} variant="polaroid" />)
-      )}
+    <SubSection title={title} grid={true}>
+      {events.map((event) => (
+        <EventCard key={event.id} event={event} variant="polaroid" />
+      ))}
     </SubSection>
   );
 }
