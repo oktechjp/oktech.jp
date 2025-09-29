@@ -73,6 +73,7 @@ export default function EventsViewCollection({ events, variant }: Props) {
     <>
       {eventGroups.map((group) => (
         <EventsBlock
+          key={group.label}
           title={group.label}
           events={group.events}
           variant={variant}

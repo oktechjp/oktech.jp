@@ -8,7 +8,7 @@ test.describe("Navigation Flow", () => {
     await eventsLink.click();
     await page.waitForURL("/events");
 
-    const searchInput = page.locator('input[type="search"]');
+    const searchInput = page.getByTestId('events-search-input ');
     await searchInput.fill("agentic");
     await page.waitForTimeout(500);
 

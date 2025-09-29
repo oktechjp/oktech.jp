@@ -45,7 +45,7 @@ export default function EventsSearchInput() {
         placeholder="Search events..."
         value={localValue}
         onChange={handleInputChange}
-        data-testid="events-search-input "
+        data-testid="events-search-input"
       />
       <LuSearch className="h-4 w-4" />
     </label>

@@ -114,7 +114,7 @@ export const SEO_DATA: Record<
     ],
   },
   "/events/list": {
-    title: "Events (List View)",
+    title: "Events List",
     description:
       "View all tech meetup events in a compact list format. Quick overview of upcoming and past events in Osaka, Kyoto, and the Kansai region.",
     keywords: [
