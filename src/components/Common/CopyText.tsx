@@ -4,11 +4,9 @@ import { LuCheck, LuCopy } from "react-icons/lu";
 
 interface CopyTextProps {
   text: string;
-  label?: string;
-  className?: string;
 }
 
-export default function CopyText({ text, label, className = "" }: CopyTextProps) {
+export default function CopyText({ text }: CopyTextProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -22,19 +20,14 @@ export default function CopyText({ text, label, className = "" }: CopyTextProps)
   };
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      {label && <span className="text-base-content/70 text-xs">{label}</span>}
-      <div className="bg-base-200 flex flex-1 items-center gap-2 rounded-md px-3 py-2">
-        <input
-          type="text"
-          value={text}
-          readOnly
-          className="flex-1 bg-transparent text-xs outline-none"
-          onClick={(e) => e.currentTarget.select()}
-        />
+    <div className={`flex items-center gap-2`}>
+      <div className="join w-full">
+        <div className="input join-item w-full font-mono">
+          <input type="text" value={text} readOnly onClick={(e) => e.currentTarget.select()} />
+        </div>
         <button
           onClick={handleCopy}
-          className="btn btn-ghost btn-xs p-1"
+          className="btn btn-outline join-item"
           aria-label="Copy to clipboard"
         >
           {copied ? <LuCheck className="h-4 w-4" /> : <LuCopy className="h-4 w-4" />}
