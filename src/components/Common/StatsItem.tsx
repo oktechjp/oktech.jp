@@ -45,7 +45,6 @@ export default function StatsItem({
   stat,
   colorClass = "bg-primary text-primary-content",
 }: StatsItemProps) {
-  const Icon = statsIcons[stat.iconKey];
   const { number, template } = parseStatValue(stat.value);
 
   const decimals = number < 10 ? 1 : 0;

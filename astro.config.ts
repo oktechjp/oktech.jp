@@ -18,7 +18,6 @@ const base = process.env.BASE_PATH || "";
 
 const localSite = `http://localhost:${port}`;
 const siteUrl = process.env.SITE_URL || localSite;
-const isDev = process.env.NODE_ENV === "development";
 const isAnalyze = process.env.ANALYZE_BUNDLE === "true";
 
 // refactor this. my head hurts.

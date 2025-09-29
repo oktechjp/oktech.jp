@@ -8,7 +8,7 @@ import {
 } from "astro:content";
 import path from "path";
 
-import { DEV_MODE, SHOW_DEV_ENTRIES } from "@/constants";
+import { SHOW_DEV_ENTRIES } from "@/constants";
 import { memoize } from "@/utils/memoize";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 

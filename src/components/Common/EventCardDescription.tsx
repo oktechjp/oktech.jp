@@ -1,7 +1,7 @@
 import { Children } from "react";
 
 import clsx from "clsx";
-import { LuArrowUpRight, LuBuilding2, LuCalendar, LuClock } from "react-icons/lu";
+import { LuBuilding2, LuCalendar, LuClock } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";

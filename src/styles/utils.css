@@ -35,7 +35,6 @@
   border-radius: var(--radius);
 }
 
-
 .section-title {
   @apply text-base-300 dark:text-base-600 text-4xl md:text-6xl;
 }

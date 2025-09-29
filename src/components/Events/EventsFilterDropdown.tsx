@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import clsx from "clsx";
-import { LuChevronDown, LuX } from "react-icons/lu";
+import { LuChevronDown } from "react-icons/lu";
 
 import { useEventsFilter } from "./EventsFilterProvider";
 

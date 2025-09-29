@@ -335,7 +335,7 @@ export class Importer {
    */
   private async createMetadata(
     eventsJSON: ExternalEventsWithVenuesJSON,
-    photosJSON: ExternalPhotoJSON,
+    _photosJSON: ExternalPhotoJSON,
     commitInfo: { sha: string; date: string },
     eventsRawContent: string,
     photosRawContent: string,

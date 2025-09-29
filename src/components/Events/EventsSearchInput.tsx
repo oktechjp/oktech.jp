@@ -5,7 +5,7 @@ import { LuSearch } from "react-icons/lu";
 import { useEventsFilter } from "./EventsFilterProvider";
 
 export default function EventsSearchInput() {
-  const { currentFilters, updateFilter, clearFilter } = useEventsFilter();
+  const { currentFilters, updateFilter } = useEventsFilter();
   const [localValue, setLocalValue] = useState(currentFilters.search);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 

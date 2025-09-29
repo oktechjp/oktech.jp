@@ -102,7 +102,6 @@ This is a second paragraph to demonstrate spacing between paragraphs. It include
 // JavaScript code with syntax highlighting
 function greetUser(name) {
   const message = `Hello, ${name}!`;
-  console.log(message);
   return message;
 }
 
@@ -284,7 +283,7 @@ Very long URL: https://example.com/very/long/path/to/resource/that/might/break/l
 > 
 > ```javascript
 > // Code inside a quote
-> console.log("Hello");
+> alert("Hello");
 > ```
 > 
 > | Table | In Quote |

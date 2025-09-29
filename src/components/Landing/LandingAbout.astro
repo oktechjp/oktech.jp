@@ -1,12 +1,9 @@
 ---
-import StatsSlideshow from "@/components/Common/StatsSlideshow";
 import StatsGrid from "@/components/Common/StatsGrid";
 import { icons } from "@/components/Common/StatsItem";
 
 import Container from "@/components/Common/Container";
 import { getEvents } from "@/content/events";
-import { getVenues } from "@/content/venues";
-import SimpleSection from "../Common/SimpleSection";
 import Button from "../Common/Button";
 
 // Use the filtered getters which already handle devOnly filtering
@@ -53,9 +50,9 @@ const stats = [
 <Container wide>
   <div class="gap-responsive flex flex-col">
     <div class="flex md:items-center md:justify-center">
-      <div class="gap-responsive flex flex-col py-6 md:flex-row md:text-left">
-        <h2 class="section-title">About OKTech</h2>
-        <div class="flex flex-col gap-12">
+      <div class="grid gap-12 py-6 md:grid-cols-4">
+        <h2 class="section-title col-span-4 md:col-span-2 lg:col-span-1">About OKTech</h2>
+        <div class="col-span-3 flex flex-col gap-12 md:col-span-2 lg:col-start-3">
           <p class="text-xl">
             A volunteer, non-profit group organizing monthly meetups in the Kansai region of Japan.
             We invite people from all walks of web-life and encourage members to present topics they

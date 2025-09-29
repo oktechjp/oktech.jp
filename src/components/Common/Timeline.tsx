@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import clsx from "clsx";
 import { LuActivity } from "react-icons/lu";
 
@@ -15,7 +13,7 @@ type CellProps = {
   reverse: boolean;
 };
 
-function TimelineDecoration({ item, reverse }: { item: TimelineItem; reverse: boolean }) {
+function TimelineDecoration({ reverse }: { reverse: boolean }) {
   return (
     <div
       className={clsx("flex items-center justify-center", reverse && "col-start-2 bg-green-200")}

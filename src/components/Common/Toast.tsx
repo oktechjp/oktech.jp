@@ -9,10 +9,8 @@ export default function Toast() {
 
   useEffect(() => {
     const dismissedTimestamp = localStorage.getItem("constructionToastDismissedAt");
-    console.log("Toast component mounted, dismissedTimestamp:", dismissedTimestamp);
 
     if (!dismissedTimestamp) {
-      console.log("No timestamp found, showing toast");
       setIsMounted(true);
       setTimeout(() => setIsVisible(true), 10);
     } else {
@@ -21,12 +19,10 @@ export default function Toast() {
       const now = Date.now();
 
       if (now - dismissedAt > oneHourInMs) {
-        console.log("More than 1 hour passed, showing toast again");
         setIsMounted(true);
         setTimeout(() => setIsVisible(true), 10);
         localStorage.removeItem("constructionToastDismissedAt");
       } else {
-        console.log("Less than 1 hour since dismissal, not showing toast");
       }
     }
   }, []);
