@@ -71,13 +71,11 @@
 .btn-group {
   @apply bg-base-200 rounded-field flex px-1.5 py-1;
 
-  
   .btn {
-    @apply h-9 rounded-field;
+    @apply rounded-field h-9;
   }
-  
+
   .btn-active {
     @apply bg-base-0;
   }
 }
-

@@ -90,7 +90,6 @@
   --radius-selector: 10rem;
   --radius-field: 10rem;
   --radius-box: 1.5rem;
-
 }
 
 @plugin "daisyui/theme" {
@@ -150,5 +149,4 @@
   --radius-selector: 10rem;
   --radius-field: 10rem;
   --radius-box: 1.5rem;
-
 }

@@ -30,9 +30,9 @@ body {
   @apply text-pretty;
 }
 
-.btn { 
+.btn {
   --btn-p: 1.2rem;
-  @apply shadow-none; 
+  @apply shadow-none;
 }
 
 .btn:not(.btn-outline) {
@@ -51,7 +51,7 @@ body {
   --btn-border: var(--color-base-300);
 }
 
-.input { 
+.input {
   border-color: var(--color-base-300);
   background-color: var(--color-base-0);
 }
