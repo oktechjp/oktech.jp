@@ -1,9 +1,6 @@
-import { memo } from "react";
-
 import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
 
-import CityBadge from "@/components/Common/CityBadge";
 import Link from "@/components/Common/Link";
 import type { EventEnriched } from "@/content";
 

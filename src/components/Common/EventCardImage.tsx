@@ -21,8 +21,8 @@ export default memo(function EventCardImage({ event, variant }: EventCardImagePr
   return (
     <div
       className={clsx(
-        "relative h-full overflow-hidden !rounded-br-none",
-        variant === "compact" && "rounded-box-inner-tight w-32 md:w-42",
+        "relative overflow-hidden !rounded-br-none",
+        variant === "compact" && "rounded-box-inner-tight h-full w-32 md:w-42",
         variant !== "compact" && "rounded-box-inner",
       )}
     >
