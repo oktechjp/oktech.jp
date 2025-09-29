@@ -31,9 +31,27 @@ body {
 }
 
 .btn {
-  @apply border-none shadow-none;
+  --btn-p: 1.2rem;
+  @apply shadow-none;
+}
+
+.btn:not(.btn-outline) {
+  @apply border-none;
+}
+
+.badge {
+  @apply shadow-none;
 }
 
 .badge:not(.badge-outline) {
-  @apply border-none shadow-none;
+  @apply border-none;
+}
+
+.btn-outline {
+  --btn-border: var(--color-base-300);
+}
+
+.input {
+  border-color: var(--color-base-300);
+  background-color: var(--color-base-0);
 }

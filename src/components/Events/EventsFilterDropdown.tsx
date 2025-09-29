@@ -80,30 +80,21 @@ export default function EventsFilterDropdown({
         ref={buttonRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`btn join-item whitespace-nowrap ${selected.length > 0 ? "btn-accent" : ""}`}
+        className={clsx(`btn join-item btn-outline whitespace-nowrap`)}
       >
         {getButtonLabel()}
         <LuChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
-        <div
-          ref={dropdownRef}
-          // className="absolute top-full -right-10 z-50 mt-2 flex w-[25em] items-end justify-end md:right-auto md:-left-10 md:w-[30em] md:justify-start lg:w-[40em]"
-          className="absolute top-full right-0 mt-2 flex w-[25em] items-end justify-end"
-        >
-          {/* <div className="soft-glass inline-flex flex-wrap gap-2 p-4!"> */}
-          <div className="flex">
-            {options.map((option, i) => (
+        <div ref={dropdownRef} className="absolute top-full left-0 mt-2 flex">
+          <div className="btn-group">
+            {options.map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => handleOptionChange(option)}
-                className={clsx(`btn`, {
-                  "btn-accent": selected.includes(option),
-                  "rounded-l-full": i === 0,
-                  "rounded-r-full": i === options.length - 1,
-                })}
+                className={clsx("btn", selected.includes(option) ? "btn-active" : "btn-ghost")}
                 data-testid={`${id === "topics" ? "topic" : "location"}-option`}
               >
                 {id === "location" ? capitalizeFirst(option) : option}

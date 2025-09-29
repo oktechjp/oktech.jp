@@ -17,29 +17,21 @@ interface EventCardImageProps {
   cityComponent?: React.ReactNode;
 }
 
-export default memo(function EventCardImage({ event, variant, first, last }: EventCardImageProps) {
+export default memo(function EventCardImage({ event, variant }: EventCardImageProps) {
   return (
     <div
       className={clsx(
-        "relative overflow-hidden",
-        variant === "compact" && "rounded-box-inner-tight hidden sm:block",
-        variant === "compact" && first && "first",
-        variant === "compact" && last && "last",
-        variant !== "compact" && "rounded-box-inner !rounded-br-none",
+        "relative overflow-hidden !rounded-br-none",
+        variant === "compact" && "rounded-box-inner-tight h-full w-32 md:w-42",
+        variant !== "compact" && "rounded-box-inner",
       )}
     >
-      {/* {JSON.stringify({ first, last })} */}
       {variant !== "compact" && isEventUpcoming(event) && (
         <div className="absolute top-3 left-3">
           <EventCountdown event={event} />
         </div>
       )}
-      <figure
-        className={clsx(
-          "bg-base-300",
-          variant === "compact" ? "aspect-video w-42" : "aspect-video h-full w-full",
-        )}
-      >
+      <figure className={clsx("bg-base-400 h-full w-full")}>
         <img
           src={event.data.cover.src}
           srcSet={event.data.cover.srcSet}

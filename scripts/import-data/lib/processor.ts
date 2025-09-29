@@ -434,7 +434,7 @@ export class VenueProcessor extends ContentProcessor<ExternalVenue> {
     return frontmatter;
   }
 
-  getContentBody(venue: ExternalVenue): string {
+  getContentBody(_venue: ExternalVenue): string {
     return ""; // Venues don't have body content by default
   }
 

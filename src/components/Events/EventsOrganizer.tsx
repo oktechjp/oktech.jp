@@ -1,4 +1,3 @@
-import Container from "@/components/Common/Container";
 import { EventsFilter } from "@/components/Events/EventsFilter";
 import { EventFilterProvider } from "@/components/Events/EventsFilterProvider";
 import { useEventsFilter } from "@/components/Events/EventsFilterProvider";
@@ -18,9 +17,9 @@ function EventsOrganizerInner({
   const { availableFilters } = useEventsFilter();
 
   return (
-    <div className="bg-base-100 -mt-22 flex flex-col pt-32">
+    <div className="-mt-22 flex flex-col gap-12 pt-32">
       <EventsFilter availableFilters={availableFilters} currentView={view} />
-      <div className="">
+      <div className="bg-base-100 py-12">
         <EventsView events={events} view={view} />
       </div>
     </div>

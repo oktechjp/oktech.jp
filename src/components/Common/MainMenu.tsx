@@ -14,19 +14,15 @@ export default function MainMenu({ variant = "default", className = "" }: MainMe
         className={`-mx-4 flex flex-wrap justify-center gap-1 ${className}`}
         data-testid="main-menu"
       >
-        {majorItems.map((item) => {
-          const IconComponent = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="btn btn-ghost items-center justify-start gap-2 text-sm"
-            >
-              {/* {IconComponent && <IconComponent />} */}
-              {item.label}
-            </Link>
-          );
-        })}
+        {majorItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="btn btn-ghost items-center justify-start gap-2 text-sm"
+          >
+            {item.label}
+          </Link>
+        ))}
       </nav>
     );
   }

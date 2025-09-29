@@ -1,3 +1,5 @@
+import { LuX } from "react-icons/lu";
+
 import Container from "../Common/Container";
 import EventsFilterDropdown from "./EventsFilterDropdown";
 import { useEventsFilter } from "./EventsFilterProvider";
@@ -21,9 +23,9 @@ export function EventsFilter({ availableFilters, currentView }: EventsFilterProp
     currentFilters.search || currentFilters.topics.length > 0 || currentFilters.location;
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center gap-12">
-        <div className="join flex w-full max-w-[40em]">
+    <Container wide>
+      <div className="flex flex-col gap-6 md:flex-row md:gap-12">
+        <div className="join flex w-full">
           {availableFilters.locations.length > 0 && (
             <EventsFilterDropdown
               id="location"
@@ -36,14 +38,13 @@ export function EventsFilter({ availableFilters, currentView }: EventsFilterProp
           {hasActiveFilters && (
             <button
               type="button"
-              className="btn btn-secondary join-item"
+              className="btn btn-outline join-item"
               onClick={clearAllFilters}
               data-testid="clear-all-filters"
             >
-              Clear
+              <LuX className="-ml-1" />
             </button>
           )}
-
           {/* TODO: Add topics back in */}
           {false && availableFilters.topics.length > 0 && (
             <EventsFilterDropdown
@@ -54,19 +55,11 @@ export function EventsFilter({ availableFilters, currentView }: EventsFilterProp
             />
           )}
         </div>
+        <div className="flex items-center justify-between gap-4">
+          <EventsSortSelector data-testid="sort-selector" />
+          <EventsViewModeSelector currentView={currentView} />
+        </div>
       </div>
-      <div className="mt-16 pt-16">
-        <Container>
-          <div className="flex items-center justify-between">
-            <div className="join flex items-center">
-              <EventsViewModeSelector currentView={currentView} />
-            </div>
-            <div className="join flex items-center">
-              <EventsSortSelector data-testid="sort-selector" />
-            </div>
-          </div>
-        </Container>
-      </div>
-    </>
+    </Container>
   );
 }

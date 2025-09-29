@@ -1,5 +1,7 @@
 ## vNow - fixes/refactoring
 
+- In the grid view, try a horizontal layout for the polaroid on mobile
+
 - Implement Theme
 - Projector styling
 - Check on mobile, safari
@@ -17,6 +19,9 @@
 - fix carousel on wide screen
 - Fix bug where the gallery item doesn't open the correct image
 - Increase font to 24?
+- REfactor rawJson usage in the import script.
+
+- replace data-astro-prefetch with just `prefetch` for react components
 
 ## New Features
 

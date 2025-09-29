@@ -1,5 +1,3 @@
-import type { SpringConfig } from "@react-spring/web";
-
 import BlobSlideshow from "@/components/Common/BlobSlideshow";
 import { BLOBS } from "@/utils/blobs";
 

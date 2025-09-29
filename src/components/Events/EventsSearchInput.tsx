@@ -1,11 +1,11 @@
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { LuSearch, LuX } from "react-icons/lu";
+import { LuSearch } from "react-icons/lu";
 
 import { useEventsFilter } from "./EventsFilterProvider";
 
 export default function EventsSearchInput() {
-  const { currentFilters, updateFilter, clearFilter } = useEventsFilter();
+  const { currentFilters, updateFilter } = useEventsFilter();
   const [localValue, setLocalValue] = useState(currentFilters.search);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -29,11 +29,6 @@ export default function EventsSearchInput() {
     [updateFilter],
   );
 
-  const handleClear = useCallback(() => {
-    setLocalValue("");
-    clearFilter("search");
-  }, [clearFilter]);
-
   useEffect(() => {
     return () => {
       if (debounceTimerRef.current) {
@@ -43,26 +38,16 @@ export default function EventsSearchInput() {
   }, []);
 
   return (
-    <label className="input input-bordered join-item flex w-full items-center gap-2">
-      <LuSearch className="h-4 w-4 opacity-70" />
+    <label className="input input-bordered join-item flex w-full items-center gap-2 md:max-w-[20em]">
       <input
-        type="search"
+        type="text"
         className="grow"
         placeholder="Search events..."
         value={localValue}
         onChange={handleInputChange}
-        data-testid="events-search-input"
+        data-testid="events-search-input "
       />
-      {localValue && (
-        <button
-          type="button"
-          className="btn btn-ghost btn-xs"
-          onClick={handleClear}
-          aria-label="Clear search"
-        >
-          <LuX className="h-4 w-4" />
-        </button>
-      )}
+      <LuSearch className="h-4 w-4" />
     </label>
   );
 }

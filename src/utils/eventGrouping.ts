@@ -5,6 +5,7 @@ import { isEventUpcoming } from "./eventFilters";
 export interface EventGroup {
   label: string;
   events: EventEnriched[];
+  isUpcoming?: boolean;
 }
 
 const UPCOMING_LABEL = "Upcoming Events";
@@ -52,6 +53,7 @@ export function groupEventsByYearAndUpcoming(
       groups.push({
         label: UPCOMING_LABEL,
         events: upcomingEvents,
+        isUpcoming: true,
       });
     }
     years.forEach((year) => {
@@ -78,6 +80,7 @@ export function groupEventsByYearAndUpcoming(
       groups.push({
         label: UPCOMING_LABEL,
         events: upcomingEvents,
+        isUpcoming: true,
       });
     }
   }

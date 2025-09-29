@@ -2,8 +2,7 @@ import { useEventsFilter } from "@/components/Events/EventsFilterProvider";
 import type { EventEnriched } from "@/content";
 
 import EventsViewAlbum from "./EventsViewAlbum";
-import EventsViewCompact from "./EventsViewCompact";
-import EventsViewGrid from "./EventsViewGrid";
+import EventsViewCollection from "./EventsViewCollection";
 
 interface Props {
   events: EventEnriched[];
@@ -25,9 +24,9 @@ export default function EventsView({ events, view }: Props) {
     .filter((event): event is EventEnriched => event !== undefined);
 
   return (
-    <div className="my-24 flex flex-col gap-24">
-      {view === "grid" && <EventsViewGrid events={sortedEvents} />}
-      {view === "compact" && <EventsViewCompact events={sortedEvents} />}
+    <div className="flex flex-col gap-24">
+      {view === "grid" && <EventsViewCollection events={sortedEvents} variant="grid" />}
+      {view === "compact" && <EventsViewCollection events={sortedEvents} variant="list" />}
       {view === "album" && <EventsViewAlbum events={sortedEvents} />}
     </div>
   );
