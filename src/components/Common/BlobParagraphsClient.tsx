@@ -125,7 +125,7 @@ function BlobParagraphsDesktop({
     };
   }, [activeParagraphIndex]);
   return (
-    <Container wide className="grid grid-cols-2 gap-12">
+    <Container className="grid grid-cols-2 gap-28">
       <div className="gap-responsive flex flex-col">
         {paragraphs.map((paragraph, index) => (
           <BlobParagraph
@@ -138,7 +138,7 @@ function BlobParagraphsDesktop({
           />
         ))}
       </div>
-      <div className="-my-20">
+      <div className="-mr-20">
         <ParallaxSpring speed={1}>
           <BlobParagraphSlideshow
             allImages={allImages}
@@ -258,7 +258,7 @@ function BlobParagraphsMobile({
   const stickyWrapperHeight = totalContentHeight - lastParagraphHeight;
 
   return (
-    <Container wide className="relative">
+    <Container className="relative">
       {/* Sticky wrapper that spans content except last paragraph */}
       <div className="absolute inset-x-0 top-0" style={{ height: stickyWrapperHeight }}>
         <div className="sticky top-32 z-10">

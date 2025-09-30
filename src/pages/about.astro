@@ -30,6 +30,7 @@ import Timeline from "@/components/Common/Timeline";
         </div>
       </Container>
     </div>
+
     <BlobParagraphs
       paragraphs={[
         {
@@ -69,19 +70,7 @@ import Timeline from "@/components/Common/Timeline";
     />
     <div class="pt-90">
       <Container wide>
-        <Timeline
-          items={[
-            {
-              title: "item one",
-              description: "hello some lorem isum",
-              icon: "todo",
-              date: new Date(),
-            },
-            { title: "item two", description: "hello", icon: "todo", date: new Date() },
-            { title: "item three", description: "hello", icon: "todo", date: new Date() },
-            { title: "item four", description: "hello", icon: "todo", date: new Date() },
-          ]}
-        />
+        <Timeline client:visible />
       </Container>
     </div>
     <div class="py-responsive">
