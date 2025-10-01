@@ -40,11 +40,11 @@ export default function Toast() {
   return (
     <div
       className={clsx(
-        "fixed right-2 bottom-6 left-2 z-50 transition-opacity duration-500",
-        isVisible ? "opacity-100" : "pointer-events-none opacity-0",
+        "pointer-events-none fixed right-2 bottom-6 left-2 z-50 transition-opacity duration-500",
+        isVisible ? "opacity-100" : "opacity-0",
       )}
     >
-      <div className="alert alert-warning m-auto max-w-md">
+      <div className="alert alert-warning pointer-events-auto m-auto max-w-md">
         <LuConstruction className="h-5 w-5" />
         <span>We're actively working on this site. You will encounter visual inconsistencies.</span>
         <button
