@@ -145,14 +145,36 @@ const EventCarousel = memo(function EventCarousel({
 
   const scrollTo = useCallback(
     (direction: "left" | "right") => {
+      if (!scrollContainerRef.current) {
+        return;
+      }
+
+      const container = scrollContainerRef.current;
+      const maxScroll = calculateTargetScroll(totalItems - 1, container.clientWidth);
+
       // Calculate target index based on shadowIndex (current scroll position)
-      const targetIndex =
+      let targetIndex =
         direction === "left"
           ? Math.max(0, shadowIndex - 1)
           : Math.min(totalItems - 1, shadowIndex + 1);
 
+      // For right navigation, check if the target scroll would exceed maxScroll
+      let targetScroll = calculateTargetScroll(targetIndex, container.clientWidth);
+      if (direction === "right" && targetScroll > maxScroll) {
+        // If proposed scroll exceeds max, just go to the final scroll position
+        targetScroll = maxScroll;
+
+        // Calculate which item is the leftmost visible item at this scroll position
+        // This is the item whose left edge is at or right of the viewport left edge
+        const viewportLeft = targetScroll;
+        const adjustedViewportLeft = Math.max(0, viewportLeft - SCROLL_PADDING);
+        // Find the first item that starts at or after the viewport left
+        const leftmostVisibleIndex = Math.ceil(adjustedViewportLeft / scrollDistance);
+        targetIndex = Math.max(0, Math.min(totalItems - 1, leftmostVisibleIndex));
+      }
+
       // Don't do anything if we're already at the target
-      if (targetIndex === shadowIndex) {
+      if (targetIndex === shadowIndex && Math.abs(container.scrollLeft - targetScroll) < 1) {
         return;
       }
 
@@ -163,27 +185,19 @@ const EventCarousel = memo(function EventCarousel({
       setManuallyScrolledToEnd(false);
 
       // Check if the last item would be fully visible after this navigation
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
-        const targetScroll = calculateTargetScroll(targetIndex, container.clientWidth);
-        const lastItemStart = SCROLL_PADDING + (totalItems - 1) * scrollDistance;
-        const lastItemWidth =
-          showMore && totalItems - 1 === events.length ? MORE_WIDTH : itemPixelWidth;
-        const lastItemEnd = lastItemStart + lastItemWidth;
-        const viewportEnd = targetScroll + container.clientWidth;
-        const wouldLastBeFullyVisible = lastItemEnd <= viewportEnd;
-        setLastItemFullyVisible(wouldLastBeFullyVisible);
-      }
+      const lastItemStart = SCROLL_PADDING + (totalItems - 1) * scrollDistance;
+      const lastItemWidth =
+        showMore && totalItems - 1 === events.length ? MORE_WIDTH : itemPixelWidth;
+      const lastItemEnd = lastItemStart + lastItemWidth;
+      const viewportEnd = targetScroll + container.clientWidth;
+      const wouldLastBeFullyVisible = lastItemEnd <= viewportEnd;
+      setLastItemFullyVisible(wouldLastBeFullyVisible);
 
       // Animate to the new position
-      const targetScroll = calculateTargetScroll(
-        targetIndex,
-        scrollContainerRef.current?.clientWidth,
-      );
       isAnimating.current = true;
 
       api.start({
-        from: { scrollX: scrollContainerRef.current?.scrollLeft || 0 },
+        from: { scrollX: container.scrollLeft },
         to: { scrollX: targetScroll },
         onChange: ({ value }) => {
           if (scrollContainerRef.current && value.scrollX !== undefined) {
