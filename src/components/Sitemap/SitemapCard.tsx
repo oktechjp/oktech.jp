@@ -11,13 +11,9 @@ export default function SitemapCard({ entry }: SitemapCardProps) {
   if (!href) return null;
 
   return (
-    <Link
-      href={href}
-      className="glass-border rounded-box bg-base-100/60 hover:bg-base-100/100 block w-full overflow-hidden transition-all duration-200"
-      data-testid={`sitemap-card-${href}`}
-    >
+    <Link href={href} className="ok-card" data-testid={`sitemap-card-${href}`}>
       <div className="flex flex-col">
-        <div className="rounded-box-inner relative overflow-hidden">
+        <div className="rounded-box-inner relative overflow-hidden !rounded-br-none">
           <figure className="bg-base-300 aspect-video h-full w-full">
             {ogImage ? (
               <img

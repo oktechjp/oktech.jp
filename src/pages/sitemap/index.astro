@@ -53,8 +53,8 @@ articlePages.sort((a, b) => a.title.localeCompare(b.title));
 ---
 
 <PageLayout>
-  <div class="flex flex-col gap-24 py-8 pb-32">
-    <Container className="flex w-full flex-col gap-8">
+  <div class="flex flex-col">
+    <Container className="flex w-full flex-col gap-8 py-12">
       <div class="prose max-w-none">
         <h1>Sitemap</h1>
         <p>
@@ -64,17 +64,18 @@ articlePages.sort((a, b) => a.title.localeCompare(b.title));
         </p>
       </div>
     </Container>
+    <div class="bg-base-100 gap-24 py-8 pb-32">
+      <!-- Main Routes Section -->
+      <SitemapSection title="Main Pages" entries={mainRoutes} client:load />
 
-    <!-- Main Routes Section -->
-    <SitemapSection title="Main Pages" entries={mainRoutes} client:load />
+      <!-- Articles Section -->
+      <SitemapSection title="Articles" entries={articlePages} client:load />
 
-    <!-- Articles Section -->
-    <SitemapSection title="Articles" entries={articlePages} client:load />
+      <!-- Events Section -->
+      <SitemapSection title="Events" entries={eventPages} client:load />
 
-    <!-- Events Section -->
-    <SitemapSection title="Events" entries={eventPages} client:load />
-
-    <!-- Venues Section -->
-    <SitemapSection title="Venues" entries={venuePages} client:load />
+      <!-- Venues Section -->
+      <SitemapSection title="Venues" entries={venuePages} client:load />
+    </div>
   </div>
 </PageLayout>

@@ -1,5 +1,5 @@
 ---
-import BlobParagraphsClient from "./BlobParagraphsClient";
+import BlobParagraphs from "./BlobParagraphs";
 import { getResponsiveImage } from "@/utils/responsiveImage";
 
 interface Paragraph {
@@ -26,4 +26,4 @@ const processedParagraphs = await Promise.all(
 );
 ---
 
-<BlobParagraphsClient paragraphs={processedParagraphs} blobs={blobs} client:visible />
+<BlobParagraphs paragraphs={processedParagraphs} blobs={blobs} client:visible />
