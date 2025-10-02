@@ -49,7 +49,12 @@ function EventsBlock({
       ) : (
         <EventBlockGrid title={title} events={events} />
       )}
-      {isUpcoming && <EventsSubscribeBox />}
+      {isUpcoming && (
+        <>
+          <EventsSubscribeBox />
+          <div id="latest" className="invisible h-0" />
+        </>
+      )}
     </>
   );
 }

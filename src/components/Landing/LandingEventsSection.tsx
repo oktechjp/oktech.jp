@@ -4,8 +4,10 @@ import type { EventEnriched } from "@/content";
 import { filterRecentEvents, filterUpcomingEvents } from "@/utils/eventFilters";
 
 import Button from "../Common/Button";
+import CalendarSubscribeButton from "../Common/CalendarSubscribeButton";
 import Container from "../Common/Container";
 import EventCarousel from "../Common/EventCarousel";
+import EventCarouselLastItem from "../Common/EventCarouselLastItem";
 
 function UpcomingSection({ events }: { events: EventEnriched[] }) {
   return (
@@ -13,7 +15,16 @@ function UpcomingSection({ events }: { events: EventEnriched[] }) {
       <Container className="gap-responsive flex flex-col md:items-center">
         <h2 className="section-title">Upcoming Events</h2>
       </Container>
-      <EventCarousel events={events} moreText="...and more coming soon!" moreIcon={LuSparkles} />
+      <EventCarousel
+        events={events}
+        LastItem={
+          <EventCarouselLastItem
+            icon={LuSparkles}
+            text="...and more coming soon!"
+            button={<CalendarSubscribeButton />}
+          />
+        }
+      />
     </>
   );
 }
@@ -30,8 +41,15 @@ function RecentSection({ events, remaining }: { events: EventEnriched[]; remaini
       <EventCarousel
         events={events}
         variant="polaroid"
-        moreText={`...and ${remaining} past events!`}
-        moreIcon={LuCalendarDays}
+        LastItem={
+          <EventCarouselLastItem
+            icon={LuCalendarDays}
+            text={`...and ${remaining} past events!`}
+            button={
+              <Button text="More Events" href="/events#latest" className="btn-neutral btn-lg" />
+            }
+          />
+        }
         cta={
           <div className="block md:hidden">
             <Button text="All Events" href="/events" className="btn-lg btn-neutral" />

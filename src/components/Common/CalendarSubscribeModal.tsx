@@ -132,7 +132,7 @@ export default function CalendarSubscribeModal({ children, event }: CalendarSubs
       </div>
 
       <dialog ref={modalRef} className="modal" data-testid="calendar-subscribe-modal">
-        <div className="modal-box bg-base-0 max-w-lg text-left">
+        <div className="modal-box bg-base-0 text-base-content max-w-lg text-left">
           <button
             onClick={closeModal}
             className="btn btn-circle btn-ghost btn-sm absolute top-4 right-4"

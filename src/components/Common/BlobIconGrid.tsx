@@ -4,7 +4,7 @@ import clsx from "clsx";
 import type { IconType } from "react-icons";
 
 import BlobCard from "@/components/Common/BlobCard";
-import CalendarSubscribeModal from "@/components/Common/CalendarSubscribeModal";
+import CalendarSubscribeButton from "@/components/Common/CalendarSubscribeButton";
 import Link from "@/components/Common/Link";
 
 export interface BlobIconGridItem {
@@ -83,11 +83,11 @@ export default function BlobIconGrid({ items, className = "" }: BlobIconGridProp
                 <GridItem title={item.title} description={item.description} Icon={item.icon} />
               </Link>
             ) : item.type === "calendar" ? (
-              <CalendarSubscribeModal>
+              <CalendarSubscribeButton>
                 <div className="cursor-pointer" role="button" tabIndex={0}>
                   <GridItem title={item.title} description={item.description} Icon={item.icon} />
                 </div>
-              </CalendarSubscribeModal>
+              </CalendarSubscribeButton>
             ) : (
               <a
                 href={item.href || "#"}

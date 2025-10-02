@@ -1,4 +1,4 @@
-import CalendarSubscribeModal from "@/components/Common/CalendarSubscribeModal";
+import CalendarSubscribeButton from "@/components/Common/CalendarSubscribeButton";
 import { SOCIALS } from "@/constants";
 
 interface SocialsFooterProps {
@@ -14,7 +14,7 @@ export default function SocialsFooter({ className = "" }: SocialsFooterProps) {
         if ((social as any).type === "calendar") {
           return (
             <div key={social.label} className="tooltip tooltip-top" data-tip="Subscribe">
-              <CalendarSubscribeModal>
+              <CalendarSubscribeButton>
                 <span
                   aria-label={social.label}
                   className="btn btn-circle btn-sm btn-ghost"
@@ -23,7 +23,7 @@ export default function SocialsFooter({ className = "" }: SocialsFooterProps) {
                 >
                   <IconComponent size={18} />
                 </span>
-              </CalendarSubscribeModal>
+              </CalendarSubscribeButton>
             </div>
           );
         }

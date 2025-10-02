@@ -1,6 +1,4 @@
-import { LuCalendarPlus } from "react-icons/lu";
-
-import CalendarSubscribeModal from "../Common/CalendarSubscribeModal";
+import CalendarSubscribeButton from "../Common/CalendarSubscribeButton";
 import Container from "../Common/Container";
 
 export default function EventsSubscribeBox() {
@@ -12,12 +10,7 @@ export default function EventsSubscribeBox() {
           Be the first to know the moment registration opens and guarantee your place at our most
           anticipated upcoming gatherings.
         </p>
-        <CalendarSubscribeModal>
-          <button className="btn btn-lg btn-neutral gap-4">
-            <LuCalendarPlus />
-            Subscribe to Events Calendar
-          </button>
-        </CalendarSubscribeModal>
+        <CalendarSubscribeButton />
       </div>
     </Container>
   );

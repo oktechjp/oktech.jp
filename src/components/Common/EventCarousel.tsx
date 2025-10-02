@@ -1,8 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import { useSpring } from "@react-spring/web";
-import clsx from "clsx";
-import { LuChevronLeft, LuChevronRight, LuSparkles } from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 import EventCard from "@/components/Common/EventCard";
 import type { EventEnriched } from "@/content";
@@ -24,16 +23,12 @@ const MORE_WIDTH = 320; // Width of the "more" section
 const EventCarousel = memo(function EventCarousel({
   events,
   variant: variantProp = "big",
-  moreText,
-  moreIcon: MoreIcon,
-  showMore = true,
+  LastItem,
   cta,
 }: {
   events: EventEnriched[];
   variant?: Variant;
-  moreText?: string;
-  moreIcon?: React.ComponentType<{ className?: string }>;
-  showMore?: boolean;
+  LastItem?: React.ReactNode;
   cta?: React.ReactNode;
 }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -56,30 +51,40 @@ const EventCarousel = memo(function EventCarousel({
 
   const { width: itemPixelWidth, gap } = configByVariant[variant];
   const scrollDistance = itemPixelWidth + gap;
-  // Total number of scrollable items (events + "more" section if shown)
-  const totalItems = events.length + (showMore ? 1 : 0);
+  // Total number of scrollable items (events + LastItem if provided)
+  const totalItems = events.length + (LastItem ? 1 : 0);
   const isAnimating = useRef(false);
+
+  // On mobile, LastItem should be full viewport width to center it
+  const isMobile = screenWidth > 0 && screenWidth < BIG_SCREEN_MIN_WIDTH;
+  const lastItemWidth = isMobile ? screenWidth : MORE_WIDTH;
 
   // Helper function to calculate target scroll position for an index
   const calculateTargetScroll = useCallback(
     (targetIndex: number, containerWidth?: number) => {
       let targetScroll = SCROLL_PADDING + targetIndex * scrollDistance;
 
-      // Special position for "more" section - align it to the right edge of container
-      if (showMore && targetIndex === totalItems - 1 && containerWidth) {
-        targetScroll =
-          SCROLL_PADDING +
-          events.length * scrollDistance +
-          gap +
-          MORE_WIDTH -
-          containerWidth +
-          SCROLL_PADDING; // Use SCROLL_PADDING for bounce space
+      // Special position for LastItem
+      if (LastItem && targetIndex === totalItems - 1 && containerWidth) {
+        if (isMobile) {
+          // On mobile, align LastItem to the left edge of viewport (no special positioning needed)
+          targetScroll = SCROLL_PADDING + events.length * scrollDistance + gap;
+        } else {
+          // On desktop, align it to the right edge of container
+          targetScroll =
+            SCROLL_PADDING +
+            events.length * scrollDistance +
+            gap +
+            lastItemWidth -
+            containerWidth +
+            SCROLL_PADDING; // Use SCROLL_PADDING for bounce space
+        }
         targetScroll = Math.max(0, targetScroll);
       }
 
       return targetScroll;
     },
-    [showMore, totalItems, scrollDistance, events.length, gap],
+    [LastItem, totalItems, scrollDistance, events.length, gap, lastItemWidth, isMobile],
   );
 
   // Spring animation with bounce effect - only used for button clicks
@@ -186,9 +191,9 @@ const EventCarousel = memo(function EventCarousel({
 
       // Check if the last item would be fully visible after this navigation
       const lastItemStart = SCROLL_PADDING + (totalItems - 1) * scrollDistance;
-      const lastItemWidth =
-        showMore && totalItems - 1 === events.length ? MORE_WIDTH : itemPixelWidth;
-      const lastItemEnd = lastItemStart + lastItemWidth;
+      const currentLastItemWidth =
+        LastItem && totalItems - 1 === events.length ? lastItemWidth : itemPixelWidth;
+      const lastItemEnd = lastItemStart + currentLastItemWidth;
       const viewportEnd = targetScroll + container.clientWidth;
       const wouldLastBeFullyVisible = lastItemEnd <= viewportEnd;
       setLastItemFullyVisible(wouldLastBeFullyVisible);
@@ -215,7 +220,7 @@ const EventCarousel = memo(function EventCarousel({
       api,
       calculateTargetScroll,
       scrollDistance,
-      showMore,
+      LastItem,
       events.length,
       itemPixelWidth,
     ],
@@ -255,20 +260,9 @@ const EventCarousel = memo(function EventCarousel({
                   count={events.length}
                 />
               ))}
-              {showMore && (
-                <div
-                  className={clsx(
-                    "flex flex-none flex-col items-center justify-center gap-8",
-                    "text-base-300 dark:text-base-600",
-                  )}
-                  style={{ width: `${MORE_WIDTH}px` }}
-                >
-                  {MoreIcon ? (
-                    <MoreIcon className="h-18 w-18" />
-                  ) : (
-                    <LuSparkles className="h-18 w-18" />
-                  )}
-                  <p className="text-lg">{moreText || "...and more to come soon!"}</p>
+              {LastItem && (
+                <div className="flex-none" style={{ width: `${lastItemWidth}px` }}>
+                  {LastItem}
                 </div>
               )}
               {/* End padding */}
