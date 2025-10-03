@@ -4,6 +4,10 @@
 
 The website for Osaka Tech community events and meetups.
 
+## Contributor Guide
+
+See [Repository Guidelines](./AGENTS.md) for project structure, workflow expectations, and contributor checklists.
+
 ## Development
 
 ```bash
