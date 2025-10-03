@@ -21,18 +21,25 @@ function useCalculateMobileBlobPosition({
   paragraphRefs,
   spacerRef,
   blobRef,
+  isEnabled,
 }: {
   paragraphs: Paragraph[];
   paragraphRefs: RefObject<(HTMLDivElement | null)[]>;
-  spacerRef: RefObject<HTMLDivElement | null>;
-  blobRef: RefObject<HTMLDivElement | null>;
+  spacerRef?: RefObject<HTMLDivElement | null>;
+  blobRef?: RefObject<HTMLDivElement | null>;
+  isEnabled: boolean;
 }) {
   const [parallaxContainerHeight, setParallaxContainerHeight] = useState(0);
 
   useEffect(() => {
+    if (!isEnabled) {
+      setParallaxContainerHeight(0);
+      return;
+    }
+
     const calculateHeight = () => {
       const lastParagraph = paragraphRefs.current?.[paragraphs.length - 1];
-      const spacer = spacerRef.current;
+      const spacer = spacerRef?.current;
       if (!lastParagraph || !spacer) return;
 
       // Get the parent container that holds everything
@@ -47,14 +54,14 @@ function useCalculateMobileBlobPosition({
       setParallaxContainerHeight(Math.max(0, height));
     };
 
-    const timer = setTimeout(calculateHeight, 100);
+    const timer = window.setTimeout(calculateHeight, 100);
     window.addEventListener("resize", calculateHeight);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", calculateHeight);
     };
-  }, [paragraphs.length, paragraphRefs, spacerRef, blobRef]);
+  }, [isEnabled, paragraphs.length, paragraphRefs, spacerRef, blobRef]);
 
   return { parallaxContainerHeight };
 }
@@ -64,17 +71,24 @@ function useCalculateDesktopBlobPosition({
   paragraphs,
   paragraphRefs,
   blobRef,
+  isEnabled,
 }: {
   paragraphs: Paragraph[];
   paragraphRefs: RefObject<(HTMLDivElement | null)[]>;
-  blobRef: RefObject<HTMLDivElement | null>;
+  blobRef?: RefObject<HTMLDivElement | null>;
+  isEnabled: boolean;
 }) {
   const [desktopBottomPadding, setDesktopBottomPadding] = useState(0);
 
   useEffect(() => {
+    if (!isEnabled) {
+      setDesktopBottomPadding(0);
+      return;
+    }
+
     const calculatePadding = () => {
       const lastParagraph = paragraphRefs.current?.[paragraphs.length - 1];
-      if (!lastParagraph || !blobRef.current) return;
+      if (!lastParagraph || !blobRef?.current) return;
 
       const blobHeight = blobRef.current.offsetHeight;
       const paragraphHeight = lastParagraph.offsetHeight;
@@ -85,14 +99,14 @@ function useCalculateDesktopBlobPosition({
       setDesktopBottomPadding(padding);
     };
 
-    const timer = setTimeout(calculatePadding, 100);
+    const timer = window.setTimeout(calculatePadding, 100);
     window.addEventListener("resize", calculatePadding);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", calculatePadding);
     };
-  }, [paragraphs.length, paragraphRefs, blobRef]);
+  }, [isEnabled, paragraphs.length, paragraphRefs, blobRef]);
 
   return { desktopBottomPadding };
 }
@@ -108,8 +122,23 @@ export function useBlobParagraphScroll({
 }: Config) {
   const [activeParagraphIndex, setActiveParagraphIndex] = useState(0);
 
+  useEffect(() => {
+    if (paragraphs.length === 0) {
+      setActiveParagraphIndex(0);
+      return;
+    }
+
+    if (activeParagraphIndex > paragraphs.length - 1) {
+      setActiveParagraphIndex(paragraphs.length - 1);
+    }
+  }, [activeParagraphIndex, paragraphs.length]);
+
   // Calculate image range for active paragraph
   const activeImageRange = useMemo(() => {
+    if (paragraphs.length === 0) {
+      return { start: 0, end: 0 };
+    }
+
     let startIdx = 0;
     for (let i = 0; i < activeParagraphIndex; i++) {
       startIdx += paragraphs[i].images.length;
@@ -118,18 +147,23 @@ export function useBlobParagraphScroll({
     return { start: startIdx, end: endIdx };
   }, [activeParagraphIndex, paragraphs]);
 
+  const isMobileMode = mode === "mobile";
+  const isDesktopMode = mode === "desktop";
+
   // Use mobile or desktop position calculation based on mode
   const { parallaxContainerHeight } = useCalculateMobileBlobPosition({
     paragraphs,
     paragraphRefs,
-    spacerRef: spacerRef!,
-    blobRef: blobRef!,
+    spacerRef,
+    blobRef,
+    isEnabled: isMobileMode,
   });
 
   const { desktopBottomPadding } = useCalculateDesktopBlobPosition({
     paragraphs,
     paragraphRefs,
-    blobRef: blobRef!,
+    blobRef,
+    isEnabled: isDesktopMode,
   });
 
   // Handle scroll and active paragraph selection
@@ -194,12 +228,20 @@ export function useBlobParagraphScroll({
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
-  }, [activeParagraphIndex, mode, paragraphs.length, paragraphRefs, mobileTopStickyOffset, mobileBlobBuffer, blobRef]);
+  }, [
+    activeParagraphIndex,
+    mode,
+    paragraphs.length,
+    paragraphRefs,
+    mobileTopStickyOffset,
+    mobileBlobBuffer,
+    blobRef,
+  ]);
 
   return {
     activeParagraphIndex,
     activeImageRange,
-    parallaxContainerHeight,
-    desktopBottomPadding,
+    parallaxContainerHeight: isMobileMode ? parallaxContainerHeight : 0,
+    desktopBottomPadding: isDesktopMode ? desktopBottomPadding : 0,
   };
 }

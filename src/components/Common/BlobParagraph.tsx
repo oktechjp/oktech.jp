@@ -1,16 +1,11 @@
-type Paragraph = {
-  title: string;
-  text: string;
-  images: (string | { src: string; srcSet?: string; sizes?: string })[];
-  blobs?: number[];
-};
+import type { BlobParagraphContent } from "./BlobParagraphShared";
 
 export default function BlobParagraph({
   paragraph,
   isActive,
   onRef,
 }: {
-  paragraph: Paragraph;
+  paragraph: BlobParagraphContent;
   isActive: boolean;
   onRef: (el: HTMLDivElement | null) => void;
 }) {
