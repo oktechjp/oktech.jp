@@ -1,7 +1,6 @@
 ## vNow - fixes/refactoring
 
 - In the grid view, try a horizontal layout for the polaroid on mobile
-
 - Implement Theme
 - Projector styling
 - Check on mobile, safari
@@ -20,8 +19,9 @@
 - Fix bug where the gallery item doesn't open the correct image
 - Increase font to 24?
 - REfactor rawJson usage in the import script.
-
+- Tweak grid count based on new diszes.
 - replace data-astro-prefetch with just `prefetch` for react components
+- Scroll to top button on long pages
 
 ## New Features
 
@@ -63,3 +63,4 @@
 - Blob saga
 - Explain client:only="react" and other astro directives
 - `<TopBar client:load transition:persist="topbar" />`
+- `https://tailwindcss.com/docs/will-change`

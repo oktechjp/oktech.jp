@@ -40,7 +40,7 @@ export default function Toast() {
   return (
     <div
       className={clsx(
-        "pointer-events-none fixed right-2 bottom-6 left-2 z-50 transition-opacity duration-500",
+        "pointer-events-none fixed right-2 bottom-20 left-2 z-50 transition-opacity duration-500",
         isVisible ? "opacity-100" : "opacity-0",
       )}
     >

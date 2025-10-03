@@ -4,11 +4,9 @@ import clsx from "clsx";
 import type { IconType } from "react-icons";
 
 import BlobCard from "@/components/Common/BlobCard";
-import CalendarSubscribeButton from "@/components/Common/CalendarSubscribeButton";
 import Link from "@/components/Common/Link";
 
 export interface BlobIconGridItem {
-  type: "link" | "calendar" | "a";
   title: string;
   description: string;
   icon: IconType;
@@ -16,7 +14,7 @@ export interface BlobIconGridItem {
   target?: string;
   rel?: string;
   testId?: string;
-  showTip?: boolean;
+  wrap?: (content: ReactNode) => ReactNode;
 }
 
 interface BlobIconGridProps {
@@ -76,31 +74,42 @@ export default function BlobIconGrid({ items, className = "" }: BlobIconGridProp
   return (
     <div className={clsx("grid md:grid-cols-3", className)}>
       {items.map((item, index) => {
+        const wrapContent = item.wrap ?? createDefaultWrapper(item);
         return (
           <BlobWrapper key={`${item.title}-${index}`} preset={index} index={index}>
-            {item.type === "link" ? (
-              <Link href={item.href || "#"} className="">
-                <GridItem title={item.title} description={item.description} Icon={item.icon} />
-              </Link>
-            ) : item.type === "calendar" ? (
-              <CalendarSubscribeButton>
-                <div className="cursor-pointer" role="button" tabIndex={0}>
-                  <GridItem title={item.title} description={item.description} Icon={item.icon} />
-                </div>
-              </CalendarSubscribeButton>
-            ) : (
-              <a
-                href={item.href || "#"}
-                target={item.target}
-                rel={item.rel}
-                data-testid={item.testId}
-              >
-                <GridItem title={item.title} description={item.description} Icon={item.icon} />
-              </a>
+            {wrapContent(
+              <GridItem title={item.title} description={item.description} Icon={item.icon} />,
             )}
           </BlobWrapper>
         );
       })}
     </div>
+  );
+}
+
+function createDefaultWrapper(item: BlobIconGridItem) {
+  if (!item.href) {
+    return (content: ReactNode) => content;
+  }
+
+  const isInternal = item.href.startsWith("/");
+
+  if (isInternal) {
+    return (content: ReactNode) => (
+      <Link href={item.href ?? "#"} target={item.target} rel={item.rel} data-testid={item.testId}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (content: ReactNode) => (
+    <a
+      href={item.href ?? "#"}
+      target={item.target ?? "_blank"}
+      rel={item.rel ?? "noopener noreferrer"}
+      data-testid={item.testId}
+    >
+      {content}
+    </a>
   );
 }

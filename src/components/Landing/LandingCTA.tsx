@@ -2,27 +2,31 @@ import { FaDiscord } from "react-icons/fa6";
 import { LuCalendarPlus, LuMessageCircleCode } from "react-icons/lu";
 
 import BlobIconGrid, { type BlobIconGridItem } from "@/components/Common/BlobIconGrid";
+import CalendarSubscribeButton from "@/components/Common/CalendarSubscribeButton";
 
 export default function LandingCTA() {
   const items: BlobIconGridItem[] = [
     {
-      type: "a",
       title: "Join the Discord",
       description: "Chat with our community",
       icon: FaDiscord,
       href: "/discord",
       target: "_blank",
       rel: "noopener noreferrer",
-      // showTip: true,
     },
     {
-      type: "calendar",
       title: "Subscribe to Calendar",
       description: "Never miss an event",
       icon: LuCalendarPlus,
+      wrap: (content) => (
+        <CalendarSubscribeButton>
+          <button type="button" className="flex h-full w-full items-center justify-center">
+            {content}
+          </button>
+        </CalendarSubscribeButton>
+      ),
     },
     {
-      type: "a",
       title: "Make a Presentation",
       description: "Share your ideas",
       icon: LuMessageCircleCode,

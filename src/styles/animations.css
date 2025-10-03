@@ -14,3 +14,21 @@
 .animate-floating {
   animation: float 5s ease-in-out infinite;
 }
+
+@keyframes connect-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.connect-marquee-track {
+  animation: connect-marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+.connect-marquee-track.reverse {
+  animation-direction: reverse;
+}

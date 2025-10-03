@@ -3,7 +3,6 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import SocialsBig from "@/components/Common/SocialsBig";
 
 import Container from "@/components/Common/Container";
-import ContentSection from "@/components/Common/ContentSection";
 import BlurryBlobBackground from "@/components/Common/BlurryBlobBackground";
 import BlobParagraphs from "@/components/Common/BlobParagraphs.astro";
 import Timeline from "@/components/Common/Timeline";
@@ -68,61 +67,32 @@ import Timeline from "@/components/Common/Timeline";
         },
       ]}
     />
-    <div class="pt-90">
-      <Container wide>
-        <Timeline client:visible />
-      </Container>
-    </div>
-    <div class="py-responsive">
-      <ContentSection title="OK History">
-        <div class="prose prose-lg grid max-w-none grid-cols-1 gap-16 md:grid-cols-2">
-          <div>
-            <p>
-              OKTech began in 2015 as a grassroots meetup in Osaka called OWDDM — short for Osaka
-              Web Designers & Developers Meetup. Its Kyoto counterpart, KWDDM, soon followed. The
-              original name, while charmingly descriptive (and a bit of a mouthful!), reflected our
-              goal of being easy to find for fellow web folks in Kansai.
-            </p>
-            <p>
-              After nearly a decade of events, community-building, and a growing diversity of topics
-              and attendees, the group relaunched in 2025 under a new banner: OKTech. The new name
-              reflects our broader focus on all things tech in Kansai — still community-driven,
-              still volunteer-run, and still fueled by curiosity and shared learning.
-            </p>
-            <p>
-              From the beginning, our core has been web design and development — frontend, backend,
-              UX, SEO, and everything in between. Over time, we've welcomed talks on cloud
-              infrastructure, game development, AI, and creative tech, reflecting the evolving
-              interests of our members.
-            </p>
-            <p>
-              Beyond the tech, OKTech is about building community: from casual post-meetup dinners
-              to seasonal hanami under the cherry blossoms, we've always believed good conversations
-              happen both in and out of the slides.
-            </p>
-          </div>
-          <div>
-            <p>
-              OKTechは2015年に、大阪で「OWDDM（Osaka Web Designers & Developers
-              Meetup）」という草の根のミートアップとして始まりました。その後すぐに、京都版である「KWDDM」も立ち上がりました。元の名称は、やや長くはあるものの親しみやすく、関西のウェブ関係者に見つけてもらいやすいようにという私たちの想いを反映していました。
-            </p>
-            <p>
-              それから約10年にわたり、イベントの開催やコミュニティ作り、トピックや参加者の多様化を重ね、2025年に新たな名前「OKTech」として再出発しました。この新しい名前には、「関西のあらゆるテクノロジーにフォーカスする」という、より広いビジョンが込められています。これまでと変わらず、コミュニティ主導・ボランティア運営で、好奇心と学びの共有を原動力としています。
-            </p>
-            <p>
-              当初から私たちの中心にあったのは、ウェブデザインと開発でした。フロントエンド、バックエンド、UX、SEOなど、ウェブ制作のあらゆる側面に取り組んできました。時を経て、クラウドインフラ、ゲーム開発、AI、クリエイティブテックといったテーマの発表も増え、メンバーの興味の広がりを反映しています。
-            </p>
-            <p>
-              そして、OKTechの本質はテクノロジーだけではありません。コミュニティを築くことも大切にしています。ミートアップ後の気軽な食事会や、春のお花見といった季節の交流など、スライドの内側だけでなく外側でも、良い会話が生まれると信じています。
-            </p>
-          </div>
-        </div>
-      </ContentSection>
-    </div>
-    <ContentSection title="Connect" />
     <Container>
-      <SocialsBig client:visible />
+      <div class="py-responsive gap-responsive grid grid-cols-3">
+        <h3 class="col-span-1 text-left text-4xl">OKTech<br />History</h3>
+        <div class="prose prose-lg col-span-2 grid max-w-none">
+          <p>
+            OKTech started in 2015 as a grassroots meetup in Osaka called OWDDM, soon joined by its
+            Kyoto counterpart KWDDM. For nearly a decade, the group grew through community events
+            and shared learning. In 2025, we relaunched as OKTech, expanding our focus from web
+            design and development to a broader range of tech fields in Kansai. What hasn’t changed
+            is our community driven, volunteer-run spirit, and our belief that the best
+            conversations happen both on and off the slides.
+          </p>
+          <p>
+            2015年、OKTechは大阪で「OWDDM」という草の根ミートアップとして活動を開始しました。その後、京都の「KWDDM」が加わり、約10年間、コミュニティイベントや勉強会を通じて成長を続けてきました。2025年、私たちは「OKTech」として再出発し、活動範囲をウェブデザイン・開発から関西のより広範な技術分野へと拡大しました。しかし、コミュニティ主導のボランティア運営という精神、そして「最高の会話はスライドの上だけでなく、その外でも生まれる」という私たちの信念は、今も変わることはありません。
+          </p>
+        </div>
+      </div>
     </Container>
+
+    <Container>
+      <Timeline client:visible />
+    </Container>
+
+    <div class="py-responsive">
+      <SocialsBig client:visible />
+    </div>
   </div>
   <BlurryBlobBackground client:load />
 </PageLayout>

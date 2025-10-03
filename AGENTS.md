@@ -1,45 +1,65 @@
-# Repository Guidelines
+## Project Overview
 
-## Project Structure & Module Organization
+- The website is built with Astro - a static site builder, version 5.x
 
-- Routes live in `src/pages`; UI lives in `src/components/**`, `src/layouts`, and `src/hooks`.
-- Markdown sources stay under `content/`; keep collections read-only unless data owners request updates.
-- Utilities belong in `src/utils`, styles in `src/styles`, and static assets in `src/assets`.
-- Tooling sits in `scripts/`; treat `dist/` as disposable build output.
+```
+/
+├── content/             # Static content and data - do not touch!
+├── src/                 # Source code
+│   ├── components/      # React and Astro components
+│   ├── layouts/         # Page layouts
+│   ├── pages/           # Astro pages (routes)
+│   ├── styles/          # Global CSS
+│   └── utils/           # Utility functions
+├── scripts/             # Build and data scripts
+├── test/                # Test files
+│   ├── e2e/             # End-to-end tests
+├── package.json         # NPM dependencies and scripts
+├── astro.config.ts      # Astro framework configuration
+└── tsconfig.json        # TypeScript configuration
+```
 
-## Build, Test & Development Commands
+## Agent Behavior
 
-- Run `npm run dev` when `DEV_PORT` (defaults to 4321) is free.
-- `npm run build` outputs to `dist/`; follow with `npm run preview` to verify the bundle.
-- `npm run test` runs the Playwright suite; scope with `npm run test -- timeline` and refresh baselines with `npm run test:screenshots`.
-- `npm run typecheck` runs `astro check` plus `tsc`; `npm run checks` adds formatting and dependency hygiene.
+- Do what has been asked - nothing more, nothing less
+- Never assume missing context - ask questions if even slightly uncertain
+- Only install libraries if you need to - framework may support what you need
+- Never hallucinate libraries or functions - use verified packages from package.json
+- Always confirm file paths and module names exist before referencing them
+- Use the `context7` MCP tool for unfamiliar or updated libraries
+- Never make git commands unless explicitly instructed
+- Always prefer editing existing files over creating new ones
+- Never create files unless absolutely necessary for the task
+- Never proactively create documentation files (\*.md) unless explicitly requested
+- Clean up after yourself - remove unused imports, variables, and functions
+- Actively identify and remove dead code - if code isn't being used, delete it
+- Always use existing utilities - check `/src/utils/` for common functions first
 
-## Coding Style & Naming Conventions
+## Development Workflow
 
-- Ship TypeScript only—no `any`, no loose JavaScript—and let Prettier (2-space indent, width 100, sorted imports) format commits.
-- Use PascalCase for components, camelCase for utilities, and prefix hooks with `use`; prefer React `.tsx` unless an `.astro` page stays static.
-- Lean on Tailwind and DaisyUI classes; tokens live in `src/styles/*.css`, and OG image layouts must wrap content in `flex` containers.
-- Reference modules through the `@/` alias, reuse helpers from `src/utils` before adding new dependencies, and pair interactive Astro imports with `client:visible` plus the shared `Link` wrapper.
-- Delete unused imports or variables immediately.
+- We are running a dev server in the background - don't start your own
+- Use TDD for new big features - create failing tests first, then implement
+- Update existing tests when logic changes
+- Use `npm run checks` frequently to verify imports (it's cheap)
+- Use `npm run test -- my-test-name` during development to run single tests
 
-## Testing Guidelines
+## Code Style
 
-- Playwright specs live in `test/e2e`; shared fixtures and helpers stay under `test/helpers`.
-- Name specs after the feature (e.g. `timeline.spec.ts`) and commit images to `test/screenshots/reference`.
-- Start big features with a failing spec; run `npm run test:build` before merges and clear `test/screenshots/output`.
-
-## Commit & Pull Request Guidelines
-
-- Use short, Title Case commit subjects (see `git log`); add body details when touching multiple areas.
-- Before opening a PR, run `npm run build`, `npm run checks`, and the relevant Playwright command; document any failing checks.
-- PR descriptions should link to related issues, summarize user-facing impact, and include screenshots or videos for visual changes.
-- Flag configuration updates (.env, Astro config, Playwright baselines) so reviewers can reproduce them.
-
-## Workflow Notes
-
-- Leave git operations (stage, commit, push, reset) to maintainers unless instructed otherwise.
-- Clarify ambiguous requirements—never guess about missing context.
-
-## Environment & Deployment Notes
-
-- Copy `.env.local.example` to `.env.local` and set `SITE_URL`, `BASE_PATH`, or OG cache keys for production data.
+- Always use TypeScript, never JavaScript
+- Follow the DRY principle - avoid duplication
+- Never create a file longer than 150 lines - refactor into modules or helpers
+- Use consistent naming conventions, file structure, and architecture patterns
+- Organize code into clearly separated modules, grouped by feature or responsibility
+- Use `@/` imports unless component is a direct `./` sibling, avoid `../` imports
+- For React components, use `export default function ComponentName` pattern
+- Prefer React components (.tsx) over Astro components for most components
+- Follow existing patterns and check neighboring files for style/structure
+- Keep comments minimal - only for important or unintuitive nuances
+- Never use `any`, `// eslint-disable-next-line`, or similar type shortcuts
+- Astro templates require opening and closing frontmatter fences (---) with TypeScript
+- We are using daisy ui v5 - always use these components and theme classes
+- Use Tailwind classes instead of inline styles - prefer `className="text-[2vw]"`
+- Always use `flex` on divs in OG image templates - limitation of og image generator
+- Use `react-icons/lu` for UI icons and `react-icons/fa6` for brand icons
+- Use `client:visible` directive when importing interactive React components in Astro
+- Always use the Link component to handle internal links correctly

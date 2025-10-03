@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import { useEffect, useState } from "react";
+import { LuArrowUp } from "react-icons/lu";
 
 const APPEAR_THRESHOLD = 800;
 
@@ -34,7 +35,7 @@ export default function ScrollToTopButton(): JSX.Element {
 
   return (
     <div
-      className={`tooltip tooltip-left fixed bottom-6 right-6 z-50 transition duration-300 ease-out md:bottom-8 md:right-8 ${visibilityClasses}`}
+      className={`fixed bottom-6 right-6 z-50 transition duration-300 ease-out md:bottom-8 md:right-8 md:tooltip md:tooltip-left ${visibilityClasses}`}
       style={{ transitionTimingFunction: springTimingFunction }}
       data-tip="Scroll to top"
       aria-hidden={!isVisible}
@@ -46,19 +47,7 @@ export default function ScrollToTopButton(): JSX.Element {
         className="flex h-12 w-12 items-center justify-center rounded-full bg-base-900 text-base-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100/70"
         tabIndex={isVisible ? 0 : -1}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-5 w-5"
-        >
-          <path d="M12 19V5" />
-          <path d="m5 12 7-7 7 7" />
-        </svg>
+        <LuArrowUp className="h-5 w-5" aria-hidden="true" />
       </button>
     </div>
   );
