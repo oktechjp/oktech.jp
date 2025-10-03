@@ -1,4 +1,5 @@
 import { useBreakpoint } from "@/utils/hooks/useBreakpoint";
+
 import BlobParagraphDesktop from "./BlobParagraphDesktop";
 import BlobParagraphMobile from "./BlobParagraphMobile";
 import type { BlobParagraphContent } from "./BlobParagraphShared";

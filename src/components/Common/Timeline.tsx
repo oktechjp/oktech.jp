@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 import clsx from "clsx";
 
@@ -129,7 +129,7 @@ export function TimelineDesktop() {
         const isLeft = i % 2 === 0;
 
         return (
-          <>
+          <Fragment key={item.year}>
             {isLeft ? (
               <>
                 <TimelineContent
@@ -161,7 +161,7 @@ export function TimelineDesktop() {
                 />
               </>
             )}
-          </>
+          </Fragment>
         );
       })}
     </div>

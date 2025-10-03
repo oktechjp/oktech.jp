@@ -34,11 +34,9 @@ export default function MarqueeBackground({
 }
 
 function Line({ text, duration, reverse }: { text: string; duration: number; reverse?: boolean }) {
-  const words = Array.from({ length: 10 }, (_, index) => (
-    <span key={`word-${index}`} className="mx-2 whitespace-nowrap">
-      {text}
-    </span>
-  ));
+  const wordCount = 10;
+  const repetitions = 2;
+  const totalWords = wordCount * repetitions;
 
   return (
     <div className="flex overflow-x-hidden py-8">
@@ -46,7 +44,11 @@ function Line({ text, duration, reverse }: { text: string; duration: number; rev
         className={`connect-marquee-track flex w-max items-center gap-10 ${reverse ? "reverse" : ""}`}
         style={{ "--marquee-duration": `${duration}ms` } as CSSProperties}
       >
-        {[...words, ...words]}
+        {Array.from({ length: totalWords }).map((_, index) => (
+          <span key={`word-${index}`} className="mx-2 whitespace-nowrap">
+            {text}
+          </span>
+        ))}
       </div>
     </div>
   );

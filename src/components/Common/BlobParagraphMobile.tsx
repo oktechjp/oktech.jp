@@ -3,10 +3,10 @@ import { useRef } from "react";
 import { useBlobParagraphScroll } from "@/utils/hooks/useBlobParagraphScroll";
 
 import BlobParagraph from "./BlobParagraph";
+import { type BlobParagraphContent, useBlobParagraphAssets } from "./BlobParagraphShared";
 import BlobParagraphSlideshow from "./BlobParagraphSlideshow";
 import Container from "./Container";
 import ParallaxSpring from "./ParallaxSpring";
-import { useBlobParagraphAssets, type BlobParagraphContent } from "./BlobParagraphShared";
 
 const MOBILE_TOP_STICKY_OFFSET = 24;
 const MOBILE_BLOB_BUFFER = 20;
