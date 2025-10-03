@@ -36,16 +36,26 @@ export default function ScrollToTopButton(): JSX.Element {
 
   return (
     <div
-      className={`md:tooltip md:tooltip-left fixed right-6 bottom-6 z-50 transition duration-300 ease-out md:right-8 md:bottom-8 ${visibilityClasses}`}
+      className={`fixed right-6 bottom-6 z-50 transition duration-300 ease-out md:right-8 md:bottom-8 ${visibilityClasses}`}
       style={{ transitionTimingFunction: springTimingFunction }}
-      data-tip="Scroll to top"
       aria-hidden={!isVisible}
     >
+      <div className="tooltip tooltip-left hidden md:block" data-tip="Scroll to top">
+        <button
+          type="button"
+          aria-label="Scroll to top"
+          onClick={handleClick}
+          className="bg-base-900 text-base-0 focus-visible:outline-base-100/70 flex h-12 w-12 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          tabIndex={isVisible ? 0 : -1}
+        >
+          <LuArrowUp className="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
       <button
         type="button"
         aria-label="Scroll to top"
         onClick={handleClick}
-        className="bg-base-900 text-base-0 focus-visible:outline-base-100/70 flex h-12 w-12 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="bg-base-900 text-base-0 focus-visible:outline-base-100/70 flex h-12 w-12 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 md:hidden"
         tabIndex={isVisible ? 0 : -1}
       >
         <LuArrowUp className="h-5 w-5" aria-hidden="true" />
