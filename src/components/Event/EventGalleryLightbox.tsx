@@ -1,7 +1,7 @@
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "yet-another-react-lightbox/styles.css";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import clsx from "clsx";
 import {
@@ -112,25 +112,33 @@ export default function EventGalleryLightbox({
   const [isActive, setIsActive] = useState(true);
   const inactivityTimer = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  // Use either images or imagesWithEvents
-  const imageData =
-    imagesWithEvents || (images ? images.map((img) => ({ image: img, event: event! })) : []);
+  // Use either images or imagesWithEvents - memoize to prevent new array on every render
+  const imageList = useMemo(
+    () => imagesWithEvents?.map((item) => item.image) || images || [],
+    [imagesWithEvents, images]
+  );
 
   // Transform images for lightbox with full resolution
-  const slides = useMemo(() => transformImages(imageData.map((item) => item.image)), [imageData]);
+  const slides = useMemo(() => transformImages(imageList), [imageList]);
 
-  // Get the current event based on the current slide index
-  const currentEvent = imageData[currentIndex]?.event;
+  // Get the current event - use prop event if no imagesWithEvents
+  const currentEvent = imagesWithEvents?.[currentIndex]?.event || event;
 
   // Handle activity state
-  const handleActivity = () => {
+  const handleActivity = useCallback(() => {
     setIsActive(true);
     clearTimeout(inactivityTimer.current);
     inactivityTimer.current = setTimeout(() => {
       setIsActive(false);
     }, 3000);
-  };
+  }, []);
 
+  // Handle view change
+  const handleViewChange = useCallback(({ index }: { index: number }) => {
+    setCurrentIndex(index);
+  }, []);
+
+  // Manage activity tracking
   useEffect(() => {
     if (isOpen) {
       handleActivity();
@@ -143,7 +151,7 @@ export default function EventGalleryLightbox({
         clearTimeout(inactivityTimer.current);
       };
     }
-  }, [isOpen]);
+  }, [isOpen, handleActivity]);
 
   return (
     <Lightbox
@@ -153,7 +161,7 @@ export default function EventGalleryLightbox({
       slides={slides}
       plugins={[Fullscreen, Slideshow, Thumbnails, Zoom]}
       on={{
-        view: ({ index }) => setCurrentIndex(index),
+        view: handleViewChange,
       }}
       thumbnails={{
         position: "bottom",

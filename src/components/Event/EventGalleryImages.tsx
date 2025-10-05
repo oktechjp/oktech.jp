@@ -1,6 +1,6 @@
 import "react-photo-album/rows.css";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { LuImageOff } from "react-icons/lu";
 import { RowsPhotoAlbum } from "react-photo-album";
@@ -52,7 +52,7 @@ const transformImagesForGallery = (images: GalleryImage[]) => {
 
 export default function EventGalleryImages({ event }: Props) {
   const galleryImages = event.galleryImages || [];
-  const reversedImages = galleryImages.slice().reverse();
+  const reversedImages = useMemo(() => galleryImages.slice().reverse(), [galleryImages]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   // Check if event is upcoming (using the 30-minute buffer logic)
@@ -60,6 +60,15 @@ export default function EventGalleryImages({ event }: Props) {
 
   // Transform images for react-photo-album
   const thumbs = useMemo(() => transformImagesForGallery(reversedImages), [reversedImages]);
+
+  // Memoize callbacks to prevent unnecessary re-renders
+  const handleImageClick = useCallback(({ index }: { index: number }) => {
+    setSelectedIndex(index);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setSelectedIndex(null);
+  }, []);
 
   if (isUpcoming || galleryImages.length === 0) {
     return (
@@ -83,7 +92,7 @@ export default function EventGalleryImages({ event }: Props) {
               photos={thumbs}
               // targetRowHeight={240}
               targetRowHeight={300}
-              onClick={({ index }) => setSelectedIndex(index)}
+              onClick={handleImageClick}
               spacing={8}
               componentsProps={{
                 button: {
@@ -100,11 +109,12 @@ export default function EventGalleryImages({ event }: Props) {
         </div>
       </div>
       <EventGalleryLightbox
+        key={selectedIndex}
         event={event}
         images={reversedImages}
         isOpen={selectedIndex !== null}
         initialIndex={selectedIndex || 0}
-        onClose={() => setSelectedIndex(null)}
+        onClose={handleClose}
         autoplay={false}
       />
     </>
