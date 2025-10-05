@@ -2,7 +2,7 @@ import type { EventEnriched } from "@/content";
 
 export default function EventImageBig({ event }: { event: EventEnriched }) {
   return (
-    <figure className="glass-card relative aspect-video w-full overflow-hidden">
+    <figure className="rounded-box aspect-video w-full overflow-hidden">
       <img
         src={event.data.cover.src}
         srcSet={event.data.cover.srcSet}

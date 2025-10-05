@@ -23,11 +23,11 @@ export default function CalendarSubscribeButton({
     if (event) {
       return (
         <button
-          className={clsx("btn btn-lg w-full gap-4", buttonClass)}
+          className={clsx("btn btn-outline btn-lg w-full gap-4", buttonClass)}
           data-testid="add-to-calendar-dropdown"
         >
           Add to Calendar
-          <LuCalendarPlus />
+          {/* <LuCalendarPlus /> */}
         </button>
       );
     }

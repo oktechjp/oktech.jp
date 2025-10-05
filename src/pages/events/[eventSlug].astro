@@ -9,6 +9,7 @@ import LocationCardEvent from "@/components/Common/LocationCardEvent";
 import EventTags from "@/components/Event/EventTags";
 import EventProjectorButton from "@/components/Event/EventProjectorButton";
 import EventRSVPAlert from "@/components/Event/EventRSVPAlert";
+import { isEventUpcoming } from "@/utils/eventFilters";
 
 export async function getStaticPaths() {
   const events = await getEvents();
@@ -23,23 +24,28 @@ export async function getStaticPaths() {
 const { eventSlug } = Astro.params;
 // getEvent already returns enhanced event with responsive images
 const event = await getEvent(eventSlug);
+
+const isUpcoming = isEventUpcoming(event);
 ---
 
 <SidebarPageLayout>
-  <Fragment slot="before-layout">
-    <EventRSVPAlert event={event} client:visible />
+  <Fragment slot="before-sidebar">
+    <EventRSVPAlert variant="compact" event={event} client:visible />
   </Fragment>
   <Fragment slot="sidebar">
     <LocationCardEvent event={event} client:load />
   </Fragment>
-
   <Fragment slot="main-content">
+    <h2 class="mb-6 text-5xl !font-light">{isUpcoming ? "Upcoming" : "Past"} Event</h2>
+    <div class="block lg:hidden">
+      <EventRSVPAlert event={event} client:visible />
+    </div>
     <EventImageBig event={event} client:load />
     <div class="flex flex-col gap-6 lg:hidden">
       <LocationCardEvent event={event} horizontal client:load />
     </div>
-    <div class="mt-12 mb-6 text-4xl">
-      <h1>
+    <div class="mt-12 text-4xl">
+      <h1 class="!font-medium">
         {event.data.title}
       </h1>
     </div>

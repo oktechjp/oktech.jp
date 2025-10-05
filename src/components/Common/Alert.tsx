@@ -38,7 +38,7 @@ export default function Alert({
   return (
     <div
       role="alert"
-      className={`alert ${variantClasses[variant]} flex items-center justify-between shadow-lg ${className}`}
+      className={`alert ${variantClasses[variant]} flex items-center justify-between lg:flex-col xl:flex-row ${className}`}
     >
       <div className="flex min-w-0 flex-1 items-center gap-4">
         {icon && <span className="mx-2 flex-shrink-0 text-3xl">{icon}</span>}
@@ -46,7 +46,12 @@ export default function Alert({
       </div>
       <div className="flex flex-shrink-0 items-center gap-3">
         {ctaText && ctaHref && (
-          <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="btn btn-lg gap-4">
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-lg btn-warning gap-4"
+          >
             {ctaText}
             {ctaIcon && <span>{ctaIcon}</span>}
           </a>

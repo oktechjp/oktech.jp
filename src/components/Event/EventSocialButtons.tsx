@@ -24,7 +24,7 @@ interface LinkPreset {
 
 const LINK_PRESETS: Record<string, LinkPreset> = {
   meetup: {
-    text: "Meetup",
+    text: "Meetup.com",
     icon: FaMeetup,
   },
   linkedIn: {
@@ -107,10 +107,10 @@ export default function EventSocialButtons({ event }: EventSocialButtonsProps) {
             href={button.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={clsx("btn btn-lg w-full gap-4")}
+            className={clsx("btn btn-lg btn-outline w-full gap-4")}
           >
             {button.text}
-            <button.icon />
+            {/* <button.icon /> */}
           </a>
         </div>
       ))}

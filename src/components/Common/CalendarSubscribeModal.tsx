@@ -166,7 +166,7 @@ export default function CalendarSubscribeModal({ children, event }: CalendarSubs
                 </div>
               </>
             )}
-            <h3 className="text-xl">Subscribe to All OKTech Events</h3>
+            <h3 className="text-xl">Subscribe to OKTech Events</h3>
             <FeedBox
               url={icsUrl}
               Icon={LuCalendar}

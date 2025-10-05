@@ -9,9 +9,11 @@ export default function EventTags({ tags }: EventTagsProps) {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <LuTag className="text-base-content/70 h-4 w-4" />
       {tags.map((tag, index) => (
-        <span key={index} className="badge badge-ghost">
+        <span
+          key={`${tag}-${index}`}
+          className="text-base-500 badge badge-outline badge-sm md:badge-xs lg:badge-md xl:badge-lg"
+        >
           {tag}
         </span>
       ))}

@@ -20,7 +20,12 @@ export default function LocationCard({
 }) {
   return (
     <>
-      <div className={clsx("glass-card flex", horizontal ? "flex-col sm:flex-row" : "flex-col")}>
+      <div
+        className={clsx(
+          "border-base-200 rounded-box flex border",
+          horizontal ? "flex-col sm:flex-row" : "flex-col",
+        )}
+      >
         {venue && (
           <div className={clsx("flex", horizontal ? "h-50 sm:h-auto sm:w-90" : "h-60")}>
             <div className="rounded-box-inner relative flex-grow overflow-hidden sm:rounded-r-none">
@@ -37,9 +42,7 @@ export default function LocationCard({
         )}
         <div className="flex w-full flex-grow flex-col">
           <div className="flex flex-col justify-center gap-2 px-8 py-6">{children}</div>
-          {info && (
-            <div className="rounded-box-inner chat-bubble-info px-6 py-4 text-sm">{info}</div>
-          )}
+          {info && <div className="rounded-box-inner bg-base-100 p-4">{info}</div>}
         </div>
       </div>
       {below}

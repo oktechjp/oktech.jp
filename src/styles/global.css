@@ -55,3 +55,7 @@ body {
   border-color: var(--color-base-300);
   background-color: var(--color-base-0);
 }
+
+.alert {
+  @apply shadow-none;
+}

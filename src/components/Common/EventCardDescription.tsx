@@ -9,6 +9,7 @@ import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/form
 
 import CityBadge from "./CityBadge";
 import EventCountdown from "./EventCountdown";
+import Link from "./Link";
 
 type Variant = "compact" | "polaroid" | "big";
 
@@ -25,18 +26,21 @@ function InfoItem({
   if (!children || Children.count(children) === 0) return null;
 
   return (
-    <div
-      className={clsx("flex", variant === "compact" ? "items-center gap-1" : "items-start gap-2")}
-    >
+    <div className={clsx("flex gap-2", variant === "compact" ? "items-center" : "items-start")}>
       {Icon && (
-        <div className="mt-0.5 flex w-4 flex-shrink-0 items-start">
+        <div
+          className={clsx(
+            "flex w-4 flex-shrink-0",
+            variant === "compact" ? "items-center" : "mt-1 items-start",
+          )}
+        >
           <Icon />
         </div>
       )}
       <div
         className={clsx(
           "flex-shrink",
-          variant === "compact" ? "whitespace-nowrap md:text-base" : "line-clamp-3",
+          variant === "compact" ? "whitespace-nowrap" : "line-clamp-3",
         )}
       >
         {children}
@@ -45,11 +49,19 @@ function InfoItem({
   );
 }
 
-function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
+export function EventCardInfo({
+  event,
+  variant,
+  linkToVenue,
+}: {
+  event: EventEnriched;
+  variant: Variant;
+  linkToVenue?: string;
+}) {
   return (
     <div
       className={clsx(
-        "text-base-700 flex text-sm",
+        "text-base-700 flex",
         variant === "compact" && "fade-overflow flex-row items-center gap-4",
         variant === "polaroid" && "flex-col gap-2",
         variant === "big" && "flex-col gap-2",
@@ -79,7 +91,15 @@ function Info({ event, variant }: { event: EventEnriched; variant: Variant }) {
       </InfoItem>
       <InfoItem variant={variant} Icon={LuBuilding2}>
         <div className={clsx("flex", variant !== "compact" ? "flex-col gap-1" : "gap-1")}>
-          <div>{event.venue?.title}</div>
+          <div>
+            {linkToVenue ? (
+              <Link className="text-link" href={linkToVenue}>
+                {event.venue?.title}
+              </Link>
+            ) : (
+              <span>{event.venue?.title}</span>
+            )}
+          </div>
           <div>{event.venue?.address}</div>
         </div>
       </InfoItem>
@@ -126,7 +146,9 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
             <CityBadge className="badge-sm sm:badge-md" city={event.venue?.city} />
           )}
         </div>
-        <Info event={event} variant={variant} />
+        <div className="text-sm md:text-base">
+          <EventCardInfo event={event} variant={variant} />
+        </div>
       </div>
       {/* footer */}
       {variant !== "compact" && (
