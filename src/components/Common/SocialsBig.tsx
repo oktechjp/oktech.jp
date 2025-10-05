@@ -123,7 +123,7 @@ export default function SocialsBig() {
                 key={key}
                 className={clsx(
                   "flex h-full w-full justify-center",
-                  isLastItem && "col-span-2 sm:col-span-1 md:col-span-1"
+                  isLastItem && "col-span-2 sm:col-span-1 md:col-span-1",
                 )}
               >
                 {render(<TileContent logo={logo} label={label} />)}

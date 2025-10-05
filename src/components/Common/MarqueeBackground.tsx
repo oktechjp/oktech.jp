@@ -24,28 +24,28 @@ export default function MarqueeBackground({
     setIsReady(true);
   }, []);
 
-  const lines = useMemo(
-    () => {
-      const targetBaseDuration = Math.max(baseDurationMs * 0.7, 120_000);
-      const varianceRange = 0.15;
+  const lines = useMemo(() => {
+    const targetBaseDuration = Math.max(baseDurationMs * 0.7, 120_000);
+    const varianceRange = 0.15;
 
-      return Array.from({ length: effectiveLineCount }).map((_, index) => {
-        const progress = effectiveLineCount === 1 ? 0 : index / (effectiveLineCount - 1);
-        const factor = 1 - varianceRange + progress * (varianceRange * 2);
-        const duration = targetBaseDuration * factor;
+    return Array.from({ length: effectiveLineCount }).map((_, index) => {
+      const progress = effectiveLineCount === 1 ? 0 : index / (effectiveLineCount - 1);
+      const factor = 1 - varianceRange + progress * (varianceRange * 2);
+      const duration = targetBaseDuration * factor;
 
-        return {
-          id: `marquee-line-${index}`,
-          duration,
-          reverse: index % 2 === 1,
-        } as const;
-      });
-    },
-    [baseDurationMs, effectiveLineCount],
-  );
+      return {
+        id: `marquee-line-${index}`,
+        duration,
+        reverse: index % 2 === 1,
+      } as const;
+    });
+  }, [baseDurationMs, effectiveLineCount]);
 
   return (
-    <div className={`text-base-200/60 pointer-events-none absolute inset-0 -z-10 ${className}`} aria-hidden="true">
+    <div
+      className={`text-base-200/60 pointer-events-none absolute inset-0 -z-10 ${className}`}
+      aria-hidden="true"
+    >
       <div
         className={`absolute inset-0 flex flex-col justify-center text-[min(14vw,4.5rem)] leading-none font-bold tracking-tight transition-opacity duration-500 md:text-[min(9vw,4.5rem)] ${isReady ? "opacity-100" : "opacity-0"}`}
       >
