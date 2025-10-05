@@ -1,5 +1,6 @@
 import matter from "gray-matter";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
+import type { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import slugify from "slugify";
@@ -153,13 +154,71 @@ export abstract class ContentProcessor<T> {
  */
 export class EventProcessor extends ContentProcessor<ExternalEvent> {
   private photos: Record<string, ExternalPhoto[]> = {};
+  private existingSlugsByMeetupId = new Map<string, string>();
+  private slugIndexInitialized = false;
+
+  private ensureSlugIndex(): void {
+    if (this.slugIndexInitialized) return;
+    this.slugIndexInitialized = true;
+
+    let entries: Dirent[] = [];
+
+    try {
+      entries = readdirSync(config.paths.events, { withFileTypes: true });
+    } catch (err) {
+      const error = err as NodeJS.ErrnoException;
+      if (error.code !== "ENOENT") {
+        logger.warn(`Unable to index existing events directory: ${error.message}`);
+      }
+      return;
+    }
+
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+
+      const slug = entry.name;
+      const eventFilePath = path.join(config.paths.events, slug, "event.md");
+      if (!existsSync(eventFilePath)) continue;
+
+      try {
+        const existing = matter.read(eventFilePath);
+        const meetupId = existing.data?.meetupId;
+        if (meetupId === undefined || meetupId === null) continue;
+
+        const meetupIdKey = meetupId.toString();
+        const knownSlug = this.existingSlugsByMeetupId.get(meetupIdKey);
+
+        if (knownSlug && knownSlug !== slug) {
+          logger.warn(
+            `Multiple slugs detected for meetupId ${meetupIdKey}. Keeping existing slug "${knownSlug}", ignoring "${slug}".`,
+          );
+          continue;
+        }
+
+        this.existingSlugsByMeetupId.set(meetupIdKey, slug);
+      } catch (err) {
+        const error = err as Error;
+        logger.warn(`Failed to read existing event metadata at ${eventFilePath}: ${error.message}`);
+      }
+    }
+  }
 
   setPhotos(photos: Record<string, ExternalPhoto[]>) {
     this.photos = photos;
   }
 
   getSlug(event: ExternalEvent): string {
-    return slugify(`${event.id}-${event.title}`, { lower: true, strict: true });
+    this.ensureSlugIndex();
+
+    const meetupIdKey = event.id.toString();
+    const existingSlug = this.existingSlugsByMeetupId.get(meetupIdKey);
+    if (existingSlug) {
+      return existingSlug;
+    }
+
+    const newSlug = slugify(`${event.id}-${event.title}`, { lower: true, strict: true });
+    this.existingSlugsByMeetupId.set(meetupIdKey, newSlug);
+    return newSlug;
   }
 
   getContentPath(event: ExternalEvent): string {
