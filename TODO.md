@@ -1,38 +1,30 @@
-## vNow - fixes/refactoring
+## Critical Before Presentation
 
-- In the grid view, try a horizontal layout for the polaroid on mobile
-- Implement Theme
 - Projector styling
+- Font sizes, increase font to 24?
 - Check on mobile, safari
 - Update OG Image template, Venue OG images, no SVGs
-- Refactor SEO, sitemap, og cache, utils
-- Fix too much content caching / memoization in dev mode.
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
+- Optimize carousel on wide screen (it doesn't fully scroll to last item?)
+
+## Good to have
+
+- Refactor SEO, sitemap, og cache, utils
+- replace data-astro-prefetch with just `prefetch` for react components
+- Fix too much content caching / memoization in dev mode.
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
-- Remove SimpleSection, shouldn't be used
-- Replace calendar tooltip with modal
+- Remove SimpleSection, shouldn't be needed
 - Update theme script
 - Use the py-responseive and gap-responseive classes more.
-- Use react-spring for parralax
-- Implement react spring elsewhere
-- fix carousel on wide screen
-- Fix bug where the gallery item doesn't open the correct image
-- Increase font to 24?
-- REfactor rawJson usage in the import script.
-- Tweak grid count based on new diszes.
-- replace data-astro-prefetch with just `prefetch` for react components
-- Scroll to top button on long pages
-
-## New Features
-
-- Static Links to files within markdown links.
-
-## Release
-
-- Squash the git history.
+- Refactor rawJson usage in the import script.
+- In the grid view, try a horizontal layout for the polaroid on mobile
+- Squash/Purge the git history.
 
 ## Later?
 
+- Create test case for event name changing.
+- Tweak grid count based on new designs.
+- Static Links to files within markdown links.
 - Preview builds for PRs
 - fade between slides in gallery mode.
 - Create a plan for cancelled events logic.
