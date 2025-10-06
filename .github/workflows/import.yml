@@ -59,6 +59,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Commit content updates
+        id: commit
         run: |
           # Configure git
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -103,6 +104,22 @@ jobs:
             git push
 
             echo "Content updates committed and pushed"
+            echo "changes_committed=true" >> $GITHUB_OUTPUT
           else
             echo "No content changes to commit"
+            echo "changes_committed=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: Trigger build workflow
+        if: steps.commit.outputs.changes_committed == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'astro.yml',
+              ref: 'main'
+            })
+            console.log('Build workflow triggered successfully')
