@@ -13,27 +13,15 @@ interface CalendarSubscribeButtonProps {
 export default function CalendarSubscribeButton({
   event,
   children,
-  buttonClass,
+  buttonClass = "btn-neutral",
 }: CalendarSubscribeButtonProps) {
   const renderButton = () => {
     if (children) {
       return children;
     }
 
-    if (event) {
-      return (
-        <button
-          className={clsx("btn btn-outline btn-lg w-full gap-4", buttonClass)}
-          data-testid="add-to-calendar-dropdown"
-        >
-          Add to Calendar
-          {/* <LuCalendarPlus /> */}
-        </button>
-      );
-    }
-
     return (
-      <button className={clsx("btn btn-lg btn-neutral gap-4", buttonClass)}>
+      <button className={clsx("btn btn-lg gap-4", buttonClass)}>
         <LuCalendarPlus />
         Subscribe to Calendar
       </button>

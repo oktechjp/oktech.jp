@@ -6,6 +6,7 @@ import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
 import AddToCalendarDropdown from "../Event/EventCalendarDropdown";
+import EventProjectorButton from "../Event/EventProjectorButton";
 import EventSocialButtons from "../Event/EventSocialButtons";
 import CalendarSubscribeButton from "./CalendarSubscribeButton";
 import { EventCardInfo } from "./EventCardDescription";
@@ -35,11 +36,10 @@ export default function LocationCardEvent({
         )
       }
       below={
-        <div className={clsx("flex gap-6", horizontal ? "flex-col sm:flex-row" : "flex-col")}>
+        <div className={clsx("flex gap-4", horizontal ? "flex-col sm:flex-row" : "flex-col")}>
+          <CalendarSubscribeButton event={event} buttonClass="btn-outline w-full" />
           <EventSocialButtons event={event} />
-          <div className="w-full">
-            <CalendarSubscribeButton event={event} />
-          </div>
+          <EventProjectorButton event={event} />
         </div>
       }
     >

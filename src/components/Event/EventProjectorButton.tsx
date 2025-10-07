@@ -16,15 +16,18 @@ export default function EventProjectorButton({ event }: EventProjectorButtonProp
 
   return (
     <>
-      <TooltipButton
+      {/* <TooltipButton
         onClick={() => setIsOpen(true)}
         className="btn"
         aria-label="Open projector view"
         tooltip="Projector view"
         tooltipPosition="right"
-      >
-        <LuProjector className="h-5 w-5" />
-      </TooltipButton>
+      > */}
+      <button onClick={() => setIsOpen(true)} className="btn btn-lg btn-outline gap-4">
+        <LuProjector />
+        Projector
+      </button>
+      {/* </TooltipButton> */}
       <EventProjectorOverlay event={event} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );

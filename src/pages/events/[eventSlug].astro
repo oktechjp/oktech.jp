@@ -51,9 +51,6 @@ const isUpcoming = isEventUpcoming(event);
     </div>
     <EventTags tags={event.data.topics} />
     <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
-    <div class="mt-6">
-      <EventProjectorButton event={event} client:visible />
-    </div>
   </Fragment>
 
   <Fragment slot="after-content">

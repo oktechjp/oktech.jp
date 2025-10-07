@@ -115,7 +115,7 @@ export default function EventGalleryLightbox({
   // Use either images or imagesWithEvents - memoize to prevent new array on every render
   const imageList = useMemo(
     () => imagesWithEvents?.map((item) => item.image) || images || [],
-    [imagesWithEvents, images]
+    [imagesWithEvents, images],
   );
 
   // Transform images for lightbox with full resolution

@@ -109,8 +109,8 @@ export default function EventSocialButtons({ event }: EventSocialButtonsProps) {
             rel="noopener noreferrer"
             className={clsx("btn btn-lg btn-outline w-full gap-4")}
           >
+            <button.icon />
             {button.text}
-            {/* <button.icon /> */}
           </a>
         </div>
       ))}

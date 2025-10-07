@@ -116,18 +116,7 @@ export default function CalendarSubscribeModal({ children, event }: CalendarSubs
 
   return (
     <>
-      <div
-        onClick={openModal}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openModal();
-          }
-        }}
-        role="button"
-        tabIndex={0}
-        data-testid="calendar-modal-trigger"
-      >
+      <div onClick={openModal} role="button" tabIndex={0} data-testid="calendar-modal-trigger">
         {children}
       </div>
 

@@ -26,8 +26,10 @@ export default function EventRSVPAlert({ event, variant = "default" }: EventRSVP
   return (
     <div
       className={clsx(
-        "alert alert-warning flex",
-        isCompact ? "flex-col items-start xl:flex-row xl:items-center" : "flex-row",
+        "alert alert-warning flex gap-6 p-6",
+        isCompact
+          ? "flex-col items-start xl:flex-row xl:items-center"
+          : "flex-col items-start sm:flex-row sm:items-center",
       )}
     >
       <div className="flex flex-grow flex-col gap-2">
@@ -48,14 +50,14 @@ export default function EventRSVPAlert({ event, variant = "default" }: EventRSVP
           {isCompact ? "!" : " before it's too late!"}
         </div>
       </div>
-      <div className={clsx(isCompact && "w-full xl:w-auto")}>
+      <div className={clsx(isCompact ? "w-full xl:w-auto" : "w-full sm:w-auto")}>
         <a
           href={meetupUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={clsx(
             "btn btn-neutral whitespace-nowrap",
-            isCompact ? "xl:btn-sm 2xl:!btn-md w-full" : "btn-lg",
+            isCompact ? "xl:btn-sm 2xl:!btn-md btn-lg w-full" : "btn-lg",
           )}
         >
           <LuTicket />
