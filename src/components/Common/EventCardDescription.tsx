@@ -154,7 +154,7 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
       {variant !== "compact" && (
         <div className="flex items-center justify-between gap-4">
           <CityBadge city={event.venue?.city} />
-          <div className="fade-overflow flex gap-2 whitespace-nowrap">
+          <div className="fade-overflow flex gap-2 overflow-hidden whitespace-nowrap">
             {event.data.topics?.map((topic) => (
               <span key={topic} className="text-base-500 text-xs">
                 #{topic.replace(" ", "")}

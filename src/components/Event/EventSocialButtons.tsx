@@ -102,17 +102,16 @@ export default function EventSocialButtons({ event }: EventSocialButtonsProps) {
   return (
     <>
       {buttons.map((button, index) => (
-        <div key={index} className="w-full">
-          <a
-            href={button.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={clsx("btn btn-lg btn-outline w-full gap-4")}
-          >
-            <button.icon />
-            {button.text}
-          </a>
-        </div>
+        <a
+          key={`${button.text}-${index}`}
+          href={button.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={clsx("btn btn-lg btn-outline gap-4 whitespace-nowrap")}
+        >
+          <button.icon />
+          {button.text}
+        </a>
       ))}
     </>
   );

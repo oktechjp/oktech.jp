@@ -7,13 +7,13 @@ import type { EventEnriched } from "@/content/events";
 interface CalendarSubscribeButtonProps {
   event?: EventEnriched;
   children?: React.ReactNode;
-  buttonClass?: string;
+  className?: string;
 }
 
 export default function CalendarSubscribeButton({
   event,
   children,
-  buttonClass = "btn-neutral",
+  className,
 }: CalendarSubscribeButtonProps) {
   const renderButton = () => {
     if (children) {
@@ -21,7 +21,7 @@ export default function CalendarSubscribeButton({
     }
 
     return (
-      <button className={clsx("btn btn-lg gap-4", buttonClass)}>
+      <button className={clsx("btn btn-lg btn-neutral gap-4 whitespace-nowrap", className)}>
         <LuCalendarPlus />
         Subscribe to Calendar
       </button>

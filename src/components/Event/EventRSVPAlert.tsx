@@ -28,16 +28,16 @@ export default function EventRSVPAlert({ event, variant = "default" }: EventRSVP
       className={clsx(
         "alert alert-warning flex gap-6 p-6",
         isCompact
-          ? "flex-col items-start xl:flex-row xl:items-center"
+          ? "flex-col items-start 2xl:!flex-row 2xl:!items-center"
           : "flex-col items-start sm:flex-row sm:items-center",
       )}
     >
       <div className="flex flex-grow flex-col gap-2">
         <div className="flex flex-grow items-center gap-2">
           <div>
-            <LuCalendarCheck />
+            <LuCalendarCheck size={24} />
           </div>
-          <div className={clsx(isCompact ? "text-base xl:text-sm" : "text-lg")}>
+          <div className={clsx(isCompact ? "text-lg 2xl:!text-sm" : "text-lg")}>
             This event{" "}
             <b>
               <EventCountdown event={event} asString capitalize={false} />
@@ -45,19 +45,19 @@ export default function EventRSVPAlert({ event, variant = "default" }: EventRSVP
             !
           </div>
         </div>
-        <div className={clsx(isCompact ? "text-base xl:text-sm" : "text-base")}>
+        <div className={clsx(isCompact ? "text-lg 2xl:!text-sm" : "text-base")}>
           Reserve your spot on Meetup.com
           {isCompact ? "!" : " before it's too late!"}
         </div>
       </div>
-      <div className={clsx(isCompact ? "w-full xl:w-auto" : "w-full sm:w-auto")}>
+      <div className={clsx(isCompact ? "w-full 2xl:!w-auto" : "w-full sm:w-auto")}>
         <a
           href={meetupUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={clsx(
             "btn btn-neutral whitespace-nowrap",
-            isCompact ? "xl:btn-sm 2xl:!btn-md btn-lg w-full" : "btn-lg",
+            isCompact ? "btn-lg w-full" : "btn-lg",
           )}
         >
           <LuTicket />

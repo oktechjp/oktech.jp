@@ -10,10 +10,7 @@ export default function EventTags({ tags }: EventTagsProps) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       {tags.map((tag, index) => (
-        <span
-          key={`${tag}-${index}`}
-          className="text-base-500 badge badge-outline badge-sm md:badge-xs lg:badge-md xl:badge-lg"
-        >
+        <span key={`${tag}-${index}`} className="text-base-500 badge badge-outline xl:badge-lg">
           {tag}
         </span>
       ))}

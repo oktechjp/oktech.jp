@@ -11,7 +11,6 @@
 }
 
 .fade-overflow {
-  @apply overflow-hidden;
   mask-image: linear-gradient(to right, black 60%, transparent 95%);
   -webkit-mask-image: linear-gradient(to right, black 60%, transparent 95%);
 }
@@ -66,6 +65,37 @@
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.scrollbar-hover {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  opacity: 0;
+  background: oklch(var(--bc) / 0);
+  border-radius: 4px;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.scrollbar-hover:hover {
+  scrollbar-color: oklch(var(--bc) / 0.35) transparent;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+  background: oklch(var(--bc) / 0.35);
 }
 
 .btn-group {

@@ -1,11 +1,8 @@
 import clsx from "clsx";
 import { LuInfo } from "react-icons/lu";
 
-import Link from "@/components/Common/Link";
 import type { EventEnriched } from "@/content";
-import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
-import AddToCalendarDropdown from "../Event/EventCalendarDropdown";
 import EventProjectorButton from "../Event/EventProjectorButton";
 import EventSocialButtons from "../Event/EventSocialButtons";
 import CalendarSubscribeButton from "./CalendarSubscribeButton";
@@ -36,8 +33,13 @@ export default function LocationCardEvent({
         )
       }
       below={
-        <div className={clsx("flex gap-4", horizontal ? "flex-col sm:flex-row" : "flex-col")}>
-          <CalendarSubscribeButton event={event} buttonClass="btn-outline w-full" />
+        <div
+          className={clsx(
+            "flex gap-4",
+            horizontal ? "fade-overflow overflow-scroll scrollbar-hover pr-[50vw] pb-2" : "flex-col",
+          )}
+        >
+          <CalendarSubscribeButton event={event} className="w-full" />
           <EventSocialButtons event={event} />
           <EventProjectorButton event={event} />
         </div>

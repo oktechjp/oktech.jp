@@ -1,15 +1,15 @@
 ## Critical Before Presentation
 
 - Projector styling
-- Font sizes, increase font to 24?
 - Check on mobile, safari
 - Update OG Image template, Venue OG images, no SVGs
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
+- Refactor SEO, sitemap, og cache, utils
 
 ## Good to have
 
-- Refactor SEO, sitemap, og cache, utils
+- Figure out how to overlay the sticky right panel
 - replace data-astro-prefetch with just `prefetch` for react components
 - Fix too much content caching / memoization in dev mode.
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
@@ -22,6 +22,7 @@
 
 ## Later?
 
+- Venue instructions
 - Create test case for event name changing.
 - Tweak grid count based on new designs.
 - Static Links to files within markdown links.
