@@ -10,7 +10,7 @@ topics:
   - Web Development
 meetupId: 311083074
 group: 15632202
-venue: 28149675
+venue: 27398802
 links:
   discord: https://discord.gg/Ab94zz28?event=1422044821530476724
   linkedIn: https://www.linkedin.com/events/7378244133271846913/
