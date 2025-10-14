@@ -7,6 +7,7 @@ interface MarqueeBackgroundProps {
   text: string;
   className?: string;
   lineCount?: number;
+  mobileLineCount?: number;
   baseDurationMs?: number;
 }
 
@@ -14,10 +15,11 @@ export default function MarqueeBackground({
   text,
   className = "",
   lineCount = 3,
+  mobileLineCount = 8,
   baseDurationMs = 92000 * 3,
 }: MarqueeBackgroundProps) {
   const currentBreakpoint = useBreakpoint();
-  const effectiveLineCount = currentBreakpoint === "base" ? 8 : lineCount;
+  const effectiveLineCount = currentBreakpoint === "base" ? mobileLineCount : lineCount;
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -63,9 +65,9 @@ function Line({ text, duration, reverse }: { text: string; duration: number; rev
   const totalWords = wordCount * repetitions;
 
   return (
-    <div className="flex overflow-x-hidden py-8">
+    <div className="flex overflow-x-hidden">
       <div
-        className={`connect-marquee-track flex w-max items-center gap-10 ${reverse ? "reverse" : ""}`}
+        className={`connect-marquee-track flex w-max items-center gap-12 ${reverse ? "reverse" : ""}`}
         style={{ "--marquee-duration": `${duration}ms` } as CSSProperties}
       >
         {Array.from({ length: totalWords }).map((_, index) => (

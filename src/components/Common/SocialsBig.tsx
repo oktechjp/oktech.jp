@@ -23,7 +23,11 @@ const CONNECT_ITEMS: Array<{
     logo: calendarLogo,
     render: (content) => (
       <CalendarSubscribeButton>
-        <button type="button" aria-label="Subscribe to the OKTech calendar">
+        <button
+          type="button"
+          aria-label="Subscribe to the OKTech calendar"
+          className="cursor-pointer"
+        >
           {content}
         </button>
       </CalendarSubscribeButton>

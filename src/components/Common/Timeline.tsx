@@ -49,7 +49,7 @@ function getLineColor(index: number): string {
 
 function TextCell({ year, text }: { year: string; text: string }) {
   return (
-    <div className={clsx("rounded-box bg-base-100 text-base-900 flex flex-col gap-4 p-8")}>
+    <div className="rounded-box bg-base-200/20 text-base-900 flex flex-col gap-4 p-8 backdrop-blur-lg">
       <h3 className="text-3xl">{year}</h3>
       <p className="text-lg">{text}</p>
     </div>

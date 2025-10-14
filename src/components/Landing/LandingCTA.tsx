@@ -1,11 +1,13 @@
 import { FaDiscord } from "react-icons/fa6";
 import { LuCalendarPlus, LuMessageCircleCode } from "react-icons/lu";
 
-import BlobIconGrid, { type BlobIconGridItem } from "@/components/Common/BlobIconGrid";
+import BlobIconGrid, { type BlobIconGridItemConfig } from "@/components/Common/BlobIconGrid";
 import CalendarSubscribeButton from "@/components/Common/CalendarSubscribeButton";
+import Container from "@/components/Common/Container";
+import MarqueeBackground from "@/components/Common/MarqueeBackground";
 
 export default function LandingCTA() {
-  const items: BlobIconGridItem[] = [
+  const items: BlobIconGridItemConfig[] = [
     {
       title: "Join the Discord",
       description: "Chat with our community",
@@ -20,7 +22,10 @@ export default function LandingCTA() {
       icon: LuCalendarPlus,
       wrap: (content) => (
         <CalendarSubscribeButton>
-          <button type="button" className="flex h-full w-full items-center justify-center">
+          <button
+            type="button"
+            className="flex h-full w-full items-center justify-center cursor-pointer"
+          >
             {content}
           </button>
         </CalendarSubscribeButton>
@@ -37,5 +42,20 @@ export default function LandingCTA() {
     },
   ];
 
-  return <BlobIconGrid items={items} />;
+  return (
+    <section className="relative isolate overflow-hidden py-24">
+      <MarqueeBackground
+        text="Get Involved"
+        className="-my-6 md:-my-8"
+        lineCount={3}
+        mobileLineCount={16}
+      />
+
+      <div className="relative z-10 -mt-6 md:-mt-8">
+        <Container>
+          <BlobIconGrid items={items} className="gap-10 md:gap-16" />
+        </Container>
+      </div>
+    </section>
+  );
 }

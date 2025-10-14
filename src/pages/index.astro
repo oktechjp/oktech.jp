@@ -4,7 +4,6 @@ import LandingHero from "@/components/Landing/LandingHero.astro";
 import LandingAbout from "@/components/Landing/LandingAbout.astro";
 import LandingCTA from "@/components/Landing/LandingCTA";
 import { getEvents } from "@/content";
-import Container from "@/components/Common/Container";
 
 import EventsSection from "@/components/Landing/LandingEventsSection";
 import { filterUpcomingEvents } from "@/utils/eventFilters";
@@ -21,19 +20,16 @@ const totalEvents = allEvents.length;
     <LandingHero />
   </div>
   <div class="bg-base-100 py-16">
-    <!-- <Container className="bg-red-200"> -->
     <EventsSection client:load events={events} totalEvents={totalEvents} variant="upcoming" />
-    <!-- </Container> -->
   </div>
   <div class="py-responsive">
     <LandingAbout />
   </div>
+  <!-- TODO test when there are no upcoming events -->
   <div class="bg-base-100 py-16">
     <EventsSection client:load events={events} totalEvents={totalEvents} variant="recent" />
   </div>
   <div class="pt-12">
-    <Container>
-      <LandingCTA client:visible />
-    </Container>
+    <LandingCTA client:visible />
   </div>
 </PageLayout>
