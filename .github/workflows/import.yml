@@ -12,6 +12,8 @@ jobs:
   import-and-commit:
     name: Import content and commit
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
 
     steps:
       - name: Checkout
