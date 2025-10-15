@@ -1,19 +1,20 @@
 ## Critical Before Presentation
 
 - Projector styling
+- Album page styling
 - Update OG Image template, Venue OG images, no SVGs
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 - General Refactoring
 - Test no upcoming events
 - Exclude test events from prod
-- Create a plan for cancelled events logic.
+- Create a plan for cancelled events logic (show red icon).
 - Squash/Purge the git history.
+- Check on mobile, safari
 
 ## Nice to have
 
 - Refactor SEO, sitemap, og cache, utils
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
-- Check on mobile, safari
 - Remove SimpleSection, shouldn't be needed
 - Figure out how to overlay the sticky right panel
 - replace data-astro-prefetch with just `prefetch` for react components
