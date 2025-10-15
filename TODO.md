@@ -6,19 +6,24 @@
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 - Refactor SEO, sitemap, og cache, utils
+- General Refactoring
+- Test no upcoming evnets
+- Exclude test events from prod
 
-## Good to have
+## Nice to have
 
+- Remove SimpleSection, shouldn't be needed
 - Figure out how to overlay the sticky right panel
 - replace data-astro-prefetch with just `prefetch` for react components
 - Fix too much content caching / memoization in dev mode.
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
-- Remove SimpleSection, shouldn't be needed
 - Update theme script
 - Use the py-responseive and gap-responseive classes more.
 - Refactor rawJson usage in the import script.
 - In the grid view, try a horizontal layout for the polaroid on mobile
 - Squash/Purge the git history.
+- Manual test for renaming evnets
+- Slug Renaming
 
 ## Later?
 
@@ -57,3 +62,4 @@
 - Explain client:only="react" and other astro directives
 - `<TopBar client:load transition:persist="topbar" />`
 - `https://tailwindcss.com/docs/will-change`
+- `isolate`
