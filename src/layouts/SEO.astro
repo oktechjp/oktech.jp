@@ -14,6 +14,7 @@ const {
   article,
   noindex = false,
   nofollow = false,
+  keywords,
 } = seoData;
 
 const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "follow"].join(", ");
@@ -21,6 +22,7 @@ const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "f
 
 <title>{title}</title>
 <meta name="description" content={description} />
+{keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
 <link rel="canonical" href={canonical} />
 
 <meta name="robots" content={robotsContent} />

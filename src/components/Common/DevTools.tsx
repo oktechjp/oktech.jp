@@ -14,7 +14,7 @@ export default function DevTools() {
   }, []);
 
   return (
-    <div className={`fixed bottom-2 left-2 z-50`}>
+    <div className="fixed bottom-2 left-2 z-50">
       <div className="rounded-full bg-red-500 px-2 py-1 font-mono text-sm text-white sm:bg-orange-500 md:bg-yellow-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-purple-500">
         <span className="font-bold">{currentBreakpoint}</span>: {width}px
       </div>

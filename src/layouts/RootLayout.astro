@@ -8,6 +8,7 @@ import DynamicFavicon from "@/components/Common/DynamicFavicon";
 import NavigationProgress from "@/components/Common/NavigationProgress";
 import Toast from "@/components/Common/Toast";
 import DevTools from "@/components/Common/DevTools";
+import SEODevInfo from "@/components/Common/SEODevInfo";
 import ScrollToTopButton from "@/components/Common/ScrollToTopButton";
 
 import "@fontsource/lexend/800"; // bold headeer
@@ -69,6 +70,7 @@ import "@fontsource-variable/martian-mono";
     <DynamicFavicon client:only="react" />
     <Toast client:load transition:persist="toast" />
     <DevTools client:visible />
+    <SEODevInfo client:visible transition:persist="seo-dev-info" />
     <ScrollToTopButton client:visible />
     <slot />
   </body>
