@@ -32,6 +32,7 @@ export type EventEnriched = Omit<CollectionEntry<"events">, "data"> & {
   data: Omit<CollectionEntry<"events">["data"], "cover"> & {
     cover: ResponsiveImageData;
     coverProjector: ResponsiveImageData;
+    isCancelled?: boolean;
   };
   venue?: ProcessedVenue;
   venueSlug?: string;
@@ -78,6 +79,7 @@ export const eventsCollection = defineCollection({
         howToFindUs: frontmatter.howToFindUs as string | undefined,
         meetupId: frontmatter.meetupId as number | undefined,
         links: frontmatter.links as Record<string, string> | undefined,
+        isCancelled: frontmatter.isCancelled as boolean | undefined,
         attachments: frontmatter.attachments as
           | Array<{
               icon: string;
@@ -104,6 +106,7 @@ export const eventsCollection = defineCollection({
       howToFindUs: z.string().optional(),
       meetupId: z.number().optional(),
       links: z.record(z.string()).optional(),
+      isCancelled: z.boolean().optional(),
       attachments: z
         .array(
           z.object({

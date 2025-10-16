@@ -36,6 +36,7 @@ export type ExternalEvent = {
   duration: number;
   feeSettings: null;
   id: string;
+  isCancelled?: boolean;
   image?: {
     location: string; // Path to the image file
     date?: number; // Timestamp when image was added
@@ -253,6 +254,10 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
       frontmatter.topics = event.topics;
     }
 
+    if (typeof event.isCancelled === "boolean") {
+      frontmatter.isCancelled = event.isCancelled;
+    }
+
     frontmatter.meetupId = parseInt(event.id);
     frontmatter.venue = parseInt(event.venue);
 
@@ -332,6 +337,10 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
 
     if (event.topics && event.topics.length > 0) {
       frontmatter.topics = event.topics;
+    }
+
+    if (typeof event.isCancelled === "boolean") {
+      frontmatter.isCancelled = event.isCancelled;
     }
 
     frontmatter.meetupId = parseInt(event.id);

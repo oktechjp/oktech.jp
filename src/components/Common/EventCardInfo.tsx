@@ -7,7 +7,7 @@ import type { EventEnriched } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
-import EventCountdown from "./EventCountdown";
+import EventStatusBadge from "./EventStatusBadge";
 import Link from "./Link";
 
 type Variant = "compact" | "polaroid" | "big";
@@ -63,6 +63,7 @@ export default function EventCardInfo({
   const showDate = fields.includes("date");
   const showTime = fields.includes("time");
   const showVenue = fields.includes("venue");
+  const showBadge = showCountdown && variant === "compact";
 
   return (
     <div
@@ -73,13 +74,7 @@ export default function EventCardInfo({
         variant === "big" && "flex-col gap-2",
       )}
     >
-      {showCountdown && variant === "compact" && isEventUpcoming(event) && (
-        <EventCountdown
-          event={event}
-          className="badge-md"
-          wrapper={(content) => <InfoItem variant={variant}>{content}</InfoItem>}
-        />
-      )}
+      {showBadge && <EventStatusBadge event={event} className="badge-md" />}
       {showDate && (
         <InfoItem variant={variant} Icon={LuCalendar}>
           {formatDate(event.data.dateTime, "long")}

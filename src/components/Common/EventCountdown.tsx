@@ -69,7 +69,7 @@ interface EventCountdownProps {
 
 export default function EventCountdown({
   event,
-  className = "badge-lg",
+  className,
   wrapper,
   asString = false,
   capitalize = true,
@@ -145,7 +145,13 @@ export default function EventCountdown({
   const badgeText = !isHydrated ? (capitalize ? "Starts soon" : "starts soon") : displayText;
 
   const content = (
-    <div className={clsx(badgeClass, "badge text-base-800 dark:text-base-100 gap-2", className)}>
+    <div
+      className={clsx(
+        badgeClass,
+        "badge text-base-800 dark:text-base-100 gap-2 whitespace-nowrap",
+        className,
+      )}
+    >
       <LuCalendarClock />
       {badgeText}
     </div>

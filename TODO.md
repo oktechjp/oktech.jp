@@ -1,10 +1,10 @@
 ## Critical Before Presentation
 
 - Fix contrast in dark mode for alert / rsvp
+- update cards (no long address, single line times)
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 - General Refactoring
 - Exclude test events from prod
-- Create a plan for cancelled events logic (show red icon).
 - Update built with love link to be the commit on the main repo
 
 ## "V1 Release"

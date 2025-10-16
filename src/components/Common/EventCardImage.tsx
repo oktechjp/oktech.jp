@@ -5,7 +5,7 @@ import clsx from "clsx";
 import type { EventEnriched } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";
 
-import EventCountdown from "./EventCountdown";
+import EventStatusBadge from "./EventStatusBadge";
 
 type Variant = "compact" | "polaroid" | "big";
 
@@ -18,6 +18,9 @@ interface EventCardImageProps {
 }
 
 export default memo(function EventCardImage({ event, variant }: EventCardImageProps) {
+  const isCancelled = event.data.isCancelled === true;
+  const isUpcoming = isEventUpcoming(event);
+
   return (
     <div
       className={clsx(
@@ -26,9 +29,9 @@ export default memo(function EventCardImage({ event, variant }: EventCardImagePr
         variant !== "compact" && "rounded-box-inner",
       )}
     >
-      {variant !== "compact" && isEventUpcoming(event) && (
-        <div className="absolute top-3 left-3">
-          <EventCountdown event={event} />
+      {variant !== "compact" && (isCancelled || isUpcoming) && (
+        <div className="absolute top-3 left-3 z-10">
+          <EventStatusBadge event={event} />
         </div>
       )}
       <figure className={clsx("bg-base-400 h-full w-full")}>
@@ -39,7 +42,7 @@ export default memo(function EventCardImage({ event, variant }: EventCardImagePr
           alt={event.data.title}
           loading={event.priority ? "eager" : "lazy"}
           fetchPriority={event.priority ? "high" : "auto"}
-          className="h-full w-full object-cover"
+          className={clsx("h-full w-full object-cover", isCancelled && "grayscale")}
         />
       </figure>
     </div>

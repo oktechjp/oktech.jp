@@ -6,6 +6,7 @@ cover: ./010473.webp
 meetupId: 304775103
 group: 36450361
 venue: 27929005
+isCancelled: true
 ---
 
 Hello Everyone!

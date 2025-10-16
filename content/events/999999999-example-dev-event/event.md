@@ -4,6 +4,7 @@ dateTime: "2027-04-15 18:00"
 duration: 120
 cover: ./test1.webp
 devOnly: true
+isCancelled: true
 topics:
   - Testing
   - Development

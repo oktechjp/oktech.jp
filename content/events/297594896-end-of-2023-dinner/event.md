@@ -12,6 +12,7 @@ topics:
 meetupId: 297594896
 group: 15632202
 venue: 27707749
+isCancelled: true
 ---
 
 Can you believe it? 2023 is coming to an end. 🤯
