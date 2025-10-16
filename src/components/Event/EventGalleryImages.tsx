@@ -85,28 +85,26 @@ export default function EventGalleryImages({ event }: Props) {
 
   return (
     <>
-      <div className="rounded-box glass-card">
-        <div className="rounded-box-inner overflow-hidden">
-          <SSR breakpoints={[640, 768, 1024, 1280]}>
-            <RowsPhotoAlbum
-              photos={thumbs}
-              // targetRowHeight={240}
-              targetRowHeight={300}
-              onClick={handleImageClick}
-              spacing={8}
-              componentsProps={{
-                button: {
-                  "aria-label": "View larger image",
-                  className: "hover:opacity-90 transition-opacity",
-                  style: { cursor: "pointer" },
-                },
-                image: {
-                  className: "bg-base-300 w-full h-full object-cover",
-                },
-              }}
-            />
-          </SSR>
-        </div>
+      <div className="rounded-box overflow-hidden">
+        <SSR breakpoints={[640, 768, 1024, 1280]}>
+          <RowsPhotoAlbum
+            photos={thumbs}
+            // targetRowHeight={240}
+            targetRowHeight={300}
+            onClick={handleImageClick}
+            spacing={8}
+            componentsProps={{
+              button: {
+                "aria-label": "View larger image",
+                className: "hover:opacity-90 transition-opacity",
+                style: { cursor: "pointer" },
+              },
+              image: {
+                className: "bg-base-300 w-full h-full object-cover",
+              },
+            }}
+          />
+        </SSR>
       </div>
       <EventGalleryLightbox
         key={selectedIndex}

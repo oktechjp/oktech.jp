@@ -57,10 +57,11 @@ export default function MegaSlideshowButton({ events }: Props) {
   return (
     <>
       <TooltipButton
-        tooltip="All Photos Slideshow"
+        tooltip="Start All Photos Slideshow"
         onClick={() => setIsOpen(true)}
         className="btn btn-circle btn-ghost"
-        aria-label="All Photos Slideshow"
+        aria-label="Start All Photos Slideshow"
+        tooltipPosition="left"
       >
         <LuPresentation className="h-4 w-4" />
       </TooltipButton>

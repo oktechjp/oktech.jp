@@ -2,7 +2,8 @@ import EventCard, { EventCardList } from "@/components/Common/EventCard";
 import type { EventEnriched } from "@/content";
 import { groupEventsByYearAndUpcoming } from "@/utils/eventGrouping";
 
-import SubSection from "../Common/SubSection";
+import Container from "../Common/Container";
+import Grid from "../Common/Grid";
 import { useEventsFilter } from "./EventsFilterProvider";
 import EventsSubscribeBox from "./EventsSubscribeBox";
 
@@ -20,19 +21,23 @@ interface EventsBlockProps {
 
 function EventsBlockList({ title, events }: EventsBlockProps) {
   return (
-    <SubSection title={title}>
+    <Container wide className="flex flex-col gap-8">
+      <h3 className="text-3xl md:text-4xl">{title}</h3>
       <EventCardList events={events} />
-    </SubSection>
+    </Container>
   );
 }
 
 function EventBlockGrid({ title, events }: EventsBlockProps) {
   return (
-    <SubSection title={title} grid={true}>
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} variant="polaroid" />
-      ))}
-    </SubSection>
+    <Container wide className="flex flex-col gap-8">
+      <h3 className="text-3xl md:text-4xl">{title}</h3>
+      <Grid>
+        {events.map((event) => (
+          <EventCard key={event.id} event={event} variant="polaroid" />
+        ))}
+      </Grid>
+    </Container>
   );
 }
 

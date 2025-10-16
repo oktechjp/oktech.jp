@@ -11,8 +11,8 @@ export default function SitemapCard({ entry }: SitemapCardProps) {
   if (!href) return null;
 
   return (
-    <Link href={href} className="ok-card" data-testid={`sitemap-card-${href}`}>
-      <div className="flex flex-col">
+    <Link href={href}>
+      <div className="ok-card flex flex-col">
         <div className="rounded-box-inner relative overflow-hidden !rounded-br-none">
           <figure className="bg-base-300 aspect-video h-full w-full">
             {ogImage ? (
@@ -29,7 +29,7 @@ export default function SitemapCard({ entry }: SitemapCardProps) {
             )}
           </figure>
         </div>
-        <div className="m-5 mt-2 flex flex-col gap-3">
+        <div className="flex flex-col gap-2 p-3 pb-5">
           <div className="text-base-content/50 truncate text-xs">{fullUrl}</div>
           <h3>{title}</h3>
           {description && <div className="text-base-content/70 text-sm">{description}</div>}

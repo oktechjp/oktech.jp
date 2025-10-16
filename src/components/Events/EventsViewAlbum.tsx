@@ -1,11 +1,13 @@
 import Container from "@/components/Common/Container";
-import { EventCardList } from "@/components/Common/EventCard";
+import EventCardInfo from "@/components/Common/EventCardInfo";
 import GalleryDisclaimer from "@/components/Common/GalleryDisclaimer";
 import MegaSlideshowButton from "@/components/Common/MegaSlideshowButton";
-import SimpleSection from "@/components/Common/SimpleSection";
 import EventGalleryImages from "@/components/Event/EventGalleryImages";
 import type { EventEnriched } from "@/content";
 import { filterRecentEvents } from "@/utils/eventFilters";
+
+import CityBadge from "../Common/CityBadge";
+import Link from "../Common/Link";
 
 interface Props {
   events: EventEnriched[];
@@ -19,23 +21,34 @@ export default function EventsViewAlbum({ events }: Props) {
 
   return (
     <div className="flex flex-col gap-24">
-      <SimpleSection
-        title="Photo Album"
-        subTitle="Events without images are hidden on this page."
-        element={
-          <div className="flex items-center gap-2">
-            <GalleryDisclaimer position="bottom" />
+      <Container wide>
+        <div className="flex justify-between">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-4xl md:text-5xl">OKTech Photo Album</h1>
+            <div className="text-base-700 text-xl">
+              Events without images are hidden on this page.
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <GalleryDisclaimer position="left" />
             <MegaSlideshowButton events={pastEventsWithImages} />
           </div>
-        }
-      />
+        </div>
+      </Container>
       <section className="flex flex-col gap-32">
         {pastEventsWithImages.map((event) => (
           <div key={event.id}>
-            <Container>
-              <EventCardList events={[event]} />
-            </Container>
-            <Container wide className="mt-6">
+            <Container wide className="flex flex-col gap-8">
+              <Link
+                href={`/events/${event.id}`}
+                className="flex justify-between gap-2 transition-opacity hover:opacity-80"
+              >
+                <h2 className="text-2xl font-bold">{event.data.title}</h2>
+                <div className="flex items-center gap-4">
+                  <EventCardInfo event={event} variant="big" fields={["date"]} />
+                  <CityBadge city={event.venue?.city} />
+                </div>
+              </Link>
               <EventGalleryImages event={event} />
             </Container>
           </div>

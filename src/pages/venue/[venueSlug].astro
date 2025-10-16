@@ -2,9 +2,9 @@
 import { EventCardList } from "@/components/Common/EventCard";
 import SidebarPageLayout from "@/layouts/SidebarPageLayout.astro";
 import { getVenue, getEvents, getVenues } from "@/content";
-import SimpleSection from "@/components/Common/SimpleSection";
 import LocationCardVenue from "@/components/Common/LocationCardVenue";
 import MarkdownContent from "@/components/Common/MarkdownContent.astro";
+import Container from "@/components/Common/Container";
 
 export async function getStaticPaths() {
   const venues = await getVenues();
@@ -30,9 +30,11 @@ const venueEvents = allEvents.filter(
   </Fragment>
 
   <Fragment slot="main-content">
+    <h2 class="mb-6 text-5xl !font-light">Venue Information</h2>
+
     {
       venue.data.cover && (
-        <figure class="glass-border rounded-box aspect-video overflow-hidden bg-white">
+        <figure class="rounded-box border-base-200 aspect-video overflow-hidden border bg-white">
           <img
             src={venue.data.cover.src}
             alt={`${venue.data.title} cover`}
@@ -46,18 +48,21 @@ const venueEvents = allEvents.filter(
     <div class="flex flex-col gap-6 lg:hidden">
       <LocationCardVenue venue={venue} horizontal client:visible />
     </div>
-    <h1 class="mt-12 mb-6 text-4xl">
-      {venue.data.title}
-    </h1>
+    <div class="mt-12 text-4xl">
+      <h1 class="!font-medium">
+        {venue.data.title}
+      </h1>
+    </div>
     <MarkdownContent markdown={`venues/${venueSlug}/venue.md`} />
   </Fragment>
 
   <Fragment slot="after-content">
     {
       venueEvents.length > 0 && (
-        <SimpleSection title={`Events Hosted Here`}>
-          <EventCardList events={venueEvents} />
-        </SimpleSection>
+        <Container wide className="flex flex-col gap-8">
+          <h3 class="sub-title">Events Hosted Here</h3>
+          <EventCardList client:visible events={venueEvents} />
+        </Container>
       )
     }
   </Fragment>

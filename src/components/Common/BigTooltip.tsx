@@ -14,7 +14,7 @@ export default function BigTooltip({ children, content, position = "left" }: Pro
           wrapper: "left-0 top-1/2 -translate-y-1/2 -translate-x-full -ml-4",
           arrow: "right-0 top-1/2 -translate-y-1/2 translate-x-full",
           arrowBorder:
-            "border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-base-200",
+            "border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-base-900",
           bridge: "absolute right-0 top-1/2 -translate-y-1/2 w-4 h-20 translate-x-full",
         };
       case "right":
@@ -22,7 +22,7 @@ export default function BigTooltip({ children, content, position = "left" }: Pro
           wrapper: "right-0 top-1/2 -translate-y-1/2 translate-x-full ml-4",
           arrow: "left-0 top-1/2 -translate-y-1/2 -translate-x-full",
           arrowBorder:
-            "border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[10px] border-r-base-200",
+            "border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[10px] border-r-base-900",
           bridge: "absolute left-0 top-1/2 -translate-y-1/2 w-4 h-20 -translate-x-full",
         };
       case "top":
@@ -30,7 +30,7 @@ export default function BigTooltip({ children, content, position = "left" }: Pro
           wrapper: "left-1/2 top-0 -translate-x-1/2 -translate-y-full -mt-4",
           arrow: "bottom-0 left-1/2 -translate-x-1/2 translate-y-full",
           arrowBorder:
-            "border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-base-200",
+            "border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-base-900",
           bridge: "absolute bottom-0 left-1/2 -translate-x-1/2 h-4 w-20 translate-y-full",
         };
       case "bottom":
@@ -38,7 +38,7 @@ export default function BigTooltip({ children, content, position = "left" }: Pro
           wrapper: "left-1/2 bottom-0 -translate-x-1/2 translate-y-full mt-4",
           arrow: "top-0 left-1/2 -translate-x-1/2 -translate-y-full",
           arrowBorder:
-            "border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-base-200",
+            "border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-base-900",
           bridge: "absolute top-0 left-1/2 -translate-x-1/2 h-4 w-20 -translate-y-full",
         };
     }

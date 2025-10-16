@@ -1,7 +1,7 @@
 import GalleryDisclaimer from "@/components/Common/GalleryDisclaimer";
-import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content";
 
+import Container from "../Common/Container";
 import EventGalleryImages from "./EventGalleryImages";
 
 interface Props {
@@ -17,8 +17,12 @@ export default function EventGallery({ event }: Props) {
   }
 
   return (
-    <SimpleSection wide title={"Event Gallery"} element={<GalleryDisclaimer />}>
+    <Container wide className="flex flex-col gap-8">
+      <div className="flex items-center justify-between">
+        <h3 className="sub-title">Event Gallery</h3>
+        <GalleryDisclaimer position="left" />
+      </div>
       <EventGalleryImages event={event} />
-    </SimpleSection>
+    </Container>
   );
 }

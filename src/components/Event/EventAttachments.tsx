@@ -10,8 +10,10 @@ import {
   LuVideo,
 } from "react-icons/lu";
 
-import SimpleSection from "@/components/Common/SimpleSection";
 import type { EventEnriched } from "@/content/events";
+
+import Container from "../Common/Container";
+import Grid from "../Common/Grid";
 
 // Icon presets for common attachment types
 const ICON_PRESETS: Record<string, IconType> = {
@@ -76,10 +78,13 @@ export default function EventAttachments({ event }: Props) {
   }
 
   return (
-    <SimpleSection grid title="Attachments">
-      {attachments.map((attachment, index) => (
-        <AttachmentCard key={index} attachment={attachment} />
-      ))}
-    </SimpleSection>
+    <Container wide className="flex flex-col gap-8">
+      <h3 className="text-3xl md:text-4xl">Attachments</h3>
+      <Grid>
+        {attachments.map((attachment, index) => (
+          <AttachmentCard key={index} attachment={attachment} />
+        ))}
+      </Grid>
+    </Container>
   );
 }

@@ -6,7 +6,7 @@ import type { EventEnriched } from "@/content";
 import EventProjectorButton from "../Event/EventProjectorButton";
 import EventSocialButtons from "../Event/EventSocialButtons";
 import CalendarSubscribeButton from "./CalendarSubscribeButton";
-import { EventCardInfo } from "./EventCardDescription";
+import EventCardInfo from "./EventCardInfo";
 import LocationCard from "./LocationCard";
 
 export default function LocationCardEvent({

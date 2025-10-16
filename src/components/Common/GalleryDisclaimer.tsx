@@ -2,18 +2,22 @@ import { LuInfo } from "react-icons/lu";
 
 import BigTooltip from "@/components/Common/BigTooltip";
 
-export default function GalleryDisclaimer({ position = "top" }: { position?: "top" | "bottom" }) {
+export default function GalleryDisclaimer({
+  position = "top",
+}: {
+  position?: "top" | "bottom" | "left" | "right";
+}) {
   return (
     <BigTooltip
       position={position}
       content={
-        <div className="bg-base-100 rounded-box max-w-md p-6 text-left shadow-lg">
-          <ul className="text-base-content list-inside list-disc space-y-3 text-sm">
+        <div className="rounded-box bg-base-900 max-w-md p-6 text-left text-white">
+          <ul className="list-inside list-disc space-y-3 text-sm">
             <li>
               All photos here have been taken by community members and sent in either through our{" "}
               <a
                 href="https://discord.com/channels/1034792577293094972/1077517983439654962"
-                className="link link-primary"
+                className="link text-base-100"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -25,7 +29,7 @@ export default function GalleryDisclaimer({ position = "top" }: { position?: "to
               All photos are published under the{" "}
               <a
                 href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-                className="link link-primary"
+                className="link text-base-100"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -38,7 +42,7 @@ export default function GalleryDisclaimer({ position = "top" }: { position?: "to
               a photo on this page, please let us know through →{" "}
               <a
                 href="https://github.com/oktechjp/public/issues/new"
-                className="link link-primary"
+                className="link text-base-100"
                 target="_blank"
                 rel="noopener noreferrer"
               >
