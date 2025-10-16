@@ -5,6 +5,7 @@ import { LuCalendar } from "react-icons/lu";
 import Brand from "@/components/Common/Brand";
 import ThemeToggle from "@/components/Common/ThemeToggle";
 import type { EventEnriched } from "@/content";
+import { isLegacyEvent } from "@/utils/eventFilters";
 import { formatDate, formatTime } from "@/utils/formatDate";
 
 interface EventProjectorOverlayProps {
@@ -56,6 +57,30 @@ export default function EventProjectorOverlay({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  const legacyEvent = isLegacyEvent(event);
+
+  if (legacyEvent) {
+    const projectorImage = event.data.coverProjector ?? event.data.cover;
+
+    return (
+      <div
+        id="projector-overlay"
+        className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black"
+        data-testid="projector-overlay"
+      >
+        <div className="flex h-full w-full items-center justify-center">
+          <img
+            src={projectorImage.src}
+            srcSet={projectorImage.srcSet}
+            sizes={projectorImage.sizes}
+            alt={`${event.data.title} cover`}
+            className="h-full w-full object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
 
   const formattedDate = formatDate(event.data.dateTime, "long");
   const formattedTime = formatTime(event.data.dateTime);

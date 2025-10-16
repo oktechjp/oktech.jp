@@ -31,6 +31,7 @@ export type GalleryImage = CollectionEntry<"eventGalleryImage"> & {
 export type EventEnriched = Omit<CollectionEntry<"events">, "data"> & {
   data: Omit<CollectionEntry<"events">["data"], "cover"> & {
     cover: ResponsiveImageData;
+    coverProjector: ResponsiveImageData;
   };
   venue?: ProcessedVenue;
   venueSlug?: string;
@@ -235,12 +236,14 @@ export const getEvent = memoize(
       event.data.cover,
       multiple ? "eventPolaroid" : "sidebarLayoutHero",
     );
+    const coverProjector = await getResponsiveImage(event.data.cover, "galleryLightbox");
 
     return {
       ...event,
       data: {
         ...event.data,
         cover,
+        coverProjector,
       },
       venue: processedVenue,
       venueSlug,
