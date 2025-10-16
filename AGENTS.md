@@ -21,6 +21,7 @@
 
 ## Agent Behavior
 
+- We might be running two agents at the same time so don't worry if there's other files being edited.
 - Do what has been asked - nothing more, nothing less
 - Never assume missing context - ask questions if even slightly uncertain
 - Only install libraries if you need to - framework may support what you need

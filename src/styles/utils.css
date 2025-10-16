@@ -86,7 +86,9 @@
   opacity: 0;
   background: oklch(var(--bc) / 0);
   border-radius: 4px;
-  transition: opacity 0.2s ease, background 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease;
 }
 
 .scrollbar-hover:hover {

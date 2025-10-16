@@ -36,7 +36,9 @@ export default function LocationCardEvent({
         <div
           className={clsx(
             "flex gap-4",
-            horizontal ? "fade-overflow overflow-scroll scrollbar-hover pr-[50vw] pb-2" : "flex-col",
+            horizontal
+              ? "fade-overflow scrollbar-hover overflow-scroll pr-[50vw] pb-2"
+              : "flex-col",
           )}
         >
           <CalendarSubscribeButton event={event} className="w-full" />

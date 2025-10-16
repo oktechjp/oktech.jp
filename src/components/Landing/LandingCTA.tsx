@@ -24,7 +24,7 @@ export default function LandingCTA() {
         <CalendarSubscribeButton>
           <button
             type="button"
-            className="flex h-full w-full items-center justify-center cursor-pointer"
+            className="flex h-full w-full cursor-pointer items-center justify-center"
           >
             {content}
           </button>
