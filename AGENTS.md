@@ -19,9 +19,14 @@
 └── tsconfig.json        # TypeScript configuration
 ```
 
+IMPORTANT: DO NOT TOUCH FILES YOU YOU HAVE NOT BEEN ASKED TO TOUCH.
+
+- ONLY EDIT THE FILES THAT YOU ARE CURRENTLY WORKING ON.
+- EVEN IF THE GIT DIFF SHOWS CHANGES, IGNORE THEM UNLESS YOU MADE THEM.
+- THIS IS BECAUSE WE MAY BE RUNNING TWO AGENTS AT THE SAME TIME, SO DON'T BE CONCERNED WITH OTHER FILES BEING EDITED.
+
 ## Agent Behavior
 
-- We might be running two agents at the same time so don't worry if there's other files being edited.
 - Do what has been asked - nothing more, nothing less
 - Never assume missing context - ask questions if even slightly uncertain
 - Only install libraries if you need to - framework may support what you need
