@@ -1,21 +1,25 @@
 ## Critical Before Presentation
 
-- Projector styling
-- Album page styling
-- Update OG Image template, Venue OG images, no SVGs
+- Fix contrast in dark mode for alert / rsvp
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 - General Refactoring
-- Test no upcoming events
 - Exclude test events from prod
 - Create a plan for cancelled events logic (show red icon).
-- Squash/Purge the git history.
+- Update built with love link to be the commit on the main repo
+
+## "V1 Release"
+
 - Check on mobile, safari
+- Squash/Purge the git history.
 
 ## Nice to have
 
-- Refactor SEO, sitemap, og cache, utils
+- Test no upcoming events
+- Update OG Image template, Venue OG images, no SVGs
+- Implement new fonts API
+- Refactor sitemap, og cache, utils
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
-- Remove SimpleSection, shouldn't be needed
+- Remove SubSection, shouldn't be needed
 - Figure out how to overlay the sticky right panel
 - replace data-astro-prefetch with just `prefetch` for react components
 - Fix too much content caching / memoization in dev mode.
