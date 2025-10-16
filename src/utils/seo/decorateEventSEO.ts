@@ -28,9 +28,7 @@ export async function decorateEventSEO(
         : getOGImageWithFallback(pathname, { eventId, title: event.data.title });
 
     const baseKeywords = ["Event", "Technology", "Meetup"];
-    const additionalKeywords = topics.filter(
-      (keyword): keyword is string => Boolean(keyword),
-    );
+    const additionalKeywords = topics.filter((keyword): keyword is string => Boolean(keyword));
     const allKeywords = [...baseKeywords, ...additionalKeywords];
     const keywords = allKeywords.slice(0, 5);
 

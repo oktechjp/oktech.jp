@@ -60,7 +60,7 @@ export default function SEODevInfo() {
   }, [isOpen]);
 
   return (
-    <div className="fixed bottom-2 right-2 z-50">
+    <div className="fixed right-2 bottom-2 z-50">
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}
@@ -71,12 +71,12 @@ export default function SEODevInfo() {
           SEO
         </button>
       ) : (
-        <div className="max-h-[80vh] w-[500px] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-lg bg-base-100 p-4 shadow-2xl">
+        <div className="bg-base-100 max-h-[80vh] w-[500px] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-lg p-4 shadow-2xl">
           <div className="mb-3 flex items-center justify-between">
-            <h3 className="font-mono text-lg font-bold text-base-content">SEO Information</h3>
+            <h3 className="text-base-content font-mono text-lg font-bold">SEO Information</h3>
             <button
               onClick={() => setIsOpen(false)}
-              className="rounded-full p-1 text-base-content transition-colors hover:bg-base-200"
+              className="text-base-content hover:bg-base-200 rounded-full p-1 transition-colors"
               aria-label="Close SEO info"
             >
               <LuX className="h-5 w-5" />
