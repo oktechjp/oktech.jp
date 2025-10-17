@@ -59,3 +59,10 @@ body {
 .alert {
   @apply shadow-none;
 }
+
+.alert-warning { 
+  @apply dark:text-base-200;
+}
+.alert-warning .btn-neutral {
+  @apply dark:btn-outline dark:bg-base-0 hover:dark:text-base-900;
+}
