@@ -79,7 +79,7 @@ export default function EventAttachments({ event }: Props) {
 
   return (
     <Container wide className="flex flex-col gap-8">
-      <h3 className="text-3xl md:text-4xl">Attachments</h3>
+      <h3 className="sub-title">Attachments</h3>
       <Grid>
         {attachments.map((attachment, index) => (
           <AttachmentCard key={index} attachment={attachment} />

@@ -66,3 +66,9 @@ body {
 .alert-warning .btn-neutral {
   @apply dark:btn-outline dark:bg-base-0 hover:dark:text-base-900;
 }
+
+.modal-backdrop {
+  @apply bg-black/60;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

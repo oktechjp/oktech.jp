@@ -45,7 +45,7 @@ export default function EventsViewAlbum({ events }: Props) {
               >
                 <h2 className="text-2xl font-bold">{event.data.title}</h2>
                 <div className="flex items-center gap-4">
-                  <EventCardInfo event={event} variant="big" fields={["date"]} />
+                  <EventCardInfo event={event} variant="big" fields={["date"]} fullAddress />
                   <CityBadge city={event.venue?.city} />
                 </div>
               </Link>

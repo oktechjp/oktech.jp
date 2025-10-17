@@ -108,8 +108,7 @@
   }
 }
 
-.modal-backdrop {
-  @apply bg-black/60;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+
+.sub-title {
+  @apply text-3xl md:text-4xl;
 }

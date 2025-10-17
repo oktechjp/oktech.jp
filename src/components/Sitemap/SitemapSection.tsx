@@ -14,7 +14,7 @@ export default function SitemapSection({ title, entries }: SitemapSectionProps) 
 
   return (
     <Container wide className="flex flex-col gap-8">
-      <h3 className="text-3xl md:text-4xl">{title}</h3>
+      <h3 className="sub-title">{title}</h3>
       <Grid>
         {entries.map((entry) => (
           <div key={`${entry.href || entry.title}-${entry.title}`} className="w-full">

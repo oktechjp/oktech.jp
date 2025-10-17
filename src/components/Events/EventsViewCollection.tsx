@@ -22,7 +22,7 @@ interface EventsBlockProps {
 function EventsBlockList({ title, events }: EventsBlockProps) {
   return (
     <Container wide className="flex flex-col gap-8">
-      <h3 className="text-3xl md:text-4xl">{title}</h3>
+      <h3 className="sub-title">{title}</h3>
       <EventCardList events={events} />
     </Container>
   );
@@ -31,7 +31,7 @@ function EventsBlockList({ title, events }: EventsBlockProps) {
 function EventBlockGrid({ title, events }: EventsBlockProps) {
   return (
     <Container wide className="flex flex-col gap-8">
-      <h3 className="text-3xl md:text-4xl">{title}</h3>
+      <h3 className="sub-title">{title}</h3>
       <Grid>
         {events.map((event) => (
           <EventCard key={event.id} event={event} variant="polaroid" />
