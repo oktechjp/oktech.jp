@@ -60,7 +60,7 @@ body {
   @apply shadow-none;
 }
 
-.alert-warning { 
+.alert-warning {
   @apply dark:text-base-200;
 }
 .alert-warning .btn-neutral {

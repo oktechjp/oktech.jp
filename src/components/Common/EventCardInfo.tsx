@@ -1,10 +1,10 @@
 import { Children } from "react";
 
 import clsx from "clsx";
+import { FaSleigh } from "react-icons/fa6";
 import { LuBuilding2, LuCalendar, LuClock } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
-import { isEventUpcoming } from "@/utils/eventFilters";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
 
 import EventStatusBadge from "./EventStatusBadge";
@@ -17,31 +17,35 @@ function InfoItem({
   children,
   variant,
   Icon,
+  noWrap,
 }: {
   children: React.ReactNode;
-  variant: Variant;
+  variant?: Variant;
   Icon?: React.ElementType;
+  noWrap?: boolean;
 }) {
   if (!children || Children.count(children) === 0) return null;
+  const isCompact = variant === "compact";
 
   return (
-    <div className={clsx("flex gap-2", variant === "compact" ? "items-center" : "items-start")}>
+    <div
+      className={clsx(
+        "flex gap-2",
+        isCompact ? "items-center" : "items-start",
+        !isCompact && noWrap && "fade-overflow overflow-hidden whitespace-nowrap",
+      )}
+    >
       {Icon && (
         <div
           className={clsx(
             "flex w-4 flex-shrink-0",
-            variant === "compact" ? "items-center" : "mt-1 items-start",
+            isCompact ? "items-center" : "mt-1 items-start",
           )}
         >
           <Icon />
         </div>
       )}
-      <div
-        className={clsx(
-          "flex-shrink",
-          variant === "compact" ? "whitespace-nowrap" : "line-clamp-3",
-        )}
-      >
+      <div className={clsx("flex-shrink", isCompact ? "whitespace-nowrap" : "line-clamp-3")}>
         {children}
       </div>
     </div>
@@ -51,20 +55,23 @@ function InfoItem({
 export default function EventCardInfo({
   event,
   variant,
-  linkToVenue,
+  fullAddress = false,
   fields = ["countdown", "date", "time", "venue"],
 }: {
   event: EventEnriched;
-  variant: Variant;
-  linkToVenue?: string;
+  variant?: Variant;
+  fullAddress?: boolean;
   fields?: InfoField[];
 }) {
+  const isCompact = variant === "compact";
   const showCountdown = fields.includes("countdown");
   const showDate = fields.includes("date");
   const showTime = fields.includes("time");
   const showVenue = fields.includes("venue");
-  const showBadge = showCountdown && variant === "compact";
-
+  const showBadge = showCountdown && isCompact;
+  const address = event.venue?.address;
+  const noWrap = !fullAddress;
+  const linkToVenue = fullAddress && event.venue?.hasPage ? `/venue/${event.venue?.id}` : undefined;
   return (
     <div
       className={clsx(
@@ -76,12 +83,12 @@ export default function EventCardInfo({
     >
       {showBadge && <EventStatusBadge event={event} className="badge-md" />}
       {showDate && (
-        <InfoItem variant={variant} Icon={LuCalendar}>
+        <InfoItem Icon={LuCalendar} {...{ noWrap, variant }}>
           {formatDate(event.data.dateTime, "long")}
         </InfoItem>
       )}
       {showTime && (
-        <InfoItem variant={variant} Icon={LuClock}>
+        <InfoItem Icon={LuClock} {...{ noWrap, variant }}>
           {formatTime(event.data.dateTime)}
           {event.data.duration && (
             <>
@@ -95,8 +102,8 @@ export default function EventCardInfo({
         </InfoItem>
       )}
       {showVenue && (
-        <InfoItem variant={variant} Icon={LuBuilding2}>
-          <div className={clsx("flex", variant !== "compact" ? "flex-col gap-1" : "gap-1")}>
+        <InfoItem Icon={LuBuilding2} {...{ noWrap, variant }}>
+          <div className={clsx("flex", !isCompact ? "flex-col gap-1" : "gap-1")}>
             <div>
               {linkToVenue ? (
                 <Link className="text-link" href={linkToVenue}>
@@ -106,12 +113,9 @@ export default function EventCardInfo({
                 <span>{event.venue?.title}</span>
               )}
             </div>
-            <div>{event.venue?.address}</div>
+            {(fullAddress || isCompact) && address && <div>{address}</div>}
           </div>
         </InfoItem>
-      )}
-      {showVenue && variant === "compact" && (
-        <InfoItem variant={variant}>{event.venue?.address}</InfoItem>
       )}
     </div>
   );

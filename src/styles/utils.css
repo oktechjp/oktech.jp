@@ -11,8 +11,8 @@
 }
 
 .fade-overflow {
-  mask-image: linear-gradient(to right, black 60%, transparent 95%);
-  -webkit-mask-image: linear-gradient(to right, black 60%, transparent 95%);
+  mask-image: linear-gradient(to right, black 80%, transparent 98%);
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 98%);
 }
 
 .fade-out {

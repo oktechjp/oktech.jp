@@ -37,7 +37,7 @@ export default function LocationCardEvent({
           className={clsx(
             "flex gap-4",
             horizontal
-              ? "fade-overflow scrollbar-hover overflow-scroll pr-[50vw] pb-2"
+              ? "fade-overflow scrollbar-hover -mx-4 min-w-full overflow-scroll px-4 pr-20 pb-2"
               : "flex-col",
           )}
         >
@@ -48,11 +48,7 @@ export default function LocationCardEvent({
       }
     >
       <div className="text-lg">
-        <EventCardInfo
-          event={event}
-          variant="big"
-          linkToVenue={event.venue?.hasPage ? `/venue/${event.venue?.id}` : undefined}
-        />
+        <EventCardInfo event={event} variant="big" fullAddress />
       </div>
     </LocationCard>
   );
