@@ -107,3 +107,9 @@
     @apply bg-base-0;
   }
 }
+
+.modal-backdrop {
+  @apply bg-black/60;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
