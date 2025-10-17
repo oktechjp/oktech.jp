@@ -100,6 +100,8 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           BASE_PATH: ${{ vars.BASE_PATH }}
+          PUBLIC_SOURCE_COMMIT_HASH: ${{ github.sha }}
+          PUBLIC_SOURCE_COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
 
       # Install Playwright browsers if not cached
       - name: Install Playwright browsers

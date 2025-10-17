@@ -1,11 +1,6 @@
 ## Critical Before Presentation
 
-- Fix contrast in dark mode for alert / rsvp
-- update cards (no long address, single line times)
-- Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 - General Refactoring
-- Exclude test events from prod
-- Update built with love link to be the commit on the main repo
 
 ## "V1 Release"
 
@@ -14,6 +9,7 @@
 
 ## Nice to have
 
+- Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 - Test no upcoming events
 - Update OG Image template, Venue OG images, no SVGs
 - Implement new fonts API
@@ -32,6 +28,7 @@
 
 ## Later?
 
+- Update built with love link to be the commit on the main repo
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
 - Venue instructions
 - Create test case for event name changing.

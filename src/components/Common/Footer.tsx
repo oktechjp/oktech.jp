@@ -3,10 +3,9 @@ import FooterMinorLinks from "@/components/Common/FooterMinorLinks";
 import MainMenu from "@/components/Common/MainMenu";
 import SocialsFooter from "@/components/Common/SocialsFooter";
 import { SITE } from "@/constants";
-import { formatDate } from "@/utils/formatDate";
-import { meta } from "@/utils/meta";
 
 import Brand from "./Brand";
+import BuiltWithCommit from "./BuiltWithCommit";
 
 export default function Footer() {
   return (
@@ -25,16 +24,7 @@ export default function Footer() {
             </span>
             <FooterMinorLinks />
           </div>
-          <div className="opacity-70 hover:opacity-100">
-            <a
-              href={`${meta.repository}/commit/${meta.commitHash}`}
-              target="_blank"
-              className="link text-link tooltip md:tooltip-left font-mono"
-              data-tip={`${formatDate(new Date(), "datetime")} UTC · ${meta.commitHash.substring(0, 7)}`}
-            >
-              Built with <code>{`<3`}</code>
-            </a>
-          </div>
+          <BuiltWithCommit />
         </div>
       </Container>
       <div
