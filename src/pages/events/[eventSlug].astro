@@ -43,11 +43,13 @@ const isUpcoming = isEventUpcoming(event);
     <div class="flex flex-col gap-6 pb-8 lg:hidden">
       <LocationCardEvent event={event} horizontal client:load />
     </div>
-    <h1 class="sub-title !font-medium">
-      {event.data.title}
-    </h1>
-    <EventTags tags={event.data.topics} />
-    <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
+    <div class="gap-responsive flex flex-col">
+      <h1 class="sub-title !font-medium">
+        {event.data.title}
+      </h1>
+      <EventTags tags={event.data.topics} />
+      <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
+    </div>
   </Fragment>
 
   <Fragment slot="after-content">

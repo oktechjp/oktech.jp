@@ -18,6 +18,7 @@
   /* custom variables - again, needs to be here to extend tailwind */
   --breakpoint-2xl: 1536px;
 
+  /* custom highlight color */
   --color-highlight: #ffefd9;
 
   /* appears on top of colored backgrounds */
@@ -64,7 +65,7 @@
   --logo-yellow-light: #f2d5ab;
   --logo-base-color: var(--color-base-content);
 
-  --highlight: #f1f18d;
+  --color-highlight: #f1f18d;
 
   /* daisy ui overrides */
   --color-base-content: var(--color-base-900);
@@ -121,7 +122,7 @@
   --logo-yellow-light: #ffefd9;
   --logo-base-color: var(--color-base-content);
 
-  --highlight: #ffefd9;
+  --color-highlight: #f1f18d;
 
   /* daisy ui overrides */
   --color-base-content: var(--color-base-900);
