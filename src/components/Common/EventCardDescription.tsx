@@ -14,6 +14,7 @@ interface EventCardDescriptionProps {
 
 export default function EventCardDescription({ event, variant }: EventCardDescriptionProps) {
   const smallPolaroid = variant === "big" || variant === "polaroid";
+  const isCompact = variant === "compact";
   return (
     <div
       className={clsx(
@@ -25,27 +26,25 @@ export default function EventCardDescription({ event, variant }: EventCardDescri
       <div
         className={clsx(
           "flex flex-grow flex-col",
-          variant === "compact" && "gap-2 p-2 md:gap-4 md:p-4",
+          isCompact && "gap-2 pr-2 pl-1 md:gap-4 md:p-4",
           smallPolaroid && "gap-4",
           variant === "big" && "md:justify-center md:gap-6",
         )}
       >
-        <div className={clsx("flex justify-between", variant === "compact" ? "gap-4" : "gap-8")}>
+        <div className={clsx("flex items-start justify-between", isCompact ? "gap-2" : "gap-8")}>
           <h3
             className={clsx(
               "line-clamp-2",
-              variant === "compact" && "truncate text-base sm:text-xl md:text-xl",
+              isCompact && "text-sm sm:truncate sm:text-base md:text-xl",
               smallPolaroid && "text-xl",
               variant === "big" && "text-xl",
             )}
           >
             {event.data.title}
           </h3>
-          {variant === "compact" && (
-            <CityBadge className="badge-sm sm:badge-md" city={event.venue?.city} />
-          )}
+          {isCompact && <CityBadge className="badge-xs sm:badge-md" city={event.venue?.city} />}
         </div>
-        <div className="text-sm md:text-base">
+        <div className="text-xs sm:text-sm md:text-base">
           <EventCardInfo event={event} variant={variant} />
         </div>
       </div>

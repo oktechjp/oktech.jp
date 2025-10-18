@@ -4,7 +4,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
 ---
 
 <PageLayout>
-  <div class="flex flex-col gap-24 py-8 pt-24 pb-32">
+  <div class="gap-responsive py-responsive flex flex-col pb-32">
     <Container wide className="flex flex-col gap-8 xl:gap-12 2xl:!gap-24">
       <slot name="before-layout" />
       <!-- hidden on desktop -->
@@ -13,7 +13,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
       </div>
       <!-- column container -->
       <div class="flex flex-col gap-12 lg:flex-row xl:gap-24 2xl:!gap-42">
-        <div class="flex flex-col gap-8 pb-18 lg:w-2/3">
+        <div class="pb-responsive gap-responsive-tight flex flex-col lg:w-2/3">
           <slot name="main-content" />
         </div>
         <!-- hidden on mobile -->

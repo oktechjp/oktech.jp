@@ -30,8 +30,8 @@ function InfoItem({
   return (
     <div
       className={clsx(
-        "flex gap-2",
-        isCompact ? "items-center" : "items-start",
+        "flex",
+        isCompact ? "items-center gap-1" : "items-start gap-2",
         !isCompact && noWrap && "fade-overflow overflow-hidden whitespace-nowrap",
       )}
     >
@@ -39,7 +39,7 @@ function InfoItem({
         <div
           className={clsx(
             "flex w-4 flex-shrink-0",
-            isCompact ? "items-center" : "mt-1 items-start",
+            isCompact ? "hidden items-center sm:block" : "mt-1 items-start",
           )}
         >
           <Icon />
@@ -76,12 +76,12 @@ export default function EventCardInfo({
     <div
       className={clsx(
         "text-base-700 flex",
-        variant === "compact" && "fade-overflow flex-row items-center gap-4",
+        isCompact && "fade-overflow flex-row items-center gap-3",
         variant === "polaroid" && "flex-col gap-2",
         variant === "big" && "flex-col gap-2",
       )}
     >
-      {showBadge && <EventStatusBadge event={event} className="badge-md" />}
+      {showBadge && <EventStatusBadge event={event} className="badge-sm sm:badge-md" />}
       {showDate && (
         <InfoItem Icon={LuCalendar} {...{ noWrap, variant }}>
           {formatDate(event.data.dateTime, "long")}

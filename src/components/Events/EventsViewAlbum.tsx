@@ -24,8 +24,8 @@ export default function EventsViewAlbum({ events }: Props) {
       <Container wide>
         <div className="flex justify-between">
           <div className="flex flex-col gap-4">
-            <h1 className="text-4xl md:text-5xl">OKTech Photo Album</h1>
-            <div className="text-base-700 text-xl">
+            <h1 className="sub-title">Photo Album</h1>
+            <div className="text-base-700 sub-sub-title">
               Events without images are hidden on this page.
             </div>
           </div>
@@ -41,12 +41,12 @@ export default function EventsViewAlbum({ events }: Props) {
             <Container wide className="flex flex-col gap-8">
               <Link
                 href={`/events/${event.id}`}
-                className="flex justify-between gap-2 transition-opacity hover:opacity-80"
+                className="flex flex-col gap-4 transition-opacity hover:opacity-80 md:flex-row md:items-end md:justify-between"
               >
                 <h2 className="text-2xl font-bold">{event.data.title}</h2>
-                <div className="flex items-center gap-4">
-                  <EventCardInfo event={event} variant="big" fields={["date"]} fullAddress />
+                <div className="flex flex-row items-start gap-4 md:flex-row-reverse">
                   <CityBadge city={event.venue?.city} />
+                  <EventCardInfo event={event} variant="big" fields={["date"]} fullAddress />
                 </div>
               </Link>
               <EventGalleryImages event={event} />

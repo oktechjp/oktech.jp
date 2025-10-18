@@ -1,33 +1,37 @@
 ## Critical Before Presentation
 
-- General Refactoring
-
-## "V1 Release"
-
-- Check on mobile, safari
-- Squash/Purge the git history.
-
-## Nice to have
-
+- Visual checks on safari
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
-- Test no upcoming events
-- Update OG Image template, Venue OG images, no SVGs
-- Implement new fonts API
-- Refactor sitemap, og cache, utils
+
+- Ensure that the correct srcset is used with new sizes (list view mobile)
+
+## Pre-Event Refactoring / Invisible Changes
+
+### Priority
+
+- General Refactoring
+- Squash/Purge the git history.
 - Nicer Readme, include components style guide - documenting naming conventions, prop patterns, and composition rules
-- Remove SubSection, shouldn't be needed
-- Figure out how to overlay the sticky right panel
+
+### Nice to Have
+
 - replace data-astro-prefetch with just `prefetch` for react components
-- Fix too much content caching / memoization in dev mode.
-- Update theme script
 - Use the py-responseive and gap-responseive classes more.
 - Refactor rawJson usage in the import script.
-- In the grid view, try a horizontal layout for the polaroid on mobile
-- Manual test for renaming events
-- Slug Renaming
+- Update theme script
+- Fix too much content caching / memoization in dev mode.
+- Test no upcoming events
+- Generative OG Image template, Venue OG images, no SVGs in logos
+- Refactor sitemap, og cache, utils
+- Implement new fonts API
 
 ## Later?
 
+- Ask martin to include link to homepage in meetup.com pages _strip on site_
+- Include venue details on event page?
+- Manual test for renaming events
+- Slug Renaming if event name changes
+- Activity Feed (firehose + event specific)
 - Update built with love link to be the commit on the main repo
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese.
 - Venue instructions

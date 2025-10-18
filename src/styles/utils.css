@@ -39,15 +39,23 @@
 }
 
 .gap-responsive {
-  @apply gap-6 md:gap-24;
+  @apply gap-8 md:gap-18;
 }
 
 .gap-responsive-tight {
   @apply gap-3 md:gap-8;
 }
 
+.pt-responsive {
+  @apply pt-12 md:pt-18;
+}
+
+.pb-responsive {
+  @apply pb-12 md:pb-18;
+}
+
 .py-responsive {
-  @apply py-12 md:py-32;
+  @apply py-12 md:py-18;
 }
 
 .py-responsive-tight {
@@ -108,7 +116,14 @@
   }
 }
 
+.sub-sub-title {
+  @apply text-lg sm:text-xl md:text-2xl;
+}
 
 .sub-title {
-  @apply text-3xl md:text-4xl;
+  @apply text-2xl sm:text-3xl md:text-4xl;
+}
+
+.title {
+  @apply text-3xl sm:text-4xl md:text-5xl;
 }

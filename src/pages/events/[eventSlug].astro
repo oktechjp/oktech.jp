@@ -35,19 +35,17 @@ const isUpcoming = isEventUpcoming(event);
     <LocationCardEvent event={event} client:load />
   </Fragment>
   <Fragment slot="main-content">
-    <h2 class="mb-6 text-5xl !font-light">{isUpcoming ? "Upcoming" : "Past"} Event</h2>
+    <h2 class="title !font-light">{isUpcoming ? "Upcoming" : "Past"} Event</h2>
     <div class="block lg:hidden">
       <EventActionAlert event={event} client:visible />
     </div>
     <EventImageBig event={event} client:load />
-    <div class="flex flex-col gap-6 lg:hidden">
+    <div class="flex flex-col gap-6 pb-8 lg:hidden">
       <LocationCardEvent event={event} horizontal client:load />
     </div>
-    <div class="mt-12 text-4xl">
-      <h1 class="!font-medium">
-        {event.data.title}
-      </h1>
-    </div>
+    <h1 class="sub-title !font-medium">
+      {event.data.title}
+    </h1>
     <EventTags tags={event.data.topics} />
     <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
   </Fragment>
