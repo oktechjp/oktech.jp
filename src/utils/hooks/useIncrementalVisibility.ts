@@ -1,13 +1,15 @@
-import { type RefObject, useEffect, useRef, useState } from "react";
+import { type RefCallback, useCallback, useEffect, useRef, useState } from "react";
 
 interface Options {
   batchSize?: number;
   resetKey?: unknown;
+  rootMargin?: string;
+  threshold?: number | number[];
 }
 
 interface IncrementalVisibilityResult {
   visibleCount: number;
-  sentinelRef: RefObject<HTMLDivElement | null>;
+  registerTrigger: RefCallback<HTMLDivElement>;
   hasMore: boolean;
 }
 
@@ -15,11 +17,11 @@ export function useIncrementalVisibility(
   totalItems: number,
   options?: Options,
 ): IncrementalVisibilityResult {
-  const { batchSize = 3, resetKey } = options ?? {};
+  const { batchSize = 3, resetKey, rootMargin = "0px 0px 0px 0px", threshold = 0 } = options ?? {};
   const [visibleCount, setVisibleCount] = useState(() =>
     Math.min(batchSize, totalItems),
   );
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     setVisibleCount(Math.min(batchSize, totalItems));
@@ -27,35 +29,57 @@ export function useIncrementalVisibility(
 
   useEffect(() => {
     if (visibleCount >= totalItems) {
-      return;
+      observerRef.current?.disconnect();
+      observerRef.current = null;
     }
+  }, [visibleCount, totalItems]);
 
-    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
-      setVisibleCount(totalItems);
-      return;
-    }
+  useEffect(
+    () => () => {
+      observerRef.current?.disconnect();
+    },
+    [],
+  );
 
-    const sentinel = sentinelRef.current;
-    if (!sentinel) {
-      return;
-    }
+  const registerTrigger = useCallback<RefCallback<HTMLDivElement>>(
+    (node) => {
+      observerRef.current?.disconnect();
+      observerRef.current = null;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setVisibleCount((count) => Math.min(count + batchSize, totalItems));
-        }
-      });
-    });
+      if (!node) {
+        return;
+      }
 
-    observer.observe(sentinel);
+      if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+        setVisibleCount(totalItems);
+        return;
+      }
 
-    return () => observer.disconnect();
-  }, [visibleCount, totalItems, batchSize]);
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleCount((count) => {
+                const nextCount = Math.min(count + batchSize, totalItems);
+                if (nextCount === count) {
+                  return count;
+                }
+                return nextCount;
+              });
+            }
+          });
+        },
+        { rootMargin, threshold },
+      );
+
+      observerRef.current.observe(node);
+    },
+    [batchSize, rootMargin, threshold, totalItems],
+  );
 
   return {
     visibleCount,
-    sentinelRef,
+    registerTrigger,
     hasMore: visibleCount < totalItems,
   };
 }

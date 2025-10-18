@@ -26,11 +26,12 @@ export default function EventsViewAlbum({ events }: Props) {
     [events],
   );
 
-  const { visibleCount, sentinelRef, hasMore } = useIncrementalVisibility(
+  const { visibleCount, registerTrigger, hasMore } = useIncrementalVisibility(
     pastEventsWithImages.length,
     {
       batchSize: 3,
       resetKey: pastEventsWithImages,
+      rootMargin: "0px 0px 200px 0px",
     },
   );
 
@@ -53,13 +54,16 @@ export default function EventsViewAlbum({ events }: Props) {
         </div>
       </Container>
       <section className="flex flex-col gap-32">
-        {visibleEvents.map((event) => (
-          <div key={event.id}>
-            <Container wide className="flex flex-col gap-8">
-              <Link
-                href={`/events/${event.id}`}
-                className="flex flex-col gap-4 transition-opacity hover:opacity-80 md:flex-row md:items-end md:justify-between"
-              >
+        {visibleEvents.map((event, index) => {
+          const isLastVisible = index === visibleEvents.length - 1;
+
+          return (
+            <div key={event.id} ref={isLastVisible && hasMore ? registerTrigger : undefined}>
+              <Container wide className="flex flex-col gap-8">
+                <Link
+                  href={`/events/${event.id}`}
+                  className="flex flex-col gap-4 transition-opacity hover:opacity-80 md:flex-row md:items-end md:justify-between"
+                >
                 <h2 className="text-2xl font-bold">{event.data.title}</h2>
                 <div className="flex flex-row items-start gap-4 md:flex-row-reverse">
                   <CityBadge city={event.venue?.city} />
@@ -67,14 +71,10 @@ export default function EventsViewAlbum({ events }: Props) {
                 </div>
               </Link>
               <EventGalleryImages event={event} />
-            </Container>
-          </div>
-        ))}
-        <div
-          ref={sentinelRef}
-          aria-hidden
-          className={hasMore ? "h-4" : "h-0"}
-        />
+              </Container>
+            </div>
+          );
+        })}
       </section>
     </div>
   );
