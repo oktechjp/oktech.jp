@@ -7,7 +7,7 @@ import MegaSlideshowButton from "@/components/Common/MegaSlideshowButton";
 import EventGalleryImages from "@/components/Event/EventGalleryImages";
 import type { EventEnriched } from "@/content";
 import { filterRecentEvents } from "@/utils/eventFilters";
-import useIncrementalVisibility from "@/utils/hooks/useIncrementalVisibility";
+import { useIncrementalVisibility } from "@/utils/hooks/useIncrementalVisibility";
 
 import CityBadge from "../Common/CityBadge";
 import Link from "../Common/Link";
@@ -40,15 +40,15 @@ export default function EventsViewAlbum({ events }: Props) {
   return (
     <div className="flex flex-col gap-24">
       <Container wide>
-        <div className="flex justify-between">
+        <div className="gap-responsive flex flex-col md:flex-row md:justify-between">
           <div className="flex flex-col gap-4">
             <h1 className="sub-title">Photo Album</h1>
             <div className="text-base-700 sub-sub-title">
               Events without images are hidden on this page.
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <GalleryDisclaimer position="left" />
+          <div className="flex items-end gap-2 md:flex-col">
+            <GalleryDisclaimer />
             <MegaSlideshowButton events={pastEventsWithImages} />
           </div>
         </div>
@@ -64,13 +64,13 @@ export default function EventsViewAlbum({ events }: Props) {
                   href={`/events/${event.id}`}
                   className="flex flex-col gap-4 transition-opacity hover:opacity-80 md:flex-row md:items-end md:justify-between"
                 >
-                <h2 className="text-2xl font-bold">{event.data.title}</h2>
-                <div className="flex flex-row items-start gap-4 md:flex-row-reverse">
-                  <CityBadge city={event.venue?.city} />
-                  <EventCardInfo event={event} variant="big" fields={["date"]} fullAddress />
-                </div>
-              </Link>
-              <EventGalleryImages event={event} />
+                  <h2 className="text-2xl font-bold">{event.data.title}</h2>
+                  <div className="flex flex-row items-start gap-4 md:flex-row-reverse">
+                    <CityBadge city={event.venue?.city} />
+                    <EventCardInfo event={event} variant="big" fields={["date"]} fullAddress />
+                  </div>
+                </Link>
+                <EventGalleryImages event={event} />
               </Container>
             </div>
           );

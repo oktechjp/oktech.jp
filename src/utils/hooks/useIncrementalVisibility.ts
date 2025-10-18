@@ -18,9 +18,7 @@ export function useIncrementalVisibility(
   options?: Options,
 ): IncrementalVisibilityResult {
   const { batchSize = 3, resetKey, rootMargin = "0px 0px 0px 0px", threshold = 0 } = options ?? {};
-  const [visibleCount, setVisibleCount] = useState(() =>
-    Math.min(batchSize, totalItems),
-  );
+  const [visibleCount, setVisibleCount] = useState(() => Math.min(batchSize, totalItems));
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -83,5 +81,3 @@ export function useIncrementalVisibility(
     hasMore: visibleCount < totalItems,
   };
 }
-
-export default useIncrementalVisibility;

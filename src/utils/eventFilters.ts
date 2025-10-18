@@ -63,10 +63,10 @@ export function filterRecentEvents<T extends EventWithDateTime>(
 /**
  * Checks if an event is a "legacy" event (OG images are not generated for them)
  */
-export function isLegacyEvent(event: EventWithDateTime | EventEnriched): boolean {
+export function isLegacyEvent(_event: EventWithDateTime | EventEnriched): boolean {
+  // TODO: When enabling generated OG images, switch to a specific cutoff date (see below).
+  // const eventDate = new Date(event.data.dateTime);
+  // const legacyCutoff = new Date("2025-10-10T23:59:59");
+  // return eventDate <= legacyCutoff;
   return true;
-  // in the future, we want to switch this to a specific date cut off when we start using generated OG images
-  const eventDate = new Date(event.data.dateTime);
-  const legacyCutoff = new Date("2025-10-10T23:59:59");
-  return eventDate <= legacyCutoff;
 }

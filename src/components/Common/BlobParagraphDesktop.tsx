@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
-import { animated, config, useSpring } from "@react-spring/web";
+import { animated, useSpring } from "@react-spring/web";
 
 import { useBlobParagraphScroll } from "@/utils/hooks/useBlobParagraphScroll";
 

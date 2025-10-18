@@ -4,6 +4,11 @@
 - Optimize carousel on wide screen (it doesn't fully scroll to last item?)
 
 - Ensure that the correct srcset is used with new sizes (list view mobile)
+- Improve quality of the projector image
+- Better touch feedback for buttons (ipad)
+- Fix: Bug on about page with mega tall screen -- first should always be seleced when no scrolling occurs.
+- FIx down line on timeline safari
+- Reduce get involved mobile gap
 
 ## Pre-Event Refactoring / Invisible Changes
 

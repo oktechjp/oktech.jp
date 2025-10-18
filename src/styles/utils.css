@@ -130,11 +130,7 @@
 
 mark {
   color: inherit;
-  background: linear-gradient(
-    to bottom,
-    transparent 35%,
-    var(--color-highlight) 35%
-  );
+  background: linear-gradient(to bottom, transparent 35%, var(--color-highlight) 35%);
   padding: 0 0.15em;
   box-decoration-break: clone;
 }

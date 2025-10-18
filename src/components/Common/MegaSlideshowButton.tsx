@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { LuPresentation } from "react-icons/lu";
 
-import TooltipButton from "@/components/Common/TooltipButton";
 import EventGalleryLightbox from "@/components/Event/EventGalleryLightbox";
 import type { EventEnriched, GalleryImage } from "@/content";
 
@@ -56,15 +55,15 @@ export default function MegaSlideshowButton({ events }: Props) {
 
   return (
     <>
-      <TooltipButton
-        tooltip="Start All Photos Slideshow"
+      <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className="btn btn-circle btn-ghost"
-        aria-label="Start All Photos Slideshow"
-        tooltipPosition="left"
+        className="btn btn-outline btn-sm gap-2"
+        aria-label="Start slideshow of all photos"
       >
         <LuPresentation className="h-4 w-4" />
-      </TooltipButton>
+        Slideshow
+      </button>
 
       {shuffledImagesWithEvents.length > 0 && (
         <EventGalleryLightbox

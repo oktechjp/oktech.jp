@@ -5,7 +5,6 @@ import { animated, useSpring } from "@react-spring/web";
 
 // Animation configuration constants
 const VIEWPORT_START_POSITION = 0.4; // Start tracking when container top reaches 40% of viewport
-const VIEWPORT_END_POSITION = 0.6; // Stop tracking when container bottom reaches 60% of viewport
 const DESKTOP_TOP_BUFFER = 80; // Minimum pixels from top of viewport on desktop
 const SPRING_CONFIG = {
   mass: 3,
@@ -45,7 +44,6 @@ export default function ParallaxSpring({
 
       // Calculate scroll progress relative to container
       const containerTop = containerRect.top;
-      const containerBottom = containerRect.bottom;
       const containerHeight = containerRect.height;
       const elementHeight = elementRef.current.offsetHeight;
 

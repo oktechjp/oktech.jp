@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { LuCalendarClock, LuCalendarX } from "react-icons/lu";
+import { LuCalendarX } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
 import { isEventUpcoming } from "@/utils/eventFilters";

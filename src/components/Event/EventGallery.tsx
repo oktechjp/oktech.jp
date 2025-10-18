@@ -20,7 +20,7 @@ export default function EventGallery({ event }: Props) {
     <Container wide className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h3 className="sub-title">Event Gallery</h3>
-        <GalleryDisclaimer position="left" />
+        <GalleryDisclaimer />
       </div>
       <EventGalleryImages event={event} />
     </Container>

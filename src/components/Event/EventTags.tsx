@@ -1,5 +1,3 @@
-import { LuTag } from "react-icons/lu";
-
 interface EventTagsProps {
   tags?: string[];
 }

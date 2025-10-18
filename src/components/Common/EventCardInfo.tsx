@@ -1,7 +1,6 @@
 import { Children } from "react";
 
 import clsx from "clsx";
-import { FaSleigh } from "react-icons/fa6";
 import { LuBuilding2, LuCalendar, LuClock } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
