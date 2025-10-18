@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import Container from "@/components/Common/Container";
 import EventCardInfo from "@/components/Common/EventCardInfo";
 import GalleryDisclaimer from "@/components/Common/GalleryDisclaimer";
@@ -5,6 +7,7 @@ import MegaSlideshowButton from "@/components/Common/MegaSlideshowButton";
 import EventGalleryImages from "@/components/Event/EventGalleryImages";
 import type { EventEnriched } from "@/content";
 import { filterRecentEvents } from "@/utils/eventFilters";
+import useIncrementalVisibility from "@/utils/hooks/useIncrementalVisibility";
 
 import CityBadge from "../Common/CityBadge";
 import Link from "../Common/Link";
@@ -15,9 +18,23 @@ interface Props {
 
 export default function EventsViewAlbum({ events }: Props) {
   // Only show past events (events that have ended including 30-minute buffer)
-  const pastEventsWithImages = filterRecentEvents(events)
-    // only show event swith images
-    .filter((event) => event.galleryImages?.length);
+  const pastEventsWithImages = useMemo(
+    () =>
+      filterRecentEvents(events)
+        // only show events with images
+        .filter((event) => event.galleryImages?.length),
+    [events],
+  );
+
+  const { visibleCount, sentinelRef, hasMore } = useIncrementalVisibility(
+    pastEventsWithImages.length,
+    {
+      batchSize: 3,
+      resetKey: pastEventsWithImages,
+    },
+  );
+
+  const visibleEvents = pastEventsWithImages.slice(0, visibleCount);
 
   return (
     <div className="flex flex-col gap-24">
@@ -36,7 +53,7 @@ export default function EventsViewAlbum({ events }: Props) {
         </div>
       </Container>
       <section className="flex flex-col gap-32">
-        {pastEventsWithImages.map((event) => (
+        {visibleEvents.map((event) => (
           <div key={event.id}>
             <Container wide className="flex flex-col gap-8">
               <Link
@@ -53,6 +70,11 @@ export default function EventsViewAlbum({ events }: Props) {
             </Container>
           </div>
         ))}
+        <div
+          ref={sentinelRef}
+          aria-hidden
+          className={hasMore ? "h-4" : "h-0"}
+        />
       </section>
     </div>
   );
