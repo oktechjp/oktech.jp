@@ -1,0 +1,65 @@
+import type { JSX } from "react";
+import { useEffect, useState } from "react";
+
+import { LuArrowUp } from "react-icons/lu";
+
+const APPEAR_THRESHOLD = 800;
+
+const springTimingFunction = "cubic-bezier(0.34, 1.56, 0.64, 1)";
+
+export default function ScrollToTopButton(): JSX.Element {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const shouldShow = window.scrollY > APPEAR_THRESHOLD;
+      setIsVisible((previous) => (previous !== shouldShow ? shouldShow : previous));
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleClick = () => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  };
+
+  const visibilityClasses = isVisible
+    ? "opacity-100 translate-y-0 pointer-events-auto"
+    : "opacity-0 translate-y-4 pointer-events-none";
+
+  return (
+    <div
+      className={`fixed right-6 bottom-6 z-50 transition duration-300 ease-out md:right-8 md:bottom-8 ${visibilityClasses}`}
+      style={{ transitionTimingFunction: springTimingFunction }}
+      aria-hidden={!isVisible}
+    >
+      <div className="tooltip tooltip-left hidden md:block" data-tip="Scroll to top">
+        <button
+          type="button"
+          aria-label="Scroll to top"
+          onClick={handleClick}
+          className="bg-base-900 text-base-0 focus-visible:outline-base-100/70 flex h-12 w-12 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          tabIndex={isVisible ? 0 : -1}
+        >
+          <LuArrowUp className="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
+      <button
+        type="button"
+        aria-label="Scroll to top"
+        onClick={handleClick}
+        className="bg-base-900 text-base-0 focus-visible:outline-base-100/70 flex h-12 w-12 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 md:hidden"
+        tabIndex={isVisible ? 0 : -1}
+      >
+        <LuArrowUp className="h-5 w-5" aria-hidden="true" />
+      </button>
+    </div>
+  );
+}

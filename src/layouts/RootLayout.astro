@@ -1,0 +1,79 @@
+---
+import "@/styles/global.css";
+import { SITE } from "@/constants";
+import { urls } from "@/utils/urls";
+import SEO from "./SEO.astro";
+import { ClientRouter } from "astro:transitions";
+import DynamicFavicon from "@/components/Common/DynamicFavicon";
+import NavigationProgress from "@/components/Common/NavigationProgress";
+// import Toast from "@/components/Common/Toast";
+// import DevTools from "@/components/Common/DevTools";
+// import SEODevInfo from "@/components/Common/SEODevInfo";
+import ScrollToTopButton from "@/components/Common/ScrollToTopButton";
+import ConsoleEasterEgg from "@/components/Common/ConsoleEasterEgg";
+
+import "@fontsource/lexend/800"; // bold headeer
+import "@fontsource/lexend/600"; // regular header
+import "@fontsource/lexend/300"; // body
+import "@fontsource-variable/noto-sans-jp";
+import "@fontsource-variable/martian-mono";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <SEO />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE.name} - Events RSS Feed`}
+      href={urls.withBase(`/rss.xml`)}
+    />
+    <link
+      rel="alternate"
+      type="text/calendar"
+      title={`${SITE.name} - Events Calendar Feed`}
+      href={urls.withBase(`/oktech-events.ics`)}
+    />
+    <script is:inline>
+      // Apply theme from localStorage or system preference
+      function applyTheme(targetDocument) {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme === "light" || storedTheme === "dark") {
+          targetDocument.documentElement.setAttribute("data-theme", storedTheme);
+        } else {
+          // Check system preference
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const defaultTheme = prefersDark ? "dark" : "light";
+          targetDocument.documentElement.setAttribute("data-theme", defaultTheme);
+          localStorage.setItem("theme", defaultTheme);
+        }
+      }
+
+      // Apply theme immediately to current document
+      applyTheme(document);
+
+      // Handle theme persistence during view transitions
+      document.addEventListener("astro:before-swap", (event) => {
+        // Apply theme to the incoming document
+        applyTheme(event.newDocument);
+      });
+    </script>
+  </head>
+  <body class="bg-base-0">
+    <ClientRouter />
+    <NavigationProgress client:only="react" />
+    <DynamicFavicon client:only="react" />
+    <!-- <Toast client:load transition:persist="toast" /> -->
+    <!-- <DevTools client:visible /> -->
+    <!-- <SEODevInfo client:visible transition:persist="seo-dev-info" /> -->
+    <ScrollToTopButton client:visible />
+    <slot />
+    <ConsoleEasterEgg client:load transition:persist="console-easter-egg" />
+  </body>
+</html>

@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@import "./fonts.css";
+@import "./utils.css";
+
+@import "./themes.css";
+
+/* ??? */
+@source "../**/*.{astro,html,js,jsx,ts,tsx}";
+@source not "../../test/**";
+
+@plugin "@tailwindcss/typography";
+
+/* Text selection highlight using DaisyUI primary color */
+::selection {
+  background-color: color-mix(in srgb, var(--color-primary) 80%, transparent);
+  color: color-mix(in srgb, currentColor 90%, transparent);
+}
+
+::-moz-selection {
+  background-color: color-mix(in srgb, var(--color-primary) 80%, transparent);
+  color: color-mix(in srgb, currentColor 90%, transparent);
+}
+
+body > div {
+  @apply overflow-x-clip;
+}
+
+body {
+  @apply text-pretty;
+}
+
+.btn {
+  --btn-p: 1.2rem;
+  @apply shadow-none;
+}
+
+.btn:not(.btn-outline) {
+  @apply border-none;
+}
+
+.badge {
+  @apply shadow-none;
+}
+
+.badge:not(.badge-outline) {
+  @apply border-none;
+}
+
+.btn-outline {
+  --btn-border: var(--color-base-300);
+}
+
+.input {
+  border-color: var(--color-base-300);
+  background-color: var(--color-base-0);
+}
+
+.alert {
+  @apply shadow-none;
+}
+
+.alert-warning .btn-neutral {
+  @apply dark:btn-outline dark:bg-base-0 hover:dark:text-base-900;
+}
+
+.modal-backdrop {
+  @apply bg-black/60;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+@supports (-webkit-touch-callout: none) {
+  @media (hover: none) {
+    .btn {
+      -webkit-tap-highlight-color: color-mix(in srgb, var(--color-base-900) 25%, transparent);
+    }
+  }
+}
+
+/* Fixes modal backdrop right side weirdness */
+.modal {
+  scrollbar-gutter: auto !important;
+}

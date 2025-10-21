@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "Context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--isolated", "--headless", "--no-sandbox"]
+    },
+    "lighthouse": {
+      "command": "npx",
+      "args": ["@danielsogl/lighthouse-mcp@latest"]
+    }
+  }
+}

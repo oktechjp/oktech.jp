@@ -1,0 +1,136 @@
+.text-link {
+  @apply decoration-base-content/20 hover:decoration-primary-content/90 underline decoration-dotted underline-offset-2 transition-all duration-200;
+  &:hover {
+    @apply text-primary-content;
+  }
+}
+
+.ok-card {
+  @apply bg-base-0 rounded-box overflow-hidden shadow-[0px_4px_25px_0_rgba(0,0,0,0.07)];
+  @apply dark:shadow-none;
+}
+
+.fade-overflow {
+  mask-image: linear-gradient(to right, black 80%, transparent 98%);
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 98%);
+}
+
+.fade-out {
+  mask-image: linear-gradient(to bottom, black 0%, transparent 98%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 98%);
+}
+
+.rounded-box-inner {
+  --gap: calc(var(--spacing) * 3);
+  --radius: calc(var(--radius-box) - var(--gap));
+  margin: var(--gap);
+  border-radius: var(--radius);
+}
+
+.rounded-box-inner-tight {
+  --gap: calc(var(--spacing) * 1.5);
+  --radius: calc(var(--radius-box) - var(--gap));
+  margin: var(--gap);
+  border-radius: var(--radius);
+}
+
+.section-title {
+  @apply text-base-300 dark:text-base-600 text-4xl md:text-6xl;
+}
+
+.gap-responsive {
+  @apply gap-8 md:gap-18;
+}
+
+.gap-responsive-tight {
+  @apply gap-3 md:gap-8;
+}
+
+.pt-responsive {
+  @apply pt-12 md:pt-18;
+}
+
+.pb-responsive {
+  @apply pb-12 md:pb-18;
+}
+
+.py-responsive {
+  @apply py-12 md:py-18;
+}
+
+.py-responsive-tight {
+  @apply py-6 md:py-12;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hover {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  opacity: 0;
+  background: oklch(var(--bc) / 0);
+  border-radius: 4px;
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+.scrollbar-hover:hover {
+  scrollbar-color: oklch(var(--bc) / 0.35) transparent;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+  background: oklch(var(--bc) / 0.35);
+}
+
+.btn-group {
+  @apply bg-base-200 rounded-field flex px-1.5 py-1;
+
+  .btn {
+    @apply rounded-field h-9;
+  }
+
+  .btn-active {
+    @apply bg-base-0;
+  }
+}
+
+.sub-sub-title {
+  @apply text-base sm:text-lg md:text-xl;
+}
+
+.sub-title {
+  @apply text-3xl md:text-4xl;
+}
+
+.title {
+  @apply text-4xl md:text-5xl;
+}
+
+mark {
+  color: inherit;
+  background: linear-gradient(to bottom, transparent 35%, var(--color-highlight) 35%);
+  padding: 0 0.15em;
+  box-decoration-break: clone;
+}

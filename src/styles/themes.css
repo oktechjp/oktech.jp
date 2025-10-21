@@ -1,0 +1,153 @@
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@plugin "daisyui";
+
+@theme {
+  /* additional base colors - they need to be here to extend tailwind with text-base-500, etc. */
+  --color-base-0: rgb(255, 255, 255); /* FFFFFF */
+  --color-base-100: rgb(250, 250, 250); /* FAFAFA */
+  --color-base-200: rgb(224, 224, 224); /* E0E0E0 */
+  --color-base-300: rgb(214, 214, 214); /* D6D6D6 */
+  --color-base-400: rgb(184, 184, 184); /* B8B8B8 */
+  --color-base-500: rgb(146, 146, 146); /* 929292 */
+  --color-base-600: rgb(110, 110, 110); /* 6E6E6E */
+  --color-base-700: rgb(75, 75, 75); /* 4B4B4B */
+  --color-base-800: rgb(43, 43, 43); /* 2B2B2B */
+  --color-base-900: rgb(17, 17, 17); /* 111111 */
+
+  /* custom variables - again, needs to be here to extend tailwind */
+  --breakpoint-2xl: 1536px;
+
+  /* custom highlight color */
+  --color-highlight: #ffefd9;
+
+  /* appears on top of colored backgrounds */
+  --color-dark-neutral: var(--color-base-800);
+}
+
+/* TODO: Maybe update these for btn-primary, etc. */
+/* 
+--color-primary: oklch(0.757 0.12 173.7);
+--color-primary-content: oklch(0.25 0.05 173.7);
+--color-secondary: oklch(90% 0.063 306.703);
+--color-secondary-content: oklch(43% 0.218 303.724);
+--color-accent: oklch(90% 0.076 70.697);
+--color-accent-content: oklch(47% 0.157 37.304); 
+*/
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+
+  --color-base-0: rgb(20, 20, 20); /* 141414 */
+  --color-base-100: rgb(34, 34, 34); /* 222222 */
+  --color-base-200: rgb(39, 39, 39); /* 272727 */
+  --color-base-300: rgb(43, 43, 43); /* 2B2B2B */
+  --color-base-400: rgb(79, 79, 79); /* 4F4F4F */
+  --color-base-500: rgb(112, 112, 112); /* 707070 */
+  --color-base-600: rgb(115, 115, 115); /* 737373 */
+  --color-base-700: rgb(173, 173, 173); /* ADBDBD */
+  --color-base-800: rgb(241, 241, 241); /* 2B2B2B */
+  --color-base-900: rgb(255, 255, 255); /* 111111 */
+
+  --color-dark-neutral: var(--color-base-100);
+
+  /* logo colors */
+  --logo-red: #fd4d69;
+  --logo-red-light: #f5cfd5;
+  --logo-green: #49d773;
+  --logo-green-light: #cbf5d7;
+  --logo-blue: #459bc9;
+  --logo-blue-light: #b8ddf1;
+  --logo-yellow: #da9a00;
+  --logo-yellow-light: #f2d5ab;
+  --logo-base-color: var(--color-base-content);
+
+  --color-highlight: #f1f18d;
+
+  /* daisy ui overrides */
+  --color-base-content: var(--color-base-900);
+  --color-neutral: var(--color-base-900);
+  --color-neutral-content: var(--color-base-0);
+  --color-info: var(--logo-blue-light);
+  --color-info-content: var(--logo-blue);
+  --color-success: var(--logo-green-light);
+  --color-success-content: var(--logo-green);
+  --color-warning: var(--logo-yellow-light);
+  --color-warning-content: var(--logo-yellow);
+  --color-error: var(--logo-red-light);
+  --color-error-content: var(--logo-red);
+
+  /* also, map primary, secondary, accent */
+  --color-primary: var(--logo-blue-light);
+  --color-primary-content: var(--logo-blue);
+  --color-secondary: var(--logo-green-light);
+  --color-secondary-content: var(--logo-green);
+  --color-accent: var(--logo-red-light);
+  --color-accent-content: var(--logo-red);
+
+  --radius-selector: 10rem;
+  --radius-field: 10rem;
+  --radius-box: 1.5rem;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+
+  /* additional base colors */
+  --color-base-0: rgb(255, 255, 255); /* FFFFFF */
+  --color-base-100: rgb(250, 250, 250); /* FAFAFA */
+  --color-base-200: rgb(224, 224, 224); /* E0E0E0 */
+  --color-base-300: rgb(214, 214, 214); /* D6D6D6 */
+  --color-base-400: rgb(184, 184, 184); /* B8B8B8 */
+  --color-base-500: rgb(146, 146, 146); /* 929292 */
+  --color-base-600: rgb(110, 110, 110); /* 6E6E6E */
+  --color-base-700: rgb(75, 75, 75); /* 4B4B4B */
+  --color-base-800: rgb(43, 43, 43); /* 2B2B2B */
+  --color-base-900: rgb(17, 17, 17); /* 111111 */
+
+  /* logo colors */
+  --logo-red: #fd4d69;
+  --logo-red-light: #ffdbe1;
+  --logo-green: #49d773;
+  --logo-green-light: #e4f9ea;
+  --logo-blue: #459bc9;
+  --logo-blue-light: #c7e1ef;
+  --logo-yellow: #d97708;
+  --logo-yellow-light: #ffefd9;
+  --logo-base-color: var(--color-base-content);
+
+  --color-highlight: #f1f18d;
+
+  /* daisy ui overrides */
+  --color-base-content: var(--color-base-900);
+  --color-neutral: var(--color-base-900);
+  --color-neutral-content: var(--color-base-0);
+  --color-info: var(--logo-blue-light);
+  --color-info-content: var(--logo-blue);
+  --color-success: var(--logo-green-light);
+  --color-success-content: var(--logo-green);
+  --color-warning: var(--logo-yellow-light);
+  --color-warning-content: var(--logo-yellow);
+  --color-error: var(--logo-red-light);
+  --color-error-content: var(--logo-red);
+
+  /* also, map primary, secondary, accent */
+  --color-primary: var(--logo-blue-light);
+  --color-primary-content: var(--logo-blue);
+  --color-secondary: var(--logo-green-light);
+  --color-secondary-content: var(--logo-green);
+  --color-accent: var(--logo-red-light);
+  --color-accent-content: var(--logo-red);
+
+  --color-dark-neutral: var(--color-base-800);
+
+  --radius-selector: 10rem;
+  --radius-field: 10rem;
+  --radius-box: 1.5rem;
+}

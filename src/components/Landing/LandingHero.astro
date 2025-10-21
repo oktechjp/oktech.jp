@@ -1,0 +1,77 @@
+---
+import Container from "@/components/Common/Container";
+import BlobSlideshow from "@/components/Common/BlobSlideshow.astro";
+import Parallax from "@/components/Common/Parallax";
+
+const TAGS = [
+  "Web Development",
+  "Programming",
+  "Design",
+  "Hardware",
+  "AI",
+  "Frontend",
+  "Backend",
+  "Fullstack",
+  "DevOps",
+  "Security",
+  "Networking",
+  "Picnics",
+];
+---
+
+<Container wide>
+  <div class="grid items-center gap-24 pt-16 md:grid-cols-12 md:gap-12">
+    <div class="md:col-span-7">
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2">
+          <h2
+            class="text-5xl font-bold sm:text-6xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:!text-8xl"
+          >
+            Together<br />in tech and life
+          </h2>
+          <div
+            class="text-base-800 text-lg leading-[1.2em] sm:text-xl md:text-lg lg:max-w-[16em] lg:text-3xl xl:text-4xl"
+          >
+            Build cool things, share life hacks, and meet kind minds.
+          </div>
+        </div>
+        <div
+          class="text-base-600 flex flex-col gap-2 text-sm md:text-xs lg:text-base xl:text-lg 2xl:text-xl"
+        >
+          <div>
+            <b class="mr-2">2k+ Attendees</b> Kansai's largest English speaking Technology Meetup Group
+          </div>
+          <div
+            class="text-base-500 mt-2 flex max-w-[36em] flex-wrap justify-start gap-2 lg:max-w-[42em]"
+          >
+            {
+              TAGS.map((tag) => (
+                <span class="badge badge-outline badge-sm md:badge-xs lg:badge-md xl:badge-lg">
+                  {tag}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="md:col-span-5">
+      <Parallax client:idle className="md:-mr-12 xl:-mx-24">
+        <BlobSlideshow
+          startTimeOffset={1000}
+          images={[
+            "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0847033052.webp",
+            "/content/events/301456891-workshop-like-s3/gallery/IMG_7669.webp",
+            "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0847554502.webp",
+            "/content/events/263532260-hot-summer-hot-topics-osaka-web-dev-and-design-meetup-in-august/gallery/255202.webp",
+            "/content/events/299830334-vim-and-noise/gallery/IMG_20240413_1728142.webp",
+            "/content/events/299335046-osaka-hanami-2024/gallery/IMG_9924.webp",
+            "/content/events/302995505-how-to-present-and-sql/gallery/DSCF0941.webp",
+            "/content/events/299455127-wasm-airplanes-and-llm/gallery/IMG_9659.webp",
+            "/content/events/308580120-agentic-sentiments/gallery/PXL_20250719_0946379792.webp",
+          ]}
+        />
+      </Parallax>
+    </div>
+  </div>
+</Container>

@@ -1,0 +1,48 @@
+---
+import BlobSlideshowReact from "./BlobSlideshow";
+import { getResponsiveImage } from "@/utils/responsiveImage";
+
+interface ImageConfig {
+  path: string;
+}
+
+interface Props {
+  images: (string | ImageConfig)[];
+  slideDelay?: number;
+  blobs?: string[];
+  className?: string;
+  blobOffset?: number;
+  startTimeOffset?: number;
+}
+
+const {
+  images: imageConfigs,
+  slideDelay,
+  blobs,
+  className,
+  blobOffset,
+  startTimeOffset,
+} = Astro.props;
+
+// Process the requested images
+const images = await Promise.all(
+  imageConfigs.map(async (config) => {
+    const isString = typeof config === "string";
+    const path = isString ? config : config.path;
+
+    // Generate responsive images directly from path
+    // Will throw if image doesn't exist - this is intentional
+    return await getResponsiveImage(path, "blobSlideshow");
+  }),
+);
+---
+
+<BlobSlideshowReact
+  images={images}
+  slideDelay={slideDelay}
+  blobs={blobs}
+  containerClassName={className}
+  blobOffset={blobOffset}
+  startTimeOffset={startTimeOffset}
+  client:idle
+/>

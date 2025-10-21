@@ -1,0 +1,30 @@
+---
+import MarkdownContent from "@/components/Common/MarkdownContent.astro";
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+const { markdown } = Astro.props;
+
+// Import the markdown file to get frontmatter
+const markdownFiles = import.meta.glob("/content/**/*.md");
+const fullPath = `/content/${markdown}`;
+const module = (await markdownFiles[fullPath]()) as any;
+const { frontmatter } = module;
+
+// TODO decorate the title and other stuff.
+// TODO HANDLE handle or pass SEO
+---
+
+<ArticleLayout
+  title={frontmatter?.title}
+  description={frontmatter?.description}
+  keywords={frontmatter?.keywords}
+>
+  {
+    frontmatter?.readingTime && (
+      <div slot="header" class="text-base-content/60 text-sm whitespace-nowrap">
+        {frontmatter.readingTime}
+      </div>
+    )
+  }
+  <MarkdownContent markdown={markdown} />
+</ArticleLayout>

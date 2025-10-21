@@ -1,0 +1,20 @@
+# Ignore content directory
+/content/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/

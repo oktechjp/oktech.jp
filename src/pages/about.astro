@@ -1,0 +1,100 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import SocialsBig from "@/components/Common/SocialsBig";
+
+import Container from "@/components/Common/Container";
+import BlurryBlobBackground from "@/components/Common/BlurryBlobBackground";
+import BlobParagraphs from "@/components/Common/BlobParagraphs.astro";
+import Timeline from "@/components/Common/Timeline";
+---
+
+<PageLayout className="relative" flush>
+  <div class="relative z-10">
+    <div class="py-responsive">
+      <Container>
+        <div
+          class="mx-auto flex max-w-3xl flex-col gap-6 py-24 text-center text-sm xl:max-w-5xl xl:gap-10 xl:text-lg"
+        >
+          <h1 class="text-5xl md:text-7xl xl:text-8xl">About OKTech</h1>
+          <p class="text-lg md:text-2xl xl:text-3xl">
+            OKTech is a volunteer-run, non-profit group that organizes monthly English in-person
+            technology meetups in Japan's Kansai region.
+          </p>
+          <p>
+            We welcome people from all backgrounds and encouraging members to share topics they’re
+            passionate about. Join us in Osaka and Kyoto for technical workshops, study sessions,
+            and social gatherings.
+          </p>
+          <p>
+            オーケーテックは、関西地域で毎月対面の技術系ミートアップを開催するボランティアによる非営利団体で、誰でも参加可能であり、発表や交流を通じて学び合う場を提供しています。
+          </p>
+        </div>
+      </Container>
+    </div>
+
+    <BlobParagraphs
+      paragraphs={[
+        {
+          title: "Attend",
+          text: "The first step is to come to an OKTech event. Learn about exciting technologies, and maybe make some like-minded friends!",
+          images: [
+            "/content/events/299334647-workshop-create-a-blogportfolio-in-astro-and-hygraph/gallery/IMG_9847.webp",
+            "/content/events/299334647-workshop-create-a-blogportfolio-in-astro-and-hygraph/gallery/IMG_9751.webp",
+            "/content/events/307295517-go-workshop/gallery/PXL_20250621_0629562173.webp",
+            "/content/events/305451259-ruby-trends-and-python-parsing/gallery/IMG_20250322_173727.webp",
+            "/content/events/305451315-rights-and-unions/gallery/IMG_1913.webp",
+          ],
+        },
+        {
+          title: "Present",
+          text: "If you have a topic you're passionate about, why not share it with others? Presenting at an OKTech event is a great way to improve your speaking skills, grow your presence, and help others learn.",
+          images: [
+            "/content/events/302750416-key-to-resume/gallery/IMG_20240907_1732152.webp",
+            "/content/events/305451315-rights-and-unions/gallery/PXL_20250419_0930442362.webp",
+            "/content/events/307265699-led-and-vulnerability-disclosure/gallery/PXL_20250524_0820206402.webp",
+            "/content/events/301456891-workshop-like-s3/gallery/IMG_7679.webp",
+          ],
+          blobs: [2, 0, 4, 5],
+        },
+        {
+          title: "Volunteer",
+          text: "OKTech relies on volunteers to keep things running. If you would like to help organize, have ideas to help us grow, or just want to get involved, let us know!",
+          images: [
+            "/content/events/299334647-workshop-create-a-blogportfolio-in-astro-and-hygraph/gallery/IMG_9823.webp",
+            "/content/events/302842348-ishiyamadera-escape/gallery/IMG_1523.webp",
+            "/content/events/299335046-osaka-hanami-2024/gallery/IMG_9988.webp",
+            "/content/events/299455127-wasm-airplanes-and-llm/gallery/IMG_9690.webp",
+            "/content/events/301456891-workshop-like-s3/gallery/IMG_7667.webp",
+          ],
+        },
+      ]}
+    />
+    <Container>
+      <div class="py-responsive gap-responsive mt-24 grid grid-cols-1 md:grid-cols-3">
+        <h3 class="col-span-1 text-left text-4xl">OKTech <br class="hidden md:block" />History</h3>
+        <div class="prose prose-lg col-span-2 grid max-w-none">
+          <p>
+            OKTech started in 2015 as a grassroots meetup in Osaka called OWDDM, soon joined by its
+            Kyoto counterpart KWDDM. For nearly a decade, the group grew through community events
+            and shared learning. In 2025, we relaunched as OKTech, expanding our focus from web
+            design and development to a broader range of tech fields in Kansai. What hasn’t changed
+            is our community driven, volunteer-run spirit, and our belief that the best
+            conversations happen both on and off the slides.
+          </p>
+          <p>
+            2015年、OKTechは大阪で「OWDDM」という草の根ミートアップとして活動を開始しました。その後、京都の「KWDDM」が加わり、約10年間、コミュニティイベントや勉強会を通じて成長を続けてきました。2025年、私たちは「OKTech」として再出発し、活動範囲をウェブデザイン・開発から関西のより広範な技術分野へと拡大しました。しかし、コミュニティ主導のボランティア運営という精神、そして「最高の会話はスライドの上だけでなく、その外でも生まれる」という私たちの信念は、今も変わることはありません。
+          </p>
+        </div>
+      </div>
+    </Container>
+
+    <Container>
+      <Timeline client:visible />
+    </Container>
+
+    <div class="py-responsive">
+      <SocialsBig client:visible />
+    </div>
+  </div>
+  <BlurryBlobBackground client:load />
+</PageLayout>

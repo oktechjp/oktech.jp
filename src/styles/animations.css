@@ -1,0 +1,34 @@
+/* Floating animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(7.5px);
+    filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.25));
+  }
+  50% {
+    transform: translateY(-7.5px);
+    filter: drop-shadow(0 35px 45px rgba(0, 0, 0, 0.15));
+  }
+}
+
+.animate-floating {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes connect-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.connect-marquee-track {
+  animation: connect-marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+.connect-marquee-track.reverse {
+  animation-direction: reverse;
+}

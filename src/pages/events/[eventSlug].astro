@@ -1,0 +1,59 @@
+---
+import { getEvents, getEvent } from "@/content";
+import EventAttachments from "@/components/Event/EventAttachments";
+import EventGallery from "@/components/Event/EventGallery";
+import SidebarPageLayout from "@/layouts/SidebarPageLayout.astro";
+import MarkdownContent from "@/components/Common/MarkdownContent.astro";
+import EventImageBig from "@/components/Event/EventImageBig";
+import LocationCardEvent from "@/components/Common/LocationCardEvent";
+import EventTags from "@/components/Event/EventTags";
+import EventActionAlert from "@/components/Event/EventActionAlert";
+import { isEventUpcoming } from "@/utils/eventFilters";
+
+export async function getStaticPaths() {
+  const events = await getEvents();
+
+  return events.map(({ id }) => {
+    return {
+      params: { eventSlug: id },
+    };
+  });
+}
+
+const { eventSlug } = Astro.params;
+// getEvent already returns enhanced event with responsive images
+const event = await getEvent(eventSlug);
+
+const isUpcoming = isEventUpcoming(event);
+---
+
+<SidebarPageLayout>
+  <Fragment slot="before-sidebar">
+    <EventActionAlert variant="compact" event={event} client:visible />
+  </Fragment>
+  <Fragment slot="sidebar">
+    <LocationCardEvent event={event} client:load />
+  </Fragment>
+  <Fragment slot="main-content">
+    <h2 class="title pb-6 !font-light">{isUpcoming ? "Upcoming" : "Past"} Event</h2>
+    <div class="block pb-6 lg:hidden">
+      <EventActionAlert event={event} client:visible />
+    </div>
+    <div class="gap-responsive flex flex-col">
+      <EventImageBig event={event} client:load />
+      <div class="flex flex-col gap-6 pb-8 lg:hidden">
+        <LocationCardEvent event={event} horizontal client:load />
+      </div>
+      <h1 class="sub-title !font-medium">
+        {event.data.title}
+      </h1>
+      <EventTags tags={event.data.topics} />
+      <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
+    </div>
+  </Fragment>
+
+  <Fragment slot="after-content">
+    <EventAttachments event={event} />
+    <EventGallery event={event} client:visible />
+  </Fragment>
+</SidebarPageLayout>

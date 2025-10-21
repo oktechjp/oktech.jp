@@ -1,0 +1,24 @@
+---
+import RootLayout from "./RootLayout.astro";
+import TopBar from "@/components/Common/TopBar";
+import Footer from "@/components/Common/Footer";
+import clsx from "clsx";
+
+const { flush, className } = Astro.props;
+---
+
+<RootLayout>
+  <div class="flex min-h-screen flex-col">
+    <header>
+      <TopBar client:load transition:persist="topbar" />
+    </header>
+    <!-- mt-16 for sticky header -->
+    <main class={clsx(`flex-1`, flush ? "" : "pt-22", className)}>
+      <slot />
+    </main>
+    <footer>
+      <Footer client:visible />
+    </footer>
+  </div>
+  <!-- <DevInfo client:visible /> -->
+</RootLayout>

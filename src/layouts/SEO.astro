@@ -1,0 +1,78 @@
+---
+import { SITE } from "@/constants";
+import { getSEO } from "@/utils/seo";
+import { urls } from "@/utils/urls";
+
+const seoData = await getSEO(Astro.url.href);
+
+const {
+  fullTitle: title,
+  description,
+  canonical,
+  ogImage,
+  type,
+  article,
+  noindex = false,
+  nofollow = false,
+  keywords,
+} = seoData;
+
+const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "follow"].join(", ");
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+<link rel="canonical" href={canonical} />
+
+<meta name="robots" content={robotsContent} />
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content="en_US" />
+
+{
+  ogImage && (
+    <>
+      <meta
+        property="og:image"
+        content={ogImage.startsWith("http") ? ogImage : urls.toAbsolute(ogImage)}
+      />
+      <meta property="og:image:alt" content={title || SITE.name} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+    </>
+  )
+}
+
+<meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{
+  ogImage && (
+    <>
+      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image:alt" content={title || SITE.name} />
+    </>
+  )
+}
+
+{
+  article && (
+    <>
+      {article.author && <meta property="article:author" content={article.author} />}
+      {article.publishedTime && (
+        <meta property="article:published_time" content={article.publishedTime} />
+      )}
+      {article.modifiedTime && (
+        <meta property="article:modified_time" content={article.modifiedTime} />
+      )}
+      {article.tags && article.tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    </>
+  )
+}
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />

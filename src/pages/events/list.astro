@@ -1,0 +1,11 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import EventsOrganizer from "@/components/Events/EventsOrganizer";
+import { getEvents } from "@/content";
+
+const events = await getEvents();
+---
+
+<PageLayout>
+  <EventsOrganizer events={events} view={"compact"} client:load />
+</PageLayout>

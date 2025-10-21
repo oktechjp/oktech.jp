@@ -1,0 +1,69 @@
+---
+import { EventCardList } from "@/components/Common/EventCard";
+import SidebarPageLayout from "@/layouts/SidebarPageLayout.astro";
+import { getVenue, getEvents, getVenues } from "@/content";
+import LocationCardVenue from "@/components/Common/LocationCardVenue";
+import MarkdownContent from "@/components/Common/MarkdownContent.astro";
+import Container from "@/components/Common/Container";
+
+export async function getStaticPaths() {
+  const venues = await getVenues();
+
+  const venuePaths = venues.map((venue) => ({
+    params: { venueSlug: venue.id },
+  }));
+
+  return venuePaths;
+}
+
+const { venueSlug } = Astro.params;
+const venue = await getVenue(venueSlug);
+const allEvents = await getEvents();
+const venueEvents = allEvents.filter(
+  (event) => event.data.venue?.id === venue.data.meetupId.toString(),
+);
+---
+
+<SidebarPageLayout>
+  <Fragment slot="sidebar">
+    <LocationCardVenue venue={venue} client:visible />
+  </Fragment>
+
+  <Fragment slot="main-content">
+    <h2 class="mb-6 text-5xl !font-light">Venue Info</h2>
+
+    {
+      venue.data.cover && (
+        <figure class="rounded-box border-base-200 aspect-video overflow-hidden border bg-white">
+          <img
+            src={venue.data.cover.src}
+            alt={`${venue.data.title} cover`}
+            class="h-full w-full object-contain p-8"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+      )
+    }
+    <div class="flex flex-col gap-6 lg:hidden">
+      <LocationCardVenue venue={venue} horizontal client:visible />
+    </div>
+    <div class="mt-12 text-4xl">
+      <h1 class="!font-medium">
+        {venue.data.title}
+      </h1>
+    </div>
+    <MarkdownContent markdown={`venues/${venueSlug}/venue.md`} />
+  </Fragment>
+
+  <Fragment slot="after-content">
+    {
+      venueEvents.length > 0 && (
+        <Container wide className="flex flex-col gap-8">
+          <h3 class="sub-title">Events Hosted Here</h3>
+          <EventCardList client:visible events={venueEvents} />
+        </Container>
+      )
+    }
+  </Fragment>
+</SidebarPageLayout>
