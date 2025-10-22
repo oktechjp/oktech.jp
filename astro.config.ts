@@ -8,33 +8,17 @@ import svgr from "vite-plugin-svgr";
 
 import { remarkDescription, remarkReadingTime } from "./src/utils/remarkPlugins";
 
-// Determine the site URL and base path
-const isVercel = !!process.env.VERCEL_PROJECT_PRODUCTION_URL;
-
-// Get port from environment variable, default to 4321
-const port = process.env.DEV_PORT || "4321";
-
 // Get base path from environment variable, default to "" (root)
+// BASE_PATH is used to prefix the site URL with a base path, for example /chris-wireframe/
 const base = process.env.BASE_PATH || "";
 
-const localSite = `http://localhost:${port}`;
-const siteUrl = process.env.SITE_URL || localSite;
-const isAnalyze = process.env.ANALYZE_BUNDLE === "true";
+// Output bundle analysis to stats.html
+const analyzeBundle = process.env.ANALYZE_BUNDLE === "true";
 
-// refactor this. my head hurts.
-const getSiteConfig = () => {
-  if (isVercel) {
-    return {
-      site: `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
-    };
-  }
-
-  return {
-    site: siteUrl,
-  };
-};
-
-const { site } = getSiteConfig();
+// if we're in a Vercel preview deployment, use that URL, otherwise use SITE_URL, otherwise use localhost.
+const siteUrl = process.env.SITE_URL || `http://localhost:${process.env.DEV_PORT || "4321"}`;
+const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+const site = !!vercelUrl ? `https://${vercelUrl}` : siteUrl;
 
 console.log(`URL: ${site}${base}`);
 
@@ -51,7 +35,7 @@ export default defineConfig({
       svgr(),
       tailwindcss(),
       yaml(),
-      ...(isAnalyze
+      ...(analyzeBundle
         ? [
             visualizer({
               filename: "./dist/stats.html",
