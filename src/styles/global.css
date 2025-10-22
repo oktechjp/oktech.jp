@@ -85,7 +85,6 @@ body {
   scrollbar-gutter: auto !important;
 }
 
-
 mark {
   color: inherit;
   background: linear-gradient(to bottom, transparent 35%, var(--color-highlight) 35%);
@@ -105,7 +104,7 @@ mark {
 }
 
 .prose thead {
-  border-bottom-width:2px;
+  border-bottom-width: 2px;
 }
 
 /* Enable horizontal scroll for wide tables on mobile */
@@ -114,11 +113,10 @@ mark {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   white-space: nowrap;
-  @apply bg-base-100 p-4 rounded-box;
+  @apply bg-base-100 rounded-box p-4;
 }
 
 .prose td,
 .prose th {
   vertical-align: middle;
 }
-

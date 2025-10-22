@@ -27,7 +27,6 @@
   --color-dark-neutral: var(--color-base-800);
 }
 
-
 @plugin "daisyui/theme" {
   name: "dark";
   default: false;
