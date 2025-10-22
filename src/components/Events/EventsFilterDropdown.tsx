@@ -87,7 +87,7 @@ export default function EventsFilterDropdown({
       </button>
 
       {isOpen && (
-        <div ref={dropdownRef} className="absolute top-full left-0 mt-2 flex">
+        <div ref={dropdownRef} className="absolute top-full left-0 z-10 mt-2 flex">
           <div className="btn-group">
             {options.map((option) => (
               <button

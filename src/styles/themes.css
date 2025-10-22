@@ -1,6 +1,8 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-@plugin "daisyui";
+@plugin "daisyui" {
+  exclude: properties radialprogress;
+}
 
 @theme {
   /* additional base colors - they need to be here to extend tailwind with text-base-500, etc. */
@@ -25,15 +27,6 @@
   --color-dark-neutral: var(--color-base-800);
 }
 
-/* TODO: Maybe update these for btn-primary, etc. */
-/* 
---color-primary: oklch(0.757 0.12 173.7);
---color-primary-content: oklch(0.25 0.05 173.7);
---color-secondary: oklch(90% 0.063 306.703);
---color-secondary-content: oklch(43% 0.218 303.724);
---color-accent: oklch(90% 0.076 70.697);
---color-accent-content: oklch(47% 0.157 37.304); 
-*/
 
 @plugin "daisyui/theme" {
   name: "dark";
