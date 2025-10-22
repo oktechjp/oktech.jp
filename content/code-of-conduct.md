@@ -1,6 +1,6 @@
 ---
 title: "Code of Conduct"
-description: "SOme SEO Here"
+description: "OKTech's Code of Conduct - Be friendly and patient, welcoming, considerate, respectful, careful in the words you choose, understand when we disagree, report violations, and follow the reporting guide."
 keywords: ["code of conduct", "community guidelines", "inclusivity", "safety", "respect", "diversity"]
 ---
 
