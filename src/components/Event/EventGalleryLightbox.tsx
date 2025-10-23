@@ -22,6 +22,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 import type { EventEnriched, GalleryImage } from "@/content";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { formatDate } from "@/utils/formatDate";
 
 import Brand from "../Common/Brand";
@@ -41,6 +42,9 @@ interface Props {
   autoplay?: boolean;
   showLogo?: boolean;
 }
+
+const THUMBNAIL_IMAGE_HEIGHT = 100;
+const THUMBNAIL_VERTICAL_PADDING = 32;
 
 // Reusable icon wrapper component
 const LightboxIcon = ({
@@ -111,6 +115,18 @@ export default function EventGalleryLightbox({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isActive, setIsActive] = useState(true);
   const inactivityTimer = useRef<NodeJS.Timeout | undefined>(undefined);
+  const currentBreakpoint = useBreakpoint();
+  const [viewportHeight, setViewportHeight] = useState<number>(() =>
+    typeof window === "undefined" ? 0 : window.innerHeight,
+  );
+  const thumbnailPanelHeight = THUMBNAIL_IMAGE_HEIGHT + THUMBNAIL_VERTICAL_PADDING;
+  const fitsViewport = viewportHeight > 0 ? thumbnailPanelHeight / viewportHeight < 0.2 : false;
+  const showThumbnails = currentBreakpoint !== "base" && currentBreakpoint !== "sm" && fitsViewport;
+  const lightboxPlugins = useMemo(
+    () =>
+      showThumbnails ? [Fullscreen, Slideshow, Thumbnails, Zoom] : [Fullscreen, Slideshow, Zoom],
+    [showThumbnails],
+  );
 
   // Use either images or imagesWithEvents - memoize to prevent new array on every render
   const imageList = useMemo(
@@ -138,6 +154,16 @@ export default function EventGalleryLightbox({
     setCurrentIndex(index);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Manage activity tracking
   useEffect(() => {
     if (isOpen) {
@@ -159,20 +185,24 @@ export default function EventGalleryLightbox({
       index={currentIndex}
       close={onClose}
       slides={slides}
-      plugins={[Fullscreen, Slideshow, Thumbnails, Zoom]}
+      plugins={lightboxPlugins}
       on={{
         view: handleViewChange,
       }}
-      thumbnails={{
-        position: "bottom",
-        imageFit: "cover",
-        width: 100,
-        height: 100,
-        border: 0,
-        borderRadius: 16,
-        padding: 0,
-        vignette: true,
-      }}
+      thumbnails={
+        showThumbnails
+          ? {
+              position: "bottom",
+              imageFit: "cover",
+              width: 100,
+              height: 100,
+              border: 0,
+              borderRadius: 16,
+              padding: 0,
+              vignette: true,
+            }
+          : undefined
+      }
       slideshow={{
         autoplay,
         delay: autoplay ? 4000 : 3000,
@@ -204,10 +234,10 @@ export default function EventGalleryLightbox({
         },
         thumbnailsContainer: {
           backgroundColor: "transparent",
-          maxHeight: isActive ? "200px" : "0px",
-          opacity: isActive ? 1 : 0,
+          maxHeight: showThumbnails && isActive ? "200px" : "0px",
+          opacity: showThumbnails && isActive ? 1 : 0,
           overflow: "hidden",
-          padding: isActive ? "16px 0" : "0",
+          padding: showThumbnails && isActive ? "16px 0" : "0",
           transition:
             "max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out",
         },
@@ -230,12 +260,14 @@ export default function EventGalleryLightbox({
               </div>
             )}
             {currentEvent && (
-              <div className="absolute right-0 bottom-0 left-0 z-0 bg-gradient-to-t from-black to-transparent px-12">
+              <div className="absolute right-0 bottom-0 left-0 z-0 bg-linear-to-t from-black to-transparent px-12">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 pt-16 pb-6 text-white text-shadow-black">
-                  <div className="font-header mr-4 text-2xl font-bold">
+                  <div className="font-header mr-4 text-lg font-bold md:text-xl lg:text-2xl">
                     {currentEvent.data.title}
                   </div>
-                  <div className="text-lg">{formatDate(currentEvent.data.dateTime, "long")}</div>
+                  <div className="text-base md:text-lg">
+                    {formatDate(currentEvent.data.dateTime, "long")}
+                  </div>
                 </div>
               </div>
             )}

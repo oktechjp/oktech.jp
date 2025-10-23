@@ -1,9 +1,9 @@
 ## Now
 
-- Squash the git history of images.
-
 ## After Presnetaiton
 
+- Optimize SVGs
+- Lighthouse stuff
 - Add slides to projector mode (CTAs for discord, next event, after-party, etc.)
 - Fix too much content caching / memoization in dev mode.
 - Test no upcoming events
@@ -22,7 +22,7 @@
 
 ## Later
 
-- Martin's library?
+- Martin's time library?
 - Renaming Events: Manual and Automatic Test, Slug Renaming
 - Activity Feed (firehose + event specific)
 - Remove the noto sans JP if it's super heavy? It's ok to fallback to system font for Japanese. See how new astro fonts api works.
@@ -41,18 +41,3 @@
 - Add interactive japan map somewhere, with heatmap of all the event locations.
 - Tree shaking animejs ?
 - Add / Include the event date to the URL so its easier to see in links how old events are.
-
-## Presentation Topic Ideas
-
-- Workflows
-- Content Collections
-- The SVGs
-- OG images
-- Astro and React Pain
-- Claude
-- Hover peresitance on mobile
-- Blob saga
-- Explain client:only="react" and other astro directives
-- `<TopBar client:load transition:persist="topbar" />`
-- `https://tailwindcss.com/docs/will-change`
-- `isolate`
