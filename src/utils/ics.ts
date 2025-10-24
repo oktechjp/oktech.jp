@@ -15,6 +15,8 @@ export function generateEventICS(event: EventEnriched): string {
   const endDate = new Date(event.data.dateTime);
   const durationMinutes = event.data.duration || 120;
   endDate.setMinutes(endDate.getMinutes() + durationMinutes);
+  const summary = `${event.data.isCancelled ? "[CANCELLED] " : ""}${event.data.title}`;
+  const status = event.data.isCancelled ? "CANCELLED" : "CONFIRMED";
 
   const eventUrl = urls.toAbsolute(`/events/${event.id}`);
 
@@ -28,11 +30,11 @@ export function generateEventICS(event: EventEnriched): string {
     `DTSTAMP:${formatICSDate(new Date())}`,
     `DTSTART:${formatICSDate(startDate)}`,
     `DTEND:${formatICSDate(endDate)}`,
-    `SUMMARY:${event.data.title}`,
+    `SUMMARY:${summary}`,
     `DESCRIPTION:${event.data.title} - ${SITE.longName}\\n\\n${eventUrl}`,
     `LOCATION:${location}`,
     `URL:${eventUrl}`,
-    "STATUS:CONFIRMED",
+    `STATUS:${status}`,
     "END:VEVENT",
   ].join("\r\n");
 }
