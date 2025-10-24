@@ -3,6 +3,7 @@ title: Autumn Adventure in Uji
 dateTime: 2025-10-26 10:00
 duration: 300
 cover: ./743451.webp
+isCancelled: true
 topics:
   - Hiking
 meetupId: 311083115
