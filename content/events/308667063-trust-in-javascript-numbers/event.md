@@ -13,6 +13,9 @@ meetupId: 308667063
 group: 15632202
 venue: 24529555
 howToFindUs: In the Hankyu main building take the (huge) business elevator to the 15th floor Skylobby. Then take the far-back elevator to the 35th floor to join us in the Cybozu Office.
+links:
+  discord: https://discord.gg/5aTWzJvJ?event=1432075755373859037
+  linkedIn: https://www.linkedin.com/events/7388281894481793025/
 ---
 
 Right after the [jsconf](https://jsconf.jp/2025/en) and wedged around TC39 and TPAC meetings we are having a JavaScript-ey Saturday evening and you are welcome to join us!
