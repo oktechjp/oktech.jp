@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 import BlobParagraphDesktop from "./BlobParagraphDesktop";
@@ -11,11 +13,30 @@ export default function BlobParagraphs({
   paragraphs: BlobParagraphContent[];
   blobs?: number[];
 }) {
-  const isDesktop = useBreakpoint("md");
+  const [isHydrated, setIsHydrated] = useState(false);
+  const breakpointState = useBreakpoint("md");
+  const isDesktop = breakpointState === true;
 
-  if (isDesktop) {
-    return <BlobParagraphDesktop paragraphs={paragraphs} blobs={blobs} />;
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) {
+    return (
+      <>
+        <div className="hidden md:block">
+          <BlobParagraphDesktop paragraphs={paragraphs} blobs={blobs} noPreload />
+        </div>
+        <div className="block md:hidden">
+          <BlobParagraphMobile paragraphs={paragraphs} blobs={blobs} noPreload />
+        </div>
+      </>
+    );
   }
 
-  return <BlobParagraphMobile paragraphs={paragraphs} blobs={blobs} />;
+  return isDesktop ? (
+    <BlobParagraphDesktop paragraphs={paragraphs} blobs={blobs} />
+  ) : (
+    <BlobParagraphMobile paragraphs={paragraphs} blobs={blobs} />
+  );
 }

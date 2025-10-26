@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { LuCalendarDays, LuSparkles } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
@@ -10,21 +12,39 @@ import EventCarousel from "../Common/EventCarousel";
 import EventCarouselLastItem from "../Common/EventCarouselLastItem";
 
 function UpcomingSection({ events }: { events: EventEnriched[] }) {
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const renderCarousel = (variant?: "polaroid" | "big") => (
+    <EventCarousel
+      events={events}
+      variant={variant}
+      LastItem={
+        <EventCarouselLastItem
+          icon={LuSparkles}
+          text="...and more coming soon!"
+          button={<CalendarSubscribeButton />}
+        />
+      }
+    />
+  );
+
   return (
     <>
       <Container className="gap-responsive flex flex-col md:items-center">
         <h2 className="section-title">Upcoming Events</h2>
       </Container>
-      <EventCarousel
-        events={events}
-        LastItem={
-          <EventCarouselLastItem
-            icon={LuSparkles}
-            text="...and more coming soon!"
-            button={<CalendarSubscribeButton />}
-          />
-        }
-      />
+      {isHydrated ? (
+        renderCarousel()
+      ) : (
+        <>
+          <div className="hidden md:block">{renderCarousel("big")}</div>
+          <div className="block md:hidden">{renderCarousel("polaroid")}</div>
+        </>
+      )}
     </>
   );
 }

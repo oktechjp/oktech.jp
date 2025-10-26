@@ -14,9 +14,11 @@ const MOBILE_BLOB_BUFFER = 20;
 export default function BlobParagraphMobile({
   paragraphs,
   blobs: globalBlobIndices,
+  noPreload = false,
 }: {
   paragraphs: BlobParagraphContent[];
   blobs?: number[];
+  noPreload?: boolean;
 }) {
   const { allImages, blobArray } = useBlobParagraphAssets(paragraphs, globalBlobIndices);
 
@@ -45,6 +47,7 @@ export default function BlobParagraphMobile({
               allImages={allImages}
               activeImageRange={activeImageRange}
               blobArray={blobArray}
+              noPreload={noPreload}
             />
           </div>
         </ParallaxSpring>

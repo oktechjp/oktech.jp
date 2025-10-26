@@ -7,6 +7,9 @@ import type { SpringConfig } from "@react-spring/web";
 import BlobMask from "@/components/Common/BlobMask";
 import { BLOBS } from "@/utils/blobs";
 
+const PRELOADED_IMAGE_SOURCES = new Set<string>();
+const PRELOADING_IMAGE_SOURCES = new Set<string>();
+
 interface ImageData {
   src: string;
   srcSet?: string;
@@ -28,6 +31,7 @@ interface BlobSlideshowProps<T = string | ImageData> {
   activeRange?: { start: number; end: number }; // control which images are active
   controlledIndex?: number; // external control of current index
   onIndexChange?: (index: number) => void; // callback when index changes
+  noPreload?: boolean; // disable sequential preloading
 }
 
 export default function BlobSlideshow<T = string | ImageData>({
@@ -45,6 +49,7 @@ export default function BlobSlideshow<T = string | ImageData>({
   activeRange,
   controlledIndex,
   onIndexChange,
+  noPreload = false,
 }: BlobSlideshowProps<T>) {
   const [currentGlobalIndex, setCurrentGlobalIndex] = useState(0);
   const [renderedImages, setRenderedImages] = useState<Set<number>>(new Set([0, 1]));
@@ -174,6 +179,7 @@ export default function BlobSlideshow<T = string | ImageData>({
 
   // Preload all images sequentially without blocking high-priority requests
   useEffect(() => {
+    if (noPreload) return;
     if (isDataMode || !images || images.length === 0) return;
     if (typeof window === "undefined") return;
 
@@ -227,9 +233,19 @@ export default function BlobSlideshow<T = string | ImageData>({
         if (!entry) continue;
         const { src, srcSet, sizes, cacheKey } = entry;
 
-        if (!src || preloadedSourcesRef.current.has(cacheKey)) {
+        if (!src) {
           continue;
         }
+
+        if (
+          preloadedSourcesRef.current.has(cacheKey) ||
+          PRELOADED_IMAGE_SOURCES.has(cacheKey) ||
+          PRELOADING_IMAGE_SOURCES.has(cacheKey)
+        ) {
+          continue;
+        }
+
+        PRELOADING_IMAGE_SOURCES.add(cacheKey);
 
         const imageElement = new Image() as HTMLImageElement & {
           fetchPriority?: "auto" | "high" | "low";
@@ -247,15 +263,21 @@ export default function BlobSlideshow<T = string | ImageData>({
           imageElement.sizes = sizes;
         }
 
-        const finalize = () => {
+        const handleComplete = (didLoad: boolean) => {
           imageElement.onload = null;
           imageElement.onerror = null;
-          preloadedSourcesRef.current.add(cacheKey);
+          PRELOADING_IMAGE_SOURCES.delete(cacheKey);
+
+          if (didLoad) {
+            preloadedSourcesRef.current.add(cacheKey);
+            PRELOADED_IMAGE_SOURCES.add(cacheKey);
+          }
+
           scheduleNext();
         };
 
-        imageElement.onload = finalize;
-        imageElement.onerror = finalize;
+        imageElement.onload = () => handleComplete(true);
+        imageElement.onerror = () => handleComplete(false);
         imageElement.src = src;
 
         return;
@@ -301,7 +323,7 @@ export default function BlobSlideshow<T = string | ImageData>({
         window.clearTimeout(handle);
       });
     };
-  }, [images, isDataMode]);
+  }, [images, isDataMode, noPreload]);
 
   if (items.length === 0) return null;
 

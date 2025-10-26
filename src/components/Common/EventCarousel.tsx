@@ -5,6 +5,7 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 import EventCard from "@/components/Common/EventCard";
 import type { EventEnriched } from "@/content";
+import { BREAKPOINTS } from "@/hooks/useBreakpoint";
 import useScreenDimensions from "@/utils/useScreenDimensions";
 
 import Container from "./Container";
@@ -17,7 +18,7 @@ const configByVariant: Record<Variant, { width: number; gap: number }> = {
 };
 
 const SCROLL_PADDING = 80; // Padding in pixels at start and end of carousel for scroll positioning
-const BIG_SCREEN_MIN_WIDTH = 800; // switch to polaroid variant if screen is less than this width
+const BIG_SCREEN_MIN_WIDTH = BREAKPOINTS.md; // switch to polaroid variant below md breakpoint
 const MORE_WIDTH = 320; // Width of the "more" section
 
 const EventCarousel = memo(function EventCarousel({

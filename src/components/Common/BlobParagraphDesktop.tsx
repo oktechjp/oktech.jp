@@ -12,9 +12,11 @@ import Container from "./Container";
 export default function BlobParagraphDesktop({
   paragraphs,
   blobs: globalBlobIndices,
+  noPreload = false,
 }: {
   paragraphs: BlobParagraphContent[];
   blobs?: number[];
+  noPreload?: boolean;
 }) {
   const { allImages, blobArray } = useBlobParagraphAssets(paragraphs, globalBlobIndices);
 
@@ -126,6 +128,7 @@ export default function BlobParagraphDesktop({
             allImages={allImages}
             activeImageRange={activeImageRange}
             blobArray={blobArray}
+            noPreload={noPreload}
           />
         </animated.div>
       </div>

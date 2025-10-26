@@ -10,10 +10,12 @@ export default function BlobParagraphSlideshow({
   allImages,
   activeImageRange,
   blobArray,
+  noPreload = false,
 }: {
   allImages: (string | ImageData)[];
   activeImageRange: { start: number; end: number };
   blobArray: string[];
+  noPreload?: boolean;
 }) {
   return (
     <BlobSlideshow
@@ -24,6 +26,7 @@ export default function BlobParagraphSlideshow({
       containerClassName="w-full aspect-video"
       blobs={blobArray}
       startTimeOffset={500}
+      noPreload={noPreload}
     />
   );
 }
