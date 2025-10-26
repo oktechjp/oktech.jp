@@ -2,7 +2,7 @@
 import react from "@astrojs/react";
 import yaml from "@rollup/plugin-yaml";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 import svgr from "vite-plugin-svgr";
 
@@ -71,6 +71,17 @@ export default defineConfig({
   experimental: {
     clientPrerender: true,
     contentIntellisense: true,
+    fonts: [
+      {
+        name: "Lexend",
+        cssVariable: "--font-lexend",
+        provider: fontProviders.google(),
+        weights: [300, 600, 800],
+        styles: ["normal"],
+        subsets: ["latin"],
+        fallbacks: ["sans-serif"],
+      },
+    ],
   },
   // astro prefetch config only applies to astro links, mostly it's handled in Link.tsx
   prefetch: {

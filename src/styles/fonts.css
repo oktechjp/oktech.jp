@@ -1,8 +1,12 @@
 /* Define CSS variables for Fontsource fonts */
 :root {
-  --font-body: "Lexend", "Noto Sans JP Variable", sans-serif;
-  --font-header: "Lexend", "Noto Sans JP Variable", sans-serif;
-  --font-mono: "Martian Mono Variable", "Courier New", monospace;
+  /* NOTE: Lexend is supplied via Astro Fonts API; Noto Sans & Martian Mono stay disabled to keep the bundle lean. */
+  /* --font-body: "Lexend", "Noto Sans JP Variable", sans-serif; */
+  /* --font-header: "Lexend", "Noto Sans JP Variable", sans-serif; */
+  /* --font-mono: "Martian Mono Variable", "Courier New", monospace; */
+  --font-body: var(--font-lexend, "Lexend", sans-serif);
+  --font-header: var(--font-lexend, "Lexend", sans-serif);
+  --font-mono: monospace;
 }
 
 body,

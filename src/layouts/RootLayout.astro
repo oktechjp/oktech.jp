@@ -11,12 +11,7 @@ import NavigationProgress from "@/components/Common/NavigationProgress";
 // import SEODevInfo from "@/components/Common/SEODevInfo";
 import ScrollToTopButton from "@/components/Common/ScrollToTopButton";
 import ConsoleEasterEgg from "@/components/Common/ConsoleEasterEgg";
-
-import "@fontsource/lexend/800"; // bold headeer
-import "@fontsource/lexend/600"; // regular header
-import "@fontsource/lexend/300"; // body
-import "@fontsource-variable/noto-sans-jp";
-import "@fontsource-variable/martian-mono";
+import { Font } from "astro:assets";
 ---
 
 <!doctype html>
@@ -27,6 +22,7 @@ import "@fontsource-variable/martian-mono";
       name="viewport"
       content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
     />
+    <Font cssVariable="--font-lexend" preload />
     <SEO />
     <link
       rel="alternate"

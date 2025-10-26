@@ -40,22 +40,21 @@ async function loadFonts(): Promise<FontData[]> {
     return cachedFonts;
   }
 
+  // NOTE: OG rendering still consumes the legacy @fontsource assets until OG routes ship.
   const fs = await import("fs/promises");
   const path = await import("path");
   const fontsDir = path.join(process.cwd(), "node_modules/@fontsource");
 
-  const [lexendRegular, lexendBold, notoRegular, notoBold] = await Promise.all([
-    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-400-normal.woff")),
-    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-700-normal.woff")),
-    fs.readFile(path.join(fontsDir, "noto-sans-jp/files/noto-sans-jp-latin-400-normal.woff")),
-    fs.readFile(path.join(fontsDir, "noto-sans-jp/files/noto-sans-jp-latin-700-normal.woff")),
+  const [lexendLight, lexendSemiBold, lexendExtraBold] = await Promise.all([
+    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-300-normal.woff")),
+    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-600-normal.woff")),
+    fs.readFile(path.join(fontsDir, "lexend/files/lexend-latin-800-normal.woff")),
   ]);
 
   cachedFonts = [
-    { name: "Lexend", data: lexendRegular, weight: 400 as const, style: "normal" as const },
-    { name: "Lexend", data: lexendBold, weight: 700 as const, style: "normal" as const },
-    { name: "Noto Sans JP", data: notoRegular, weight: 400 as const, style: "normal" as const },
-    { name: "Noto Sans JP", data: notoBold, weight: 700 as const, style: "normal" as const },
+    { name: "Lexend", data: lexendLight, weight: 300 as const, style: "normal" as const },
+    { name: "Lexend", data: lexendSemiBold, weight: 600 as const, style: "normal" as const },
+    { name: "Lexend", data: lexendExtraBold, weight: 800 as const, style: "normal" as const },
   ];
 
   return cachedFonts;
