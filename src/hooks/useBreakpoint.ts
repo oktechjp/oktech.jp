@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
 
-export type Breakpoint = "base" | "sm" | "md" | "lg" | "xl" | "2xl";
+import { BREAKPOINTS, type Breakpoint } from "@/utils/breakpoints";
 
-// Tailwind default breakpoints
-// https://tailwindcss.com/docs/responsive-design
-export const BREAKPOINTS = {
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-  "2xl": 1536,
-} as const;
+export { BREAKPOINTS };
 
 /**
  * Get the current breakpoint based on window width

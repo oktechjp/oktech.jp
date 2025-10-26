@@ -1,41 +1,10 @@
-// Responsive image utility that works with string paths instead of ImageMetadata
 import type { ImageMetadata, UnresolvedImageTransform } from "astro";
 
 import { MAX_IMAGE_WIDTH } from "@/constants";
+import { BREAKPOINTS } from "@/utils/breakpoints";
 import { memoize } from "@/utils/memoize";
 
-export interface ImageDimensions {
-  width: number;
-  height: number;
-}
-
-export async function safeGetImage(options: UnresolvedImageTransform): Promise<{ src: string }> {
-  try {
-    // Try to dynamically import getImage
-    const { getImage } = await import("astro:assets");
-    return await getImage(options);
-  } catch (error) {
-    // When getImage is not available, return the original src
-    return { src: (options.src as string) || "" };
-  }
-}
-
-// Most of the legacy event images are 1198 wide
-export const DEFAULT_OUTPUT_SIZES = [420, 1198] as const;
-
-// Tailwind CSS breakpoint values
-const BP = {
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-} as const;
-
-export interface ResponsiveImageData {
-  src: string;
-  srcSet: string;
-  sizes: string;
-}
+const BP = BREAKPOINTS;
 
 export type ImageType =
   | "sidebarLayoutHero"
@@ -47,168 +16,150 @@ export type ImageType =
   | "blobSlideshow"
   | "venueMap";
 
-interface ImageConfig {
-  sizes: string;
-  cropAspectRatio?: number; // Optional aspect ratio (width/height)
-  breakpoints?: readonly number[]; // Optional custom breakpoints for this image type
-}
+type ImageVariantKey = "thumbnail" | "galleryThumb" | "card" | "cardCropped" | "hero";
+type ImageVariant = { breakpoints: readonly number[]; cropAspectRatio?: number };
+type ImageConfig = { sizes: string; variantKey: ImageVariantKey };
 
-export const IMAGE_CONFIGS: Record<ImageType, ImageConfig> = {
-  sidebarLayoutHero: {
-    sizes: `(max-width: ${BP.md}px) 100vw, 70vw`,
-    // 100vw on mobile, 70vw on desktop
-  },
-  eventPolaroid: {
-    sizes: [
-      `(max-width: ${BP.sm}px) 100vw`,
-      `(max-width: ${BP.lg}px) 50vw`,
-      `(min-width: ${BP.lg + 1}px) 20vw`,
-      "100vw",
-    ].join(", "),
-    // 100vw mobile, 50vw tablet, 20vw desktop
-  },
-  eventBig: {
-    sizes: [
-      `(max-width: ${BP.sm}px) 100vw`,
-      `(max-width: ${BP.lg}px) 60vw`,
-      `(min-width: ${BP.lg + 1}px) 40vw`,
-      "100vw",
-    ].join(", "),
-  },
-  eventCompact: {
-    sizes: [
-      "(max-width: 480px) 64px",
-      `(max-width: ${BP.sm}px) 96px`,
-      `(max-width: ${BP.md}px) 128px`,
-      "168px",
-    ].join(", "),
-    breakpoints: [168],
-  },
-  galleryThumbnail: {
-    sizes: [
-      `(max-width: ${BP.sm}px) 100vw`,
-      `(max-width: ${BP.lg}px) 50vw`,
-      `(min-width: ${BP.lg + 1}px) 25vw`,
-      "100vw",
-    ].join(", "),
-    // Keep original aspect ratio for react-photo-album
-  },
-  galleryLightbox: {
-    // Full viewport at key breakpoints
-    sizes: "100vw",
-    breakpoints: [MAX_IMAGE_WIDTH],
-  },
-  blobSlideshow: {
-    sizes: `(max-width: ${BP.md}px) 100vw, 50vw`,
-    cropAspectRatio: 4 / 3,
-  },
-  venueMap: {
-    sizes: `(min-width: ${BP.sm}px) 33vw, 100vw`,
-  },
+const IMAGE_VARIANTS: Record<ImageVariantKey, ImageVariant> = {
+  thumbnail: { breakpoints: [96, 144, 216] },
+  galleryThumb: { breakpoints: [320, 640, 960] },
+  card: { breakpoints: [480, 960, 1440] },
+  cardCropped: { breakpoints: [480, 960, 1440], cropAspectRatio: 4 / 3 },
+  hero: { breakpoints: [960, 1440, 1920] },
 };
 
-// Import all images using glob - LAZY loading to avoid including all images in build
+const IMAGE_CONFIGS: Record<ImageType, ImageConfig> = {
+  sidebarLayoutHero: { sizes: `(max-width: ${BP.md}px) 100vw, 70vw`, variantKey: "hero" },
+  eventPolaroid: {
+    sizes: `(max-width: ${BP.sm}px) 100vw, (max-width: ${BP.lg}px) 50vw, (min-width: ${BP.lg + 1}px) 20vw, 20vw`,
+    variantKey: "card",
+  },
+  eventBig: {
+    sizes: `(max-width: ${BP.sm}px) 100vw, (max-width: ${BP.lg}px) 60vw, (min-width: ${BP.lg + 1}px) 40vw, 40vw`,
+    variantKey: "card",
+  },
+  eventCompact: {
+    sizes: `(max-width: 480px) 64px, (max-width: ${BP.sm}px) 96px, (max-width: ${BP.md}px) 128px, 168px`,
+    variantKey: "thumbnail",
+  },
+  galleryThumbnail: {
+    sizes: `(max-width: ${BP.sm}px) 100vw, (max-width: ${BP.lg}px) 50vw, (min-width: ${BP.lg + 1}px) 25vw, 25vw`,
+    variantKey: "galleryThumb",
+  },
+  galleryLightbox: { sizes: "100vw", variantKey: "hero" },
+  blobSlideshow: { sizes: `(max-width: ${BP.md}px) 100vw, 50vw`, variantKey: "cardCropped" },
+  venueMap: { sizes: `(min-width: ${BP.sm}px) 33vw, 100vw`, variantKey: "card" },
+};
+
+export interface ImageDimensions {
+  width: number;
+  height: number;
+}
+export interface ResponsiveImageData {
+  src: string;
+  srcSet: string;
+  sizes: string;
+}
+
+export async function safeGetImage(options: UnresolvedImageTransform): Promise<{ src: string }> {
+  try {
+    const { getImage } = await import("astro:assets");
+    return await getImage(options);
+  } catch {
+    return { src: (options.src as string) || "" };
+  }
+}
+
+const DEFAULT_OUTPUT_SIZES = [420, 1198] as const;
+
 const eventImages = import.meta.glob<{ default: ImageMetadata }>(
   "/content/events/**/*.{jpg,jpeg,png,webp,svg}",
 );
-
 const venueImages = import.meta.glob<{ default: ImageMetadata }>(
   "/content/venues/**/*.{jpg,jpeg,png,webp,svg}",
 );
-
-// Combine all image loaders
 const imageLoaders: Record<string, () => Promise<{ default: ImageMetadata }>> = {
   ...eventImages,
   ...venueImages,
 };
 
-/**
- * Generate responsive image data from a string path and an image type.
- * This combines the image loading and responsive generation into one step.
- *
- * - Uses BREAKPOINTS, capped to the original image width
- * - Produces WebP variants at quality 80
- * - Applies cropping if specified in the image config
- * - Returns { src, srcSet, sizes } ready to spread onto <img>
- */
-export const getResponsiveImage = memoize(
-  async (
-    imagePath: string,
-    imageType: ImageType = "galleryLightbox",
-  ): Promise<ResponsiveImageData> => {
-    // Normalize the path to match import.meta.glob format
-    const normalizedPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+const normalizePath = (path: string) => (path.startsWith("/") ? path : `/${path}`);
 
-    const loader = imageLoaders[normalizedPath];
-
-    if (!loader) {
-      console.error(`Image loader not found: ${normalizedPath}`);
-      throw new Error(`Unable to load image at path: ${imagePath}`);
-    }
-
-    const module = await loader();
-    const image = module.default;
-
-    // Get the config for this image type
-    const config = IMAGE_CONFIGS[imageType];
-    const { sizes, cropAspectRatio, breakpoints } = config;
-
-    const widths = breakpoints || DEFAULT_OUTPUT_SIZES;
-
-    // If no valid widths, use the original width
-    const candidateWidths = widths.length > 0 ? widths : [image.width];
-
-    // Generate all variants
-    const variants = await Promise.all(
-      candidateWidths.map(async (width) => {
-        const imageOptions: UnresolvedImageTransform = {
-          src: image,
-          width,
-          format: "webp",
-          quality: 80,
-        };
-
-        // Apply cropping if aspect ratio is specified
-        if (cropAspectRatio) {
-          imageOptions.height = Math.round(width / cropAspectRatio);
-          imageOptions.fit = "cover";
-        }
-
-        const optimized = await safeGetImage(imageOptions);
-        return { url: optimized.src, width };
-      }),
-    );
-
-    // Largest variant (last in array) → sensible fallback `src`
-    const largest = variants[variants.length - 1];
-
-    return {
-      src: largest.url, // URL only (not "url 1200w")
-      srcSet: variants.map((v) => `${v.url} ${v.width}w`).join(", "),
-      sizes,
-    };
-  },
-);
-
-/**
- * Get the original dimensions of an image from its path.
- * Returns the width and height of the original image.
- */
-export const getImageDimensions = memoize(async (imagePath: string): Promise<ImageDimensions> => {
-  const normalizedPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+const loadImageMetadata = memoize(async (normalizedPath: string): Promise<ImageMetadata> => {
   const loader = imageLoaders[normalizedPath];
-
   if (!loader) {
-    console.error(`Image loader not found for dimensions: ${normalizedPath}`);
-    // Return default dimensions as fallback
+    console.error(`Image loader not found: ${normalizedPath}`);
+    throw new Error(`Unable to load image at path: ${normalizedPath}`);
+  }
+  return (await loader()).default;
+});
+
+type VariantSources = { src: string; srcSet: string };
+
+const variantCache = new Map<string, Promise<VariantSources>>();
+
+const clampWidths = (sourceWidth: number, widths: readonly number[]) => {
+  const candidates = Array.from(
+    new Set(
+      widths
+        .map((width) => Math.min(width, MAX_IMAGE_WIDTH, sourceWidth))
+        .filter((width) => width > 0),
+    ),
+  ).sort((a, b) => a - b);
+  return candidates.length > 0 ? candidates : [Math.min(sourceWidth, MAX_IMAGE_WIDTH)];
+};
+
+const buildVariantSources = async (image: ImageMetadata, variant: ImageVariant | undefined) => {
+  const targetWidths = clampWidths(image.width, variant?.breakpoints ?? DEFAULT_OUTPUT_SIZES);
+  const variants = await Promise.all(
+    targetWidths.map(async (width) => {
+      const options: UnresolvedImageTransform = { src: image, width, format: "webp", quality: 80 };
+      if (variant?.cropAspectRatio) {
+        options.height = Math.round(width / variant.cropAspectRatio);
+        options.fit = "cover";
+      }
+      const optimized = await safeGetImage(options);
+      return { url: optimized.src, width };
+    }),
+  );
+  const largest = variants[variants.length - 1];
+  return {
+    src: largest.url,
+    srcSet: variants.map((variantItem) => `${variantItem.url} ${variantItem.width}w`).join(", "),
+  };
+};
+
+const resolveVariantSources = async (imagePath: string, variantKey: ImageVariantKey) => {
+  const normalizedPath = normalizePath(imagePath);
+  const cacheKey = `${normalizedPath}:${variantKey}`;
+  if (!variantCache.has(cacheKey)) {
+    const variant = IMAGE_VARIANTS[variantKey];
+    variantCache.set(
+      cacheKey,
+      (async () => {
+        const metadata = await loadImageMetadata(normalizedPath);
+        return buildVariantSources(metadata, variant);
+      })(),
+    );
+  }
+  return variantCache.get(cacheKey)!;
+};
+
+export async function getResponsiveImage(
+  imagePath: string,
+  imageType: ImageType = "galleryLightbox",
+): Promise<ResponsiveImageData> {
+  const { sizes, variantKey } = IMAGE_CONFIGS[imageType];
+  const { src, srcSet } = await resolveVariantSources(imagePath, variantKey);
+  return { src, srcSet, sizes };
+}
+
+export const getImageDimensions = memoize(async (imagePath: string): Promise<ImageDimensions> => {
+  try {
+    const metadata = await loadImageMetadata(normalizePath(imagePath));
+    return { width: metadata.width, height: metadata.height };
+  } catch {
+    console.error(`Image loader not found for dimensions: ${imagePath}`);
     return { width: 800, height: 600 };
   }
-
-  const module = await loader();
-  const image = module.default;
-
-  return {
-    width: image.width,
-    height: image.height,
-  };
 });
