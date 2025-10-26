@@ -67,7 +67,7 @@ export default function EventActionAlert({ event, variant = "default" }: EventAc
       )}
     >
       <div className="flex flex-grow flex-col gap-2">
-        <div className="flex flex-grow items-center gap-2">
+        <div className="flex flex-grow items-center gap-3">
           <div>
             <IconComponent size={24} />
           </div>
