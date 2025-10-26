@@ -16,7 +16,10 @@ export function generateEventICS(event: EventEnriched): string {
   const durationMinutes = event.data.duration || 120;
   endDate.setMinutes(endDate.getMinutes() + durationMinutes);
   const summary = `${event.data.isCancelled ? "[CANCELLED] " : ""}${event.data.title}`;
-  const status = event.data.isCancelled ? "CANCELLED" : "CONFIRMED";
+
+  // Don't set cancelled status in ical (it hides in Google Calendar)
+  // const status = event.data.isCancelled ? "CANCELLED" : "CONFIRMED";
+  const status = "CONFIRMED";
 
   const eventUrl = urls.toAbsolute(`/events/${event.id}`);
 
