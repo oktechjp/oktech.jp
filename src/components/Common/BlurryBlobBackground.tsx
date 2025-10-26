@@ -60,10 +60,10 @@ export default function BlurryBlobBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none">
       <Container wide>
-        <div className="grid h-[100vh] max-h-[70em] w-full grid-cols-12 items-center">
+        <div className="grid h-screen max-h-[70em] w-full grid-cols-12 items-center opacity-25">
           <div className="col-span-5">
             <ParallaxInfinite springConfig={blobConfigs.red.parallaxSpring}>
-              <div className="-mx-20 aspect-square opacity-35 mix-blend-screen blur-2xl">
+              <div className="-mx-20 aspect-square mix-blend-screen blur-2xl">
                 <BlobSlideshow
                   className={blobConfigs.red.className}
                   startTimeOffset={blobConfigs.red.startTimeOffset}
@@ -78,7 +78,7 @@ export default function BlurryBlobBackground() {
           </div>
           <div className="col-span-2">
             <ParallaxInfinite springConfig={blobConfigs.green.parallaxSpring}>
-              <div className="-mx-10 mt-90 aspect-square pt-20 opacity-35 mix-blend-screen blur-2xl">
+              <div className="-mx-10 mt-90 aspect-square pt-20 mix-blend-screen blur-2xl">
                 <BlobSlideshow
                   className={blobConfigs.green.className}
                   startTimeOffset={blobConfigs.green.startTimeOffset}
@@ -93,7 +93,7 @@ export default function BlurryBlobBackground() {
           </div>
           <div className="col-span-5">
             <ParallaxInfinite springConfig={blobConfigs.blue.parallaxSpring}>
-              <div className="-mx-10 aspect-square opacity-35 mix-blend-screen blur-2xl">
+              <div className="-mx-10 aspect-square mix-blend-screen blur-2xl">
                 <BlobSlideshow
                   className={blobConfigs.blue.className}
                   startTimeOffset={blobConfigs.blue.startTimeOffset}
