@@ -48,7 +48,7 @@ export default function LandingCTA() {
         text="Get Involved"
         className="-my-6 md:-my-8"
         lineCount={3}
-        mobileLineCount={12}
+        mobileLineCount={14}
       />
 
       <div className="relative z-10 -mt-6 md:-mt-8">
