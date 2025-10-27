@@ -12,43 +12,35 @@ interface Props {
   springConfig?: SpringConfig;
 }
 
-export default function BlobMask({ id, blobPath, className = "", children, springConfig }: Props) {
-  const clipPathUnits = "objectBoundingBox";
-  const offset = { x: 0.05, y: 0.05 };
-  const maskId = `blob-mask-${id}`;
-  const scale = 1 / 110;
-  const transform = `translate(${offset.x} ${offset.y}) scale(${scale})`;
-
+export default function BlobMask(props: Props) {
   const springs = useSpring({
-    d: blobPath,
-    config: springConfig || { mass: 0.8, tension: 180, friction: 9 },
+    d: props.blobPath,
+    config: props.springConfig || { mass: 0.8, tension: 180, friction: 9 },
   });
+
+  const maskId = `blob-mask-${props.id}`;
 
   return (
     <>
-      <svg
-        width="0"
-        height="0"
-        style={{ position: "absolute", width: 0, height: 0 }}
-        aria-hidden="true"
-      >
+      <svg style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
         <defs>
-          <clipPath id={maskId} clipPathUnits={clipPathUnits}>
-            <animated.path d={springs.d} transform={transform} />
+          <clipPath id={maskId} clipPathUnits={"objectBoundingBox"}>
+            <animated.path d={springs.d} transform={`translate(0.05 0.05) scale(0.009)`} />
           </clipPath>
         </defs>
       </svg>
 
       <div
-        className={clsx(className, "-m-8")}
+        className={clsx(props.className, "-m-8")}
         style={{
           clipPath: `url(#${maskId})`,
           WebkitClipPath: `url(#${maskId})`,
+          // force hardware acceleration
           WebkitTransform: "translateZ(0)",
           transform: "translateZ(0)",
         }}
       >
-        {children}
+        {props.children}
       </div>
     </>
   );
