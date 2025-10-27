@@ -12,7 +12,7 @@ export default function BlobParagraph({
   return (
     <div
       ref={onRef}
-      className={`gap-responsive-tight flex flex-col transition-opacity duration-300 ${
+      className={`gap-responsive-tight flex flex-col transition-opacity duration-300 text-lg ${
         isActive ? "opacity-100" : "opacity-30"
       }`}
     >
