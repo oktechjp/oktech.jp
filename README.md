@@ -115,7 +115,6 @@ flowchart LR
         RunTests --> TestsPassed
         TestsPassed -->|Yes| Deploy
         TestsPassed -->|No| End3
-        Deploy --> End3
     end
 
     %% Cross-workflow connections
