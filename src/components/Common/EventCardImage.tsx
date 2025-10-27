@@ -47,7 +47,6 @@ export default memo(function EventCardImage({ event, variant }: EventCardImagePr
           srcSet={cover.srcSet}
           sizes={cover.sizes}
           alt={event.data.title}
-          loading={event.priority ? "eager" : "lazy"}
           fetchPriority={event.priority ? "high" : "auto"}
           className={clsx("h-full w-full object-cover", isCancelled && "grayscale")}
         />

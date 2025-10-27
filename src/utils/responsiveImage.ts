@@ -1,65 +1,48 @@
 import type { ImageMetadata, UnresolvedImageTransform } from "astro";
 
 import { MAX_IMAGE_WIDTH } from "@/constants";
-import { BREAKPOINTS } from "@/utils/breakpoints";
 import { memoize } from "@/utils/memoize";
 
-const BP = BREAKPOINTS;
-
-export type ImageType =
-  | "sidebarLayoutHero"
-  | "eventPolaroid"
-  | "eventBig"
-  | "eventCompact"
-  | "galleryThumbnail"
-  | "galleryLightbox"
-  | "blobSlideshow"
-  | "venueMap";
-
-type ImageVariantKey = "thumbnail" | "galleryThumb" | "card" | "cardCropped" | "hero";
-type ImageVariant = { breakpoints: readonly number[]; cropAspectRatio?: number };
+type ImageVariant = { widths: readonly number[]; cropAspectRatio?: number };
+const IMAGE_VARIANTS = {
+  thumbnail: { widths: [96, 144, 216] },
+  galleryThumb: { widths: [320, 640, 960] },
+  card: { widths: [360, 540, 960] },
+  cardCropped: { widths: [480, 960, 1440], cropAspectRatio: 4 / 3 },
+  hero: { widths: [960, 1440, 1920] },
+} satisfies Record<string, ImageVariant>;
+type ImageVariantKey = keyof typeof IMAGE_VARIANTS;
 type ImageConfig = { sizes: string; variantKey: ImageVariantKey };
 
-const IMAGE_VARIANTS: Record<ImageVariantKey, ImageVariant> = {
-  thumbnail: { breakpoints: [96, 144, 216] },
-  galleryThumb: { breakpoints: [320, 640, 960] },
-  card: { breakpoints: [480, 960, 1440] },
-  cardCropped: { breakpoints: [480, 960, 1440], cropAspectRatio: 4 / 3 },
-  hero: { breakpoints: [960, 1440, 1920] },
-};
-
-const IMAGE_CONFIGS: Record<ImageType, ImageConfig> = {
-  sidebarLayoutHero: { sizes: `(max-width: ${BP.md}px) 100vw, 70vw`, variantKey: "hero" },
+const IMAGE_CONFIGS = {
+  sidebarLayoutHero: { sizes: "(max-width: 900px) 100vw, 70vw", variantKey: "hero" },
   eventPolaroid: {
-    sizes: `(max-width: ${BP.sm}px) 100vw, (max-width: ${BP.lg}px) 50vw, (min-width: ${BP.lg + 1}px) 20vw, 20vw`,
+    sizes:
+      "(max-width: 480px) min(100vw, 360px), (max-width: 900px) 50vw, (min-width: 901px) 33vw, 33vw",
     variantKey: "card",
   },
   eventBig: {
-    sizes: `(max-width: ${BP.sm}px) 100vw, (max-width: ${BP.lg}px) 60vw, (min-width: ${BP.lg + 1}px) 40vw, 40vw`,
+    sizes:
+      "(max-width: 480px) min(100vw, 420px), (max-width: 900px) 60vw, (min-width: 901px) 45vw, 45vw",
     variantKey: "card",
   },
   eventCompact: {
-    sizes: `(max-width: 480px) 64px, (max-width: ${BP.sm}px) 96px, (max-width: ${BP.md}px) 128px, 168px`,
+    sizes: "(max-width: 420px) 64px, (max-width: 480px) 96px, (max-width: 700px) 128px, 168px",
     variantKey: "thumbnail",
   },
   galleryThumbnail: {
-    sizes: `(max-width: ${BP.sm}px) 100vw, (max-width: ${BP.lg}px) 50vw, (min-width: ${BP.lg + 1}px) 25vw, 25vw`,
+    sizes: "(max-width: 480px) 100vw, (max-width: 900px) 50vw, (min-width: 901px) 25vw, 25vw",
     variantKey: "galleryThumb",
   },
   galleryLightbox: { sizes: "100vw", variantKey: "hero" },
-  blobSlideshow: { sizes: `(max-width: ${BP.md}px) 100vw, 50vw`, variantKey: "cardCropped" },
-  venueMap: { sizes: `(min-width: ${BP.sm}px) 33vw, 100vw`, variantKey: "card" },
-};
+  blobSlideshow: { sizes: "(max-width: 900px) 100vw, 50vw", variantKey: "cardCropped" },
+  venueMap: { sizes: "(min-width: 481px) 33vw, 100vw", variantKey: "card" },
+} satisfies Record<string, ImageConfig>;
 
-export interface ImageDimensions {
-  width: number;
-  height: number;
-}
-export interface ResponsiveImageData {
-  src: string;
-  srcSet: string;
-  sizes: string;
-}
+export type ImageType = keyof typeof IMAGE_CONFIGS;
+
+export type ImageDimensions = { width: number; height: number };
+export type ResponsiveImageData = { src: string; srcSet: string; sizes: string };
 
 export async function safeGetImage(options: UnresolvedImageTransform): Promise<{ src: string }> {
   try {
@@ -70,7 +53,7 @@ export async function safeGetImage(options: UnresolvedImageTransform): Promise<{
   }
 }
 
-const DEFAULT_OUTPUT_SIZES = [420, 1198] as const;
+const DEFAULT_WIDTHS = [420, 1198] as const;
 
 const eventImages = import.meta.glob<{ default: ImageMetadata }>(
   "/content/events/**/*.{jpg,jpeg,png,webp,svg}",
@@ -98,21 +81,19 @@ type VariantSources = { src: string; srcSet: string };
 
 const variantCache = new Map<string, Promise<VariantSources>>();
 
-const clampWidths = (sourceWidth: number, widths: readonly number[]) => {
-  const candidates = Array.from(
+const buildVariantSources = async (image: ImageMetadata, variant: ImageVariant | undefined) => {
+  const targetWidths = Array.from(
     new Set(
-      widths
-        .map((width) => Math.min(width, MAX_IMAGE_WIDTH, sourceWidth))
+      (variant?.widths ?? DEFAULT_WIDTHS)
+        .map((width) => Math.min(width, MAX_IMAGE_WIDTH, image.width))
         .filter((width) => width > 0),
     ),
   ).sort((a, b) => a - b);
-  return candidates.length > 0 ? candidates : [Math.min(sourceWidth, MAX_IMAGE_WIDTH)];
-};
 
-const buildVariantSources = async (image: ImageMetadata, variant: ImageVariant | undefined) => {
-  const targetWidths = clampWidths(image.width, variant?.breakpoints ?? DEFAULT_OUTPUT_SIZES);
+  const widths = targetWidths.length > 0 ? targetWidths : [Math.min(image.width, MAX_IMAGE_WIDTH)];
+
   const variants = await Promise.all(
-    targetWidths.map(async (width) => {
+    widths.map(async (width) => {
       const options: UnresolvedImageTransform = { src: image, width, format: "webp", quality: 80 };
       if (variant?.cropAspectRatio) {
         options.height = Math.round(width / variant.cropAspectRatio);
@@ -122,6 +103,7 @@ const buildVariantSources = async (image: ImageMetadata, variant: ImageVariant |
       return { url: optimized.src, width };
     }),
   );
+
   const largest = variants[variants.length - 1];
   return {
     src: largest.url,

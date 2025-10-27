@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { BREAKPOINTS, type Breakpoint } from "@/utils/breakpoints";
 
 export { BREAKPOINTS };
+export type { Breakpoint };
 
 /**
  * Get the current breakpoint based on window width

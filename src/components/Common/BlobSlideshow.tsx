@@ -380,7 +380,6 @@ export default function BlobSlideshow<T = string | ImageData>({
                       sizes={!isString ? (image as ImageData).sizes || "100vw" : undefined}
                       alt=""
                       className="bg-base-content/20 absolute inset-0 h-full w-full object-cover"
-                      loading={index <= rangeStart + 1 ? "eager" : "lazy"}
                       fetchPriority={
                         index === rangeStart ? "high" : index === rangeStart + 1 ? "low" : "auto"
                       }

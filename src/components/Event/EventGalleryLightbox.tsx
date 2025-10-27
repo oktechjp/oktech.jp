@@ -216,9 +216,6 @@ export default function EventGalleryLightbox({
         finite: false,
         preload: 10,
         imageFit: "contain",
-        imageProps: {
-          loading: "eager",
-        },
       }}
       controller={{
         closeOnBackdropClick: true,
