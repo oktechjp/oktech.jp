@@ -45,6 +45,104 @@ Primary content lives in `content/` and syncs with upstream data from [oktechjp/
 
 For now, most of the time, event content and photos should only be edited in the [oktechjp/public](https://github.com/oktechjp/public) repository. This will trigger a [scheduler](.github/workflows/scheduler.yml) workflow that [imports](.github/workflows/import.yml) and commits the changes, and triggers a [build](.github/workflows/astro.yml) that that gets deployed to GitHub Pages.
 
+```mermaid
+flowchart TD
+    %% External Triggers
+    Cron([Daily Cron<br/>15:00 UTC])
+    Manual1([Manual Trigger])
+    Manual2([Manual Trigger])
+    Manual3([Manual Trigger])
+    Upstream([Upstream Commit<br/>oktechjp/public])
+    DirectPush([Direct Push<br/>to main])
+
+    subgraph scheduler["scheduler.yml"]
+        direction LR
+        Scheduler[[Scheduler Workflow]]
+        CheckMeta[Read content/meta.json<br/>commitHash, contentHash<br/>nextEventEnds]
+        FetchUpstream[Fetch Latest Commit<br/>from oktechjp/public]
+        CheckEvent{Event<br/>Ended?}
+        CompareCommit{Commit Hash<br/>Changed?}
+        FetchContent[Fetch events.json<br/>& photos.json]
+        ComputeHash[Compute Content Hash<br/>SHA256]
+        CompareHash{Content Hash<br/>Changed?}
+        NeedsBuild{Needs<br/>Build?}
+        TriggerImport[Trigger Import Workflow]
+        End1(End)
+
+        Scheduler --> CheckMeta
+        CheckMeta --> FetchUpstream
+        FetchUpstream --> CheckEvent
+        CheckEvent -->|Yes| NeedsBuild
+        CheckEvent -->|No| CompareCommit
+        CompareCommit -->|Yes| FetchContent
+        CompareCommit -->|No| NeedsBuild
+        FetchContent --> ComputeHash
+        ComputeHash --> CompareHash
+        CompareHash -->|Yes| NeedsBuild
+        CompareHash -->|No| NeedsBuild
+        NeedsBuild -->|Yes| TriggerImport
+        NeedsBuild -->|No| End1
+    end
+
+    subgraph import["import.yml"]
+        direction LR
+        Import[[Import Workflow]]
+        RunImport[Run npm import script<br/>Fetch from oktechjp/public]
+        UpdateMeta[Update content/meta.json<br/>with new commitHash<br/>contentHash, nextEventEnds]
+        CheckChanges{Content<br/>Changes?}
+        CommitPush[Commit & Push<br/>to main branch]
+        TriggerBuild[Trigger Build Workflow]
+        End2(End)
+
+        Import --> RunImport
+        RunImport --> UpdateMeta
+        UpdateMeta --> CheckChanges
+        CheckChanges -->|Yes| CommitPush
+        CheckChanges -->|No| End2
+    end
+
+    subgraph build["astro.yml"]
+        direction LR
+        Build[[Build Workflow]]
+        BuildAstro[Build Astro Site]
+        RunTests[Run Playwright Tests]
+        TestsPassed{Tests<br/>Pass?}
+        Deploy[Deploy to<br/>GitHub Pages]
+        End3(End)
+
+        Build --> BuildAstro
+        BuildAstro --> RunTests
+        RunTests --> TestsPassed
+        TestsPassed -->|Yes| Deploy
+        TestsPassed -->|No| End3
+        Deploy --> End3
+    end
+
+    %% Cross-workflow connections
+    Cron --> Scheduler
+    Manual1 --> Scheduler
+    Upstream -.influences.-> Scheduler
+    TriggerImport --> Import
+    Manual2 --> Import
+    CommitPush --> TriggerBuild
+    TriggerBuild --> Build
+    Manual3 --> Build
+    DirectPush --> Build
+
+    %% Styling with border colors that work in light and dark mode
+    classDef triggerStyle stroke:#3b82f6,stroke-width:3px
+    classDef workflowStyle stroke:#f59e0b,stroke-width:3px
+    classDef decisionStyle stroke:#a855f7,stroke-width:2px
+    classDef actionStyle stroke:#10b981,stroke-width:2px
+    classDef endpointStyle stroke:#ec4899,stroke-width:2px
+
+    class Cron,Manual1,Manual2,Manual3,Upstream,DirectPush triggerStyle
+    class Scheduler,Import,Build workflowStyle
+    class CheckEvent,CompareCommit,CompareHash,NeedsBuild,CheckChanges,TestsPassed decisionStyle
+    class CheckMeta,FetchUpstream,FetchContent,ComputeHash,TriggerImport,RunImport,UpdateMeta,CommitPush,TriggerBuild,BuildAstro,RunTests,Deploy actionStyle
+    class End1,End2,End3 endpointStyle
+```
+
 ## Import Script Overview
 
 You can also manually run the import script within a dev environment. See
