@@ -46,7 +46,7 @@ Primary content lives in `content/` and syncs with upstream data from [oktechjp/
 For now, most of the time, event content and photos should only be edited in the [oktechjp/public](https://github.com/oktechjp/public) repository. This will trigger a [scheduler](.github/workflows/scheduler.yml) workflow that [imports](.github/workflows/import.yml) and commits the changes, and triggers a [build](.github/workflows/astro.yml) that that gets deployed to GitHub Pages.
 
 ```mermaid
-flowchart TD
+flowchart LR
     %% External Triggers
     Cron([Daily Cron<br/>15:00 UTC])
     Manual1([Manual Trigger])
@@ -56,7 +56,7 @@ flowchart TD
     DirectPush([Direct Push<br/>to main])
 
     subgraph scheduler["scheduler.yml"]
-        direction LR
+        direction TB
         Scheduler[[Scheduler Workflow]]
         CheckMeta[Read content/meta.json<br/>commitHash, contentHash<br/>nextEventEnds]
         FetchUpstream[Fetch Latest Commit<br/>from oktechjp/public]
@@ -85,7 +85,7 @@ flowchart TD
     end
 
     subgraph import["import.yml"]
-        direction LR
+        direction TB
         Import[[Import Workflow]]
         RunImport[Run npm import script<br/>Fetch from oktechjp/public]
         UpdateMeta[Update content/meta.json<br/>with new commitHash<br/>contentHash, nextEventEnds]
@@ -102,7 +102,7 @@ flowchart TD
     end
 
     subgraph build["astro.yml"]
-        direction LR
+        direction TB
         Build[[Build Workflow]]
         BuildAstro[Build Astro Site]
         RunTests[Run Playwright Tests]
