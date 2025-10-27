@@ -1,7 +1,3 @@
-## Now
-
-Ensure srcsets are working???
-
 ## After Presnetaiton
 
 - Optimize SVGs
