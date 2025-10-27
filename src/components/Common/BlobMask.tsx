@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { animated, useSpring } from "@react-spring/web";
 import type { SpringConfig } from "@react-spring/web";
@@ -19,22 +19,10 @@ export default function BlobMask({ id, blobPath, className = "", children, sprin
   const scale = 1 / 110;
   const transform = `translate(${offset.x} ${offset.y}) scale(${scale})`;
 
-  const [currentPath, setCurrentPath] = useState(blobPath);
-
   const springs = useSpring({
-    from: { d: currentPath },
-    to: { d: blobPath },
+    d: blobPath,
     config: springConfig || { mass: 0.8, tension: 180, friction: 9 },
-    onChange: ({ value }) => {
-      if (value.d !== currentPath) {
-        setCurrentPath(value.d as string);
-      }
-    },
   });
-
-  useEffect(() => {
-    setCurrentPath(blobPath);
-  }, [blobPath]);
 
   return (
     <>
@@ -46,7 +34,6 @@ export default function BlobMask({ id, blobPath, className = "", children, sprin
       >
         <defs>
           <clipPath id={maskId} clipPathUnits={clipPathUnits}>
-            {/* animated path (scaled into 0–1 space) */}
             <animated.path d={springs.d} transform={transform} />
           </clipPath>
         </defs>
