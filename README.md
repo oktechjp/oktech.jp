@@ -57,7 +57,7 @@ flowchart LR
 
     subgraph scheduler["scheduler.yml"]
         direction LR
-        Scheduler[[Scheduler Workflow]]
+        Scheduler[Scheduler Workflow]
         CheckMeta[Read content/meta.json<br/>commitHash, contentHash,<br/>nextEventEnds]
         FetchUpstream[Fetch latest commit<br/>from oktechjp/public]
         CheckEvent{Event ended?}
@@ -137,18 +137,18 @@ flowchart LR
     SaveAstroCache --> AstroAssetCache
 
     %% Subgraph styling
-    style scheduler fill:transparent,stroke:#4b5563,stroke-width:3px,rx:12,ry:12
-    style import fill:transparent,stroke:#4b5563,stroke-width:3px,rx:12,ry:12
-    style build fill:transparent,stroke:#4b5563,stroke-width:3px,rx:12,ry:12
+    style scheduler fill:#222222,stroke:transparent,stroke-width:3px,rx:12,ry:12,color:#ffffff
+    style import fill:#222222,stroke:transparent,stroke-width:3px,rx:12,ry:12,color:#ffffff
+    style build fill:#222222,stroke:transparent,stroke-width:3px,rx:12,ry:12,color:#ffffff
 
-    %% Styling with border colors that work in light and dark mode
-    classDef triggerStyle stroke:#3b82f6,stroke-width:3px
-    classDef workflowStyle stroke:#4b5563,stroke-width:3px
-    classDef decisionStyle stroke:#a855f7,stroke-width:2px
-    classDef actionStyle stroke:#10b981,stroke-width:2px
-    classDef endpointStyle stroke:#ec4899,stroke-width:2px
-    classDef cacheStyle stroke:#facc15,stroke-width:2px
-    classDef cacheResourceStyle stroke:#facc15,stroke-width:3px
+    %% Styling aligned with dark theme palette
+    classDef triggerStyle fill:#000,stroke:#459bc9,color:#ffffff,stroke-width:3px
+    classDef workflowStyle fill:#000,stroke:#33333,color:#ffffff,stroke-width:3px
+    classDef decisionStyle fill:#000,stroke:#fd4d69,color:#ffffff,stroke-width:2px
+    classDef actionStyle fill:#000,stroke:#49d773,color:#ffffff,stroke-width:2px
+    classDef endpointStyle fill:#000,stroke:#fd4d69,color:#ffffff,stroke-width:2px
+    classDef cacheStyle fill:#000,stroke:#da9a00,color:#ffffff,stroke-width:2px
+    classDef cacheResourceStyle fill:#000,stroke:#da9a00,color:#ffffff,stroke-width:3px
 
     class Cron,ManualScheduler,ManualImport,ManualBuild,Upstream,DirectPush triggerStyle
     class Scheduler,Import,Build workflowStyle
