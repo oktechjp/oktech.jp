@@ -49,96 +49,123 @@ For now, most of the time, event content and photos should only be edited in the
 flowchart LR
     %% External Triggers
     Cron([Daily Cron<br/>15:00 UTC])
-    Manual1([Manual Trigger])
-    Manual2([Manual Trigger])
-    Manual3([Manual Trigger])
+    ManualScheduler([Manual Dispatch<br/>scheduler.yml])
+    ManualImport([Manual Dispatch<br/>import.yml])
+    ManualBuild([Manual Dispatch<br/>astro.yml])
     Upstream([Upstream Commit<br/>oktechjp/public])
     DirectPush([Direct Push<br/>to main])
 
     subgraph scheduler["scheduler.yml"]
-        direction TB
+        direction LR
         Scheduler[[Scheduler Workflow]]
-        CheckMeta[Read content/meta.json<br/>commitHash, contentHash<br/>nextEventEnds]
-        FetchUpstream[Fetch Latest Commit<br/>from oktechjp/public]
-        CheckEvent{Event<br/>Ended?}
-        CompareCommit{Commit Hash<br/>Changed?}
+        CheckMeta[Read content/meta.json<br/>commitHash, contentHash,<br/>nextEventEnds]
+        FetchUpstream[Fetch latest commit<br/>from oktechjp/public]
+        CheckEvent{Event ended?}
+        CompareCommit{Commit hash changed?}
         FetchContent[Fetch events.json<br/>& photos.json]
-        ComputeHash[Compute Content Hash<br/>SHA256]
-        CompareHash{Content Hash<br/>Changed?}
-        NeedsBuild{Needs<br/>Build?}
-        TriggerImport[Trigger Import Workflow]
+        ComputeHash[Compute content hash<br/>SHA256]
+        CompareHash{Content hash changed?}
+        NeedsBuild{Needs build?}
+        TriggerImport[Dispatch import.yml]
         End1(End)
 
-        Scheduler --> CheckMeta
-        CheckMeta --> FetchUpstream
-        FetchUpstream --> CheckEvent
+        Scheduler --> CheckMeta --> FetchUpstream --> CheckEvent
         CheckEvent -->|Yes| NeedsBuild
         CheckEvent -->|No| CompareCommit
-        CompareCommit -->|Yes| FetchContent
+        CompareCommit -->|Yes| FetchContent --> ComputeHash --> CompareHash -->|Yes| NeedsBuild
         CompareCommit -->|No| NeedsBuild
-        FetchContent --> ComputeHash
-        ComputeHash --> CompareHash
-        CompareHash -->|Yes| NeedsBuild
         CompareHash -->|No| NeedsBuild
         NeedsBuild -->|Yes| TriggerImport
         NeedsBuild -->|No| End1
     end
 
     subgraph import["import.yml"]
-        direction TB
-        Import[[Import Workflow]]
-        RunImport[Run npm import script<br/>Fetch from oktechjp/public]
-        UpdateMeta[Update content/meta.json<br/>with new commitHash<br/>contentHash, nextEventEnds]
-        CheckChanges{Content<br/>Changes?}
-        CommitPush[Commit & Push<br/>to main branch]
-        TriggerBuild[Trigger Build Workflow]
+        direction LR
+        Import[Import Workflow]
+        SetupNodeCache[[Setup Node 22<br/>with npm cache]]
+        RestoreNodeCache[[Restore node_modules cache<br/>and browser caches]]
+        InstallDeps[Install dependencies<br/>npm ci on cache miss]
+        RunImport[Run npm import script<br/>fetch oktechjp/public]
+        SaveNodeCache[[Save node_modules cache<br/>for next runs]]
+        UpdateMeta[Update content/meta.json<br/>with commit & hashes]
+        CheckChanges{Content changes?}
+        CommitPush[Commit & push<br/>to main branch]
+        TriggerBuild[Dispatch astro.yml]
         End2(End)
 
-        Import --> RunImport
-        RunImport --> UpdateMeta
-        UpdateMeta --> CheckChanges
-        CheckChanges -->|Yes| CommitPush
+        Import --> SetupNodeCache --> RestoreNodeCache --> InstallDeps --> RunImport --> SaveNodeCache --> UpdateMeta --> CheckChanges
+        CheckChanges -->|Yes| CommitPush --> TriggerBuild
         CheckChanges -->|No| End2
+        TriggerBuild --> End2
     end
 
     subgraph build["astro.yml"]
-        direction TB
-        Build[[Build Workflow]]
-        BuildAstro[Build Astro Site]
-        RunTests[Run Playwright Tests]
-        TestsPassed{Tests<br/>Pass?}
-        Deploy[Deploy to<br/>GitHub Pages]
+        direction LR
+        Build[Build Workflow]
+        DetectManager[Detect package manager]
+        SetupNodeBuild[[Setup Node 22<br/>with package cache]]
+        SetupPages[Configure GitHub Pages]
+        RestoreNodeBuild[[Restore node_modules cache<br/>and browser caches]]
+        InstallOrCi[Install dependencies<br/>on cache miss]
+        RestoreAstroCache[[Restore Astro asset cache]]
+        PrintEnv[Print deployment env vars]
+        BuildAstro[Build Astro site]
+        InstallBrowsers[Install Playwright browsers<br/>if cache miss]
+        RunTests[Run npm run test:dist]
+        TestsPassed{Tests pass?}
+        SaveNodeBuild[[Save node_modules cache]]
+        SaveAstroCache[[Save Astro cache<br/>per run]]
+        UploadArtifact[Upload Pages artifact]
+        Deploy[Deploy to GitHub Pages]
         End3(End)
 
-        Build --> BuildAstro
-        BuildAstro --> RunTests
-        RunTests --> TestsPassed
-        TestsPassed -->|Yes| Deploy
+        Build --> DetectManager --> SetupNodeBuild --> SetupPages --> RestoreNodeBuild --> InstallOrCi --> RestoreAstroCache --> PrintEnv --> BuildAstro --> InstallBrowsers --> RunTests --> TestsPassed
+        TestsPassed -->|Yes| SaveNodeBuild --> SaveAstroCache --> UploadArtifact --> Deploy --> End3
         TestsPassed -->|No| End3
     end
 
     %% Cross-workflow connections
     Cron --> Scheduler
-    Manual1 --> Scheduler
-    Upstream -.influences.-> Scheduler
+    ManualScheduler --> Scheduler
+    Upstream -.influences.-> FetchUpstream
     TriggerImport --> Import
-    Manual2 --> Import
+    ManualImport --> Import
     CommitPush --> TriggerBuild
     TriggerBuild --> Build
-    Manual3 --> Build
+    ManualBuild --> Build
     DirectPush --> Build
+
+    %% Shared cache resources
+    NodeModulesCache[(Shared node_modules<br/>+ browser caches)]
+    AstroAssetCache[(Astro asset cache)]
+
+    NodeModulesCache --> RestoreNodeCache
+    SaveNodeCache --> NodeModulesCache
+    NodeModulesCache --> RestoreNodeBuild
+    SaveNodeBuild --> NodeModulesCache
+    AstroAssetCache --> RestoreAstroCache
+    SaveAstroCache --> AstroAssetCache
+
+    %% Subgraph styling
+    style scheduler fill:transparent,stroke:#4b5563,stroke-width:3px,rx:12,ry:12
+    style import fill:transparent,stroke:#4b5563,stroke-width:3px,rx:12,ry:12
+    style build fill:transparent,stroke:#4b5563,stroke-width:3px,rx:12,ry:12
 
     %% Styling with border colors that work in light and dark mode
     classDef triggerStyle stroke:#3b82f6,stroke-width:3px
-    classDef workflowStyle stroke:#f59e0b,stroke-width:3px
+    classDef workflowStyle stroke:#4b5563,stroke-width:3px
     classDef decisionStyle stroke:#a855f7,stroke-width:2px
     classDef actionStyle stroke:#10b981,stroke-width:2px
     classDef endpointStyle stroke:#ec4899,stroke-width:2px
+    classDef cacheStyle stroke:#facc15,stroke-width:2px
+    classDef cacheResourceStyle stroke:#facc15,stroke-width:3px
 
-    class Cron,Manual1,Manual2,Manual3,Upstream,DirectPush triggerStyle
+    class Cron,ManualScheduler,ManualImport,ManualBuild,Upstream,DirectPush triggerStyle
     class Scheduler,Import,Build workflowStyle
     class CheckEvent,CompareCommit,CompareHash,NeedsBuild,CheckChanges,TestsPassed decisionStyle
-    class CheckMeta,FetchUpstream,FetchContent,ComputeHash,TriggerImport,RunImport,UpdateMeta,CommitPush,TriggerBuild,BuildAstro,RunTests,Deploy actionStyle
+    class SetupNodeCache,RestoreNodeCache,SaveNodeCache,SetupNodeBuild,RestoreNodeBuild,RestoreAstroCache,SaveNodeBuild,SaveAstroCache cacheStyle
+    class NodeModulesCache,AstroAssetCache cacheResourceStyle
+    class CheckMeta,FetchUpstream,FetchContent,ComputeHash,TriggerImport,InstallDeps,RunImport,UpdateMeta,CommitPush,TriggerBuild,DetectManager,SetupPages,InstallOrCi,PrintEnv,BuildAstro,InstallBrowsers,RunTests,UploadArtifact,Deploy actionStyle
     class End1,End2,End3 endpointStyle
 ```
 
