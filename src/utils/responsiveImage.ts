@@ -9,7 +9,7 @@ const IMAGE_VARIANTS = {
   galleryThumb: { widths: [320, 640, 960] },
   card: { widths: [360, 540, 960] },
   cardCropped: { widths: [480, 960, 1440], cropAspectRatio: 4 / 3 },
-  hero: { widths: [960, 1440, 1920] },
+  hero: { widths: [480, 960, 1440, 1920] },
 } satisfies Record<string, ImageVariant>;
 type ImageVariantKey = keyof typeof IMAGE_VARIANTS;
 type ImageConfig = { sizes: string; variantKey: ImageVariantKey };
