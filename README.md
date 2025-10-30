@@ -65,26 +65,22 @@ flowchart LR
         FetchContent[Fetch events.json<br/>& photos.json]
         ComputeHash[Compute content hash<br/>SHA256]
         CompareHash{Content hash changed?}
-        NeedsBuild{Needs build?}
         TriggerImport[Dispatch import.yml]
         End1(End)
 
         Scheduler --> CheckMeta --> FetchUpstream --> CheckEvent
-        CheckEvent -->|Yes| NeedsBuild
+        CheckEvent -->|Yes| TriggerImport
         CheckEvent -->|No| CompareCommit
-        CompareCommit -->|Yes| FetchContent --> ComputeHash --> CompareHash -->|Yes| NeedsBuild
-        CompareCommit -->|No| NeedsBuild
-        CompareHash -->|No| NeedsBuild
-        NeedsBuild -->|Yes| TriggerImport
-        NeedsBuild -->|No| End1
+        CompareCommit -->|Yes| FetchContent --> ComputeHash --> CompareHash
+        CompareCommit -->|No| End1
+        CompareHash -->|Yes| TriggerImport
+        CompareHash -->|No| End1
     end
 
     subgraph import["import.yml"]
         direction LR
         Import[Import Workflow]
-        SetupNodeCache[[Setup Node 22<br/>with npm cache]]
-        RestoreNodeCache[[Restore node_modules cache<br/>and browser caches]]
-        InstallDeps[Install dependencies<br/>npm ci on cache miss]
+        SetupAndRestoreNodeCache[[Setup Node 22<br/>restore node_modules cache]]
         RunImport[Run npm import script<br/>fetch oktechjp/public]
         SaveNodeCache[[Save node_modules cache<br/>for next runs]]
         UpdateMeta[Update content/meta.json<br/>with commit & hashes]
@@ -93,56 +89,50 @@ flowchart LR
         TriggerBuild[Dispatch astro.yml]
         End2(End)
 
-        Import --> SetupNodeCache --> RestoreNodeCache --> InstallDeps --> RunImport --> SaveNodeCache --> UpdateMeta --> CheckChanges
-        CheckChanges -->|Yes| CommitPush --> TriggerBuild
+        Import --> SetupAndRestoreNodeCache --> RunImport --> SaveNodeCache --> UpdateMeta --> CheckChanges
+        CheckChanges -->|Yes| CommitPush
         CheckChanges -->|No| End2
-        TriggerBuild --> End2
+        CommitPush --> TriggerBuild
     end
 
     subgraph build["astro.yml"]
         direction LR
         Build[Build Workflow]
-        DetectManager[Detect package manager]
-        SetupNodeBuild[[Setup Node 22<br/>with package cache]]
-        SetupPages[Configure GitHub Pages]
-        RestoreNodeBuild[[Restore node_modules cache<br/>and browser caches]]
-        InstallOrCi[Install dependencies<br/>on cache miss]
+        SetupAndRestoreNodeBuild[[Setup Node 22<br/>restore node_modules cache]]
         RestoreAstroCache[[Restore Astro asset cache]]
-        PrintEnv[Print deployment env vars]
         BuildAstro[Build Astro site]
-        InstallBrowsers[Install Playwright browsers<br/>if cache miss]
         RunTests[Run npm run test:dist]
         TestsPassed{Tests pass?}
         SaveNodeBuild[[Save node_modules cache]]
         SaveAstroCache[[Save Astro cache<br/>per run]]
-        UploadArtifact[Upload Pages artifact]
-        Deploy[Deploy to GitHub Pages]
+        Deploy[Upload to Github Pages]
         End3(End)
 
-        Build --> DetectManager --> SetupNodeBuild --> SetupPages --> RestoreNodeBuild --> InstallOrCi --> RestoreAstroCache --> PrintEnv --> BuildAstro --> InstallBrowsers --> RunTests --> TestsPassed
-        TestsPassed -->|Yes| SaveNodeBuild --> SaveAstroCache --> UploadArtifact --> Deploy --> End3
+        Build --> SetupAndRestoreNodeBuild --> RestoreAstroCache --> BuildAstro --> RunTests --> TestsPassed
+        TestsPassed -->|Yes| SaveNodeBuild --> SaveAstroCache --> Deploy --> End3
         TestsPassed -->|No| End3
     end
 
     %% Cross-workflow connections
     Cron --> Scheduler
     ManualScheduler --> Scheduler
-    Upstream -.influences.-> FetchUpstream
+    Upstream --> Scheduler
     TriggerImport --> Import
     ManualImport --> Import
-    CommitPush --> TriggerBuild
     TriggerBuild --> Build
     ManualBuild --> Build
     DirectPush --> Build
 
     %% Shared cache resources
-    NodeModulesCache[(Shared node_modules<br/>+ browser caches)]
+    NodeModulesCacheImport[(Shared node_modules<br/>+ browser caches)]
+    NodeModulesCacheBuild[(Shared node_modules<br/>+ browser caches)]
     AstroAssetCache[(Astro asset cache)]
 
-    NodeModulesCache --> RestoreNodeCache
-    SaveNodeCache --> NodeModulesCache
-    NodeModulesCache --> RestoreNodeBuild
-    SaveNodeBuild --> NodeModulesCache
+    NodeModulesCacheImport --> SetupAndRestoreNodeCache
+    SaveNodeCache --> NodeModulesCacheImport
+    NodeModulesCacheBuild --> SetupAndRestoreNodeBuild
+    SaveNodeBuild --> NodeModulesCacheBuild
+    NodeModulesCacheImport -.-> NodeModulesCacheBuild
     AstroAssetCache --> RestoreAstroCache
     SaveAstroCache --> AstroAssetCache
 
@@ -162,10 +152,10 @@ flowchart LR
 
     class Cron,ManualScheduler,ManualImport,ManualBuild,Upstream,DirectPush triggerStyle
     class Scheduler,Import,Build workflowStyle
-    class CheckEvent,CompareCommit,CompareHash,NeedsBuild,CheckChanges,TestsPassed decisionStyle
-    class SetupNodeCache,RestoreNodeCache,SaveNodeCache,SetupNodeBuild,RestoreNodeBuild,RestoreAstroCache,SaveNodeBuild,SaveAstroCache cacheStyle
-    class NodeModulesCache,AstroAssetCache cacheResourceStyle
-    class CheckMeta,FetchUpstream,FetchContent,ComputeHash,TriggerImport,InstallDeps,RunImport,UpdateMeta,CommitPush,TriggerBuild,DetectManager,SetupPages,InstallOrCi,PrintEnv,BuildAstro,InstallBrowsers,RunTests,UploadArtifact,Deploy actionStyle
+    class CheckEvent,CompareCommit,CompareHash,CheckChanges,TestsPassed decisionStyle
+    class SetupAndRestoreNodeCache,SaveNodeCache,SetupAndRestoreNodeBuild,RestoreAstroCache,SaveNodeBuild,SaveAstroCache cacheStyle
+    class NodeModulesCacheImport,NodeModulesCacheBuild,AstroAssetCache cacheResourceStyle
+    class CheckMeta,FetchUpstream,FetchContent,ComputeHash,TriggerImport,InstallDeps,RunImport,UpdateMeta,CommitPush,TriggerBuild,SetupPages,InstallOrCi,PrintEnv,BuildAstro,InstallBrowsers,RunTests,UploadArtifact,Deploy actionStyle
     class End1,End2,End3 endpointStyle
 ```
 
