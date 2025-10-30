@@ -1,3 +1,4 @@
+import type { MarkdownInstance } from "astro";
 import {
   type CollectionEntry,
   defineCollection,
@@ -43,86 +44,104 @@ export type EventEnriched = Omit<CollectionEntry<"events">, "data"> & {
   priority?: boolean; // For image loading optimization
 };
 
+// TODO ?
+type Attachment = {
+  icon: string;
+  title: string;
+  description?: string;
+  url: string;
+};
+
+type EventFrontmatter = {
+  cover?: string;
+  dateTime: string;
+  devOnly?: boolean;
+  venue: number;
+  title: string;
+  description: string;
+  duration?: number;
+  topics?: string[];
+  howToFindUs?: string;
+  meetupId: number;
+  links?: Record<string, string>;
+  isCancelled?: boolean;
+  attachments?: Attachment[];
+};
+
+type EventMarkdownModule = MarkdownInstance<EventFrontmatter>;
+
+const TIMESTAMP_REGEX = /^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2})$/;
+
 // Events collection definition
 export const eventsCollection = defineCollection({
-  loader: async () => {
-    const imports = import.meta.glob("/content/events/**/event.md", { eager: true });
-    return Object.entries(imports).map(([fileName, module]) => {
-      const basePath = fileName.replace("/event.md", "");
-      const slug = basePath.split("/").pop() as string;
-      const { frontmatter } = module as {
-        frontmatter: Record<string, unknown>;
-      };
-      const cover = frontmatter.cover && path.join(basePath, frontmatter.cover as string);
-      const [date, time] = (frontmatter.dateTime as string).split(" ");
-      const devOnly = frontmatter.devOnly as boolean | undefined;
-
-      // Convert venue number to string if it exists
-      const venueId = frontmatter.venue;
-      const venue = venueId ? String(venueId) : undefined;
-
-      // Convert to UTC from JST (+09:00)
-      const dateTimeStr = `${date}T${time}:00+09:00`;
-      const dateTime = new Date(dateTimeStr);
-      if (isNaN(dateTime.getTime())) {
-        throw new Error(`Invalid date/time: ${dateTimeStr}`);
-      }
-
-      return {
-        id: slug,
-        cover,
-        title: frontmatter.title as string,
-        description: frontmatter.description as string | undefined,
-        readingTime: frontmatter.readingTime as string | undefined,
-        dateTime,
-        duration: frontmatter.duration,
-        devOnly: devOnly ?? false,
-        venue,
-        topics: frontmatter.topics as string[] | undefined,
-        howToFindUs: frontmatter.howToFindUs as string | undefined,
-        meetupId: frontmatter.meetupId as number | undefined,
-        links: frontmatter.links as Record<string, string> | undefined,
-        isCancelled: frontmatter.isCancelled as boolean | undefined,
-        attachments: frontmatter.attachments as
-          | Array<{
-              icon: string;
-              title: string;
-              description?: string;
-              url: string;
-            }>
-          | undefined,
-      };
-    });
-  },
-  schema: () =>
-    z.object({
-      id: z.string(),
-      title: z.string(),
-      description: z.string().optional(),
-      readingTime: z.string().optional(),
-      dateTime: z.date(),
-      duration: z.number().optional(),
-      cover: z.string(), // Changed from image() to z.string()
-      devOnly: z.boolean().optional().default(false),
-      venue: reference("venues").optional(),
-      topics: z.array(z.string()).optional(),
-      howToFindUs: z.string().optional(),
-      meetupId: z.number().optional(),
-      links: z.record(z.string()).optional(),
-      isCancelled: z.boolean().optional(),
-      attachments: z
-        .array(
-          z.object({
-            icon: z.string(),
-            title: z.string(),
-            description: z.string().optional(),
-            url: z.string(),
-          }),
-        )
-        .optional(),
-    }),
+  loader: eventsLoader,
+  schema: eventsSchema,
 });
 
+async function eventsLoader() {
+  const imports = import.meta.glob<EventMarkdownModule>("/content/events/**/event.md", {
+    eager: true,
+  });
+  return Object.entries(imports).map(([filePath, { frontmatter }]) => {
+    const dirname = path.dirname(filePath);
+
+    // Ensure YYYY-MM-DD HH:MM format
+    if (!TIMESTAMP_REGEX.test(frontmatter.dateTime)) {
+      throw new Error(`Invalid date/time format for ${filePath}: ${frontmatter.dateTime}`);
+    }
+    // Convert to UTC from JST (+09:00)
+    const [date, time] = frontmatter.dateTime.split(" ");
+    const dateTimeStr = `${date}T${time}:00+09:00`;
+    const dateTime = new Date(dateTimeStr);
+    if (isNaN(dateTime.getTime())) {
+      throw new Error(`Invalid date/time for ${filePath}: ${dateTimeStr}`);
+    }
+
+    return {
+      id: path.basename(dirname),
+      dateTime,
+      cover: frontmatter.cover && path.join(dirname, frontmatter.cover),
+      venue: frontmatter.venue ? String(frontmatter.venue) : undefined,
+      devOnly: !!frontmatter.devOnly,
+      title: frontmatter.title,
+      description: frontmatter.description,
+      duration: frontmatter.duration,
+      topics: frontmatter.topics,
+      howToFindUs: frontmatter.howToFindUs,
+      meetupId: frontmatter.meetupId,
+      links: frontmatter.links,
+      isCancelled: frontmatter.isCancelled,
+      attachments: frontmatter.attachments,
+    };
+  });
+}
+
+const attachmentSchema = z.object({
+  icon: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  url: z.string(),
+});
+
+function eventsSchema() {
+  return z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string().optional(),
+    readingTime: z.string().optional(),
+    dateTime: z.date(),
+    duration: z.number().optional(),
+    cover: z.string(),
+    devOnly: z.boolean().optional().default(false),
+    venue: reference("venues").optional(),
+    topics: z.array(z.string()).optional(),
+    howToFindUs: z.string().optional(),
+    meetupId: z.number(),
+    links: z.record(z.string()).optional(),
+    isCancelled: z.boolean().optional(),
+    attachments: z.array(attachmentSchema).optional(),
+  });
+}
 // Event gallery images collection definition
 export const eventGalleryImageCollection = defineCollection({
   loader: async () => {
