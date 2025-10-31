@@ -4,7 +4,7 @@ description: Explanation of the change from OWDDM and KWDDM to OKTech.
 keywords: ["name", "logo", "permanence", "definition", "oktech"]
 ---
 
-In 2025, we decided to merge the **Osaka** _Web Designer and Developer_ Meetup and the **Kyoto** _Web Designer and Developer_ Meetup into one. Our new name: **OKTech** :rocket: 
+In 2025, we decided to merge the **Osaka** _Web Designer and Developer_ Meetup and the **Kyoto** _Web Designer and Developer_ Meetup into one. Our new name: **OKTech** 🚀
 
 [ [Join us on Meetup](https://www.meetup.com/osaka-web-designers-and-developers-meetup) / [Join us on Discord](https://oktech.jp/discord) / [Follow us on LinkedIn](https://linkedin.com/company/oktechjp) ]
 
@@ -22,7 +22,7 @@ We chose _"OKTech"_ for three reasons. It references our history and location: �
 
 Also, in the past few years, we have stopped focusing exclusively on the Web. The english speaking community is not big enough in Kansai to sustain tech communities in one particular field. Not just presentations but also attendees have started to asking about **various tech topics**. With the new name, we would like to welcome everyone interested in Tech and find friends for a journey together.
 
-Most importantly, OKTech includes a mission: OK :+1: , we can deal with technology. That is why our subtitle is _"Tackle tech together"_. Every year, technology moves forward at a neck-breaking pace. It can be intimidating to deal with it on your own. But we believe that together we can approach that mountain. We can **learn from each other and help each other** face the immense challenges of our technological future.
+Most importantly, OKTech includes a mission: OK 👍 , we can deal with technology. That is why our subtitle is _"Tackle tech together"_. Every year, technology moves forward at a neck-breaking pace. It can be intimidating to deal with it on your own. But we believe that together we can approach that mountain. We can **learn from each other and help each other** face the immense challenges of our technological future.
 
 ## What will change?
 
@@ -30,6 +30,6 @@ Our core philosophy has not changed: We will stay Volunteer-based! _Both the nam
 
 As we want to invite people of various tech fields, there will likely be a broader spectrum of presentation topics. But ultimately, what will **change depends on your involvement**! _Robert_ has recently started with _Study Sessions_, a new event format that is different from what we did in the past. In the future, we hope for more people to bring themselves into the meetup and, through their participation, shed light on bigger parts of the tech field.
 
-Bring your ideas! Bring your questions! Bring your enthusiasm!
+Bring your ideas! Bring your questions! Bring your enthusiasm! 🤩
 
 See you soon at one of our [upcoming events](https://oktech.jp/events)!
