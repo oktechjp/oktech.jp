@@ -205,7 +205,7 @@ export default function EventGalleryLightbox({
       }
       slideshow={{
         autoplay,
-        delay: autoplay ? 6000 : 4000,
+        delay: autoplay ? 9000 : 4000,
       }}
       zoom={{
         maxZoomPixelRatio: 5,
