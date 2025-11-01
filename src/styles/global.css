@@ -121,6 +121,24 @@ mark {
   vertical-align: middle;
 }
 
+/* slideshow overrides for fade transition */
+
 .yarl__slide {
   padding: 0 !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s ease-in-out !important;
 }
+
+.yarl__carousel,
+.yarl__slide {
+  position: absolute !important;
+  inset: 0 !important;
+  width: unset !important;
+  height: unset !important;
+  transform: unset !important;
+}
+
+.yarl__slide_current {
+  opacity: 1 !important;
+}
+
