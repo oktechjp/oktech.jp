@@ -224,7 +224,7 @@ export default function EventGalleryLightbox({
       }}
       styles={{
         root: {
-          backgroundColor: "rgba(0, 0, 0, 0.9)",
+          backgroundColor: "rgba(0, 0, 0, 1)",
         },
         container: {
           backgroundColor: "transparent",
