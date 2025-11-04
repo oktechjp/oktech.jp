@@ -1,6 +1,6 @@
 ---
 title: Autumn Adventure in Uji (rescheduled)
-dateTime: 2025-11-24 16:00
+dateTime: 2025-11-24 10:00
 duration: 300
 cover: ./117564.webp
 topics:
