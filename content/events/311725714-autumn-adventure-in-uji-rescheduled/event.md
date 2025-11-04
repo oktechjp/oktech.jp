@@ -5,7 +5,6 @@ duration: 300
 cover: ./117564.webp
 topics:
   - Hiking
-isCancelled: true
 meetupId: 311725714
 group: 15632202
 venue: 27879454
