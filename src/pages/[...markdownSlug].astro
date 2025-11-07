@@ -5,17 +5,13 @@ import MarkdownPageLayout from "@/layouts/MarkdownPageLayout.astro";
 export async function getStaticPaths() {
   const markdownPages = await getCollection("markdownPages");
 
-  return markdownPages.map((page) => {
-    // Remove .md extension and split into path segments
-    const markdownSlug = page.id.replace(/\.md$/, "").split("/");
-
-    return {
-      params: { markdownSlug: markdownSlug.join("/") },
-    };
-  });
+  return markdownPages.map((page) => ({
+    params: { markdownSlug: page.id },
+    props: { markdown: page.data.filePath },
+  }));
 }
 
-const { markdownSlug } = Astro.params;
+const { markdown } = Astro.props;
 ---
 
-<MarkdownPageLayout markdown={`${markdownSlug}.md`} />
+<MarkdownPageLayout markdown={markdown} />

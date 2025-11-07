@@ -6,7 +6,12 @@ import { defineConfig, fontProviders } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 import svgr from "vite-plugin-svgr";
 
-import { remarkDescription, remarkReadingTime } from "./src/utils/remarkPlugins";
+import relativeStaticAssets from "./src/utils/relativeStaticAssets";
+import {
+  remarkDescription,
+  remarkReadingTime,
+  remarkRelativeAssets,
+} from "./src/utils/remarkPlugins";
 
 // Get base path from environment variable, default to "" (root)
 // BASE_PATH is used to prefix the site URL with a base path, for example /chris-wireframe/
@@ -61,12 +66,12 @@ export default defineConfig({
       exclude: ["@resvg/resvg-js"],
     },
   },
-  integrations: [react()],
+  integrations: [react(), relativeStaticAssets()],
   redirects: {
     discord: "https://discord.com/invite/k8xj8d75f6",
   },
   markdown: {
-    remarkPlugins: [remarkReadingTime, remarkDescription],
+    remarkPlugins: [remarkReadingTime, remarkDescription, remarkRelativeAssets],
   },
   experimental: {
     clientPrerender: true,
