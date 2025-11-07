@@ -1,4 +1,7 @@
+import { getCollection } from "astro:content";
+
 import { SITE } from "@/constants";
+import { normalizeMarkdownSlug } from "@/content/markdownPages";
 
 import type { SEOMetadata } from ".";
 
@@ -8,63 +11,48 @@ interface MarkdownFrontmatter {
   type?: SEOMetadata["type"];
   keywords?: string[];
   ogImage?: string;
-  publishedTime?: string;
-  modifiedTime?: string;
-  author?: string;
-  tags?: string[];
 }
 
 interface MarkdownModule {
   frontmatter?: MarkdownFrontmatter;
 }
 
+const markdownFiles = import.meta.glob<MarkdownModule>("/content/**/*.md");
+
 export async function decorateMarkdownPageSEO(
   baseSEO: SEOMetadata,
   slug: string,
 ): Promise<SEOMetadata> {
+  const baseArticleSEO: SEOMetadata = { ...baseSEO, type: "article" };
   try {
-    const markdownFiles = import.meta.glob<MarkdownModule>("/content/**/*.md");
-    const possiblePaths = [`/content/${slug}.md`, `/content/markdownPages/${slug}.md`];
+    const normalizedSlug = normalizeMarkdownSlug(slug);
+    const markdownPages = await getCollection("markdownPages");
+    const entry = markdownPages.find((page) => page.id === normalizedSlug);
+    if (!entry) return baseArticleSEO;
 
-    for (const fullPath of possiblePaths) {
-      const loadModule = markdownFiles[fullPath];
-      if (!loadModule) {
-        continue;
-      }
+    const fullPath = `/content/${entry.data.filePath}`;
+    const loadModule = markdownFiles[fullPath];
+    if (!loadModule) return baseArticleSEO;
 
-      const { frontmatter } = await loadModule();
-      if (!frontmatter) {
-        continue;
-      }
+    const { frontmatter } = await loadModule();
+    if (!frontmatter) return baseArticleSEO;
 
-      const title = frontmatter.title ?? baseSEO.title;
-      const fullTitle = SITE.title.template.replace("%s", title);
+    const title = frontmatter.title ?? baseSEO.title;
+    const fullTitle = SITE.title.template.replace("%s", title);
 
-      return {
-        ...baseSEO,
-        title,
-        fullTitle,
-        description: frontmatter.description ?? `Learn more about ${title} at OKTech`,
-        type: frontmatter.type ?? "article",
-        keywords: frontmatter.keywords ?? [title, "OKTech"],
-        ogImage: frontmatter.ogImage ?? baseSEO.ogImage,
-        article: frontmatter.publishedTime
-          ? {
-              publishedTime: frontmatter.publishedTime,
-              modifiedTime: frontmatter.modifiedTime,
-              author: frontmatter.author,
-              tags: frontmatter.tags,
-            }
-          : undefined,
-      };
-    }
+    // TODO we might want to add article specific metadata, such as publishedTime, modifiedTime, author, etc.
 
     return {
-      ...baseSEO,
-      type: "article",
+      ...baseArticleSEO,
+      title,
+      fullTitle,
+      description: frontmatter.description ?? `Learn more about ${title} at OKTech`,
+      type: frontmatter.type ?? baseArticleSEO.type,
+      keywords: frontmatter.keywords ?? [title, "OKTech"],
+      ogImage: frontmatter.ogImage ?? baseSEO.ogImage,
     };
   } catch (error) {
     console.error(`Error processing markdown page SEO for ${slug}:`, error);
-    return baseSEO;
+    return baseArticleSEO;
   }
 }

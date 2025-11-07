@@ -1,5 +1,6 @@
 import type { Root } from "mdast";
 import { toString } from "mdast-util-to-string";
+import path from "path";
 import getReadingTime from "reading-time";
 import { visit } from "unist-util-visit";
 
@@ -44,4 +45,49 @@ export function remarkDescription() {
       file.data.astro.frontmatter.description = description;
     }
   };
+}
+
+/**
+ * Remark plugin to rewrite asset paths inside Markdown so relative paths resolve from the markdown file's directory.
+ */
+export function remarkRelativeAssets() {
+  return function (tree: Root, file: any) {
+    const filePath = file.history?.[0] as string | undefined;
+    if (!filePath) return;
+    const normalizedFilePath = filePath.replace(/\\/g, "/");
+    const contentIndex = normalizedFilePath.indexOf("/content/");
+    if (contentIndex === -1) return;
+    const relativePath = normalizedFilePath.slice(contentIndex + "/content/".length);
+    const fileDirRelative = path.posix.dirname(relativePath);
+    const fileDir = fileDirRelative === "." ? "/" : `/${fileDirRelative.replace(/^\/+/, "")}`;
+
+    visit(tree, (node: any) => {
+      if (node.type === "image") {
+        return;
+      }
+      if (node.type === "link" || node.type === "linkReference") {
+        rewritePath(node, "url", fileDir);
+      }
+      if (node.type === "html") {
+        node.value = rewriteHtmlSources(node.value, fileDir);
+      }
+    });
+  };
+}
+
+function rewritePath(node: any, key: string, fileDir: string) {
+  const value: string | undefined = node[key];
+  if (!value || typeof value !== "string") return;
+  if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/")) return;
+  node[key] = path.posix.normalize(path.posix.join(fileDir, value));
+}
+
+function rewriteHtmlSources(value: string, fileDir: string): string {
+  return value.replace(/(src|href)\s*=\s*(["'])([^"']+)\2/g, (match, attr, quote, url) => {
+    if (url.startsWith("/") || url.startsWith("http://") || url.startsWith("https://")) {
+      return match;
+    }
+    const rewritten = path.posix.normalize(path.posix.join(fileDir, url));
+    return `${attr}=${quote}${rewritten}${quote}`;
+  });
 }

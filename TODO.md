@@ -1,15 +1,15 @@
 ## Inbox
 
+Figure out accidentally cancelled event logic.
+Discuss with martin how to implement the join page.
 Also, I noticed the issue Martin mentioned regarding the About page. I can't open Figma right now, but the title 'About OK Tech' on the webpage does seem a bit large.
 Could you please try to adjust its size to match the title size of 'Upcoming Event' on the All Events page? Thanks~
-Remove instructional items from big slideshow?
+Remove instructional items from big slideshow? standardize script; removed vs instructional
 Figure out srcsets
 Wrap markdown tables and checkboxes
 Evaluate https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading#lazy
 I think we can use https://docs.astro.build/en/guides/prefetch/ without a custom react component?
 We still have multiple requests for the slideshow
-Clean up data getters
-const venueId = typeof event.data.venue === "object" ? event.data.venue.id : event.data.venue;
 , New screenshot
 
 Still not working with image srcset.

@@ -99,11 +99,11 @@ The name _"OKTech"_ was not just chosen for its literal reading _"OK! Let's work
 
 In the design process, various attempts have been made to try to integrate Kanji or Katakana (オケ).
 
-![Kanji and Katakana integration attempts](./logo-and-design/kanji-kata-integration-test.png)
+![Kanji and Katakana integration attempts](./kanji-kata-integration-test.png)
 
 However, [after a vote](https://app.opinionx.co/18ae0c0f-4665-430a-af13-4f50fa0e1000/survey) and deliberation we settled for the [Negative Space][] idea by [Gary](#gary-wintle). Then we worked out the current version after a few iterations:
 
-![Negative Space examples](./logo-and-design/oktech-negative-space.png)
+![Negative Space examples](./oktech-negative-space.png)
 
 [Negative Space]: https://en.wikipedia.org/wiki/Negative_space
 
