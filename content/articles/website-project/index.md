@@ -21,14 +21,17 @@ It offers a way for everyone involved, to practice collaboration in an internati
 ## History
 
 #### Domain Hosting and DNS
+
 The earliest version contained only a hosted domain and a redirect. It was part of a DNS presentation we've had, focussing on how to buy and setup a Domain.
 
 ##### Email List signup
+
 In 2018 [Christian Oliff](https://github.com/coliff) held presentations on linting and in while the first homepage was rather rudimentary, it contained a quite extensive linting setup that even probably exceeds the current rules in place.
 
-[![BG: Osaka by day; Center: white dialog showing OWDDM logo and an email registration form; footer showing Website as of 2022 and Meetup, Github links](./owddm-v1.webp)](https://web.archive.org/web/20220725143500/https://owddm.com/)
+[![BG: Osaka by day; Center: white dialog showing OWDDM logo and an email registration form; footer showing Website as of 2022 and Meetup, GitHub links](./owddm-v1.webp)](https://web.archive.org/web/20220725143500/https://owddm.com/)
 
 ##### First proper website
+
 After COVID, we started to gather our data outside of Meetup.com. With a collection of all our past events and a good set of photos, [Kimika](https://www.linkedin.com/in/kimika-m/) came up with a simple design for a meetup.
 
 ![Figma Design showing the first few screens](./owddm-v2-figma.webp)
@@ -38,13 +41,14 @@ Quickly designed in Figma and the implemented using Vue by [Greg](https://www.li
 ![About page as designed in Figma](./owddm-v2-vue.webp)
 
 ##### To Astro React
+
 After our [Astro workshop](/events/292146517-astrobuild-workshop-by-tamas-piros), _Martin_ went on and moved the build system from nuxt to astro.
 
-[![Github Screenshot of the PR that changed the homepage from nuxt to astro](./owddm-v3-nuxt-to-astro.png)](https://github.com/owddm/owddm.github.io/pull/287)
+[![GitHub Screenshot of the PR that changed the homepage from nuxt to astro](./owddm-v3-nuxt-to-astro.png)](https://github.com/owddm/owddm.github.io/pull/287)
 
 And in a subsequent PR it we also moved from Vue to React. Which later was part of a presentation for [React Osaka](https://react-osaka.connpass.com/).
 
-[![Github Screenshot of the PR that changed the homepage from vue to react](./owddm-v3-vue-to-react.png)](https://github.com/owddm/owddm.github.io/pull/289)
+[![GitHub Screenshot of the PR that changed the homepage from vue to react](./owddm-v3-vue-to-react.png)](https://github.com/owddm/owddm.github.io/pull/289)
 
 ##### Hello OKTech
 
@@ -62,10 +66,8 @@ Not only is the first OKTech site, made with support from AI Agents. It utilizes
 
 But all this is better explained in his presentation below ↓ 
 
-
-<iframe src="./Hello_OKTech_dot_JP.pdf" width="100%" style="height: 23em;"></iframe>
-
+<iframe src="./Hello_OKTech_dot_JP.pdf" width="100%" style="height: 23em;" aria-label="Hello OKTech PDF"></iframe>
 
 ## Join Us
 
-The [Github Issue Tracker](https://github.com/oktechjp/oktech.jp/issues) is a good way to start. Also [Join us on Discord](/discord) and speak up to be added as Volunteer.
+The [GitHub Issue Tracker](https://github.com/oktechjp/oktech.jp/issues) is a good way to start. Also [Join us on Discord](/discord) and speak up to be added as Volunteer.
