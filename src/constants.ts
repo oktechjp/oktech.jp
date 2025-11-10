@@ -61,6 +61,12 @@ export const MENU: {
     icon: LuInfo,
   },
   {
+    label: "Articles",
+    href: "/articles",
+    footerMajor: true,
+    icon: LuFileText,
+  },
+  {
     label: "Code of Conduct",
     href: "/code-of-conduct",
     icon: LuFileText,
@@ -154,6 +160,12 @@ export const SEO_DATA: Record<
       "mission",
       "volunteer",
     ],
+  },
+  "/articles": {
+    title: "Articles",
+    description:
+      "Browse the latest OKTech articles covering announcements, guides, and community stories from Osaka, Kyoto, and beyond.",
+    keywords: ["articles", "blog", "oktech news", "community stories", "guides", "announcements"],
   },
   "/sitemap": {
     title: "Sitemap",

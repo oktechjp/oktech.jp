@@ -50,6 +50,7 @@ const config: KnipConfig = {
     // puppeteer is used by map generation library
     "puppeteer",
     "@fontsource/lexend",
+    "vite",
   ],
 
   // Ignore specific exports (common false positives)

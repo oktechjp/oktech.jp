@@ -1,0 +1,70 @@
+---
+import Container from "@/components/Common/Container";
+import Link from "@/components/Common/Link";
+import PageLayout from "@/layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+
+type ArticleFrontmatter = {
+  title?: string;
+  description?: string;
+};
+
+type MarkdownModule = {
+  frontmatter?: ArticleFrontmatter;
+};
+
+interface ArticleSummary {
+  title: string;
+  description: string;
+  href: string;
+}
+
+const markdownPages = await getCollection("markdownPages");
+const markdownFiles = import.meta.glob<MarkdownModule>("/content/**/*.md");
+
+const articleSummaries = (
+  await Promise.all(
+    markdownPages
+      .filter((page) => page.data.filePath.startsWith("articles/"))
+      .map(async (page) => {
+        const loader = markdownFiles[`/content/${page.data.filePath}`];
+        if (!loader) {
+          return null;
+        }
+
+        const module = await loader();
+        const fallbackTitle = page.id.split("/").pop() ?? page.id;
+
+        return {
+          title: module.frontmatter?.title ?? fallbackTitle.replace(/-/g, " "),
+          description: module.frontmatter?.description ?? "",
+          href: `/${page.id}`,
+        };
+      }),
+  )
+)
+  .filter((entry): entry is ArticleSummary => entry !== null)
+  .sort((a, b) => a.title.localeCompare(b.title));
+---
+
+<PageLayout>
+  <div class="flex flex-col">
+    <Container thin className="py-responsive flex flex-col gap-12">
+      <h1 class="title text-center">Articles</h1>
+      <div class="gap-responsive-tight flex flex-col">
+        {
+          articleSummaries.map((article) => (
+            <a
+              class="bg-base-100 rounded-box hover:bg-base-0 flex flex-col gap-3 p-6 transition-colors duration-200"
+              href={article.href}
+              data-astro-prefetch
+            >
+              <h2 class="text-2xl font-semibold">{article.title}</h2>
+              {article.description && <p>{article.description}</p>}
+            </a>
+          ))
+        }
+      </div>
+    </Container>
+  </div>
+</PageLayout>
