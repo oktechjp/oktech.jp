@@ -62,7 +62,7 @@ Over the months and with a lot of design input _Evey_ worked with great attentio
 
 That said, most of the effort for the first OKTech website was definitely done by [クリス。コム](https://xn--pckua0m.xn--tckwe/).
 
-Not only is the first OKTech site, made with support from AI Agents. It utilizes dark mode, even in the favicon. And ics calendards are an prominent offering; Animations are in many small places and much more.
+Not only was the first OKTech site made with support from AI Agents, but it also utilizes dark mode—even in the favicon. ICS calendars are a prominent feature; animations are present in many small places, and much more.
 
 But all this is better explained in his presentation below ↓ 
 
