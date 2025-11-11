@@ -26,7 +26,7 @@ The earliest version contained only a hosted domain and a redirect. It was part 
 
 ##### Email List signup
 
-In 2018 [Christian Oliff](https://github.com/coliff) held presentations on linting and in while the first homepage was rather rudimentary, it contained a quite extensive linting setup that even probably exceeds the current rules in place.
+In 2018 [Christian Oliff](https://github.com/coliff) held presentations on linting and while the first homepage was rather rudimentary, it contained a quite extensive linting setup that even probably exceeds the current rules in place.
 
 [![BG: Osaka by day; Center: white dialog showing OWDDM logo and an email registration form; footer showing Website as of 2022 and Meetup, GitHub links](./owddm-v1.webp)](https://web.archive.org/web/20220725143500/https://owddm.com/)
 
