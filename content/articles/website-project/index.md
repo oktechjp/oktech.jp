@@ -46,7 +46,7 @@ After our [Astro workshop](/events/292146517-astrobuild-workshop-by-tamas-piros)
 
 [![GitHub Screenshot of the PR that changed the homepage from nuxt to astro](./owddm-v3-nuxt-to-astro.png)](https://github.com/owddm/owddm.github.io/pull/287)
 
-And in a subsequent PR it we also moved from Vue to React. Which later was part of a presentation for [React Osaka](https://react-osaka.connpass.com/).
+And in a subsequent PR, we also moved from Vue to React, which later was part of a presentation for [React Osaka](https://react-osaka.connpass.com/).
 
 [![GitHub Screenshot of the PR that changed the homepage from vue to react](./owddm-v3-vue-to-react.png)](https://github.com/owddm/owddm.github.io/pull/289)
 
