@@ -52,7 +52,7 @@ And in a subsequent PR it we also moved from Vue to React. Which later was part 
 
 ##### Hello OKTech
 
-With our [new name "OKTech"](/articles/hello-oktech) in 2025 _(after initial prep work by [Traci](https://www.linkedin.com/in/destiny-simmons-2b010571/) and [Luna](https://www.linkedin.com/in/luna-katayama-92887b20/))_, parallel to the development of our [new Logo](/https://oktech.jp/articles/logo-and-design#creation-background), [Evey](https://www.linkedin.com/in/pin-jia-y-78254a1b8/) created a new design for the page.
+With our [new name "OKTech"](/articles/hello-oktech) in 2025 _(after initial prep work by [Traci](https://www.linkedin.com/in/destiny-simmons-2b010571/) and [Luna](https://www.linkedin.com/in/luna-katayama-92887b20/))_, parallel to the development of our [new Logo](https://oktech.jp/articles/logo-and-design#creation-background), [Evey](https://www.linkedin.com/in/pin-jia-y-78254a1b8/) created a new design for the page.
 
 ![Figma screenshot showing dark and light mode of the website](./owddm-v4-design.webp)
 
