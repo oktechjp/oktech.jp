@@ -36,7 +36,7 @@ After COVID, we started to gather our data outside of Meetup.com. With a collect
 
 ![Figma Design showing the first few screens](./owddm-v2-figma.webp)
 
-Quickly designed in Figma and the implemented using Vue by [Greg](https://www.linkedin.com/in/gregory-king-b858a194/) with [Martin](https://www.linkedin.com/in/leichtgewicht/) helping with the data preparation.
+Quickly designed in Figma and then implemented using Vue by [Greg](https://www.linkedin.com/in/gregory-king-b858a194/) with [Martin](https://www.linkedin.com/in/leichtgewicht/) helping with the data preparation.
 
 ![About page as designed in Figma](./owddm-v2-vue.webp)
 
