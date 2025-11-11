@@ -26,7 +26,7 @@ The earliest version contained only a hosted domain and a redirect. It was part 
 
 ##### Email List signup
 
-In 2018 [Christian Oliff](https://github.com/coliff) held presentations on linting and in while the first homepage was rather rudimentary, it contained a quite extensive linting setup that even probably exceeds the current rules in place.
+In 2018 [Christian Oliff](https://github.com/coliff) held presentations on linting and while the first homepage was rather rudimentary, it contained a quite extensive linting setup that even probably exceeds the current rules in place.
 
 [![BG: Osaka by day; Center: white dialog showing OWDDM logo and an email registration form; footer showing Website as of 2022 and Meetup, GitHub links](./owddm-v1.webp)](https://web.archive.org/web/20220725143500/https://owddm.com/)
 
@@ -36,7 +36,7 @@ After COVID, we started to gather our data outside of Meetup.com. With a collect
 
 ![Figma Design showing the first few screens](./owddm-v2-figma.webp)
 
-Quickly designed in Figma and the implemented using Vue by [Greg](https://www.linkedin.com/in/gregory-king-b858a194/) with [Martin](https://www.linkedin.com/in/leichtgewicht/) helping with the data preparation.
+Quickly designed in Figma and then implemented using Vue by [Greg](https://www.linkedin.com/in/gregory-king-b858a194/) with [Martin](https://www.linkedin.com/in/leichtgewicht/) helping with the data preparation.
 
 ![About page as designed in Figma](./owddm-v2-vue.webp)
 
@@ -46,13 +46,13 @@ After our [Astro workshop](/events/292146517-astrobuild-workshop-by-tamas-piros)
 
 [![GitHub Screenshot of the PR that changed the homepage from nuxt to astro](./owddm-v3-nuxt-to-astro.png)](https://github.com/owddm/owddm.github.io/pull/287)
 
-And in a subsequent PR it we also moved from Vue to React. Which later was part of a presentation for [React Osaka](https://react-osaka.connpass.com/).
+And in a subsequent PR, we also moved from Vue to React, which later was part of a presentation for [React Osaka](https://react-osaka.connpass.com/).
 
 [![GitHub Screenshot of the PR that changed the homepage from vue to react](./owddm-v3-vue-to-react.png)](https://github.com/owddm/owddm.github.io/pull/289)
 
 ##### Hello OKTech
 
-With our [new name "OKTech"](/articles/hello-oktech) in 2025 _(after initial prep work by [Traci](https://www.linkedin.com/in/destiny-simmons-2b010571/) and [Luna](https://www.linkedin.com/in/luna-katayama-92887b20/))_, parallel to the development of our [new Logo](/https://oktech.jp/articles/logo-and-design#creation-background), [Evey](https://www.linkedin.com/in/pin-jia-y-78254a1b8/) created a new design for the page.
+With our [new name "OKTech"](/articles/hello-oktech) in 2025 _(after initial prep work by [Traci](https://www.linkedin.com/in/destiny-simmons-2b010571/) and [Luna](https://www.linkedin.com/in/luna-katayama-92887b20/))_, parallel to the development of our [new Logo](https://oktech.jp/articles/logo-and-design#creation-background), [Evey](https://www.linkedin.com/in/pin-jia-y-78254a1b8/) created a new design for the page.
 
 ![Figma screenshot showing dark and light mode of the website](./owddm-v4-design.webp)
 
@@ -62,7 +62,7 @@ Over the months and with a lot of design input _Evey_ worked with great attentio
 
 That said, most of the effort for the first OKTech website was definitely done by [クリス。コム](https://xn--pckua0m.xn--tckwe/).
 
-Not only is the first OKTech site, made with support from AI Agents. It utilizes dark mode, even in the favicon. And ics calendards are an prominent offering; Animations are in many small places and much more.
+Not only was the first OKTech site made with support from AI Agents, but it also utilizes dark mode—even in the favicon. ICS calendars are a prominent feature; animations are present in many small places, and much more.
 
 But all this is better explained in his presentation below ↓ 
 
