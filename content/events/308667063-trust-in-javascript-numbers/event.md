@@ -1,8 +1,8 @@
 ---
-title: Trust in JavaScript Numbers
+title: Alpine JavaScript Numbers and Business Cards
 dateTime: 2025-11-22 17:00
 duration: 120
-cover: ./886728.webp
+cover: ./382317.webp
 topics:
   - New Technology
   - JavaScript
@@ -24,5 +24,7 @@ We are happy to welcome guest speaker _Christian Ulbrich_ from the [DresdenJS](h
 
 Also joining us is the first presentation by _Yuto Yoshida_ about [AlpineJs](https://alpinejs.dev/). He will share about the essentials of AlpineJs with some practical examples how to use it.
 (→ [Thread on Discord](https://discord.com/channels/1034792577293094972/1429338549349781634))
+
+And as a third goodie, _Martin_ will be sharing why the new OKTech business cards are not an ordinary card project and why they were a conversation starter as JSConf! (→ [Thread on Discord](https://discord.com/channels/1034792577293094972/1436956212011729027))
 
 Even if you are not into JavaScript, this should be interesting! We are looking forward for you to join us at the date and until then, see you in → [Discord](https://owddm.com/discord)
