@@ -13,6 +13,9 @@ meetupId: 311973741
 group: 15632202
 venue: 27553394
 howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
+links:
+  discord: https://discord.gg/Qag6XuKM?event=1441230404743860386
+  linkedIn: https://www.linkedin.com/events/7397440701023776768/
 ---
 
 This year we have a pre-Christmas 🥂🎄event with lovely presentations!
