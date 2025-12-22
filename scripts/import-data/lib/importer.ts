@@ -1,5 +1,4 @@
 import { createHash } from "node:crypto";
-import path from "node:path";
 
 import { filterUpcomingEvents, getEventEndTimeWithBuffer } from "@/utils/eventFilters";
 
@@ -413,7 +412,7 @@ export class Importer {
       nextEventSlug,
     };
 
-    const metaPath = path.join(config.paths.content, "meta.json");
+    const metaPath = config.paths.meta;
     await writeFileEnsured(metaPath, JSON.stringify(metaData, null, 2));
     logger.success(`Created ${metaPath}`);
   }

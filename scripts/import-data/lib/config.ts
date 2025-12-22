@@ -85,6 +85,7 @@ export const config = {
     content: path.join("content"),
     events: path.join("content", "events"),
     venues: path.join("content", "venues"),
+    meta: path.join("meta.json"),
   },
 
   features: {

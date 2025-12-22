@@ -21,9 +21,9 @@ jobs:
           UPSTREAM_REPO="oktechjp/public"
 
           # Read current values from meta.json
-          CURRENT_COMMIT=$(jq -r '.commitHash' content/meta.json)
-          CURRENT_CONTENT_HASH=$(jq -r '.contentHash // ""' content/meta.json)
-          NEXT_EVENT_ENDS=$(jq -r '.nextEventEnds' content/meta.json)
+          CURRENT_COMMIT=$(jq -r '.commitHash' meta.json)
+          CURRENT_CONTENT_HASH=$(jq -r '.contentHash // ""' meta.json)
+          NEXT_EVENT_ENDS=$(jq -r '.nextEventEnds' meta.json)
 
           echo "Current commit: $CURRENT_COMMIT"
           echo "Current content hash: $CURRENT_CONTENT_HASH"
