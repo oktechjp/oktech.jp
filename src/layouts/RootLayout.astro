@@ -11,6 +11,7 @@ import NavigationProgress from "@/components/Common/NavigationProgress";
 // import SEODevInfo from "@/components/Common/SEODevInfo";
 import ScrollToTopButton from "@/components/Common/ScrollToTopButton";
 import ConsoleEasterEgg from "@/components/Common/ConsoleEasterEgg";
+import SeasonalSnow from "@/components/Common/SeasonalSnow.astro";
 import { Font } from "astro:assets";
 ---
 
@@ -70,6 +71,7 @@ import { Font } from "astro:assets";
     <!-- <DevTools client:visible /> -->
     <!-- <SEODevInfo client:visible transition:persist="seo-dev-info" /> -->
     <ScrollToTopButton client:visible />
+    <SeasonalSnow />
     <slot />
     <ConsoleEasterEgg client:load transition:persist="console-easter-egg" />
   </body>
