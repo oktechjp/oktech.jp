@@ -12,6 +12,9 @@ export const SHOW_DEV_ENTRIES = DEV_MODE || SHOW_DEV_ENTRIES_IN_PROD;
 // Maximum width for images (they will be resized if larger during import)
 export const MAX_IMAGE_WIDTH = 1920;
 
+// Fallback cover image for events without a cover
+export const FALLBACK_COVER = "/src/assets/fallback-cover.png";
+
 // Meetup.com URLs
 export const MEETUP_BASE_URL = "https://www.meetup.com/osaka-web-designers-and-developers-meetup";
 export const MEETUP_EVENT_URL = `${MEETUP_BASE_URL}/events`;

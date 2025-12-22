@@ -61,9 +61,13 @@ const eventImages = import.meta.glob<{ default: ImageMetadata }>(
 const venueImages = import.meta.glob<{ default: ImageMetadata }>(
   "/content/venues/**/*.{jpg,jpeg,png,webp,svg}",
 );
+const assetImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/*.{jpg,jpeg,png,webp,svg}",
+);
 const imageLoaders: Record<string, () => Promise<{ default: ImageMetadata }>> = {
   ...eventImages,
   ...venueImages,
+  ...assetImages,
 };
 
 const normalizePath = (path: string) => (path.startsWith("/") ? path : `/${path}`);

@@ -43,9 +43,7 @@ export default function LocationMapImage({ mapImage, mapDarkImage, marker, class
           )}
         </>
       ) : (
-        <div className="from-primary/20 to-secondary/20 flex h-full min-h-[200px] w-full items-center justify-center bg-gradient-to-br">
-          <LuMapPin className="text-base-content/20 h-16 w-16" />
-        </div>
+        <div className="from-base-200 to-base-400 h-full min-h-[200px] w-full bg-gradient-to-br" />
       )}
       {marker && (
         <div className="absolute inset-0 flex items-center justify-center">

@@ -9,7 +9,7 @@ import {
 } from "astro:content";
 import path from "path";
 
-import { SHOW_DEV_ENTRIES } from "@/constants";
+import { FALLBACK_COVER, SHOW_DEV_ENTRIES } from "@/constants";
 import { type GalleryImage, getGalleryImages } from "@/content/gallery";
 import { type ProcessedVenue, processVenue } from "@/content/venues";
 import { isEventUpcoming } from "@/utils/eventFilters";
@@ -103,7 +103,7 @@ export async function eventsLoader() {
     return {
       id: path.basename(directory),
       dateTime,
-      cover: frontmatter.cover ? path.join(directory, frontmatter.cover) : undefined,
+      cover: frontmatter.cover ? path.join(directory, frontmatter.cover) : FALLBACK_COVER,
       venue: frontmatter.venue ? String(frontmatter.venue) : undefined,
       devOnly: Boolean(frontmatter.devOnly),
       title: frontmatter.title,

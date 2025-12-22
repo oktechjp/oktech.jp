@@ -100,16 +100,16 @@ export default function EventCardInfo({
           )}
         </InfoItem>
       )}
-      {showVenue && (
+      {showVenue && event.venue && (
         <InfoItem Icon={LuBuilding2} {...{ noWrap, variant }}>
           <div className={clsx("flex", !isCompact ? "flex-col gap-1" : "gap-1")}>
             <div>
               {linkToVenue ? (
                 <Link className="text-link" href={linkToVenue}>
-                  {event.venue?.title}
+                  {event.venue.title}
                 </Link>
               ) : (
-                <span>{event.venue?.title}</span>
+                <span>{event.venue.title}</span>
               )}
             </div>
             {(fullAddress || isCompact) && address && <div>{address}</div>}
