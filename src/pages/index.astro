@@ -19,16 +19,12 @@ const totalEvents = allEvents.length;
   <div class="py-responsive">
     <LandingHero />
   </div>
-  <div class="bg-base-100 py-16">
-    <EventsSection client:load events={events} totalEvents={totalEvents} variant="upcoming" />
-  </div>
+  <EventsSection client:load events={events} totalEvents={totalEvents} variant="upcoming" />
   <div class="py-responsive">
     <LandingAbout />
   </div>
   <!-- TODO test when there are no upcoming events -->
-  <div class="bg-base-100 py-16">
-    <EventsSection client:load events={events} totalEvents={totalEvents} variant="recent" />
-  </div>
+  <EventsSection client:load events={events} totalEvents={totalEvents} variant="recent" />
   <div class="pt-12">
     <LandingCTA client:visible />
   </div>

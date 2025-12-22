@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 import { LuCalendarDays, LuSparkles } from "react-icons/lu";
 
@@ -10,6 +10,10 @@ import CalendarSubscribeButton from "../Common/CalendarSubscribeButton";
 import Container from "../Common/Container";
 import EventCarousel from "../Common/EventCarousel";
 import EventCarouselLastItem from "../Common/EventCarouselLastItem";
+
+function SectionWrapper({ children }: { children: ReactNode }) {
+  return <div className="bg-base-100 py-16">{children}</div>;
+}
 
 function UpcomingSection({ events }: { events: EventEnriched[] }) {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -33,7 +37,7 @@ function UpcomingSection({ events }: { events: EventEnriched[] }) {
   );
 
   return (
-    <>
+    <SectionWrapper>
       <Container className="gap-responsive flex flex-col md:items-center">
         <h2 className="section-title">Upcoming Events</h2>
       </Container>
@@ -45,13 +49,13 @@ function UpcomingSection({ events }: { events: EventEnriched[] }) {
           <div className="block md:hidden">{renderCarousel("polaroid")}</div>
         </>
       )}
-    </>
+    </SectionWrapper>
   );
 }
 
 function RecentSection({ events, remaining }: { events: EventEnriched[]; remaining: number }) {
   return (
-    <>
+    <SectionWrapper>
       <Container wide className="gap-responsive flex justify-between">
         <h2 className="section-title">Recent Events</h2>
         <div className="hidden md:block">
@@ -76,7 +80,7 @@ function RecentSection({ events, remaining }: { events: EventEnriched[]; remaini
           </div>
         }
       />
-    </>
+    </SectionWrapper>
   );
 }
 
