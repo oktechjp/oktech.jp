@@ -33,6 +33,10 @@ import { Font } from "astro:assets";
       title={`${SITE.name} - Events Calendar Feed`}
       href={urls.withBase(`/oktech-events.ics`)}
     />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="01ef4ab1-b941-4051-9a23-89a24f12f2df"></script>
     <script is:inline>
       // Apply theme from localStorage or system preference
       function applyTheme(targetDocument) {
