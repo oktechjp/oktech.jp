@@ -10,6 +10,30 @@ export function formatICSDate(date: Date): string {
     .replace(/\.\d{3}/, "");
 }
 
+function buildLocation(event: EventEnriched): string {
+  if (!event.venue?.title) return "TBD";
+  const parts = [event.venue.title];
+  if (event.venue.address) parts.push(event.venue.address);
+  if (event.venue.city) parts.push(event.venue.city);
+  return parts.join(", ");
+}
+
+function buildDescription(event: EventEnriched, eventUrl: string): string {
+  const lines = [`${event.data.title} - ${SITE.longName}`];
+
+  if (event.data.howToFindUs) {
+    lines.push("", "How to find us:", event.data.howToFindUs);
+  }
+
+  if (event.venue?.gmaps) {
+    lines.push("", `Google Maps: ${event.venue.gmaps}`);
+  }
+
+  lines.push("", `Event page: ${eventUrl}`);
+
+  return lines.join("\\n");
+}
+
 export function generateEventICS(event: EventEnriched): string {
   const startDate = new Date(event.data.dateTime);
   const endDate = new Date(event.data.dateTime);
@@ -22,24 +46,29 @@ export function generateEventICS(event: EventEnriched): string {
   const status = "CONFIRMED";
 
   const eventUrl = urls.toAbsolute(`/events/${event.id}`);
+  const location = buildLocation(event);
+  const description = buildDescription(event, eventUrl);
 
-  const location = event.venue?.title
-    ? `${event.venue.title}${event.venue.address ? `, ${event.venue.address}` : ""}`
-    : "TBD";
-
-  return [
+  const fields = [
     "BEGIN:VEVENT",
     `UID:${event.id}@OKTECH`,
     `DTSTAMP:${formatICSDate(new Date())}`,
     `DTSTART:${formatICSDate(startDate)}`,
     `DTEND:${formatICSDate(endDate)}`,
     `SUMMARY:${summary}`,
-    `DESCRIPTION:${event.data.title} - ${SITE.longName}\\n\\n${eventUrl}`,
+    `DESCRIPTION:${description}`,
     `LOCATION:${location}`,
     `URL:${eventUrl}`,
     `STATUS:${status}`,
-    "END:VEVENT",
-  ].join("\r\n");
+  ];
+
+  if (event.venue?.coordinates) {
+    fields.push(`GEO:${event.venue.coordinates.lat};${event.venue.coordinates.lng}`);
+  }
+
+  fields.push("END:VEVENT");
+
+  return fields.join("\r\n");
 }
 
 export function wrapICSCalendar(events: string | string[], calName?: string): string {
