@@ -149,6 +149,15 @@ mark {
   }
 }
 
+/* Images and embeds - centered with rounded corners */
+.prose img,
+.prose iframe,
+.prose video,
+.prose embed,
+.prose object {
+  @apply mx-auto rounded-box;
+}
+
 /* slideshow overrides for fade transition */
 
 .yarl__slide {
