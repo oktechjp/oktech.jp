@@ -30,8 +30,8 @@ https://yamap.com/activities/15027183
 
 What to bring:
 
-\- Water
-\- Food \(we'll picnic during the hike\)
-\- Insect repellent
-\- Light windbreaker/raincoat
-\- Comfortable shoes \(hiking shoes not required\)
+- Water
+- Food (we'll picnic during the hike)
+- Insect repellent
+- Light windbreaker/raincoat
+- Comfortable shoes (hiking shoes not required)

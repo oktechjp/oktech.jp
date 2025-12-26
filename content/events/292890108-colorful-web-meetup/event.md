@@ -19,7 +19,7 @@ Good Summer everyone! 👋
 
 The [workshop in the Gusuku Ashibinaa](https://www.meetup.com/osaka-web-designers-and-developers-meetup/events/292146517/) space was awesome which is why we will do our next one there as well!
 
-This time on Sat. June 17th we like to invite you to a presentation by the always awesome Alexey from [Evil Martians](https://evilmartians.com/) presenting about [OKLCH](https://oklch.com/) \- a new way to specify colors that has found it's way into the CSS specification and has some very nice properties\.
+This time on Sat. June 17th we like to invite you to a presentation by the always awesome Alexey from [Evil Martians](https://evilmartians.com/) presenting about [OKLCH](https://oklch.com/) - a new way to specify colors that has found it's way into the CSS specification and has some very nice properties.
 
 In our second presentation, Abhishek Oza will be giving us an Introduction of Docker for Frontend people in his first presentation at OWDDM. This should be particularly enlightening for people that don't know why it would be good for Frontend people to know Docker. 😉
 

@@ -21,7 +21,10 @@ We have a bit of a special event this month. [Tamas Piros](https://tpiros.dev/) 
 
 Join us with your computer 💻 for a workshop, where Tamas will introduce us to [Astro.build](https://astro.build). The recent state-of-the-art front-end framework to build websites fast. It has taken many hearts and if you haven't had the chance to touch it yet, it may be a good opportunity for you to level up! 🚀
 
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+---
+
 Meanwhile please check it our **[15th April event on Saturday - 'Design generally, Nostr particularly'](https://www.meetup.com/osaka-web-designers-and-developers-meetup/events/291352450/)** and RSVP to join!
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+
+---
+
 **[Follow for more on DISCORD](https://discord.gg/c44zFcKN)**

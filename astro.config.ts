@@ -3,9 +3,11 @@ import react from "@astrojs/react";
 import yaml from "@rollup/plugin-yaml";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
+import remarkBreaks from "remark-breaks";
 import { visualizer } from "rollup-plugin-visualizer";
 import svgr from "vite-plugin-svgr";
 
+import { rehypeTableWrapper, rehypeTaskListCheckbox } from "./src/utils/rehypePlugins";
 import relativeStaticAssets from "./src/utils/relativeStaticAssets";
 import {
   remarkDescription,
@@ -71,7 +73,8 @@ export default defineConfig({
     discord: "https://discord.com/invite/k8xj8d75f6",
   },
   markdown: {
-    remarkPlugins: [remarkReadingTime, remarkDescription, remarkRelativeAssets],
+    remarkPlugins: [remarkBreaks, remarkReadingTime, remarkDescription, remarkRelativeAssets],
+    rehypePlugins: [rehypeTableWrapper, rehypeTaskListCheckbox],
   },
   experimental: {
     clientPrerender: true,

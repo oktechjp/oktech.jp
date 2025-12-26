@@ -107,18 +107,46 @@ mark {
   border-bottom-width: 2px;
 }
 
-/* Enable horizontal scroll for wide tables on mobile */
-.prose table {
-  display: block;
+/* Table scroll wrapper - enables horizontal scroll without breaking table layout */
+.prose .table-scroll-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  white-space: nowrap;
-  @apply bg-base-100 rounded-box p-4;
+  @apply bg-base-100 rounded-box px-6;
+}
+
+.prose .table-scroll-wrapper table {
+  @apply whitespace-nowrap;
 }
 
 .prose td,
 .prose th {
   vertical-align: middle;
+}
+
+/* Task list styling - removes bullet and aligns checkbox nicely */
+.prose .task-list-item {
+  list-style-type: none;
+  @apply flex items-start gap-2;
+  margin-left: -1.5em;
+}
+
+.prose .task-list-item .task-list-item {
+  margin-left: 0.5em;
+}
+
+.prose .task-list-item > .checkbox {
+  @apply mt-1 shrink-0;
+}
+
+.prose .task-list-item > .checkbox:checked {
+  @apply checkbox-success;
+}
+
+/* override checkbox styling */
+.checkbox {
+  &:disabled {
+    @apply opacity-70;
+  }
 }
 
 /* slideshow overrides for fade transition */

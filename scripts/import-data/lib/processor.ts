@@ -11,7 +11,7 @@ import { GitHubService } from "./github";
 import { logger } from "./logger";
 import { MapService } from "./maps";
 import { type ExternalPhoto, type GalleryStats, PhotoService } from "./photos";
-import { pathExists, writeFileEnsured } from "./utils";
+import { normalizeMarkdown, pathExists, writeFileEnsured } from "./utils";
 
 /**
  * Custom YAML engine for gray-matter that uses double quotes for strings
@@ -312,7 +312,8 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
   }
 
   getContentBody(event: ExternalEvent): string {
-    return `\n${event.description || ""}`;
+    const description = normalizeMarkdown(event.description || "");
+    return `\n${description}`;
   }
 
   /**

@@ -17,7 +17,7 @@ howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, be
 
 Hello friends,
 
-let's continue; move on; get it going again; proceed; resume, resume and Resumé with the summer. - *Martin doesn't have a heatstroke, just a case of bad joke* \- Anyways: we are back after a summer break 😀
+let's continue; move on; get it going again; proceed; resume, resume and Resumé with the summer. - *Martin doesn't have a heatstroke, just a case of bad joke* - Anyways: we are back after a summer break 😀
 
 With a topical presentation on *"Workshop for Job Seeking in Japan"*. [Luna](https://www.linkedin.com/in/luna-katayama-92887b20/) will be giving us advice on things we need to think of while looking for a job here. ([discord thread](https://discord.com/channels/1034792577293094972/1271729858354876477))
 

@@ -78,8 +78,6 @@ This is a second paragraph to demonstrate spacing between paragraphs. It include
 - [x] Completed task
 - [ ] Uncompleted task
 - [x] Another completed task
-  - [ ] Nested uncompleted task
-  - [x] Nested completed task
 
 ## Blockquotes
 
@@ -164,12 +162,12 @@ ls -la /usr/local/bin
 
 ### Complex Table with Formatting
 
-| Feature | Description | Status | Priority |
-|---------|-------------|--------|----------|
-| **Bold** | Text in bold | ✅ Complete | High |
-| *Italic* | Text in italics | ⏳ In Progress | Medium |
-| `Code` | Inline code | ❌ Not Started | Low |
-| [Link](#) | Clickable link | ✅ Complete | High |
+| Feature | Description | Status | Priority | Assigned To | Due Date | Est. Hours | Actual Hours | Notes |
+|---------|-------------|--------|----------|-------------|----------|------------|--------------|-------|
+| **Bold** | Text in bold | ✅ Complete | High | @alice | 2025-01-15 | 4 | 3.5 | Finished early |
+| *Italic* | Text in italics | ⏳ In Progress | Medium | @bob | 2025-01-20 | 8 | 6 | On track |
+| `Code` | Inline code | ❌ Not Started | Low | @charlie | 2025-02-01 | 2 | 0 | Blocked by dependencies |
+| [Link](#) | Clickable link | ✅ Complete | High | @diana | 2025-01-10 | 1 | 1.5 | Minor delay |
 
 ## Horizontal Rules
 

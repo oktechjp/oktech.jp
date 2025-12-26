@@ -25,8 +25,12 @@ The second presentation is going to be as relevant as it is going to be conceptu
 * RSVP to join us ➡
 
 The presentation idea comes from our Discord group.
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+
+---
+
 We also have a special meeting this month by TAMAS PIROS.
 **[Check out](https://www.meetup.com/osaka-web-designers-and-developers-meetup/events/292146517/)**[ ](https://www.meetup.com/osaka-web-designers-and-developers-meetup/events/292146517/)the detail and join this workshop.
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+
+---
+
 Join our [DisCord Channel ](https://discord.gg/D4XaVAyQ)to share your ideas.
