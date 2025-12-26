@@ -155,7 +155,7 @@ mark {
 .prose video,
 .prose embed,
 .prose object {
-  @apply mx-auto rounded-box;
+  @apply rounded-box mx-auto;
 }
 
 /* slideshow overrides for fade transition */
