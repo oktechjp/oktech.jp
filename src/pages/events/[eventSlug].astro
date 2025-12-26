@@ -8,6 +8,7 @@ import EventImageBig from "@/components/Event/EventImageBig";
 import LocationCardEvent from "@/components/Common/LocationCardEvent";
 import EventTags from "@/components/Event/EventTags";
 import EventActionAlert from "@/components/Event/EventActionAlert";
+import MarketingRedirect from "@/components/Event/MarketingRedirect";
 import { isEventUpcoming } from "@/utils/eventFilters";
 
 export async function getStaticPaths() {
@@ -28,6 +29,14 @@ const isUpcoming = isEventUpcoming(event);
 ---
 
 <SidebarPageLayout>
+  <Fragment slot="before-layout">
+    <MarketingRedirect
+      meetupId={event.data.meetupId}
+      eventDateTime={event.data.dateTime.toISOString()}
+      isCancelled={event.data.isCancelled}
+      client:load
+    />
+  </Fragment>
   <Fragment slot="before-sidebar">
     <EventActionAlert variant="compact" event={event} client:visible />
   </Fragment>
