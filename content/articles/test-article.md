@@ -4,6 +4,8 @@ description: "A comprehensive test of all markdown elements and typography style
 keywords: ["markdown", "typography", "test", "style guide"]
 ---
 
+> **Why is this here?** This page exists to test and showcase all markdown formatting styles supported on this site. It helps us ensure typography, code blocks, tables, and other elements render correctly. Feel free to use it as a reference!
+
 # Heading Level 1
 
 ## Heading Level 2

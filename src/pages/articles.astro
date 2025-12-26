@@ -6,6 +6,7 @@ import { getCollection } from "astro:content";
 type ArticleFrontmatter = {
   title?: string;
   description?: string;
+  unlisted?: boolean;
 };
 
 type MarkdownModule = {
@@ -32,6 +33,10 @@ const articleSummaries = (
         }
 
         const module = await loader();
+        if (module.frontmatter?.unlisted) {
+          return null;
+        }
+
         const fallbackTitle = page.id.split("/").pop() ?? page.id;
 
         return {
