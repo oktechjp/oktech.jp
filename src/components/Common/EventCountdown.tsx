@@ -14,48 +14,81 @@ const LIVE_BADGE_CLASS = `badge-info`;
 const MS_PER_SECOND = 1000;
 const MS_PER_MINUTE = 60 * MS_PER_SECOND;
 const MS_PER_HOUR = 60 * MS_PER_MINUTE;
-const MS_PER_DAY = 24 * MS_PER_HOUR;
 const HOURS_THRESHOLD = 3;
+const TIMEZONE = "Asia/Tokyo";
+const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 interface TimeUntilEvent {
-  value: number;
-  unit: "day" | "hour" | "minute" | "second";
   isUpcoming: boolean;
+  displayText: string;
+  hours: number;
+}
+
+function getCalendarDayDiff(now: Date, eventDate: Date): number {
+  // Get dates in Tokyo timezone for calendar day comparison
+  const nowInTz = new Date(now.toLocaleString("en-US", { timeZone: TIMEZONE }));
+  const eventInTz = new Date(eventDate.toLocaleString("en-US", { timeZone: TIMEZONE }));
+
+  // Reset to midnight for calendar day comparison
+  const nowMidnight = new Date(nowInTz.getFullYear(), nowInTz.getMonth(), nowInTz.getDate());
+  const eventMidnight = new Date(
+    eventInTz.getFullYear(),
+    eventInTz.getMonth(),
+    eventInTz.getDate(),
+  );
+
+  const diffMs = eventMidnight.getTime() - nowMidnight.getTime();
+  return Math.round(diffMs / (24 * MS_PER_HOUR));
 }
 
 function calculateTimeUntilEvent(eventDate: Date): TimeUntilEvent | null {
-  const now = new Date().getTime();
+  const now = new Date();
   const start = eventDate.getTime();
+  const isUpcoming = now.getTime() < start;
+  const difference = isUpcoming ? start - now.getTime() : now.getTime() - start;
 
-  const isUpcoming = now < start;
-  const difference = isUpcoming ? start - now : now - start;
-
-  const days = Math.floor(difference / MS_PER_DAY);
-  const hours = Math.floor((difference % MS_PER_DAY) / MS_PER_HOUR);
+  const hours = Math.floor(difference / MS_PER_HOUR);
   const minutes = Math.floor((difference % MS_PER_HOUR) / MS_PER_MINUTE);
   const seconds = Math.floor((difference % MS_PER_MINUTE) / MS_PER_SECOND);
 
-  if (days > 0) {
-    return { value: days, unit: "day", isUpcoming };
-  } else if (hours > 0) {
-    return { value: hours, unit: "hour", isUpcoming };
-  } else if (minutes > 0) {
-    return { value: minutes, unit: "minute", isUpcoming };
-  } else if (seconds >= 0) {
-    return { value: seconds, unit: "second", isUpcoming };
+  if (!isUpcoming) {
+    // Event has started - show elapsed time
+    if (hours > 0) {
+      const plural = hours === 1 ? "" : "s";
+      return { isUpcoming: false, displayText: `started ${hours} hour${plural} ago`, hours };
+    } else if (minutes > 0) {
+      const plural = minutes === 1 ? "" : "s";
+      return { isUpcoming: false, displayText: `started ${minutes} minute${plural} ago`, hours: 0 };
+    } else if (seconds >= 0) {
+      return { isUpcoming: false, displayText: "just started", hours: 0 };
+    }
+    return null;
   }
 
-  return null;
-}
+  // Event is upcoming - use calendar-based display
+  const calendarDays = getCalendarDayDiff(now, eventDate);
+  const eventInTz = new Date(eventDate.toLocaleString("en-US", { timeZone: TIMEZONE }));
+  const eventDayName = DAY_NAMES[eventInTz.getDay()];
 
-function formatTimeString(time: TimeUntilEvent): string {
-  const plural = time.value === 1 ? "" : "s";
-  const timePhrase = `${time.value} ${time.unit}${plural}`;
-
-  if (time.isUpcoming) {
-    return `starts in ${timePhrase}`;
+  if (calendarDays === 0) {
+    // Same calendar day - show hours/minutes
+    if (hours > 0) {
+      const plural = hours === 1 ? "" : "s";
+      return { isUpcoming: true, displayText: `starts in ${hours} hour${plural}`, hours };
+    } else if (minutes > 0) {
+      const plural = minutes === 1 ? "" : "s";
+      return { isUpcoming: true, displayText: `starts in ${minutes} minute${plural}`, hours: 0 };
+    } else {
+      return { isUpcoming: true, displayText: "starting now", hours: 0 };
+    }
+  } else if (calendarDays === 1) {
+    return { isUpcoming: true, displayText: "starts tomorrow", hours };
+  } else if (calendarDays <= 6) {
+    // Within a week - show day name
+    return { isUpcoming: true, displayText: `starts ${eventDayName}`, hours };
   } else {
-    return `started ${timePhrase} ago`;
+    // More than a week - show calendar days
+    return { isUpcoming: true, displayText: `starts in ${calendarDays} days`, hours };
   }
 }
 
@@ -104,18 +137,11 @@ export default function EventCountdown({
         return;
       }
 
-      const timeStr = formatTimeString(timeInfo);
-      setTimeString(timeStr);
+      setTimeString(timeInfo.displayText);
       setBadgeClass(timeInfo.isUpcoming ? DEFAULT_BADGE_CLASS : LIVE_BADGE_CLASS);
 
       // Adjust interval based on time remaining/elapsed
-      const totalHours =
-        timeInfo.unit === "day"
-          ? timeInfo.value * 24
-          : timeInfo.unit === "hour"
-            ? timeInfo.value
-            : 0;
-      const newInterval = totalHours >= HOURS_THRESHOLD ? MS_PER_MINUTE : MS_PER_SECOND;
+      const newInterval = timeInfo.hours >= HOURS_THRESHOLD ? MS_PER_MINUTE : MS_PER_SECOND;
 
       // Clear existing interval before creating a new one to prevent memory leaks
       if (intervalId) clearInterval(intervalId);
