@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import Link from "@/components/Common/Link";
 import type { EventEnriched } from "@/content";
+import { formatDate } from "@/utils/formatDate";
 
 import EventCardDescription from "./EventCardDescription";
 import EventCardImage from "./EventCardImage";
@@ -22,7 +23,8 @@ function EventCard({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const eventUrl = `/events/${event.id}`;
+  const date = formatDate(event.data.dateTime, "date");
+  const eventUrl = `/events/${event.id}-${date}`;
 
   const [springs, api] = useSpring(() => ({
     scale: 1,

@@ -5,9 +5,9 @@
 
 // Test event constants - these are development-only events that should be used in tests
 export const TEST_EVENTS = {
-  PRIMARY: "999999999-example-dev-event",
-  SECONDARY: "999999998-example-dev-event-2",
-  REAL_EVENT: "308580120-agentic-sentiments", // Real event for slug testing
+  PRIMARY: "999999999-example-dev-event-2027-04-15",
+  SECONDARY: "999999998-example-dev-event-2-2027-03-15",
+  REAL_EVENT: "308580120-agentic-sentiments-2025-07-19", // Real event for slug testing
 } as const;
 
 // Test venue constants that are used by test events
