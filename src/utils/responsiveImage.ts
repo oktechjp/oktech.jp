@@ -45,6 +45,11 @@ export type ImageDimensions = { width: number; height: number };
 export type ResponsiveImageData = { src: string; srcSet: string; sizes: string };
 
 export async function safeGetImage(options: UnresolvedImageTransform): Promise<{ src: string }> {
+  // In dev mode, bypass image optimization to avoid proxy/fetch issues
+  if (import.meta.env.DEV) {
+    const src = options.src as ImageMetadata;
+    return { src: src?.src || (options.src as string) || "" };
+  }
   try {
     const { getImage } = await import("astro:assets");
     return await getImage(options);
