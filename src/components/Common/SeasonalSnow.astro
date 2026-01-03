@@ -1,10 +1,8 @@
 ---
 import Snowfall from "./Snowfall";
+import { shouldShowSeasonalSnow } from "@/utils/seasonalSnow";
 
-const now = new Date();
-const isDecember = now.getMonth() === 11;
-const isSecondHalf = now.getDate() >= 15;
-const showSnow = isDecember && isSecondHalf;
+const showSnow = shouldShowSeasonalSnow();
 ---
 
 {showSnow && <Snowfall client:only="react" transition:persist="snowfall" />}

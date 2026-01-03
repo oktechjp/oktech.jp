@@ -2,6 +2,8 @@ import { useMemo } from "react";
 
 import { animated, useSprings } from "@react-spring/web";
 
+import { shouldShowSeasonalSnow } from "@/utils/seasonalSnow";
+
 const COLORS = ["#ffffff", "#ff6b6b", "#4ecdc4", "#ffe66d", "#95e1d3", "#f38181", "#aa96da"];
 
 const FLAKE_COUNT = 50;
@@ -29,7 +31,10 @@ function generateFlakes(): Flake[] {
 }
 
 export default function Snowfall() {
+  const showSnow = shouldShowSeasonalSnow();
   const flakes = useMemo(generateFlakes, []);
+
+  if (!showSnow) return null;
 
   const [springs] = useSprings(FLAKE_COUNT, (i) => ({
     from: { progress: 0 },
