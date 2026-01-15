@@ -1,6 +1,6 @@
 ---
 title: Work Spinach & Dev. Containers
-dateTime: 2026-01-24 19:00
+dateTime: 2026-01-24 17:00
 duration: 150
 cover: ./571041.webp
 topics:
