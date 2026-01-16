@@ -14,7 +14,7 @@ group: 15632202
 venue: 24529555
 howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
 links:
-  discord: https://discord.gg/Dsa4y8Mx?event=1445044166609338409
+  discord: https://discord.com/events/1034792577293094972/1445044166609338409
   linkedIn: https://www.linkedin.com/events/7401250762732994560/
 ---
 
