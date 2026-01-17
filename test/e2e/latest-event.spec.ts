@@ -81,7 +81,7 @@ test.describe("Latest Event Visibility", () => {
   });
 
   test("latest event detail page exists with correct information", async ({ page }) => {
-    const eventUrl = `/events/${latestEvent!.slug}`;
+    const eventUrl = `/events/${latestEvent!.slug}-${formatDate(latestEvent!.dateTime, "date")}`;
     await page.goto(eventUrl);
 
     // Check the title is on the page

@@ -1,4 +1,4 @@
-export type DateFormat = "long" | "short" | "short-no-year" | "datetime";
+export type DateFormat = "long" | "short" | "short-no-year" | "datetime" | "date";
 
 export function formatDate(date: Date | string, format: DateFormat = "short"): string {
   const dateObj = typeof date === "string" ? new Date(date) : date;
@@ -19,6 +19,10 @@ export function formatDate(date: Date | string, format: DateFormat = "short"): s
       day: "numeric",
       timeZone: "Asia/Tokyo",
     });
+  }
+
+  if (format === "date") {
+    return dateObj.toISOString().split("T")[0];
   }
 
   if (format === "datetime") {
