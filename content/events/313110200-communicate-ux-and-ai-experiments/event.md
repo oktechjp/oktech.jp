@@ -24,6 +24,6 @@ In **Communicating with Stakeholders as a UI/UX Designer**, Kimmy shows how UI/U
 
 Tillman and Chris join forces to answer the question: **What is tracking me?** A project involving hardware and software that lifts veil on who or what is collecting your data when you are in public even without any digital devices. Big brother, we're watching you.
 
-Bring an open mind and join us for out February Meetup.
+Bring an open mind and join us for our February Meetup!
 
 If you want to talk to us about this or other topics, feel free to 🎉 [Join our Discord](https://owddm.com/discord) and let us know if you have another brief presentation for us! (→ [#presentation-proposals](https://discord.com/channels/1034792577293094972/1034862103653257306))
