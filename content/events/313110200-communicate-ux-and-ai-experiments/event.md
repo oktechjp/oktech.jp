@@ -2,7 +2,7 @@
 title: Communicate UX & AI Experiments
 dateTime: 2026-02-28 17:00
 duration: 150
-cover: ./491266.webp
+cover: ./501221.webp
 topics:
   - AI and Society
   - Software Security
