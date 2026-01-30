@@ -5,8 +5,8 @@ duration: 150
 cover: ./886924.webp
 meetupId: 313124999
 group: 15632202
-venue: 27553394
-howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
+venue: 24529555
+howToFindUs: In the Hankyu main building take the (huge) business elevator to the 15th floor Skylobby. Then take the far-back elevator to the 35th floor to join us in the Cybozu Office.
 links: {}
 ---
 
