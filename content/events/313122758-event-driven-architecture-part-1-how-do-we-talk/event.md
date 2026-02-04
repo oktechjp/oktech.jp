@@ -62,7 +62,7 @@ Once the system is running, the real challenges begin:
 - Interactive discussions and exercises
 - The sessions build on each other, so attending all three is strongly recommended
 
-Who is it for?
+### Who is it for?
 
 - Software engineers with **2–3+ years of professional experience**
 - Developers working on backend or distributed systems
