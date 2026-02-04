@@ -1,8 +1,8 @@
 {
-  "commitDate": "2026-01-30T06:53:12Z",
-  "commitHash": "6c0e53871704f1f2df6997357f6b6f01d4cf11aa",
-  "contentHash": "5fca4405559c0d0485695a31ff28ce4620a6b8ed9dd797654e853bda17afabbe",
+  "commitDate": "2026-02-04T15:11:35Z",
+  "commitHash": "a5e51d1d37021916cd6ac345707f76963df199a7",
+  "contentHash": "401dc57004f5d46d8cde9de4a1c02f738ac60d71cb5de29cd9ca0d07ee573da0",
   "repository": "https://github.com/oktechjp/public",
-  "nextEventEnds": "2026-02-28T11:00:00.000Z",
-  "nextEventSlug": "313110200"
+  "nextEventEnds": "2026-02-15T12:30:00.000Z",
+  "nextEventSlug": "313122758"
 }
