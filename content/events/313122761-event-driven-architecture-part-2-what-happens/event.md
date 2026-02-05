@@ -14,8 +14,8 @@ group: 15632202
 venue: 25963776
 howToFindUs: We are in room 801 of the Kokoplaza.
 links:
-  discord: ""
-  linkedIn: ""
+  discord: https://discord.com/events/1034792577293094972/1468947982614396980
+  linkedIn: https://www.linkedin.com/events/7425156629727412224/
 ---
 
 **Event-Driven Architecture: From Communication to Reality (3-Part Workshop Series)**

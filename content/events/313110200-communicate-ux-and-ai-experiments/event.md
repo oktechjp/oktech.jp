@@ -15,7 +15,7 @@ venue: 27553394
 howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
 links:
   discord: https://discord.com/events/1034792577293094972/1466666882521104517
-  linkedIn: https://www.linkedin.com/events/7422874780510621699/
+  linkedIn: https://www.linkedin.com/events/7425161162834464768/
 ---
 
 Join us for this February we are coping with the trends of the last year and look at AI through two different lenses.

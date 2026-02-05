@@ -12,10 +12,7 @@ topics:
 meetupId: 311974329
 group: 15632202
 venue: 25963776
-howToFindUs: |-
-  We'll meet in front of the Uji sightseeing guide map in front of the Uji Keihan Station. 
-
-  (Note: make sure you come to the **Uji Keihan station**, and not the Uji JR station, which is a 5-min walk away on the other side of the river)
+howToFindUs: We are in room 701 of the Kokoplaza.
 links:
   discord: https://discord.com/events/1034792577293094972/1438179735094952196
   linkedIn: https://www.linkedin.com/events/7394388461472034816/
