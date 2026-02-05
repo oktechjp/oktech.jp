@@ -13,6 +13,26 @@ import { MapService } from "./maps";
 import { type ExternalPhoto, type GalleryStats, PhotoService } from "./photos";
 import { normalizeMarkdown, pathExists, writeFileEnsured } from "./utils";
 
+// Max URL length 84, base URL "https://oktech.jp/events/" is 25 chars
+const MAX_SLUG_LENGTH = 59;
+
+/**
+ * Truncate a slug to fit within URL length limits, cutting at word boundaries.
+ * Words are segments separated by hyphens. Removes complete words from the end.
+ */
+function truncateSlugAtWordBoundary(slug: string): string {
+  if (slug.length <= MAX_SLUG_LENGTH) {
+    return slug;
+  }
+
+  const words = slug.split("-");
+  while (words.length > 1 && words.join("-").length > MAX_SLUG_LENGTH) {
+    words.pop();
+  }
+
+  return words.join("-");
+}
+
 /**
  * Custom YAML engine for gray-matter that uses double quotes for strings
  */
@@ -222,7 +242,8 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
       return existingSlug;
     }
 
-    const newSlug = slugify(`${event.id}-${event.title}`, { lower: true, strict: true });
+    const fullSlug = slugify(`${event.id}-${event.title}`, { lower: true, strict: true });
+    const newSlug = truncateSlugAtWordBoundary(fullSlug);
     this.existingSlugsByMeetupId.set(meetupIdKey, newSlug);
     return newSlug;
   }
