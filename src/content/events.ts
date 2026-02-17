@@ -13,6 +13,7 @@ import { FALLBACK_COVER, SHOW_DEV_ENTRIES } from "@/constants";
 import { type GalleryImage, getGalleryImages } from "@/content/gallery";
 import { type ProcessedVenue, processVenue } from "@/content/venues";
 import { isEventUpcoming } from "@/utils/eventFilters";
+import { replaceDate } from "@/utils/formatSlug";
 import { memoize } from "@/utils/memoize";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
@@ -120,7 +121,8 @@ export async function eventsLoader() {
 }
 
 export const getEvent = memoize(async (eventSlug: string) => {
-  const event = await getEntry("events", eventSlug);
+  const eventSlugWithoutDate = replaceDate(eventSlug);
+  const event = await getEntry("events", eventSlugWithoutDate);
   if (!event) throw new Error(`No event found for slug ${eventSlug}`);
   let venueSlug: string | undefined;
   let venueData: ProcessedVenue | undefined;

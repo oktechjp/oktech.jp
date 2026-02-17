@@ -10,7 +10,8 @@ const { markdown, class: className = "prose prose-lg max-w-none" } = Astro.props
 const markdownFiles = import.meta.glob("/content/**/*.md");
 
 // Normalize the path to match the glob pattern
-const fullPath = `/content/${markdown}`;
+// check markdown file name without date
+const fullPath = `/content/${markdown}`.replace(/-(\d{4}-\d{2}-\d{2})\//, "/");
 
 if (!markdownFiles[fullPath]) {
   throw new Error(`Markdown file not found: ${fullPath}`);
