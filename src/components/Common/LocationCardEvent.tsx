@@ -3,7 +3,6 @@ import { LuInfo } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
 
-import EventProjectorButton from "../Event/EventProjectorButton";
 import EventSocialButtons from "../Event/EventSocialButtons";
 import CalendarSubscribeButton from "./CalendarSubscribeButton";
 import EventCardInfo from "./EventCardInfo";
@@ -27,7 +26,6 @@ function EventActionButtons({
     >
       <CalendarSubscribeButton event={event} className="w-full" />
       <EventSocialButtons event={event} />
-      <EventProjectorButton event={event} />
     </div>
   );
 }

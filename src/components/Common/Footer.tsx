@@ -1,13 +1,15 @@
 import Container from "@/components/Common/Container";
+import EventProjectorButton from "@/components/Event/EventProjectorButton";
 import FooterMinorLinks from "@/components/Common/FooterMinorLinks";
 import MainMenu from "@/components/Common/MainMenu";
 import SocialsFooter from "@/components/Common/SocialsFooter";
+import type { EventEnriched } from "@/content";
 import { SITE } from "@/constants";
 
 import Brand from "./Brand";
 import BuiltWithCommit from "./BuiltWithCommit";
 
-export default function Footer() {
+export default function Footer({ event }: { event?: EventEnriched }) {
   return (
     <footer data-testid="footer">
       <Container className="flex flex-col gap-8 py-10">
@@ -18,11 +20,14 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-8 text-xs lg:flex-row lg:items-baseline">
-          <div className="flex items-center gap-4">
-            <span>
-              Copyright © {new Date().getFullYear()} {SITE.shortName}
-            </span>
-            <FooterMinorLinks />
+          <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-baseline">
+            <div className="flex items-center gap-4">
+              <span>
+                Copyright © {new Date().getFullYear()} {SITE.shortName}
+              </span>
+              <FooterMinorLinks />
+            </div>
+            {event && <EventProjectorButton event={event} variant="link" />}
           </div>
           <BuiltWithCommit />
         </div>

@@ -4,7 +4,7 @@ import TopBar from "@/components/Common/TopBar";
 import Footer from "@/components/Common/Footer";
 import clsx from "clsx";
 
-const { flush, className } = Astro.props;
+const { flush, className, footerEvent } = Astro.props;
 ---
 
 <RootLayout>
@@ -17,7 +17,7 @@ const { flush, className } = Astro.props;
       <slot />
     </main>
     <footer>
-      <Footer client:visible />
+      <Footer event={footerEvent} client:visible />
     </footer>
   </div>
   <!-- <DevInfo client:visible /> -->

@@ -1,9 +1,11 @@
 ---
 import Container from "@/components/Common/Container";
 import PageLayout from "@/layouts/PageLayout.astro";
+
+const { footerEvent } = Astro.props;
 ---
 
-<PageLayout>
+<PageLayout footerEvent={footerEvent}>
   <div class="gap-responsive flex flex-col pt-8 pb-32 md:pt-12 lg:pt-18">
     <Container wide className="flex flex-col xl:gap-12 2xl:!gap-24">
       <slot name="before-layout" />

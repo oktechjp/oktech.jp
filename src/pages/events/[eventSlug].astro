@@ -28,7 +28,7 @@ const event = await getEvent(eventSlug);
 const isUpcoming = isEventUpcoming(event);
 ---
 
-<SidebarPageLayout>
+<SidebarPageLayout footerEvent={event}>
   <Fragment slot="before-layout">
     <MarketingRedirect
       meetupId={event.data.meetupId}
