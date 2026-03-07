@@ -2,6 +2,8 @@
 title: Guide for MCs at our events
 description: Checklist for MC'ing at the OKTech meetup
 keywords: ["organizational", "volunteer", "mc"]
+author: Martin Heidegger <martinheidegger>
+date: 2025-11-09
 ---
 
 **👋 Hello Friend!**

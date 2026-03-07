@@ -1,0 +1,100 @@
+---
+import ArticleCard from "@/components/Article/ArticleCard";
+import Container from "@/components/Common/Container";
+import PageLayout from "@/layouts/PageLayout.astro";
+import { parseAuthor } from "@/utils/author";
+import { LuArrowDownWideNarrow, LuArrowUpWideNarrow } from "react-icons/lu";
+import { getCollection } from "astro:content";
+
+type ArticleFrontmatter = {
+  title?: string;
+  description?: string;
+  unlisted?: boolean;
+  author?: string;
+  date?: string;
+  readingTime?: string;
+};
+
+type MarkdownModule = {
+  frontmatter?: ArticleFrontmatter;
+};
+
+export function getStaticPaths() {
+  return [
+    { params: { sort: undefined } },
+    { params: { sort: "oldest" } },
+  ];
+}
+
+const isOldest = Astro.params.sort === "oldest";
+
+const markdownPages = await getCollection("markdownPages");
+const markdownFiles = import.meta.glob<MarkdownModule>("/content/**/*.md");
+
+const articleSummaries = (
+  await Promise.all(
+    markdownPages
+      .filter((page) => page.data.filePath.startsWith("articles/"))
+      .map(async (page) => {
+        const loader = markdownFiles[`/content/${page.data.filePath}`];
+        if (!loader) return null;
+
+        const module = await loader();
+        if (module.frontmatter?.unlisted) return null;
+
+        const fallbackTitle = page.id.split("/").pop() ?? page.id;
+
+        return {
+          title: module.frontmatter?.title ?? fallbackTitle.replace(/-/g, " "),
+          description: module.frontmatter?.description ?? "",
+          href: `/${page.id}`,
+          author: module.frontmatter?.author ? parseAuthor(module.frontmatter.author) : undefined,
+          date: module.frontmatter?.date,
+          readingTime: module.frontmatter?.readingTime,
+        };
+      }),
+  )
+)
+  .filter((entry) => entry !== null)
+  .sort((a, b) => {
+    if (a.date && b.date) {
+      const diff = new Date(b.date).getTime() - new Date(a.date).getTime();
+      return isOldest ? -diff : diff;
+    }
+    return a.title.localeCompare(b.title);
+  });
+
+const SortIcon = isOldest ? LuArrowUpWideNarrow : LuArrowDownWideNarrow;
+---
+
+<PageLayout>
+  <div class="flex flex-col">
+    <Container thin className="py-responsive flex flex-col gap-12">
+      <div class="flex items-baseline justify-between">
+        <h1 class="title">Articles</h1>
+        <a
+          href={isOldest ? "/articles" : "/articles/oldest"}
+          class="btn btn-outline"
+          data-astro-prefetch
+        >
+          <span>{isOldest ? "Oldest" : "Newest"}</span>
+          <SortIcon className="h-4 w-4" />
+        </a>
+      </div>
+      <div class="gap-responsive-tight flex flex-col">
+        {
+          articleSummaries.map((article) => (
+            <ArticleCard
+              title={article.title}
+              description={article.description}
+              href={article.href}
+              author={article.author}
+              date={article.date}
+              readingTime={article.readingTime}
+            />
+          ))
+        }
+      </div>
+    </Container>
+  </div>
+</PageLayout>

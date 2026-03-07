@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
 import MarkdownPageLayout from "@/layouts/MarkdownPageLayout.astro";
 
 export async function getStaticPaths() {
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { markdown } = Astro.props;
+const isArticle = markdown.startsWith("articles/");
 ---
 
-<MarkdownPageLayout markdown={markdown} />
+{isArticle ? <ArticleLayout markdown={markdown} /> : <MarkdownPageLayout markdown={markdown} />}

@@ -2,6 +2,8 @@
 title: "Complete Markdown Style Test"
 description: "A comprehensive test of all markdown elements and typography styles"
 keywords: ["markdown", "typography", "test", "style guide"]
+author: kurisu <kurisu-dotto-komu>
+date: 2025-10-21
 ---
 
 > **Why is this here?** This page exists to test and showcase all markdown formatting styles supported on this site. It helps us ensure typography, code blocks, tables, and other elements render correctly. Feel free to use it as a reference!

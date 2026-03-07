@@ -2,6 +2,8 @@
 title: Design of the OKTech Logo
 description: The definition and history of symbol, color and fonts of the OKTech Logo 2025
 keywords: ["design", "logo", "permanence", "definition", "oktech"]
+author: Martin Heidegger <martinheidegger>
+date: 2025-11-08
 ---
 
 The OKTech Logo was designed in collaboration by [Sacha Greif](#sacha-greif), [Gary Wintle](#gary-wintle) and [Chris](#chris).

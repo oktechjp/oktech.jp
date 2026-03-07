@@ -2,6 +2,8 @@
 title: OWDDM・KWDDM is now OKTech
 description: Explanation of the change from OWDDM and KWDDM to OKTech.
 keywords: ["name", "logo", "permanence", "definition", "oktech"]
+author: Martin Heidegger <martinheidegger>
+date: 2025-10-31
 ---
 
 In 2025, we decided to merge the **Osaka** _Web Designer and Developer_ Meetup and the **Kyoto** _Web Designer and Developer_ Meetup into one. Our new name: **OKTech** 🚀

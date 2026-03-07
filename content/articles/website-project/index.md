@@ -2,6 +2,8 @@
 title: About this Website
 description: Details about how this homepage is made and why we maintain it.
 keywords: ["organizational", "volunteer", "homepage", "website", "collaboration"]
+author: Martin Heidegger <martinheidegger>
+date: 2025-11-06
 ---
 
 **👋 Hello Friend!**

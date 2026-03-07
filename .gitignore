@@ -32,6 +32,7 @@ pnpm-debug.log*
 
 # playwright reports
 test/results/
+test-results/
 # screenshots -- add back later?
 test/screenshots/output/
 
