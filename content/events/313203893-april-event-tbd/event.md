@@ -1,15 +1,29 @@
 ---
-title: April Event - TBD.
+title: Measure Development Experience
 dateTime: 2026-04-04 17:00
 duration: 150
-cover: ./886924.webp
+cover: ./143211.webp
 meetupId: 313203893
 group: 15632202
 venue: 27553394
 howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1482192480815415296
+  linkedIn: https://www.linkedin.com/event/manage/7438400984252592128/
+topics:
+  - Leadership
+  - Hardware Engineering
+  - Software Product Development
+  - Software Development
+  - Free Software and Hardware
 ---
 
-We are preparing the April event currently. More to come soon. If you have a topic to present please join us in the → [Discord](https://oktech.jp/discord).
+April is here and the cherry trees might still be blooming before this event! We hope you still join us for a nice evening.
 
-If you have something that you would like to present, suggest it in [#presentation-proposals](https://discord.com/channels/1034792577293094972/1034862103653257306) or look for inspiration in [#presentation-wishes](https://discord.com/channels/1034792577293094972/1044609715155521557).
+In our first talk talk, _Leif_ will be adding to our previous Meetup topic and deepen our knowledge in **"Basic Electronic Measuring"**.
+
+And to shift gears a little in our second talk _Roger_ will be addressing the stress that comes with teams growing bigger. Having learned it it the hard way, with his presentation **"Developer Experience: Shipping Faster as Teams Scale"** we get a leg up when we run into this situation.
+
+→ [Thread](https://discord.com/channels/1034792577293094972/1457602790267424961)
+
+These presentations were both arranged through our → [Discord](https://oktech.jp/discord). If you have something that you would like to present, suggest it in [#presentation-proposals](https://discord.com/channels/1034792577293094972/1034862103653257306) or look for inspiration in [#presentation-wishes](https://discord.com/channels/1034792577293094972/1044609715155521557).
