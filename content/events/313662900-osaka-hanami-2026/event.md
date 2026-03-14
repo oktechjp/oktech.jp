@@ -6,7 +6,9 @@ cover: ./181954.webp
 meetupId: 313662900
 group: 15632202
 venue: 26225556
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1482274732052189215
+  linkedIn: https://www.linkedin.com/event/manage/7438482941867065344/
 ---
 
 Come join us for games and fun under the cherry blossoms as we kick off spring!
