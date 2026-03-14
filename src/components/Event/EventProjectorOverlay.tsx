@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { LuCalendar } from "react-icons/lu";
-
-import Brand from "@/components/Common/Brand";
 import ThemeToggle from "@/components/Common/ThemeToggle";
 import type { EventEnriched } from "@/content";
 import { isLegacyEvent } from "@/utils/eventFilters";
 import { formatDate, formatTime } from "@/utils/formatDate";
+
+import ProjectorEventSlide from "./ProjectorEventSlide";
+import ProjectorLinksSlide from "./ProjectorLinksSlide";
 
 interface EventProjectorOverlayProps {
   event: EventEnriched;
@@ -19,6 +19,12 @@ export default function EventProjectorOverlay({
   isOpen,
   onClose,
 }: EventProjectorOverlayProps) {
+  const [showLinks, setShowLinks] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) setShowLinks(false);
+  }, [isOpen]);
+
   useEffect(() => {
     const enterFullscreen = async () => {
       try {
@@ -34,6 +40,10 @@ export default function EventProjectorOverlay({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
         onClose();
+      }
+      if (e.key === " " && isOpen) {
+        e.preventDefault();
+        setShowLinks((prev) => !prev);
       }
     };
 
@@ -66,18 +76,22 @@ export default function EventProjectorOverlay({
     return (
       <div
         id="projector-overlay"
-        className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black"
+        className="bg-base-100 fixed inset-0 z-50 flex h-screen w-screen items-center justify-center"
         data-testid="projector-overlay"
       >
-        <div className="flex h-full w-full items-center justify-center">
-          <img
-            src={projectorImage.src}
-            srcSet={projectorImage.srcSet}
-            sizes={projectorImage.sizes}
-            alt={`${event.data.title} cover`}
-            className="h-full w-full object-contain"
-          />
-        </div>
+        {showLinks ? (
+          <ProjectorLinksSlide />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-black">
+            <img
+              src={projectorImage.src}
+              srcSet={projectorImage.srcSet}
+              sizes={projectorImage.sizes}
+              alt={`${event.data.title} cover`}
+              className="h-full w-full object-contain"
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -91,87 +105,15 @@ export default function EventProjectorOverlay({
       className="bg-base-100 fixed inset-0 z-50 flex h-screen w-screen items-center justify-center"
       data-testid="projector-overlay"
     >
-      <div
-        className="relative flex"
-        style={{
-          width: "100vw",
-          height: "calc(100vw * 9 / 16)",
-          maxHeight: "100vh",
-          maxWidth: "calc(100vh * 16 / 9)",
-          padding: "5vw",
-        }}
-      >
-        {/* Left Column */}
-        <div className="flex flex-1 flex-col justify-between" style={{ paddingRight: "3vw" }}>
-          {/* Top: Title and Description */}
-          <div className="flex flex-col" style={{ gap: "2vw" }}>
-            <h1
-              className="text-base-content line-clamp-4 leading-tight font-bold"
-              style={{ fontSize: "4.5vw" }}
-              data-testid="projector-title"
-            >
-              {event.data.title}
-            </h1>
-          </div>
-
-          {/* Bottom: Date/Time */}
-          <div className="flex items-center" style={{ gap: "1.5vw" }}>
-            <div
-              className="bg-primary/10 rounded-box flex flex-shrink-0 items-center justify-center"
-              style={{ width: "4vw", height: "4vw" }}
-            >
-              <LuCalendar className="text-primary" style={{ width: "2vw", height: "2vw" }} />
-            </div>
-            <div className="flex flex-col" style={{ gap: "0.3vw" }}>
-              <span
-                className="text-base-content font-medium"
-                style={{ fontSize: "1.8vw" }}
-                data-testid="projector-datetime"
-              >
-                {formattedDate}
-              </span>
-              <span className="text-base-content/70" style={{ fontSize: "1.5vw" }}>
-                {formattedTime}
-                {event.data.duration && <span> • {event.data.duration / 60} hours</span>}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column */}
-        <div className="flex flex-shrink-0 flex-col justify-between" style={{ width: "30vw" }}>
-          {/* Top: Branding */}
-          <div className="flex justify-end">
-            <div className="text-base-content" style={{ width: "20vw" }}>
-              <Brand active className="w-full" />
-            </div>
-          </div>
-
-          {/* Bottom: Venue Info */}
-          {event.venue && (
-            <div className="flex flex-col items-end">
-              <div className="bg-base-200 rounded-box" style={{ padding: "2vw", width: "25vw" }}>
-                <h3
-                  className="text-base-content font-bold"
-                  style={{ fontSize: "1.6vw", marginBottom: "0.5vw" }}
-                  data-testid="projector-venue-title"
-                >
-                  {event.venue.title}
-                </h3>
-                {event.venue.address && (
-                  <p
-                    className="text-base-content/70"
-                    style={{ fontSize: "1.3vw", lineHeight: "1.6" }}
-                    data-testid="projector-venue-address"
-                  >
-                    {event.venue.address}
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      {showLinks ? (
+        <ProjectorLinksSlide />
+      ) : (
+        <ProjectorEventSlide
+          event={event}
+          formattedDate={formattedDate}
+          formattedTime={formattedTime}
+        />
+      )}
 
       {/* Theme Switcher - appears on hover */}
       <div className="group/theme-toggle absolute right-0 bottom-0 p-6">
