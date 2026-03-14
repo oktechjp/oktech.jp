@@ -42,8 +42,8 @@ export function formatDate(date: Date | string, format: DateFormat = "short"): s
 export function formatTime(date: Date | string): string {
   const dateObj = typeof date === "string" ? new Date(date) : date;
 
-  return dateObj.toLocaleTimeString("en-US", {
-    hour: "numeric",
+  return dateObj.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
     minute: "2-digit",
     timeZone: "Asia/Tokyo",
   });
