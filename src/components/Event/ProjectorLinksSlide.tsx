@@ -23,7 +23,7 @@ export default function ProjectorLinksSlide() {
       <div className="flex items-center justify-center gap-[8vw]">
         {LINKS.map((link) => (
           <div key={link.label} className="flex flex-col items-center gap-[1.2vw]">
-            <div className="rounded-box bg-base-300 p-[1.2vw]">
+            <div className="rounded-box bg-white p-[1.2vw]">
               <QRCodeSVG value={link.url} className="size-[20vw]" />
             </div>
             <span className="text-base-content text-[2.4vw] font-semibold">
