@@ -11,7 +11,9 @@ meetupId: 313789241
 group: 15632202
 venue: 28215604
 howToFindUs: 2nd Floor, Middle Meeting Room
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1483062764602920994
+  linkedIn: https://www.linkedin.com/events/7439271776125202433/
 ---
 
 Join us for a get-together with friends from [CreatorLabo](https://luma.com/creatorlabo) as we are collaborating in hosting **🚀 AI-Native Coding Night**!
