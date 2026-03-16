@@ -2,7 +2,7 @@
 title: AI Coding Night Collab
 dateTime: 2026-03-25 18:30
 duration: 120
-cover: ./227810.webp
+cover: ./229797.webp
 topics:
   - AI/ML
   - Software Development
