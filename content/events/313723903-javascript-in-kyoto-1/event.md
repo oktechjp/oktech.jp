@@ -13,7 +13,9 @@ meetupId: 313723903
 group: 15632202
 venue: 28095701
 howToFindUs: Find us in the 4th floor of the Meiji-ya Kyoto building
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1484050302503096482
+  linkedIn: https://www.linkedin.com/events/7440258373348069377/
 ---
 
 Join us for our first JavaScript Hands-on in Kyoto.
