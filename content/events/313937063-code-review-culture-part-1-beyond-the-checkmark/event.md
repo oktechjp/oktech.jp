@@ -11,7 +11,8 @@ meetupId: 313937063
 group: 15632202
 venue: 25963776
 howToFindUs: We are in room 701 of the Kokoplaza.
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1488401064368541829
 ---
 
 Are you a software engineer who enjoys digging into new ideas, practices, and patterns that strengthen your craft? Join us for the next **OKTech Study Session**, a gathering for engineers who don't just code, but want to understand the why and how behind solid software design.
