@@ -2,7 +2,7 @@ import type { ComponentType } from "react";
 
 import type { IconType } from "react-icons";
 import { FaDiscord, FaGithub, FaLinkedin, FaMeetup } from "react-icons/fa6";
-import { LuCalendar, LuFileText, LuHouse, LuInfo, LuMap } from "react-icons/lu";
+import { LuCalendar, LuFileText, LuHouse, LuInfo, LuMap, LuShoppingBag } from "react-icons/lu";
 
 // Development mode flag - automatically detected based on environment
 export const DEV_MODE = process.env.NODE_ENV === "development";
@@ -80,6 +80,12 @@ export const MENU: {
     href: "/sitemap",
     footerMinor: true,
     icon: LuMap,
+  },
+  {
+    label: "Things Store",
+    href: "https://things.oktech.jp",
+    footerMajor: true,
+    icon: LuShoppingBag,
   },
 ];
 
