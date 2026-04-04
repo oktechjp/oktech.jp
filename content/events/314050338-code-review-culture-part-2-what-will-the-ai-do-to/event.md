@@ -1,26 +1,24 @@
 ---
-title: "Code Review Culture Part 1: Beyond the Checkmark"
-dateTime: 2026-04-12 19:00
+title: "Code Review Culture Part 2: What will the AI do to the PR?"
+dateTime: 2026-05-10 19:00
 duration: 120
-cover: ./458969.webp
+cover: ./515379.webp
 topics:
   - Engineering Leadership
   - Software Architecture
   - Study Group
   - Design Patterns
   - Software Development
-meetupId: 313937063
+meetupId: 314050338
 group: 15632202
 venue: 25963776
 howToFindUs: We are in room 701 of the Kokoplaza.
-links:
-  discord: https://discord.com/events/1034792577293094972/1488401064368541829
-  linkedIn: https://www.linkedin.com/events/7444609124576751616/
+links: {}
 ---
 
 Are you a software engineer who enjoys digging into new ideas, practices, and patterns that strengthen your craft? Join us for the next **OKTech Study Session**, a gathering for engineers who don't just code, but want to understand the why and how behind solid software design.
 
-### Code Review Culture: From Fundamentals to the Age of AI (2-Part Workshop Series)**
+**Code Review Culture: From Fundamentals to the Age of AI (2-Part Workshop Series)**
 Doing code reviews is one of the most practiced rituals in software engineering. Yet most teams never talk about how to do it well. What is it actually for? How do you give feedback that helps instead of hurts? And what happens to the whole process when AI starts writing, reviewing, and submitting the code?
 
 **Part 1: Beyond the Checkmark (current)**
