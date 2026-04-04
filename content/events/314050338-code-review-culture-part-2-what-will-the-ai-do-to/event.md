@@ -23,12 +23,12 @@ Are you a software engineer who enjoys digging into new ideas, practices, and pa
 **Code Review Culture: From Fundamentals to the Age of AI (2-Part Workshop Series)**
 Doing code reviews is one of the most practiced rituals in software engineering. Yet most teams never talk about how to do it well. What is it actually for? How do you give feedback that helps instead of hurts? And what happens to the whole process when AI starts writing, reviewing, and submitting the code?
 
-**Part 1: Beyond the Checkmark (current)**
+**Part 1: Beyond the Checkmark (done)**
 Most code reviews are about getting that verification from your colleagues to be able to ship a feature with confidence. This session is about how you to effectively get that verification.
 
 **Goal:** Leave with a clearer mental model of what good review looks like and at least one concrete habit to change the next time you open a diff.
 
-**Part 2:** What will the AI do to the PR?
+**Part 2: What will the AI do to the PR? (current)**
 Because AI is already slowly creeping into our pull requests, I wanted to discover what will happen with the Code Review Culture when AI is going to enter the development process.
 
 **Goal:** Understand the ways AI is changing the review process and develop a position on how to handle it in the best way possible.
