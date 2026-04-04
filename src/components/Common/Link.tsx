@@ -41,10 +41,12 @@ export default function Link({ href, children, prefetch: prefetchProp, ...rest }
     };
   }, [href, prefetchProp]);
 
-  const finalHref = urls.withBase(href);
+  const isExternal = /^https?:\/\//.test(href);
+  const finalHref = isExternal ? href : urls.withBase(href);
+  const externalProps = isExternal && !rest.target ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
   return (
-    <a ref={linkRef} href={finalHref} {...rest}>
+    <a ref={linkRef} href={finalHref} {...externalProps} {...rest}>
       {children}
     </a>
   );
