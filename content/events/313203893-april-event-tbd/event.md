@@ -20,10 +20,10 @@ topics:
 
 April is here and the cherry trees might still be blooming before this event! We hope you still join us for a nice evening.
 
-In our first talk talk, _Leif_ will be adding to our previous Meetup topic and deepen our knowledge in **"Basic Electronic Measuring"**.
+**UPDATE:** Unfortunately _Leif_ is not feeling well today and has had to cancel his presentation on _"Basic Electronic Measuring"_. In his stead _Karim_ will be talking interactively about **"Learning and unlearning"** today.
 
 And to shift gears a little in our second talk _Roger_ will be addressing the stress that comes with teams growing bigger. Having learned it it the hard way, with his presentation **"Developer Experience: Shipping Faster as Teams Scale"** we get a leg up when we run into this situation.
+[→ Thread](https://discord.com/channels/1034792577293094972/1457602790267424961).
 
-→ [Thread](https://discord.com/channels/1034792577293094972/1457602790267424961)
-
-These presentations were both arranged through our → [Discord](https://oktech.jp/discord). If you have something that you would like to present, suggest it in [#presentation-proposals](https://discord.com/channels/1034792577293094972/1034862103653257306) or look for inspiration in [#presentation-wishes](https://discord.com/channels/1034792577293094972/1044609715155521557).
+These presentations were both arranged through our [→ Discord](https://oktech.jp/discord). If you have something that you would like to present, suggest it in
+[#presentation-proposals](https://discord.com/channels/1034792577293094972/1034862103653257306) or look for inspiration in [#presentation-wishes](https://discord.com/channels/1034792577293094972/1044609715155521557).
