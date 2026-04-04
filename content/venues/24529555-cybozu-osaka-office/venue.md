@@ -1,12 +1,13 @@
 ---
 title: Cybozu Osaka Office
 city: osaka
-address: Kita-ku Kakuda-chō 8-1, Hankyu Bld. Office Tower 35F
+address: Kita-ku Kakuda-chō 8-1, Hankyu Bld. Office Tower
 coordinates:
   lat: 34.70231
   lng: 135.49876
 meetupId: 24529555
 hasPage: true
+space: "35F"
 url: https://cybozu.co.jp/
 cover: ./cybozu-logo.svg
 gmaps: https://maps.app.goo.gl/frk2SisZXtSfspoY9

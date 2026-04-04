@@ -25,6 +25,7 @@ type VenueFrontmatter = {
   coordinates?: { lat: number; lng: number };
   meetupId: number;
   hasPage?: boolean;
+  space?: string;
   description?: string;
   readingTime?: string;
   devOnly?: boolean;
@@ -67,6 +68,7 @@ export async function venuesLoader() {
       coordinates: frontmatter.coordinates,
       meetupId: frontmatter.meetupId,
       hasPage: frontmatter.hasPage,
+      space: frontmatter.space,
       description: frontmatter.description,
       readingTime: frontmatter.readingTime,
       devOnly: Boolean(frontmatter.devOnly),
@@ -96,6 +98,7 @@ function venuesSchema() {
       .optional(),
     meetupId: z.number(),
     hasPage: z.boolean().optional(),
+    space: z.string().optional(),
     description: z.string().optional(),
     readingTime: z.string().optional(),
     devOnly: z.boolean().optional().default(false),

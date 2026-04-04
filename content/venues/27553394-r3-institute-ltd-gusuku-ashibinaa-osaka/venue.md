@@ -1,13 +1,14 @@
 ---
 title: R3 Institute Ltd. (gusuku Ashibinaa OSAKA)
 city: osaka
-address: Kita-ku Ofuka-chō 3-1, Grand Front North Bld. C Tower 16F
+address: Kita-ku Ofuka-chō 3-1, Grand Front North Bld. C Tower
 state: al
 coordinates:
   lat: 34.705925
   lng: 135.49442
 meetupId: 27553394
 hasPage: true
+space: "Rm. 1605"
 cover: ./r3-logo.svg
 website: https://www.r3it.com/
 gmaps: https://maps.app.goo.gl/MJb1aqGsnXqXgqMQ7

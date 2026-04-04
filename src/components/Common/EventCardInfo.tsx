@@ -69,6 +69,7 @@ export default function EventCardInfo({
   const showVenue = fields.includes("venue");
   const showBadge = showCountdown && isCompact;
   const address = event.venue?.address;
+  const space = event.data.space ?? event.venue?.space;
   const noWrap = !fullAddress;
   const linkToVenue = fullAddress && event.venue?.hasPage ? `/venue/${event.venue?.id}` : undefined;
   return (
@@ -104,6 +105,7 @@ export default function EventCardInfo({
         <InfoItem Icon={LuBuilding2} {...{ noWrap, variant }}>
           <div className={clsx("flex", !isCompact ? "flex-col gap-1" : "gap-1")}>
             <div>
+              {space && <span>{space} · </span>}
               {linkToVenue ? (
                 <Link className="text-link" href={linkToVenue}>
                   {event.venue.title}

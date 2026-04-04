@@ -26,6 +26,7 @@ type EventFrontmatter = {
   description: string;
   duration?: number;
   topics?: string[];
+  space?: string;
   howToFindUs?: string;
   meetupId: number;
   links?: Record<string, string>;
@@ -67,6 +68,7 @@ function eventsSchema() {
     devOnly: z.boolean().optional().default(false),
     venue: reference("venues").optional(),
     topics: z.array(z.string()).optional(),
+    space: z.string().optional(),
     howToFindUs: z.string().optional(),
     meetupId: z.number(),
     links: z.record(z.string()).optional(),
@@ -110,6 +112,7 @@ export async function eventsLoader() {
       description: frontmatter.description,
       duration: frontmatter.duration,
       topics: frontmatter.topics,
+      space: frontmatter.space,
       howToFindUs: frontmatter.howToFindUs,
       meetupId: frontmatter.meetupId,
       links: frontmatter.links,
