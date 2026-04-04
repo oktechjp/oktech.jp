@@ -20,9 +20,9 @@ Initially, we just offered to get shirts at events with Sacha doing the back and
 
 #### Powered-by
 
-[The store](https://things.oktech.jp/) is powered by [Fourthwall](https://fourthwall.com/) as it seems to be balancing both eas of setup and ease of getting an Item (delivery/printing). They are reasonably low priced and should work if you wish to have a shirt.
+[The store](https://things.oktech.jp/) is powered by [Fourthwall](https://fourthwall.com/) as it seems to be balancing both ease of setup and getting an Item (delivery/printing). They are reasonably low priced (~￥3,100) and we hope that works for you. If you wish a shirt but can't affort it, let us know!
 
-Due to how Fourthwall works, it does require us to make a little bit of profit on each item (around 500円) even though we are dedicatedly Non-Profit. If you know/want to help us make the a system that ends in no profit for us, please let us know, we are always open to help!
+Due to how Fourthwall works, it does require us to make a little bit of profit on each item (around ￥500) even though we are dedicatedly Non-Profit. If you know/want to help us make the a system that ends in no profit for us, please let us know, we are always open to help!
 
 Any profit that we will make through Fourthwall will end up in our community wallet and will be used to offset costs for venues or snacks in the future.
 
