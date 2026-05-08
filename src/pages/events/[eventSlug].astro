@@ -57,7 +57,7 @@ const isUpcoming = isEventUpcoming(event);
         {event.data.title}
       </h1>
       <EventTags tags={event.data.topics} />
-      <MarkdownContent markdown={`events/${eventSlug}/event.md`} />
+      <MarkdownContent markdown={`events/${event.data.bodySlug ?? eventSlug}/event.md`} />
     </div>
   </Fragment>
 
