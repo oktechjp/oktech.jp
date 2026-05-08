@@ -1,4 +1,4 @@
-export type DateFormat = "long" | "short" | "short-no-year" | "datetime";
+export type DateFormat = "long" | "short" | "short-no-year" | "datetime" | "weekday";
 
 export function formatDate(date: Date | string, format: DateFormat = "short"): string {
   const dateObj = typeof date === "string" ? new Date(date) : date;
@@ -9,6 +9,13 @@ export function formatDate(date: Date | string, format: DateFormat = "short"): s
       year: "numeric",
       month: "long",
       day: "numeric",
+      timeZone: "Asia/Tokyo",
+    });
+  }
+
+  if (format === "weekday") {
+    return dateObj.toLocaleDateString("en-US", {
+      weekday: "long",
       timeZone: "Asia/Tokyo",
     });
   }

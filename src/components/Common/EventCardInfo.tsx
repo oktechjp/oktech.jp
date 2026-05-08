@@ -1,7 +1,7 @@
 import { Children } from "react";
 
 import clsx from "clsx";
-import { LuBuilding2, LuCalendar, LuClock } from "react-icons/lu";
+import { LuBuilding2, LuCalendar, LuClock, LuRefreshCw } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
 import { formatDate, formatDuration, formatTime, getEndTime } from "@/utils/formatDate";
@@ -99,6 +99,11 @@ export default function EventCardInfo({
               {")"}
             </>
           )}
+        </InfoItem>
+      )}
+      {event.data.isNextRecurringOccurrence && (
+        <InfoItem Icon={LuRefreshCw} {...{ noWrap, variant }}>
+          Recurring every {formatDate(event.data.dateTime, "weekday")}
         </InfoItem>
       )}
       {showVenue && event.venue && (
