@@ -31,6 +31,7 @@ console.log(`URL: ${site}${base}`);
 
 // https://astro.build/config
 export default defineConfig({
+  server: { allowedHosts: true },
   site,
   base,
   trailingSlash: "never",
@@ -38,6 +39,7 @@ export default defineConfig({
     enabled: false,
   },
   vite: {
+    preview: { allowedHosts: true },
     plugins: [
       svgr(),
       tailwindcss(),
