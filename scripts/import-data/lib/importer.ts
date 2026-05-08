@@ -13,6 +13,7 @@ import {
   type ExternalVenue,
   VenueProcessor,
 } from "./processor";
+import { materializeRecurringEvents } from "./recurring";
 import { writeFileEnsured } from "./utils";
 
 /**
@@ -326,6 +327,16 @@ export class Importer {
         this.stats.mapsUnchanged += result.mapStats.unchanged;
         this.stats.mapsFailed += result.mapStats.failed;
       }
+    }
+
+    // Materialize past occurrences of recurring events into editable on-disk files.
+    // Once a recurrence date passes, its content is fixed to a real event.md so it
+    // can be edited (recap, photos, different venue) and stops being recomputed.
+    const recurringStats = await materializeRecurringEvents(config.paths.events);
+    if (recurringStats.parentsScanned > 0) {
+      logger.info(
+        `Recurring: scanned ${recurringStats.parentsScanned}, materialized ${recurringStats.created}, skipped ${recurringStats.skippedDevOnly} devOnly.`,
+      );
     }
 
     // Create meta.json (pass raw content for hash calculation)
