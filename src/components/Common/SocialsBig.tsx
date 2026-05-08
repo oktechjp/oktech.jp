@@ -12,6 +12,7 @@ import CalendarSubscribeButton from "@/components/Common/CalendarSubscribeButton
 import Link from "@/components/Common/Link";
 import MarqueeBackground from "@/components/Common/MarqueeBackground";
 import SafariIOSDarkdmodeBugfix from "@/components/Common/SafariIOSDarkdmodeBugfix";
+import { MEETUP_BASE_URL } from "@/constants";
 
 const CONNECT_ITEMS: Array<{
   key: string;
@@ -58,7 +59,7 @@ const CONNECT_ITEMS: Array<{
     logo: meetupLogo,
     render: (content) => (
       <a
-        href="https://www.meetup.com/osaka-web-designers-and-developers-meetup/"
+        href={`${MEETUP_BASE_URL}/`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Visit the OKTech Meetup page"
