@@ -6,12 +6,19 @@ import LandingCTA from "@/components/Landing/LandingCTA";
 import { getEvents } from "@/content";
 
 import EventsSection from "@/components/Landing/LandingEventsSection";
-import { filterUpcomingEvents } from "@/utils/eventFilters";
+import {
+  dedupeRecurringInstances,
+  filterRecentEvents,
+  filterUpcomingEvents,
+} from "@/utils/eventFilters";
 
 // always get at least 12 latest events, plus the upcoming events.
+// Recurring-event instances are deduped here so the front page shows each series once;
+// the full listing at /events keeps every instance.
 const allEvents = await getEvents();
 const upcomingEvents = filterUpcomingEvents(allEvents);
-const events = allEvents.slice(0, upcomingEvents.length + 12);
+const recentDeduped = dedupeRecurringInstances(filterRecentEvents(allEvents));
+const events = [...upcomingEvents, ...recentDeduped.slice(0, 12)];
 const totalEvents = allEvents.length;
 ---
 

@@ -61,6 +61,27 @@ export function filterRecentEvents<T extends EventWithDateTime>(
 }
 
 /**
+ * Collapses recurring-event instances so each parent appears at most once.
+ * Iterates the array in order; for past instances, the first hit per parent wins —
+ * so callers should pass an array sorted most-recent-first to keep the freshest one.
+ */
+export function dedupeRecurringInstances<T extends { data: { recurredFrom?: string } }>(
+  events: T[],
+): T[] {
+  const seen = new Set<string>();
+  const result: T[] = [];
+  for (const event of events) {
+    const parent = event.data.recurredFrom;
+    if (parent) {
+      if (seen.has(parent)) continue;
+      seen.add(parent);
+    }
+    result.push(event);
+  }
+  return result;
+}
+
+/**
  * Checks if an event is a "legacy" event (OG images are not generated for them)
  */
 export function isLegacyEvent(_event: EventWithDateTime | EventEnriched): boolean {
