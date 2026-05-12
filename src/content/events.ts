@@ -14,6 +14,14 @@ import { type GalleryImage, getGalleryImages } from "@/content/gallery";
 import { type ProcessedVenue, processVenue } from "@/content/venues";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { memoize } from "@/utils/memoize";
+import {
+  type RecurringFrontmatter,
+  getRecurringInstanceDates,
+  parseEventDateTime,
+  parseRecurringConfig,
+  toSlugDate,
+  toYMD,
+} from "@/utils/recurringDates";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
 type EventAttachment = { icon: string; title: string; description?: string; url: string };
@@ -28,10 +36,12 @@ type EventFrontmatter = {
   topics?: string[];
   space?: string;
   howToFindUs?: string;
-  meetupId: number;
+  meetupId?: number;
   links?: Record<string, string>;
   isCancelled?: boolean;
   attachments?: EventAttachment[];
+  recurring?: RecurringFrontmatter;
+  recurredFrom?: string;
 };
 
 type EventEntryData = CollectionEntry<"events">["data"];
@@ -70,7 +80,7 @@ function eventsSchema() {
     topics: z.array(z.string()).optional(),
     space: z.string().optional(),
     howToFindUs: z.string().optional(),
-    meetupId: z.number(),
+    meetupId: z.number().optional(),
     links: z.record(z.string()).optional(),
     isCancelled: z.boolean().optional(),
     attachments: z
@@ -83,43 +93,114 @@ function eventsSchema() {
         }),
       )
       .optional(),
+    recurredFrom: z.string().optional(),
+    bodySlug: z.string().optional(),
+    isNextRecurringOccurrence: z.boolean().optional(),
+    calendarOnly: z.boolean().optional(),
   });
 }
 
+type LoadedEvent = ReturnType<typeof buildEntry>;
+
+function buildEntry(
+  filePath: string,
+  frontmatter: EventFrontmatter,
+  overrides: {
+    id?: string;
+    dateTime?: Date;
+    bodySlug?: string;
+    isNextRecurringOccurrence?: boolean;
+    isCancelled?: boolean;
+    calendarOnly?: boolean;
+  } = {},
+) {
+  const directory = path.dirname(filePath);
+  const dateTime = overrides.dateTime ?? parseEventDateTime(frontmatter.dateTime, filePath);
+  return {
+    id: overrides.id ?? path.basename(directory),
+    dateTime,
+    cover: frontmatter.cover ? path.join(directory, frontmatter.cover) : FALLBACK_COVER,
+    venue: frontmatter.venue ? String(frontmatter.venue) : undefined,
+    devOnly: Boolean(frontmatter.devOnly),
+    title: frontmatter.title,
+    description: frontmatter.description,
+    duration: frontmatter.duration,
+    topics: frontmatter.topics,
+    space: frontmatter.space,
+    howToFindUs: frontmatter.howToFindUs,
+    meetupId: frontmatter.meetupId,
+    links: frontmatter.links,
+    isCancelled: overrides.isCancelled ?? frontmatter.isCancelled,
+    attachments: frontmatter.attachments,
+    recurredFrom: frontmatter.recurredFrom,
+    bodySlug: overrides.bodySlug,
+    isNextRecurringOccurrence: overrides.isNextRecurringOccurrence,
+    calendarOnly: overrides.calendarOnly,
+  };
+}
+
 export async function eventsLoader() {
-  return Object.entries(
+  const files = Object.entries(
     import.meta.glob<MarkdownInstance<EventFrontmatter>>("/content/events/**/event.md", {
       eager: true,
     }),
-  ).map(([filePath, { frontmatter }]) => {
-    // Validate date/time format
-    if (!/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2})$/.test(frontmatter.dateTime)) {
-      throw new Error(`Invalid date/time format for ${filePath}: ${frontmatter.dateTime}`);
+  );
+
+  const standalone: LoadedEvent[] = [];
+  const recurringParents: { filePath: string; frontmatter: EventFrontmatter; parentSlug: string }[] = [];
+  const materializedChildSlugs = new Set<string>();
+
+  for (const [filePath, mod] of files) {
+    const { frontmatter } = mod;
+    const parentSlug = path.basename(path.dirname(filePath));
+    if (frontmatter.recurring) {
+      recurringParents.push({ filePath, frontmatter, parentSlug });
+      continue;
     }
-    const [date, time] = frontmatter.dateTime.split(" ");
-    const dateTime = new Date(`${date}T${time}:00+09:00`);
-    if (Number.isNaN(dateTime.getTime())) {
-      throw new Error(`Invalid date/time for ${filePath}: ${frontmatter.dateTime}`);
-    }
-    const directory = path.dirname(filePath);
-    return {
-      id: path.basename(directory),
-      dateTime,
-      cover: frontmatter.cover ? path.join(directory, frontmatter.cover) : FALLBACK_COVER,
-      venue: frontmatter.venue ? String(frontmatter.venue) : undefined,
-      devOnly: Boolean(frontmatter.devOnly),
-      title: frontmatter.title,
-      description: frontmatter.description,
-      duration: frontmatter.duration,
-      topics: frontmatter.topics,
-      space: frontmatter.space,
-      howToFindUs: frontmatter.howToFindUs,
-      meetupId: frontmatter.meetupId,
-      links: frontmatter.links,
-      isCancelled: frontmatter.isCancelled,
-      attachments: frontmatter.attachments,
+    if (frontmatter.recurredFrom) materializedChildSlugs.add(parentSlug);
+    standalone.push(buildEntry(filePath, frontmatter));
+  }
+
+  const ephemeral: LoadedEvent[] = [];
+  const now = new Date();
+  for (const { filePath, frontmatter, parentSlug } of recurringParents) {
+    const startDateTime = parseEventDateTime(frontmatter.dateTime, filePath);
+    const config = parseRecurringConfig(frontmatter.recurring!, filePath);
+    const { past, future } = getRecurringInstanceDates(config, startDateTime, now);
+
+    const instanceFrontmatter: EventFrontmatter = {
+      ...frontmatter,
+      recurring: undefined,
+      recurredFrom: parentSlug,
     };
-  });
+    const cancelledSet = new Set(config.cancelled ?? []);
+    const pushInstance = (
+      occurrence: Date,
+      extras: { isNextRecurringOccurrence?: boolean; calendarOnly?: boolean } = {},
+    ) => {
+      const instanceSlug = `${toSlugDate(occurrence)}-${parentSlug}`;
+      if (materializedChildSlugs.has(instanceSlug)) return;
+      ephemeral.push(
+        buildEntry(filePath, instanceFrontmatter, {
+          id: instanceSlug,
+          dateTime: occurrence,
+          bodySlug: parentSlug,
+          isCancelled: cancelledSet.has(toYMD(occurrence)) || undefined,
+          ...extras,
+        }),
+      );
+    };
+
+    past.forEach((occurrence) => pushInstance(occurrence));
+    future.forEach((occurrence, index) =>
+      pushInstance(occurrence, {
+        isNextRecurringOccurrence: index === 0,
+        calendarOnly: index > 0,
+      }),
+    );
+  }
+
+  return [...standalone, ...ephemeral];
 }
 
 export const getEvent = memoize(async (eventSlug: string) => {
@@ -153,14 +234,22 @@ export const getEvent = memoize(async (eventSlug: string) => {
   };
 });
 
-export const getEvents = memoize(async (limitRecent?: number): Promise<EventEnriched[]> => {
-  const events = await getCollection("events");
-  const relevant = SHOW_DEV_ENTRIES ? events : events.filter((entry) => !entry.data.devOnly);
-  const enriched = await Promise.all(relevant.map((entry) => getEvent(entry.id)));
-  const prioritized = enriched
-    .sort((a, b) => new Date(b.data.dateTime).getTime() - new Date(a.data.dateTime).getTime())
-    .map((event, index) => ({ ...event, priority: index < 16 }));
-  if (limitRecent === undefined) return prioritized;
-  const upcomingIndex = prioritized.findIndex((event) => !isEventUpcoming(event));
-  return prioritized.slice(0, upcomingIndex + limitRecent);
-});
+export const getEvents = memoize(
+  async (
+    limitRecent?: number,
+    options?: { includeCalendarOnly?: boolean },
+  ): Promise<EventEnriched[]> => {
+    const events = await getCollection("events");
+    let relevant = SHOW_DEV_ENTRIES ? events : events.filter((entry) => !entry.data.devOnly);
+    if (!options?.includeCalendarOnly) {
+      relevant = relevant.filter((entry) => !entry.data.calendarOnly);
+    }
+    const enriched = await Promise.all(relevant.map((entry) => getEvent(entry.id)));
+    const prioritized = enriched
+      .sort((a, b) => new Date(b.data.dateTime).getTime() - new Date(a.data.dateTime).getTime())
+      .map((event, index) => ({ ...event, priority: index < 16 }));
+    if (limitRecent === undefined) return prioritized;
+    const upcomingIndex = prioritized.findIndex((event) => !isEventUpcoming(event));
+    return prioritized.slice(0, upcomingIndex + limitRecent);
+  },
+);

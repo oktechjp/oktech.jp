@@ -16,7 +16,7 @@ export const MAX_IMAGE_WIDTH = 1920;
 export const FALLBACK_COVER = "/src/assets/fallback-cover.png";
 
 // Meetup.com URLs
-export const MEETUP_BASE_URL = "https://www.meetup.com/osaka-web-designers-and-developers-meetup";
+export const MEETUP_BASE_URL = "https://www.meetup.com/oktech";
 export const MEETUP_EVENT_URL = `${MEETUP_BASE_URL}/events`;
 
 const shortName = "OKTech";
@@ -200,7 +200,7 @@ export const SOCIALS = [
   },
   {
     icon: FaMeetup,
-    href: "https://www.meetup.com/osaka-web-designers-and-developers-meetup/",
+    href: `${MEETUP_BASE_URL}/`,
     label: "Meetup",
     description: "RSVP for upcoming events connect IRL",
   },

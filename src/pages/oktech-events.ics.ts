@@ -3,7 +3,7 @@ import { getEvents } from "@/content";
 import { generateEventICS, wrapICSCalendar } from "@/utils/ics";
 
 export async function GET() {
-  const events = await getEvents();
+  const events = await getEvents(undefined, { includeCalendarOnly: true });
 
   // Sort events by date (newest first)
   const sortedEvents = events.sort(

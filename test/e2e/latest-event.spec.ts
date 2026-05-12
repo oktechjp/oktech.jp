@@ -3,6 +3,7 @@ import * as fs from "fs";
 import matter from "gray-matter";
 import * as path from "path";
 
+import { MEETUP_EVENT_URL } from "@/constants";
 import { formatDate } from "@/utils/formatDate";
 
 interface EventData {
@@ -97,7 +98,7 @@ test.describe("Latest Event Visibility", () => {
 
     // Check for Meetup URL if meetupId exists
     if (latestEvent!.meetupId) {
-      const meetupUrl = `https://www.meetup.com/osaka-web-designers-and-developers-meetup/events/${latestEvent!.meetupId}`;
+      const meetupUrl = `${MEETUP_EVENT_URL}/${latestEvent!.meetupId}`;
       const meetupLink = page.locator(`a[href="${meetupUrl}"]`);
       await expect(meetupLink).toHaveCount(2); // Should be present in both desktop and mobile views
     }

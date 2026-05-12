@@ -5,7 +5,7 @@ import { MEETUP_EVENT_URL } from "@/constants";
 const OFFSET_MINUTES = 30;
 
 interface MarketingRedirectProps {
-  meetupId: number;
+  meetupId?: number;
   eventDateTime: string;
   isCancelled?: boolean;
 }
