@@ -4,13 +4,13 @@ description: A small weekly gathering for engineers working at the bleeding edge
 dateTime: 2026-05-16 10:00
 duration: 120
 cover: ./cover.webp
-meetupId: 314657428
-venue: 27009944
+meetupId: 314697842
+venue: 900000703
 topics:
   - AI/ML
   - Software Development
   - New Technology
-howToFindUs: Direct access from Exit 14, Sakaisujihommachi Station (Osaka Metro Sakaisuji / Chuo Line). Exit 7 of Hommachi Station on the Midosuji Line might be quicker if you don't mind a short walk.
+howToFindUs: Same building as The DECK, 7th Floor.
 recurring:
   frequency: weekly
   endDate: 2026-11-06
