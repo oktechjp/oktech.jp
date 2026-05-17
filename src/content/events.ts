@@ -202,7 +202,14 @@ export async function eventsLoader() {
       const instanceSlug = `${toSlugDate(occurrence)}-${parentSlug}`;
       if (materializedChildSlugs.has(instanceSlug)) return;
       const override = upcoming[toSlugDate(occurrence)] ?? {};
-      const instanceFrontmatter: EventFrontmatter = { ...baseFrontmatter, ...override };
+      const instanceFrontmatter: EventFrontmatter = {
+        ...baseFrontmatter,
+        ...override,
+        links:
+          baseFrontmatter.links || override.links
+            ? { ...baseFrontmatter.links, ...override.links }
+            : undefined,
+      };
       ephemeral.push(
         buildEntry(filePath, instanceFrontmatter, {
           id: instanceSlug,

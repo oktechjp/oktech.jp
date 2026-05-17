@@ -77,10 +77,16 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       if (existsSync(childPath)) continue;
 
       const occurrenceYMD = formatYMDTokyo(occurrence);
+      const override = upcoming[toSlugDate(occurrence)] ?? {};
       const childFrontmatter: Record<string, unknown> = {
         ...frontmatter,
-        ...(upcoming[toSlugDate(occurrence)] ?? {}),
+        ...override,
       };
+      const parentLinks = frontmatter.links as Record<string, string> | undefined;
+      const overrideLinks = override.links as Record<string, string> | undefined;
+      if (parentLinks || overrideLinks) {
+        childFrontmatter.links = { ...parentLinks, ...overrideLinks };
+      }
       delete childFrontmatter.recurring;
       delete childFrontmatter.upcoming;
       childFrontmatter.recurredFrom = parentSlug;
