@@ -1,11 +1,15 @@
-import { existsSync } from "fs";
 import * as fs from "fs/promises";
 import * as path from "path";
 
 import matter from "gray-matter";
 import { parse, stringify } from "yaml";
 
-import { parseRepeatKey } from "../../../src/utils/recurringDates";
+import {
+  extractTimeOfDay,
+  mergeLinks,
+  parseRepeatKey,
+  toYMD,
+} from "../../../src/utils/recurringDates";
 
 import { logger } from "./logger";
 
@@ -40,15 +44,21 @@ export type MaterializeStats = {
 
 export async function materializeRecurringEvents(eventsDir: string): Promise<MaterializeStats> {
   const stats: MaterializeStats = { parentsScanned: 0, skippedDevOnly: 0, created: 0 };
+  const now = new Date();
 
   const entries = await fs.readdir(eventsDir, { withFileTypes: true });
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
     const parentSlug = entry.name;
     const parentPath = path.join(eventsDir, parentSlug, "event.md");
-    if (!existsSync(parentPath)) continue;
 
-    const raw = await fs.readFile(parentPath, "utf-8");
+    let raw: string;
+    try {
+      raw = await fs.readFile(parentPath, "utf-8");
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw err;
+    }
     const parsed = matter(raw, { engines: { yaml: yamlEngine } });
     const frontmatter = parsed.data as ParentFrontmatter;
     if (!frontmatter.repeat) continue;
@@ -59,18 +69,13 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       continue;
     }
 
-    const now = new Date();
     const remaining: Record<string, RepeatEntry | null> = {};
     let drained = 0;
 
     for (const [rawKey, value] of Object.entries(frontmatter.repeat)) {
       const override = (value ?? {}) as RepeatEntry;
-      const { date, slugPrefix } = parseRepeatKey(
-        rawKey,
-        frontmatter.dateTime,
-        override.time,
-        parentPath,
-      );
+      const time = override.time ?? extractTimeOfDay(frontmatter.dateTime, parentPath);
+      const { date, slugPrefix } = parseRepeatKey(rawKey, time, parentPath);
 
       if (date.getTime() > now.getTime()) {
         remaining[rawKey] = value;
@@ -80,22 +85,17 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       const childSlug = `${slugPrefix}-${parentSlug}`;
       const childDir = path.join(eventsDir, childSlug);
       const childPath = path.join(childDir, "event.md");
-      if (existsSync(childPath)) continue;
 
-      const { time, ...frontmatterOverride } = override;
-      const time24 = time ?? extractTimeOfDay(frontmatter.dateTime, parentPath);
-      const occurrenceYMD = formatYMDTokyo(date);
+      const { time: _t, ...overrideFields } = override;
+      const overrideLinks = overrideFields.links as Record<string, string> | undefined;
       const childFrontmatter: Record<string, unknown> = {
         ...frontmatter,
-        ...frontmatterOverride,
+        ...overrideFields,
+        links: mergeLinks(frontmatter.links, overrideLinks),
       };
-      const overrideLinks = frontmatterOverride.links as Record<string, string> | undefined;
-      if (frontmatter.links || overrideLinks) {
-        childFrontmatter.links = { ...frontmatter.links, ...overrideLinks };
-      }
       delete childFrontmatter.repeat;
       childFrontmatter.recurredFrom = parentSlug;
-      childFrontmatter.dateTime = `${occurrenceYMD} ${time24}`;
+      childFrontmatter.dateTime = `${toYMD(date)} ${time}`;
       if (typeof childFrontmatter.cover === "string" && childFrontmatter.cover.startsWith("./")) {
         childFrontmatter.cover = `../${parentSlug}/${childFrontmatter.cover.slice(2)}`;
       }
@@ -104,10 +104,14 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
         engines: { yaml: yamlEngine },
       });
       await fs.mkdir(childDir, { recursive: true });
-      await fs.writeFile(childPath, newContent);
-      logger.success(`Materialized → ${childSlug}`);
-      stats.created++;
-      drained++;
+      try {
+        await fs.writeFile(childPath, newContent, { flag: "wx" });
+        logger.success(`Materialized → ${childSlug}`);
+        stats.created++;
+        drained++;
+      } catch (err) {
+        if ((err as NodeJS.ErrnoException).code !== "EEXIST") throw err;
+      }
     }
 
     if (drained > 0) {
@@ -126,19 +130,4 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
   }
 
   return stats;
-}
-
-function extractTimeOfDay(dateTime: string, filePath: string): string {
-  const match = /^\d{4}-\d{2}-\d{2} (\d{2}:\d{2})$/.exec(dateTime);
-  if (!match) throw new Error(`Cannot extract time from dateTime in ${filePath}: ${dateTime}`);
-  return match[1];
-}
-
-function formatYMDTokyo(date: Date): string {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Tokyo",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(date);
 }

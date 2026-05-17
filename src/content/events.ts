@@ -14,7 +14,12 @@ import { type GalleryImage, getGalleryImages } from "@/content/gallery";
 import { type ProcessedVenue, processVenue } from "@/content/venues";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { memoize } from "@/utils/memoize";
-import { parseEventDateTime, parseRepeatKey } from "@/utils/recurringDates";
+import {
+  extractTimeOfDay,
+  mergeLinks,
+  parseEventDateTime,
+  parseRepeatKey,
+} from "@/utils/recurringDates";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
 type EventAttachment = { icon: string; title: string; description?: string; url: string };
@@ -106,14 +111,11 @@ function buildRepeatInstances(
   if (!frontmatter.repeat) return [];
 
   const entries = Object.entries(frontmatter.repeat)
-    .map(([rawKey, override]) => {
-      const { date, slugPrefix } = parseRepeatKey(
-        rawKey,
-        frontmatter.dateTime,
-        override?.time,
-        filePath,
-      );
-      return { date, slugPrefix, override: override ?? {} };
+    .map(([rawKey, rawOverride]) => {
+      const { time, ...override } = rawOverride ?? {};
+      const resolvedTime = time ?? extractTimeOfDay(frontmatter.dateTime, filePath);
+      const { date, slugPrefix } = parseRepeatKey(rawKey, resolvedTime, filePath);
+      return { date, slugPrefix, override };
     })
     .sort((a, b) => a.date.getTime() - b.date.getTime());
 
@@ -122,24 +124,19 @@ function buildRepeatInstances(
     repeat: undefined,
     recurredFrom: parentSlug,
   };
+  const firstFutureIndex = entries.findIndex(({ date }) => date.getTime() > now.getTime());
 
-  let nextFutureSeen = false;
-  return entries.flatMap(({ date, slugPrefix, override }) => {
+  return entries.flatMap(({ date, slugPrefix, override }, index) => {
     const instanceSlug = `${slugPrefix}-${parentSlug}`;
     if (materializedChildSlugs.has(instanceSlug)) return [];
 
-    const { time: _ignoredTime, ...frontmatterOverride } = override;
     const isFuture = date.getTime() > now.getTime();
-    const isNext = isFuture && !nextFutureSeen;
-    if (isNext) nextFutureSeen = true;
+    const isNext = index === firstFutureIndex;
 
     const instanceFrontmatter: EventFrontmatter = {
       ...baseFrontmatter,
-      ...frontmatterOverride,
-      links:
-        baseFrontmatter.links || frontmatterOverride.links
-          ? { ...baseFrontmatter.links, ...frontmatterOverride.links }
-          : undefined,
+      ...override,
+      links: mergeLinks(baseFrontmatter.links, override.links),
     };
 
     return [
@@ -148,8 +145,8 @@ function buildRepeatInstances(
         dateTime: date,
         bodySlug: parentSlug,
         isCancelled: instanceFrontmatter.isCancelled || undefined,
-        isNextRecurringOccurrence: isNext || undefined,
-        calendarOnly: isFuture && !isNext ? true : undefined,
+        isNextRecurringOccurrence: isNext,
+        calendarOnly: isFuture && !isNext,
       }),
     ];
   });
