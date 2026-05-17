@@ -32,6 +32,7 @@ type ParentFrontmatter = {
   cover?: string;
   devOnly?: boolean;
   recurring?: RecurringFrontmatter;
+  upcoming?: Record<string, Record<string, unknown>>;
   [key: string]: unknown;
 };
 
@@ -67,6 +68,7 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
     const { past } = getRecurringInstanceDates(config, startDateTime);
     const parentTime = frontmatter.dateTime.split(" ")[1];
     const cancelledSet = new Set(config.cancelled ?? []);
+    const upcoming = normalizeUpcoming(frontmatter.upcoming, parentPath);
 
     for (const occurrence of past) {
       const childSlug = `${toSlugDate(occurrence)}-${parentSlug}`;
@@ -75,8 +77,12 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       if (existsSync(childPath)) continue;
 
       const occurrenceYMD = formatYMDTokyo(occurrence);
-      const childFrontmatter: Record<string, unknown> = { ...frontmatter };
+      const childFrontmatter: Record<string, unknown> = {
+        ...frontmatter,
+        ...(upcoming[toSlugDate(occurrence)] ?? {}),
+      };
       delete childFrontmatter.recurring;
+      delete childFrontmatter.upcoming;
       childFrontmatter.recurredFrom = parentSlug;
       childFrontmatter.dateTime = `${occurrenceYMD} ${parentTime}`;
       if (cancelledSet.has(occurrenceYMD)) childFrontmatter.isCancelled = true;
@@ -104,4 +110,22 @@ function formatYMDTokyo(date: Date): string {
     month: "2-digit",
     day: "2-digit",
   }).format(date);
+}
+
+function normalizeUpcoming(
+  upcoming: ParentFrontmatter["upcoming"],
+  filePath: string,
+): Record<string, Record<string, unknown>> {
+  if (!upcoming) return {};
+  const out: Record<string, Record<string, unknown>> = {};
+  for (const [rawKey, value] of Object.entries(upcoming)) {
+    const key = String(rawKey);
+    if (!/^\d{6}$/.test(key)) {
+      throw new Error(
+        `Invalid upcoming date key in ${filePath}: ${key} (expected YYMMDD, e.g. 260530)`,
+      );
+    }
+    out[key] = value;
+  }
+  return out;
 }

@@ -3,7 +3,11 @@ import { type ReactNode, useEffect, useState } from "react";
 import { LuCalendarDays, LuSparkles } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
-import { filterRecentEvents, filterUpcomingEvents } from "@/utils/eventFilters";
+import {
+  filterRecentEvents,
+  filterUpcomingEvents,
+  sortUpcomingByTier,
+} from "@/utils/eventFilters";
 
 import Button from "../Common/Button";
 import CalendarSubscribeButton from "../Common/CalendarSubscribeButton";
@@ -93,7 +97,7 @@ export default function EventsSection({
   totalEvents: number;
   variant: "upcoming" | "recent";
 }) {
-  const upcomingEvents = filterUpcomingEvents(events).reverse();
+  const upcomingEvents = sortUpcomingByTier(filterUpcomingEvents(events));
   const recentEvents = filterRecentEvents(events);
   const hasUpcoming = upcomingEvents.length > 0;
 

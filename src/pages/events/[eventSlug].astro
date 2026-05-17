@@ -12,7 +12,7 @@ import MarketingRedirect from "@/components/Event/MarketingRedirect";
 import { isEventUpcoming } from "@/utils/eventFilters";
 
 export async function getStaticPaths() {
-  const events = await getEvents();
+  const events = await getEvents(undefined, { includeCalendarOnly: true });
 
   return events.map(({ id }) => {
     return {

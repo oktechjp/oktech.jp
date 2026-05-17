@@ -36,12 +36,13 @@ type EventFrontmatter = {
   topics?: string[];
   space?: string;
   howToFindUs?: string;
-  meetupId?: number;
+  meetupId?: number | string;
   links?: Record<string, string>;
   isCancelled?: boolean;
   attachments?: EventAttachment[];
   recurring?: RecurringFrontmatter;
   recurredFrom?: string;
+  upcoming?: Record<string, Partial<EventFrontmatter>>;
 };
 
 type EventEntryData = CollectionEntry<"events">["data"];
@@ -80,7 +81,7 @@ function eventsSchema() {
     topics: z.array(z.string()).optional(),
     space: z.string().optional(),
     howToFindUs: z.string().optional(),
-    meetupId: z.number().optional(),
+    meetupId: z.union([z.number(), z.string()]).optional(),
     links: z.record(z.string()).optional(),
     isCancelled: z.boolean().optional(),
     attachments: z
@@ -101,6 +102,24 @@ function eventsSchema() {
 }
 
 type LoadedEvent = ReturnType<typeof buildEntry>;
+
+function normalizeUpcoming(
+  upcoming: EventFrontmatter["upcoming"] | undefined,
+  filePath: string,
+): Record<string, Partial<EventFrontmatter>> {
+  if (!upcoming) return {};
+  const out: Record<string, Partial<EventFrontmatter>> = {};
+  for (const [rawKey, value] of Object.entries(upcoming)) {
+    const key = String(rawKey);
+    if (!/^\d{6}$/.test(key)) {
+      throw new Error(
+        `Invalid upcoming date key in ${filePath}: ${key} (expected YYMMDD, e.g. 260530)`,
+      );
+    }
+    out[key] = value;
+  }
+  return out;
+}
 
 function buildEntry(
   filePath: string,
@@ -168,11 +187,13 @@ export async function eventsLoader() {
     const config = parseRecurringConfig(frontmatter.recurring!, filePath);
     const { past, future } = getRecurringInstanceDates(config, startDateTime, now);
 
-    const instanceFrontmatter: EventFrontmatter = {
+    const baseFrontmatter: EventFrontmatter = {
       ...frontmatter,
       recurring: undefined,
+      upcoming: undefined,
       recurredFrom: parentSlug,
     };
+    const upcoming = normalizeUpcoming(frontmatter.upcoming, filePath);
     const cancelledSet = new Set(config.cancelled ?? []);
     const pushInstance = (
       occurrence: Date,
@@ -180,6 +201,8 @@ export async function eventsLoader() {
     ) => {
       const instanceSlug = `${toSlugDate(occurrence)}-${parentSlug}`;
       if (materializedChildSlugs.has(instanceSlug)) return;
+      const override = upcoming[toSlugDate(occurrence)] ?? {};
+      const instanceFrontmatter: EventFrontmatter = { ...baseFrontmatter, ...override };
       ephemeral.push(
         buildEntry(filePath, instanceFrontmatter, {
           id: instanceSlug,
