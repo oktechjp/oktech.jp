@@ -11,10 +11,9 @@ topics:
   - Software Development
   - New Technology
 howToFindUs: Same building as The DECK, 7th Floor.
-recurring:
-  frequency: weekly
-  endDate: 2026-11-06
-upcoming:
+repeat:
+  260523:
+    meetupId: 314697842
   260530:
     meetupId: 314729792
   260606:

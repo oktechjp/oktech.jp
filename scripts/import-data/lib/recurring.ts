@@ -5,13 +5,7 @@ import * as path from "path";
 import matter from "gray-matter";
 import { parse, stringify } from "yaml";
 
-import {
-  type RecurringFrontmatter,
-  getRecurringInstanceDates,
-  parseEventDateTime,
-  parseRecurringConfig,
-  toSlugDate,
-} from "../../../src/utils/recurringDates";
+import { parseRepeatKey } from "../../../src/utils/recurringDates";
 
 import { logger } from "./logger";
 
@@ -27,12 +21,14 @@ const yamlEngine = {
     }),
 };
 
+type RepeatEntry = Record<string, unknown> & { time?: string };
+
 type ParentFrontmatter = {
   dateTime: string;
   cover?: string;
   devOnly?: boolean;
-  recurring?: RecurringFrontmatter;
-  upcoming?: Record<string, Record<string, unknown>>;
+  links?: Record<string, string>;
+  repeat?: Record<string, RepeatEntry | null>;
   [key: string]: unknown;
 };
 
@@ -55,7 +51,7 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
     const raw = await fs.readFile(parentPath, "utf-8");
     const parsed = matter(raw, { engines: { yaml: yamlEngine } });
     const frontmatter = parsed.data as ParentFrontmatter;
-    if (!frontmatter.recurring) continue;
+    if (!frontmatter.repeat) continue;
     stats.parentsScanned++;
 
     if (frontmatter.devOnly === true) {
@@ -63,35 +59,43 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       continue;
     }
 
-    const startDateTime = parseEventDateTime(frontmatter.dateTime, parentPath);
-    const config = parseRecurringConfig(frontmatter.recurring, parentPath);
-    const { past } = getRecurringInstanceDates(config, startDateTime);
-    const parentTime = frontmatter.dateTime.split(" ")[1];
-    const cancelledSet = new Set(config.cancelled ?? []);
-    const upcoming = normalizeUpcoming(frontmatter.upcoming, parentPath);
+    const now = new Date();
+    const remaining: Record<string, RepeatEntry | null> = {};
+    let drained = 0;
 
-    for (const occurrence of past) {
-      const childSlug = `${toSlugDate(occurrence)}-${parentSlug}`;
+    for (const [rawKey, value] of Object.entries(frontmatter.repeat)) {
+      const override = (value ?? {}) as RepeatEntry;
+      const { date, slugPrefix } = parseRepeatKey(
+        rawKey,
+        frontmatter.dateTime,
+        override.time,
+        parentPath,
+      );
+
+      if (date.getTime() > now.getTime()) {
+        remaining[rawKey] = value;
+        continue;
+      }
+
+      const childSlug = `${slugPrefix}-${parentSlug}`;
       const childDir = path.join(eventsDir, childSlug);
       const childPath = path.join(childDir, "event.md");
       if (existsSync(childPath)) continue;
 
-      const occurrenceYMD = formatYMDTokyo(occurrence);
-      const override = upcoming[toSlugDate(occurrence)] ?? {};
+      const { time, ...frontmatterOverride } = override;
+      const time24 = time ?? extractTimeOfDay(frontmatter.dateTime, parentPath);
+      const occurrenceYMD = formatYMDTokyo(date);
       const childFrontmatter: Record<string, unknown> = {
         ...frontmatter,
-        ...override,
+        ...frontmatterOverride,
       };
-      const parentLinks = frontmatter.links as Record<string, string> | undefined;
-      const overrideLinks = override.links as Record<string, string> | undefined;
-      if (parentLinks || overrideLinks) {
-        childFrontmatter.links = { ...parentLinks, ...overrideLinks };
+      const overrideLinks = frontmatterOverride.links as Record<string, string> | undefined;
+      if (frontmatter.links || overrideLinks) {
+        childFrontmatter.links = { ...frontmatter.links, ...overrideLinks };
       }
-      delete childFrontmatter.recurring;
-      delete childFrontmatter.upcoming;
+      delete childFrontmatter.repeat;
       childFrontmatter.recurredFrom = parentSlug;
-      childFrontmatter.dateTime = `${occurrenceYMD} ${parentTime}`;
-      if (cancelledSet.has(occurrenceYMD)) childFrontmatter.isCancelled = true;
+      childFrontmatter.dateTime = `${occurrenceYMD} ${time24}`;
       if (typeof childFrontmatter.cover === "string" && childFrontmatter.cover.startsWith("./")) {
         childFrontmatter.cover = `../${parentSlug}/${childFrontmatter.cover.slice(2)}`;
       }
@@ -103,10 +107,31 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       await fs.writeFile(childPath, newContent);
       logger.success(`Materialized → ${childSlug}`);
       stats.created++;
+      drained++;
+    }
+
+    if (drained > 0) {
+      const updatedFrontmatter: Record<string, unknown> = { ...frontmatter };
+      if (Object.keys(remaining).length === 0) {
+        delete updatedFrontmatter.repeat;
+      } else {
+        updatedFrontmatter.repeat = remaining;
+      }
+      const updatedContent = matter.stringify(parsed.content, updatedFrontmatter, {
+        engines: { yaml: yamlEngine },
+      });
+      await fs.writeFile(parentPath, updatedContent);
+      logger.info(`Drained ${drained} past entries from ${parentSlug}/event.md`);
     }
   }
 
   return stats;
+}
+
+function extractTimeOfDay(dateTime: string, filePath: string): string {
+  const match = /^\d{4}-\d{2}-\d{2} (\d{2}:\d{2})$/.exec(dateTime);
+  if (!match) throw new Error(`Cannot extract time from dateTime in ${filePath}: ${dateTime}`);
+  return match[1];
 }
 
 function formatYMDTokyo(date: Date): string {
@@ -116,22 +141,4 @@ function formatYMDTokyo(date: Date): string {
     month: "2-digit",
     day: "2-digit",
   }).format(date);
-}
-
-function normalizeUpcoming(
-  upcoming: ParentFrontmatter["upcoming"],
-  filePath: string,
-): Record<string, Record<string, unknown>> {
-  if (!upcoming) return {};
-  const out: Record<string, Record<string, unknown>> = {};
-  for (const [rawKey, value] of Object.entries(upcoming)) {
-    const key = String(rawKey);
-    if (!/^\d{6}$/.test(key)) {
-      throw new Error(
-        `Invalid upcoming date key in ${filePath}: ${key} (expected YYMMDD, e.g. 260530)`,
-      );
-    }
-    out[key] = value;
-  }
-  return out;
 }

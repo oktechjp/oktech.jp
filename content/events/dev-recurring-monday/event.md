@@ -7,16 +7,20 @@ devOnly: true
 venue: 22577042
 links:
   discord: https://discord.example/dev-recurring-discord
-recurring:
-  frequency: weekly
-  endDate: 2026-05-11
-  cancelled:
-    - 2026-04-13
-upcoming:
+repeat:
+  260316: {}
+  260323: {}
+  260330: {}
+  260406: {}
+  260413:
+    isCancelled: true
+  260420: {}
+  260427: {}
   260504:
     space: Override Space
     links:
       linkedIn: https://linkedin.example/dev-recurring-linkedin
+  260511: {}
 ---
 
 A casual weekly drop-in for OKTech members. Bring your laptop or just yourself —

@@ -14,17 +14,11 @@ import { type GalleryImage, getGalleryImages } from "@/content/gallery";
 import { type ProcessedVenue, processVenue } from "@/content/venues";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { memoize } from "@/utils/memoize";
-import {
-  type RecurringFrontmatter,
-  getRecurringInstanceDates,
-  parseEventDateTime,
-  parseRecurringConfig,
-  toSlugDate,
-  toYMD,
-} from "@/utils/recurringDates";
+import { parseEventDateTime, parseRepeatKey } from "@/utils/recurringDates";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
 type EventAttachment = { icon: string; title: string; description?: string; url: string };
+type RepeatEntry = Partial<Omit<EventFrontmatter, "repeat" | "dateTime">> & { time?: string };
 type EventFrontmatter = {
   cover?: string;
   dateTime: string;
@@ -40,9 +34,8 @@ type EventFrontmatter = {
   links?: Record<string, string>;
   isCancelled?: boolean;
   attachments?: EventAttachment[];
-  recurring?: RecurringFrontmatter;
   recurredFrom?: string;
-  upcoming?: Record<string, Partial<EventFrontmatter>>;
+  repeat?: Record<string, RepeatEntry>;
 };
 
 type EventEntryData = CollectionEntry<"events">["data"];
@@ -103,22 +96,63 @@ function eventsSchema() {
 
 type LoadedEvent = ReturnType<typeof buildEntry>;
 
-function normalizeUpcoming(
-  upcoming: EventFrontmatter["upcoming"] | undefined,
+function buildRepeatInstances(
   filePath: string,
-): Record<string, Partial<EventFrontmatter>> {
-  if (!upcoming) return {};
-  const out: Record<string, Partial<EventFrontmatter>> = {};
-  for (const [rawKey, value] of Object.entries(upcoming)) {
-    const key = String(rawKey);
-    if (!/^\d{6}$/.test(key)) {
-      throw new Error(
-        `Invalid upcoming date key in ${filePath}: ${key} (expected YYMMDD, e.g. 260530)`,
+  frontmatter: EventFrontmatter,
+  parentSlug: string,
+  materializedChildSlugs: Set<string>,
+  now: Date,
+): LoadedEvent[] {
+  if (!frontmatter.repeat) return [];
+
+  const entries = Object.entries(frontmatter.repeat)
+    .map(([rawKey, override]) => {
+      const { date, slugPrefix } = parseRepeatKey(
+        rawKey,
+        frontmatter.dateTime,
+        override?.time,
+        filePath,
       );
-    }
-    out[key] = value;
-  }
-  return out;
+      return { date, slugPrefix, override: override ?? {} };
+    })
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
+
+  const baseFrontmatter: EventFrontmatter = {
+    ...frontmatter,
+    repeat: undefined,
+    recurredFrom: parentSlug,
+  };
+
+  let nextFutureSeen = false;
+  return entries.flatMap(({ date, slugPrefix, override }) => {
+    const instanceSlug = `${slugPrefix}-${parentSlug}`;
+    if (materializedChildSlugs.has(instanceSlug)) return [];
+
+    const { time: _ignoredTime, ...frontmatterOverride } = override;
+    const isFuture = date.getTime() > now.getTime();
+    const isNext = isFuture && !nextFutureSeen;
+    if (isNext) nextFutureSeen = true;
+
+    const instanceFrontmatter: EventFrontmatter = {
+      ...baseFrontmatter,
+      ...frontmatterOverride,
+      links:
+        baseFrontmatter.links || frontmatterOverride.links
+          ? { ...baseFrontmatter.links, ...frontmatterOverride.links }
+          : undefined,
+    };
+
+    return [
+      buildEntry(filePath, instanceFrontmatter, {
+        id: instanceSlug,
+        dateTime: date,
+        bodySlug: parentSlug,
+        isCancelled: instanceFrontmatter.isCancelled || undefined,
+        isNextRecurringOccurrence: isNext || undefined,
+        calendarOnly: isFuture && !isNext ? true : undefined,
+      }),
+    ];
+  });
 }
 
 function buildEntry(
@@ -166,69 +200,24 @@ export async function eventsLoader() {
   );
 
   const standalone: LoadedEvent[] = [];
-  const recurringParents: { filePath: string; frontmatter: EventFrontmatter; parentSlug: string }[] = [];
+  const repeatParents: { filePath: string; frontmatter: EventFrontmatter; parentSlug: string }[] = [];
   const materializedChildSlugs = new Set<string>();
 
   for (const [filePath, mod] of files) {
     const { frontmatter } = mod;
     const parentSlug = path.basename(path.dirname(filePath));
-    if (frontmatter.recurring) {
-      recurringParents.push({ filePath, frontmatter, parentSlug });
+    if (frontmatter.repeat) {
+      repeatParents.push({ filePath, frontmatter, parentSlug });
       continue;
     }
     if (frontmatter.recurredFrom) materializedChildSlugs.add(parentSlug);
     standalone.push(buildEntry(filePath, frontmatter));
   }
 
-  const ephemeral: LoadedEvent[] = [];
   const now = new Date();
-  for (const { filePath, frontmatter, parentSlug } of recurringParents) {
-    const startDateTime = parseEventDateTime(frontmatter.dateTime, filePath);
-    const config = parseRecurringConfig(frontmatter.recurring!, filePath);
-    const { past, future } = getRecurringInstanceDates(config, startDateTime, now);
-
-    const baseFrontmatter: EventFrontmatter = {
-      ...frontmatter,
-      recurring: undefined,
-      upcoming: undefined,
-      recurredFrom: parentSlug,
-    };
-    const upcoming = normalizeUpcoming(frontmatter.upcoming, filePath);
-    const cancelledSet = new Set(config.cancelled ?? []);
-    const pushInstance = (
-      occurrence: Date,
-      extras: { isNextRecurringOccurrence?: boolean; calendarOnly?: boolean } = {},
-    ) => {
-      const instanceSlug = `${toSlugDate(occurrence)}-${parentSlug}`;
-      if (materializedChildSlugs.has(instanceSlug)) return;
-      const override = upcoming[toSlugDate(occurrence)] ?? {};
-      const instanceFrontmatter: EventFrontmatter = {
-        ...baseFrontmatter,
-        ...override,
-        links:
-          baseFrontmatter.links || override.links
-            ? { ...baseFrontmatter.links, ...override.links }
-            : undefined,
-      };
-      ephemeral.push(
-        buildEntry(filePath, instanceFrontmatter, {
-          id: instanceSlug,
-          dateTime: occurrence,
-          bodySlug: parentSlug,
-          isCancelled: cancelledSet.has(toYMD(occurrence)) || undefined,
-          ...extras,
-        }),
-      );
-    };
-
-    past.forEach((occurrence) => pushInstance(occurrence));
-    future.forEach((occurrence, index) =>
-      pushInstance(occurrence, {
-        isNextRecurringOccurrence: index === 0,
-        calendarOnly: index > 0,
-      }),
-    );
-  }
+  const ephemeral = repeatParents.flatMap(({ filePath, frontmatter, parentSlug }) =>
+    buildRepeatInstances(filePath, frontmatter, parentSlug, materializedChildSlugs, now),
+  );
 
   return [...standalone, ...ephemeral];
 }
