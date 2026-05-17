@@ -5,8 +5,9 @@ import matter from "gray-matter";
 import { parse, stringify } from "yaml";
 
 import {
+  type RepeatOverride,
   extractTimeOfDay,
-  mergeLinks,
+  mergeRepeatOverride,
   parseRepeatKey,
   toYMD,
 } from "../../../src/utils/recurringDates";
@@ -25,14 +26,12 @@ const yamlEngine = {
     }),
 };
 
-type RepeatEntry = Record<string, unknown> & { time?: string };
-
 type ParentFrontmatter = {
   dateTime: string;
   cover?: string;
   devOnly?: boolean;
   links?: Record<string, string>;
-  repeat?: Record<string, RepeatEntry | null>;
+  repeat?: Record<string, RepeatOverride | null>;
   [key: string]: unknown;
 };
 
@@ -69,11 +68,11 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       continue;
     }
 
-    const remaining: Record<string, RepeatEntry | null> = {};
+    const remaining: Record<string, RepeatOverride | null> = {};
     let drained = 0;
 
     for (const [rawKey, value] of Object.entries(frontmatter.repeat)) {
-      const override = (value ?? {}) as RepeatEntry;
+      const override = value ?? {};
       const time = override.time ?? extractTimeOfDay(frontmatter.dateTime, parentPath);
       const { date, slugPrefix } = parseRepeatKey(rawKey, time, parentPath);
 
@@ -86,13 +85,7 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
       const childDir = path.join(eventsDir, childSlug);
       const childPath = path.join(childDir, "event.md");
 
-      const { time: _t, ...overrideFields } = override;
-      const overrideLinks = overrideFields.links as Record<string, string> | undefined;
-      const childFrontmatter: Record<string, unknown> = {
-        ...frontmatter,
-        ...overrideFields,
-        links: mergeLinks(frontmatter.links, overrideLinks),
-      };
+      const childFrontmatter: Record<string, unknown> = mergeRepeatOverride(frontmatter, override);
       delete childFrontmatter.repeat;
       childFrontmatter.recurredFrom = parentSlug;
       childFrontmatter.dateTime = `${toYMD(date)} ${time}`;

@@ -15,15 +15,15 @@ import { type ProcessedVenue, processVenue } from "@/content/venues";
 import { isEventUpcoming } from "@/utils/eventFilters";
 import { memoize } from "@/utils/memoize";
 import {
+  type RepeatOverride,
   extractTimeOfDay,
-  mergeLinks,
+  mergeRepeatOverride,
   parseEventDateTime,
   parseRepeatKey,
 } from "@/utils/recurringDates";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
 type EventAttachment = { icon: string; title: string; description?: string; url: string };
-type RepeatEntry = Partial<Omit<EventFrontmatter, "repeat" | "dateTime">> & { time?: string };
 type EventFrontmatter = {
   cover?: string;
   dateTime: string;
@@ -40,7 +40,7 @@ type EventFrontmatter = {
   isCancelled?: boolean;
   attachments?: EventAttachment[];
   recurredFrom?: string;
-  repeat?: Record<string, RepeatEntry>;
+  repeat?: Record<string, RepeatOverride>;
 };
 
 type EventEntryData = CollectionEntry<"events">["data"];
@@ -111,10 +111,10 @@ function buildRepeatInstances(
   if (!frontmatter.repeat) return [];
 
   const entries = Object.entries(frontmatter.repeat)
-    .map(([rawKey, rawOverride]) => {
-      const { time, ...override } = rawOverride ?? {};
-      const resolvedTime = time ?? extractTimeOfDay(frontmatter.dateTime, filePath);
-      const { date, slugPrefix } = parseRepeatKey(rawKey, resolvedTime, filePath);
+    .map(([rawKey, raw]) => {
+      const override = raw ?? {};
+      const time = override.time ?? extractTimeOfDay(frontmatter.dateTime, filePath);
+      const { date, slugPrefix } = parseRepeatKey(rawKey, time, filePath);
       return { date, slugPrefix, override };
     })
     .sort((a, b) => a.date.getTime() - b.date.getTime());
@@ -132,12 +132,7 @@ function buildRepeatInstances(
 
     const isFuture = date.getTime() > now.getTime();
     const isNext = index === firstFutureIndex;
-
-    const instanceFrontmatter: EventFrontmatter = {
-      ...baseFrontmatter,
-      ...override,
-      links: mergeLinks(baseFrontmatter.links, override.links),
-    };
+    const instanceFrontmatter = mergeRepeatOverride(baseFrontmatter, override);
 
     return [
       buildEntry(filePath, instanceFrontmatter, {

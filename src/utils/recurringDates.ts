@@ -52,3 +52,20 @@ export function mergeLinks(
   if (!parent && !override) return undefined;
   return { ...parent, ...override };
 }
+
+export type RepeatOverride = Record<string, unknown> & {
+  time?: string;
+  links?: Record<string, string>;
+};
+
+export function mergeRepeatOverride<T extends { links?: Record<string, string> }>(
+  parent: T,
+  raw: RepeatOverride,
+): T {
+  const { time: _time, links: overrideLinks, ...rest } = raw;
+  return {
+    ...parent,
+    ...(rest as Partial<T>),
+    links: mergeLinks(parent.links, overrideLinks),
+  };
+}

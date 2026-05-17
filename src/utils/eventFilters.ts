@@ -61,9 +61,8 @@ export function filterRecentEvents<T extends EventWithDateTime>(
 }
 
 /**
- * Sorts upcoming events with non-recurring first, then recurring, then dev-only —
- * each tier sorted ascending by date. Keeps regular meetups prominent on the
- * landing page while still surfacing recurring series and dev fixtures.
+ * Keeps regular meetups prominent on the landing page above recurring series
+ * and dev fixtures.
  */
 export function sortUpcomingByTier<
   T extends EventWithDateTime & { data: { recurredFrom?: string; devOnly?: boolean } },
