@@ -1,6 +1,6 @@
 ---
 title: July Event TBD.
-dateTime: 2026-05-30 17:00
+dateTime: 2026-07-18 17:00
 duration: 150
 cover: ./886924.webp
 topics:
