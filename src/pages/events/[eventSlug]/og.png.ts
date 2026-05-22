@@ -14,7 +14,7 @@ export const GET = createOGImageRoute(async ({ params }) => {
   }
 
   // Get event data
-  const events = await getEvents();
+  const events = await getEvents(undefined, { includeCalendarOnly: true });
   const event = events.find((e) => e.id === eventSlug);
 
   if (!event) {
@@ -67,7 +67,7 @@ export const GET = createOGImageRoute(async ({ params }) => {
 });
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await getEvents();
+  const events = await getEvents(undefined, { includeCalendarOnly: true });
   return events.map((event) => ({
     params: { eventSlug: event.id },
   }));

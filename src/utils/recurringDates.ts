@@ -1,51 +1,3 @@
-export type RecurringConfig = {
-  frequency: "weekly";
-  endDate?: Date;
-  skipDates?: string[];
-  onlyDates?: string[];
-  cancelled?: string[];
-};
-
-export type RecurringFrontmatter = {
-  frequency: "weekly";
-  endDate?: string | Date;
-  skipDates?: (string | Date)[];
-  onlyDates?: (string | Date)[];
-  cancelled?: (string | Date)[];
-};
-
-function coerceYMD(value: string | Date, filePath: string, field: string): string {
-  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
-  const asDate = value instanceof Date ? value : new Date(String(value));
-  if (Number.isNaN(asDate.getTime())) {
-    throw new Error(`Invalid ${field} for ${filePath}: ${String(value)}`);
-  }
-  return toYMD(asDate);
-}
-
-function coerceYMDArray(
-  values: (string | Date)[] | undefined,
-  filePath: string,
-  field: string,
-): string[] | undefined {
-  return values?.map((d) => coerceYMD(d, filePath, field));
-}
-
-export function parseRecurringConfig(
-  recurring: RecurringFrontmatter,
-  filePath: string,
-): RecurringConfig {
-  const config: RecurringConfig = { frequency: recurring.frequency };
-  if (recurring.endDate !== undefined) {
-    const ymd = coerceYMD(recurring.endDate, filePath, "recurring.endDate");
-    config.endDate = new Date(`${ymd}T23:59:59+09:00`);
-  }
-  config.skipDates = coerceYMDArray(recurring.skipDates, filePath, "recurring.skipDates");
-  config.onlyDates = coerceYMDArray(recurring.onlyDates, filePath, "recurring.onlyDates");
-  config.cancelled = coerceYMDArray(recurring.cancelled, filePath, "recurring.cancelled");
-  return config;
-}
-
 export function parseEventDateTime(value: string, filePath: string): Date {
   if (!/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2})$/.test(value)) {
     throw new Error(`Invalid date/time format for ${filePath}: ${value}`);
@@ -59,77 +11,61 @@ export function parseEventDateTime(value: string, filePath: string): Date {
 }
 
 export function toYMD(date: Date): string {
-  const formatter = new Intl.DateTimeFormat("en-CA", {
+  return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Tokyo",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  });
-  return formatter.format(date);
+  }).format(date);
 }
 
-export function toSlugDate(date: Date): string {
-  return toYMD(date).slice(2).replace(/-/g, "");
+export function extractTimeOfDay(dateTime: string, filePath: string): string {
+  const match = /^\d{4}-\d{2}-\d{2} (\d{2}:\d{2})$/.exec(dateTime);
+  if (!match) throw new Error(`Cannot extract time from dateTime in ${filePath}: ${dateTime}`);
+  return match[1];
 }
 
-function advance(cursor: Date, frequency: RecurringConfig["frequency"]): void {
-  if (frequency === "weekly") {
-    cursor.setUTCDate(cursor.getUTCDate() + 7);
-    return;
+export function parseRepeatKey(
+  rawKey: unknown,
+  time: string,
+  filePath: string,
+): { date: Date; slugPrefix: string } {
+  const key = String(rawKey);
+  if (!/^\d{6}$/.test(key)) {
+    throw new Error(`Invalid repeat key in ${filePath}: ${key} (expected YYMMDD, e.g. 260530)`);
   }
-  throw new Error(`Unsupported recurring frequency: ${frequency}`);
+  if (!/^\d{2}:\d{2}$/.test(time)) {
+    throw new Error(`Invalid time for repeat ${key} in ${filePath}: ${time}`);
+  }
+  const isoDate = `20${key.slice(0, 2)}-${key.slice(2, 4)}-${key.slice(4, 6)}`;
+  const date = new Date(`${isoDate}T${time}:00+09:00`);
+  if (Number.isNaN(date.getTime())) {
+    throw new Error(`Invalid repeat date in ${filePath}: ${key} ${time}`);
+  }
+  return { date, slugPrefix: key };
 }
 
-function parseYMDAtTime(ymd: string, template: Date): Date {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
-    throw new Error(`Invalid YMD date in recurring config: ${ymd}`);
-  }
-  const time = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Asia/Tokyo",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(template);
-  return new Date(`${ymd}T${time}:00+09:00`);
+export function mergeLinks(
+  parent: Record<string, string> | undefined,
+  override: Record<string, string> | undefined,
+): Record<string, string> | undefined {
+  if (!parent && !override) return undefined;
+  return { ...parent, ...override };
 }
 
-export function getRecurringInstanceDates(
-  config: RecurringConfig,
-  startDateTime: Date,
-  now: Date = new Date(),
-  futureCount: number = 4,
-): { past: Date[]; future: Date[] } {
-  const skipSet = new Set(config.skipDates ?? []);
+export type RepeatOverride = Record<string, unknown> & {
+  time?: string;
+  links?: Record<string, string>;
+};
 
-  let past: Date[];
-  if (config.onlyDates && config.onlyDates.length > 0) {
-    past = config.onlyDates
-      .map((s) => parseYMDAtTime(s, startDateTime))
-      .filter((d) => d <= now)
-      .filter((d) => !skipSet.has(toYMD(d)))
-      .sort((a, b) => a.getTime() - b.getTime());
-  } else {
-    past = [];
-    const cursor = new Date(startDateTime);
-    const cutoff = config.endDate
-      ? new Date(Math.min(config.endDate.getTime(), now.getTime()))
-      : now;
-    while (cursor.getTime() <= cutoff.getTime()) {
-      if (!skipSet.has(toYMD(cursor))) past.push(new Date(cursor));
-      advance(cursor, config.frequency);
-    }
-  }
-
-  const future: Date[] = [];
-  const cursor = new Date(startDateTime);
-  while (cursor.getTime() <= now.getTime()) advance(cursor, config.frequency);
-  while (
-    future.length < futureCount &&
-    (!config.endDate || cursor.getTime() <= config.endDate.getTime())
-  ) {
-    if (!skipSet.has(toYMD(cursor))) future.push(new Date(cursor));
-    advance(cursor, config.frequency);
-  }
-
-  return { past, future };
+export function mergeRepeatOverride<T extends { links?: Record<string, string> }>(
+  parent: T,
+  raw: RepeatOverride,
+): T {
+  const { time: _time, links: overrideLinks, ...rest } = raw;
+  return {
+    ...parent,
+    ...(rest as Partial<T>),
+    links: mergeLinks(parent.links, overrideLinks),
+  };
 }

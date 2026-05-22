@@ -61,6 +61,25 @@ export function filterRecentEvents<T extends EventWithDateTime>(
 }
 
 /**
+ * Keeps regular meetups prominent on the landing page above recurring series
+ * and dev fixtures.
+ */
+export function sortUpcomingByTier<
+  T extends EventWithDateTime & { data: { recurredFrom?: string; devOnly?: boolean } },
+>(events: T[]): T[] {
+  const tier = (event: T): number => {
+    if (event.data.devOnly) return 2;
+    if (event.data.recurredFrom) return 1;
+    return 0;
+  };
+  return [...events].sort((a, b) => {
+    const diff = tier(a) - tier(b);
+    if (diff !== 0) return diff;
+    return new Date(a.data.dateTime).getTime() - new Date(b.data.dateTime).getTime();
+  });
+}
+
+/**
  * Collapses recurring-event instances so each parent appears at most once.
  * Iterates the array in order; for past instances, the first hit per parent wins —
  * so callers should pass an array sorted most-recent-first to keep the freshest one.

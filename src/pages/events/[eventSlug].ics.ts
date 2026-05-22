@@ -6,7 +6,7 @@ import { generateEventICS, wrapICSCalendar } from "@/utils/ics";
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const events = await getEvents();
+  const events = await getEvents(undefined, { includeCalendarOnly: true });
 
   return events.map((event) => ({
     params: { eventSlug: event.id },
