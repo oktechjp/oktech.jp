@@ -4,7 +4,6 @@ import type { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import slugify from "slugify";
-import { parse, stringify } from "yaml";
 
 import { config } from "./config";
 import { GitHubService } from "./github";
@@ -12,6 +11,7 @@ import { logger } from "./logger";
 import { MapService } from "./maps";
 import { type ExternalPhoto, type GalleryStats, PhotoService } from "./photos";
 import { normalizeMarkdown, pathExists, writeFileEnsured } from "./utils";
+import { yamlEngine } from "./yamlEngine";
 
 // Max URL length 84, base URL "https://oktech.jp/events/" is 25 chars
 const MAX_SLUG_LENGTH = 59;
@@ -32,24 +32,6 @@ function truncateSlugAtWordBoundary(slug: string): string {
 
   return words.join("-");
 }
-
-/**
- * Custom YAML engine for gray-matter that uses double quotes for strings
- */
-const doubleQuoteYamlEngine = {
-  parse: (str: string) => {
-    return parse(str);
-  },
-  stringify: (obj: any) => {
-    return stringify(obj, {
-      defaultStringType: "PLAIN",
-      defaultKeyType: "PLAIN",
-      lineWidth: 0,
-      doubleQuotedAsJSON: true,
-      singleQuote: false,
-    });
-  },
-};
 
 // External JSON types for events and venues
 export type ExternalEvent = {
@@ -121,7 +103,7 @@ export abstract class ContentProcessor<T> {
     body: string,
   ): Promise<{ created: boolean; updated: boolean; unchanged: boolean }> {
     const content = matter.stringify(body, frontmatter, {
-      engines: { yaml: doubleQuoteYamlEngine },
+      engines: { yaml: yamlEngine },
     });
 
     await writeFileEnsured(contentPath, content);
@@ -145,7 +127,7 @@ export abstract class ContentProcessor<T> {
     const body = newBody || existing.content || "";
 
     const content = matter.stringify(body, merged, {
-      engines: { yaml: doubleQuoteYamlEngine },
+      engines: { yaml: yamlEngine },
     });
 
     const existingContent = await fs.readFile(contentPath, "utf-8");

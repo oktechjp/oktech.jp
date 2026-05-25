@@ -2,38 +2,17 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import matter from "gray-matter";
-import { parse, stringify } from "yaml";
 
 import {
   type RepeatOverride,
-  extractTimeOfDay,
+  expandRepeatEntries,
   mergeRepeatOverride,
-  parseRepeatKey,
   toYMD,
 } from "../../../src/utils/recurringDates";
 
 import { logger } from "./logger";
-
-const yamlEngine = {
-  parse: (str: string) => parse(str),
-  stringify: (obj: unknown) =>
-    stringify(obj, {
-      defaultStringType: "PLAIN",
-      defaultKeyType: "PLAIN",
-      lineWidth: 0,
-      doubleQuotedAsJSON: true,
-      singleQuote: false,
-    }),
-};
-
-type ParentFrontmatter = {
-  dateTime: string;
-  cover?: string;
-  devOnly?: boolean;
-  links?: Record<string, string>;
-  repeat?: Record<string, RepeatOverride | null>;
-  [key: string]: unknown;
-};
+import { iterRepeatParents } from "./recurringShared";
+import { yamlEngine } from "./yamlEngine";
 
 export type MaterializeStats = {
   parentsScanned: number;
@@ -45,24 +24,8 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
   const stats: MaterializeStats = { parentsScanned: 0, skippedDevOnly: 0, created: 0 };
   const now = new Date();
 
-  const entries = await fs.readdir(eventsDir, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const parentSlug = entry.name;
-    const parentPath = path.join(eventsDir, parentSlug, "event.md");
-
-    let raw: string;
-    try {
-      raw = await fs.readFile(parentPath, "utf-8");
-    } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === "ENOENT") continue;
-      throw err;
-    }
-    const parsed = matter(raw, { engines: { yaml: yamlEngine } });
-    const frontmatter = parsed.data as ParentFrontmatter;
-    if (!frontmatter.repeat) continue;
+  for await (const { parentSlug, parentPath, parsed, frontmatter } of iterRepeatParents(eventsDir)) {
     stats.parentsScanned++;
-
     if (frontmatter.devOnly === true) {
       stats.skippedDevOnly++;
       continue;
@@ -71,13 +34,12 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
     const remaining: Record<string, RepeatOverride | null> = {};
     let drained = 0;
 
-    for (const [rawKey, value] of Object.entries(frontmatter.repeat)) {
-      const override = value ?? {};
-      const time = override.time ?? extractTimeOfDay(frontmatter.dateTime, parentPath);
-      const { date, slugPrefix } = parseRepeatKey(rawKey, time, parentPath);
+    const repeat = frontmatter.repeat;
+    const expanded = expandRepeatEntries(repeat, frontmatter.dateTime, parentPath);
 
+    for (const { date, slugPrefix, rawKey, time, override } of expanded) {
       if (date.getTime() > now.getTime()) {
-        remaining[rawKey] = value;
+        remaining[rawKey] = repeat[rawKey] ?? null;
         continue;
       }
 
@@ -123,4 +85,32 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
   }
 
   return stats;
+}
+
+export type NextRecurringOccurrence = {
+  slug: string;
+  title: string;
+  dateTime: Date;
+  duration?: number;
+};
+
+export async function listNextRecurringOccurrences(
+  eventsDir: string,
+): Promise<NextRecurringOccurrence[]> {
+  const now = new Date();
+  const result: NextRecurringOccurrence[] = [];
+  for await (const { parentSlug, parentPath, frontmatter } of iterRepeatParents(eventsDir)) {
+    if (frontmatter.devOnly === true) continue;
+    const expanded = expandRepeatEntries(frontmatter.repeat, frontmatter.dateTime, parentPath);
+    const next = expanded.find(({ date }) => date.getTime() > now.getTime());
+    if (!next) continue;
+    const merged = mergeRepeatOverride(frontmatter, next.override);
+    result.push({
+      slug: `${next.slugPrefix}-${parentSlug}`,
+      title: merged.title ?? parentSlug,
+      dateTime: next.date,
+      duration: merged.duration,
+    });
+  }
+  return result;
 }

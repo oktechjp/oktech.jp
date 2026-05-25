@@ -58,6 +58,30 @@ export type RepeatOverride = Record<string, unknown> & {
   links?: Record<string, string>;
 };
 
+export type ExpandedRepeatEntry = {
+  date: Date;
+  slugPrefix: string;
+  rawKey: string;
+  time: string;
+  override: RepeatOverride;
+};
+
+export function expandRepeatEntries(
+  repeat: Record<string, RepeatOverride | null | undefined> | undefined,
+  parentDateTime: string,
+  filePath: string,
+): ExpandedRepeatEntry[] {
+  if (!repeat) return [];
+  return Object.entries(repeat)
+    .map(([rawKey, raw]) => {
+      const override = raw ?? {};
+      const time = override.time ?? extractTimeOfDay(parentDateTime, filePath);
+      const { date, slugPrefix } = parseRepeatKey(rawKey, time, filePath);
+      return { date, slugPrefix, rawKey, time, override };
+    })
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
+}
+
 export function mergeRepeatOverride<T extends { links?: Record<string, string> }>(
   parent: T,
   raw: RepeatOverride,
