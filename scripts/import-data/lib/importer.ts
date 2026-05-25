@@ -13,7 +13,7 @@ import {
   type ExternalVenue,
   VenueProcessor,
 } from "./processor";
-import { materializeRecurringEvents } from "./recurring";
+import { listNextRecurringOccurrences, materializeRecurringEvents } from "./recurring";
 import { writeFileEnsured } from "./utils";
 
 /**
@@ -381,6 +381,16 @@ export class Importer {
           id: event.id,
         });
       }
+    }
+
+    // Include the soonest future occurrence of each recurring series so the
+    // scheduler triggers a rebuild when a recurring instance ends.
+    for (const occ of await listNextRecurringOccurrences(config.paths.events)) {
+      allEvents.push({
+        data: { dateTime: occ.dateTime, duration: occ.duration },
+        title: occ.title,
+        id: occ.slug,
+      });
     }
 
     // Get upcoming events

@@ -16,10 +16,9 @@ import { isEventUpcoming } from "@/utils/eventFilters";
 import { memoize } from "@/utils/memoize";
 import {
   type RepeatOverride,
-  extractTimeOfDay,
+  expandRepeatEntries,
   mergeRepeatOverride,
   parseEventDateTime,
-  parseRepeatKey,
 } from "@/utils/recurringDates";
 import { type ResponsiveImageData, getResponsiveImage } from "@/utils/responsiveImage";
 
@@ -110,14 +109,7 @@ function buildRepeatInstances(
 ): LoadedEvent[] {
   if (!frontmatter.repeat) return [];
 
-  const entries = Object.entries(frontmatter.repeat)
-    .map(([rawKey, raw]) => {
-      const override = raw ?? {};
-      const time = override.time ?? extractTimeOfDay(frontmatter.dateTime, filePath);
-      const { date, slugPrefix } = parseRepeatKey(rawKey, time, filePath);
-      return { date, slugPrefix, override };
-    })
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
+  const entries = expandRepeatEntries(frontmatter.repeat, frontmatter.dateTime, filePath);
 
   const baseFrontmatter: EventFrontmatter = {
     ...frontmatter,
