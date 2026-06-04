@@ -12,22 +12,26 @@ topics:
   - New Technology
 howToFindUs: Same building as The DECK, 7th Floor.
 repeat:
-  "260606":
-    meetupId: whzmxtyjcjbjb
-  "260613":
-    meetupId: whzmxtyjcjbrb
-  "260620":
-    meetupId: whzmxtyjcjbbc
-  "260627":
-    meetupId: whzmxtyjcjbkc
-  "260704":
-    meetupId: whzmxtyjckbgb
-  "260711":
-    meetupId: whzmxtyjckbpb
-  "260718":
-    meetupId: whzmxtyjckbxb
-  "260725":
-    meetupId: whzmxtyjckbhc
+  260606:
+    meetupId: 314901650
+  260613:
+    meetupId: tshtxtyjcjbrb
+  260620:
+    meetupId: 315084418
+  260627:
+    meetupId: tshtxtyjcjbkc
+  260704:
+    meetupId: tshtxtyjckbgb
+  260711:
+    meetupId: tshtxtyjckbpb
+  260718:
+    meetupId: tshtxtyjckbxb
+  260725:
+    meetupId: tshtxtyjckbhc
+  260801:
+    meetupId: tshtxtyjclbcb
+  260808:
+    meetupId: tshtxtyjclblb
 ---
 
 A brand new Osaka meetup for engineers working at the bleeding edge of agentic engineering. A dozen engineers, a couple of hours, somewhere in Osaka, every Saturday morning.
