@@ -164,6 +164,7 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
   private photos: Record<string, ExternalPhoto[]> = {};
   private existingSlugsByMeetupId = new Map<string, string>();
   private slugIndexInitialized = false;
+  private slugRedirects = new Map<string, string>();
 
   private ensureSlugIndex(): void {
     if (this.slugIndexInitialized) return;
@@ -211,6 +212,10 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
     }
   }
 
+  getRedirects(): Map<string, string> {
+    return this.slugRedirects;
+  }
+
   setPhotos(photos: Record<string, ExternalPhoto[]>) {
     this.photos = photos;
   }
@@ -251,6 +256,7 @@ export class EventProcessor extends ContentProcessor<ExternalEvent> {
       renameSync(oldDir, newDir);
       logger.success(`Renamed event folder: "${oldSlug}" → "${newSlug}"`);
       this.existingSlugsByMeetupId.set(meetupIdKey, newSlug);
+      this.slugRedirects.set(oldSlug, newSlug);
     } catch (err) {
       const error = err as Error;
       logger.warn(`Failed to rename "${oldSlug}" → "${newSlug}": ${error.message}`);
