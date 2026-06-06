@@ -1,4 +1,6 @@
 import { createHash } from "node:crypto";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 import { filterUpcomingEvents, getEventEndTimeWithBuffer } from "@/utils/eventFilters";
 
@@ -180,6 +182,36 @@ export class ImportStatistics {
   }
 }
 
+const ASTRO_CONFIG_PATH = path.join("astro.config.ts");
+const REDIRECT_COMMENT = "// Slugs renamed by import script (Meetup title updated after first import)";
+const REDIRECT_ANCHOR = "  },\n  markdown:";
+
+async function addRedirectsToAstroConfig(redirects: Map<string, string>): Promise<void> {
+  if (redirects.size === 0) return;
+
+  let content = await fs.readFile(ASTRO_CONFIG_PATH, "utf-8");
+
+  const newEntries: string[] = [];
+  for (const [oldSlug, newSlug] of redirects) {
+    if (content.includes(`"/events/${oldSlug}"`)) continue;
+    newEntries.push(`    "/events/${oldSlug}": "/events/${newSlug}",`);
+  }
+
+  if (newEntries.length === 0) return;
+
+  if (!content.includes(REDIRECT_ANCHOR)) {
+    logger.warn("Could not find redirects block end in astro.config.ts — skipping redirect update");
+    return;
+  }
+
+  const comment = content.includes(REDIRECT_COMMENT) ? "" : `    ${REDIRECT_COMMENT}\n`;
+  const insertion = comment + newEntries.join("\n") + "\n";
+  content = content.replace(REDIRECT_ANCHOR, `${insertion}${REDIRECT_ANCHOR}`);
+
+  await fs.writeFile(ASTRO_CONFIG_PATH, content, "utf-8");
+  logger.success(`Added ${newEntries.length} redirect(s) to astro.config.ts`);
+}
+
 /**
  * Main import orchestrator
  */
@@ -310,6 +342,9 @@ export class Importer {
         this.stats.galleryImagesDeleted += result.galleryStats.deleted;
       }
     }
+
+    // Register redirects for any renamed event slugs
+    await addRedirectsToAstroConfig(this.eventProcessor.getRedirects());
 
     // Process venues
     logger.section("Processing Venues");

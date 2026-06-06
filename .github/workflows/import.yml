@@ -93,7 +93,7 @@ jobs:
           # Only commit if actual content changed OR event ended
           if [ -n "$CONTENT_CHANGES" ] || [ "$EVENT_ENDED" = true ]; then
             # Stage changes
-            git add content/ meta.json
+            git add content/ meta.json astro.config.ts
 
             # Determine commit message
             if [ -n "$CONTENT_CHANGES" ]; then
