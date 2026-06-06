@@ -1,35 +1,17 @@
 ---
 title: Agentic Assembly - AI Engineering Support Group
 description: A small weekly gathering for engineers working at the bleeding edge of agentic engineering.
-dateTime: 2026-05-23 10:00
+dateTime: 2026-06-06 10:00
 duration: 120
-cover: ./cover.webp
-meetupId: 314697842
+cover: ../agentic-assembly/cover.webp
+meetupId: 314901650
 venue: 900000703
 topics:
   - AI/ML
   - Software Development
   - New Technology
 howToFindUs: Same building as The DECK, 7th Floor.
-repeat:
-  "260613":
-    meetupId: tshtxtyjcjbrb
-  "260620":
-    meetupId: 315084418
-  "260627":
-    meetupId: tshtxtyjcjbkc
-  "260704":
-    meetupId: tshtxtyjckbgb
-  "260711":
-    meetupId: tshtxtyjckbpb
-  "260718":
-    meetupId: tshtxtyjckbxb
-  "260725":
-    meetupId: tshtxtyjckbhc
-  "260801":
-    meetupId: tshtxtyjclbcb
-  "260808":
-    meetupId: tshtxtyjclblb
+recurredFrom: agentic-assembly
 ---
 
 A brand new Osaka meetup for engineers working at the bleeding edge of agentic engineering. A dozen engineers, a couple of hours, somewhere in Osaka, every Saturday morning.
