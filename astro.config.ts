@@ -120,6 +120,7 @@ export default defineConfig({
     "/events/313203893-april-event-tbd": "/events/313203893-measure-development-experience",
     "/events/313772788-june-event-tbd": "/events/313772788-less-bugs-and-faster-code",
     "/events/313772796-may-event-tbd": "/events/313772796-kitchen-robots-and-state-of-ai",
+    "/events/314902158-study-session-tdd-write-the-test-first": "/events/314902158-study-session-test-driven-development-write-the",
   },
   markdown: {
     remarkPlugins: [remarkBreaks, remarkReadingTime, remarkDescription, remarkRelativeAssets],

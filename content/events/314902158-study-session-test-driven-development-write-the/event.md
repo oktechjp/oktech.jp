@@ -1,5 +1,5 @@
 ---
-title: "Study Session: TDD: Write the Test First"
+title: "Study Session: Test Driven Development: Write the Test First"
 dateTime: 2026-06-21 19:00
 duration: 120
 cover: ./688053.webp
