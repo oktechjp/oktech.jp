@@ -1,4 +1,10 @@
-# Get the word out!
+---
+title: Get the word out!
+description: Community document on how to get the word out about OKTech!
+keywords: ["marketing", "community", "sharing", "contribute", "oktech"]
+author: Martin Heidegger <martinheidegger>
+date: 2026-06-15
+---
 
 Communities are always in flux. People move away, others arrive; older members retire, and younger ones graduate from school.
 Because of this, it is important to let the right people know that we are still here and active!
