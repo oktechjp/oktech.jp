@@ -91,5 +91,5 @@ Many people in our group are professionals, but their fields and experiences var
 We are not a corporate organization promising career results or academic certifications; we are a community first.
 
 * In your communications, ensure both passion and professionalism are represented.
-* While many members are highly skilled, focus on their passion rather than just their credentials.
-* When funds are collected, be transparent about how those proceeds benefit the community as a whole!
+* Many members are from different backgrounds, focus on their passion and skill rather than just their credentials.
+* When contributions are made, be transparent about how those proceeds benefit the community as a whole!
