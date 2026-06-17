@@ -15,7 +15,7 @@ To ensure we are on the same page, this article explains in detail how you can h
 
 ### From the heart
 
-You might not know this, but others really want to know if you enjoy being here! Your experience serves as a signal for newcomers to decide if they could enjoy it too. Being vocal - both in person and on social media  - about the things you enjoy works wonders for the community and would be a huge help to us.
+You might not know this, but others really want to know if you enjoy being here! Your experience serves as a signal for newcomers to decide if they could enjoy it too. Being vocal both in person and on social media about the things you enjoy works wonders for the community and would be a huge help to us.
 
 * Say thank you to the presenter in Discord.
 * Make a social media post about something you enjoyed at an event.
