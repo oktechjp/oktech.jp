@@ -29,7 +29,7 @@ There are two practical realities we cannot ignore. First, the ways people engag
 
 Because of this, when you talk about OKTech, it is important to emphasize that every event will be different and have a different focus.
 
-The next event might have a completely different vibe or depth. **It helps us immensely if people understand — and embrace — this variety!**
+The next event might have a completely different vibe or depth. **It helps us immensely if people understand and embrace this variety!**
 
 * Let people know what is *different* about this specific session and why you think it's great.
 * Highlight that the goal is to create an enjoyable experience, even if someone doesn't understand every technical detail.
