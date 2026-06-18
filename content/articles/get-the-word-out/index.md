@@ -86,7 +86,7 @@ If you are eager to help us grow even further, social media like Facebook is sur
 
 Using tools like Grammarly or LLMs to ensure your text is free of grammatical errors is a good idea if you feel  insecure about your writing. However, there is charm in imperfection.
 
-Many people in our group are professionals, but their fields and experiences vary widely. By trying to present ourselves as "strictly professional," we risk creating expectations that we might not meet, which could lead to disappointment.
+Many people in our group are professionals, but their fields and experiences vary widely. By trying to present ourselves as "strictly professional," we risk creating expectations that might not be met, which could lead to disappointment or pressure that would reduce engagement. Therefore making mistakes is fine within our community, since we're all human. The charm to human imperfection makes our interactions feel personal and that is what we like to embrace.
 
 We are not a corporate organization promising career results or academic certifications; we are a community first.
 
