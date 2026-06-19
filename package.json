@@ -2,6 +2,15 @@
   "name": "oktech-web",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
+  "homepage": "https://oktech.jp/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oktechjp/oktech.jp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oktechjp/oktech.jp/issues"
+  },
   "scripts": {
     "dev": "astro dev --host",
     "build": "astro build",
