@@ -40,7 +40,7 @@
     "@playwright/test": "^1.57.0",
     "@react-spring/web": "^10.0.3",
     "@resvg/resvg-js": "^2.6.2",
-    "@rollup/plugin-yaml": "^4.1.2",
+    "@rollup/plugin-yaml": "^5.0.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
