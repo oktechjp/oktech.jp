@@ -37,11 +37,11 @@ Colors are softened versions of the [RGB Color Model](https://en.wikipedia.org/w
 
 The following colors are in the space between red/green/blue and can be used to complement designs and have visual contrast.
 
-| Color    | RGB     | CYMK                | [OKLCH][] |
-|----------|---------|---------------------|-----------|
-| Ocre     | #da9a00 | 0 36% 129% 31%      | 0.7293 0.152 78.91 |
-| Turqoise | #00bfbb | 227% 0 2% 42%       | 0.7271 0.1248 192.1 |
-| Violett  | #ac77e1 | 34% 54% 0 30%       | 0.6663 0.1595 305.58 |
+| Color     | RGB     | CMYK                | [OKLCH][] |
+|-----------|---------|---------------------|-----------|
+| Ocre      | #da9a00 | 0 36% 129% 31%      | 0.7293 0.152 78.91 |
+| Turquoise | #00bfbb | 227% 0 2% 42%       | 0.7271 0.1248 192.1 |
+| Violet    | #ac77e1 | 34% 54% 0 30%       | 0.6663 0.1595 305.58 |
 
 
 [OKLCH]: https://oklch.com/
@@ -93,7 +93,7 @@ In case we display source code or other monospaced content we use [Martian Mono]
 
 ### Katakana カナ
 
-The kana variant of the name is "オッケーテック". 
+The kana variant of the name is "オッケーテック".
 
 ## Creation Background
 
