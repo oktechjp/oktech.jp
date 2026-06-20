@@ -37,7 +37,7 @@ Colors are softened versions of the [RGB Color Model](https://en.wikipedia.org/w
 
 The following colors are in the space between red/green/blue and can be used to complement designs and have visual contrast.
 
-| Color     | RGB     | CYMK                | [OKLCH][] |
+| Color     | RGB     | CMYK                | [OKLCH][] |
 |-----------|---------|---------------------|-----------|
 | Ocre      | #da9a00 | 0 36% 129% 31%      | 0.7293 0.152 78.91 |
 | Turquoise | #00bfbb | 227% 0 2% 42%       | 0.7271 0.1248 192.1 |
