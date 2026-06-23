@@ -16,6 +16,7 @@ const items: TimelineItem[] = [
   {
     year: "2014",
     text: "Founded in Osaka as OWDDM (Osaka Web Designers & Developers Meetup)",
+    ja: "大阪で OWDDM「Osaka Web Designers & Developers Meetup」として設立されました",
     icon: (
       <SafariIOSDarkdmodeBugfix
         imgSrc={owddmLogoUrl}
@@ -29,11 +30,13 @@ const items: TimelineItem[] = [
   {
     year: "2015-2022",
     text: "The community hosted a wide range of events. While originally focused on web design and development, topics expanded to include cloud, AI, and game development. The group also built a strong community through social gatherings like dinners and seasonal events.",
+    ja: "多岐にわたるイベントが開催されました。当初はウェブデザインや開発に重点を置いていましたが、その後、クラウド、AI、ゲーム開発といった分野にも話題が広がりました。また、夕食会や季節のイベントなどの交流会を通じて、強固なコミュニティを築き上げました。",
     icon: <img src={star.src} alt="" className="w-20" />,
   },
   {
     year: "2023",
     text: "Kyoto counterpart, KWDDM, joining this year.",
+    ja: "KWDDM は京都のパートナー団体になりました。",
     icon: (
       <SafariIOSDarkdmodeBugfix
         imgSrc={kwddmLogoUrl}
@@ -47,6 +50,7 @@ const items: TimelineItem[] = [
   {
     year: "2025",
     text: "After nearly a decade, the community rebranded as OKTech, reflecting its broader focus on all things tech in the Kansai region while remaining community-driven and volunteer-run.",
+    ja: "10年近くを経て、このコミュニティは「OKTech」へと名称を変更しました。これは、コミュニティ主導かつボランティア運営という姿勢を維持しつつ、関西地域のテクノロジー全般に焦点を広げることを反映したものです。",
     icon: (
       <div className="md:-ml-14">
         <Brand active className="w-32" />
@@ -58,6 +62,7 @@ const items: TimelineItem[] = [
 type TimelineItem = {
   year: string;
   text: string;
+  ja?: string;
   icon: ReactNode;
 };
 
@@ -66,11 +71,12 @@ function getLineColor(index: number): string {
   return lineColors[Math.floor(index) % 3];
 }
 
-function TextCell({ year, text }: { year: string; text: string }) {
+function TextCell({ year, text, ja }: { year: string; text: string; ja?: string }) {
   return (
     <div className="rounded-box bg-base-200/20 text-base-900 flex flex-col gap-4 p-8 backdrop-blur-lg">
       <h3 className="text-3xl">{year}</h3>
       <p className="text-lg">{text}</p>
+      {ja && <p className="text-lg text-balance">{ja}</p>}
     </div>
   );
 }
@@ -131,7 +137,7 @@ function TimelineDecoration({ item, index, isLast }: CellProps) {
 function TimelineContent({ item }: CellProps) {
   return (
     <div className="col-span-5">
-      <TextCell year={item.year} text={item.text} />
+      <TextCell year={item.year} text={item.text} ja={item.ja} />
     </div>
   );
 }
@@ -189,7 +195,7 @@ function TimelineMobile() {
         const notLast = i < items.length - 1;
         return (
           <div key={item.year} className="flex flex-col items-center gap-4">
-            <TextCell year={item.year} text={item.text} />
+            <TextCell year={item.year} text={item.text} ja={item.ja} />
             {notLast && (
               <div className="relative">
                 <div className="absolute inset-0 z-0">
