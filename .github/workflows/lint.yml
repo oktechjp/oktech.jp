@@ -1,0 +1,35 @@
+name: Lint
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "26"
+
+      - name: Install prettier and deps
+        run: |
+          versions=prettier@`cat package-lock.json | jq '.packages["node_modules/prettier"].version' -r`;
+          for pkg in `cat .prettierrc | jq '.plugins[]' -r`; do
+            version=`cat package-lock.json | jq ".packages[\"node_modules/$pkg\"].version" -r`;
+            versions="$versions $pkg@$version";
+          done;
+          rm package-lock.json;
+          rm package.json;
+          set -x;
+          npm i $versions;
+
+      - name: Run prettier check
+        run: npm exec prettier -- -c .

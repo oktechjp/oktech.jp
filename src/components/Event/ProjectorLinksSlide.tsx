@@ -26,12 +26,8 @@ export default function ProjectorLinksSlide() {
             <div className="rounded-box bg-white p-[1.2vw]">
               <QRCodeSVG value={link.url} className="size-[20vw]" />
             </div>
-            <span className="text-base-content text-[2.4vw] font-semibold">
-              {link.label}
-            </span>
-            <span className="text-base-content/70 text-[1.4vw]">
-              {link.url}
-            </span>
+            <span className="text-base-content text-[2.4vw] font-semibold">{link.label}</span>
+            <span className="text-base-content/70 text-[1.4vw]">{link.url}</span>
           </div>
         ))}
       </div>

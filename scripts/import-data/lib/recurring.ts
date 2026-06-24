@@ -1,7 +1,6 @@
 import * as fs from "fs/promises";
-import * as path from "path";
-
 import matter from "gray-matter";
+import * as path from "path";
 
 import {
   type RepeatOverride,
@@ -9,7 +8,6 @@ import {
   mergeRepeatOverride,
   toYMD,
 } from "../../../src/utils/recurringDates";
-
 import { logger } from "./logger";
 import { iterRepeatParents } from "./recurringShared";
 import { yamlEngine } from "./yamlEngine";
@@ -24,7 +22,9 @@ export async function materializeRecurringEvents(eventsDir: string): Promise<Mat
   const stats: MaterializeStats = { parentsScanned: 0, skippedDevOnly: 0, created: 0 };
   const now = new Date();
 
-  for await (const { parentSlug, parentPath, parsed, frontmatter } of iterRepeatParents(eventsDir)) {
+  for await (const { parentSlug, parentPath, parsed, frontmatter } of iterRepeatParents(
+    eventsDir,
+  )) {
     stats.parentsScanned++;
     if (frontmatter.devOnly === true) {
       stats.skippedDevOnly++;

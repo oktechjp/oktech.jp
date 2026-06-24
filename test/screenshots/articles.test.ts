@@ -1,6 +1,7 @@
 import { test } from "@playwright/test";
-import { VIEWPORTS } from "../helpers/viewports";
+
 import { takeScreenshot } from "../helpers/screenshot";
+import { VIEWPORTS } from "../helpers/viewports";
 
 const desktop = VIEWPORTS.find((v) => v.name === "desktop")!;
 const mobile = VIEWPORTS.find((v) => v.name === "mobile")!;
