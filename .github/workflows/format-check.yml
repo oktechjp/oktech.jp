@@ -1,4 +1,4 @@
-name: Lint
+name: Format Check
 
 on: push
 
@@ -6,8 +6,8 @@ permissions:
   contents: read
 
 jobs:
-  lint:
-    name: Lint
+  format-check:
+    name: Prettier Format validation
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: "26"
+          node-version: "22"
 
       - name: Install prettier and deps
         run: |
