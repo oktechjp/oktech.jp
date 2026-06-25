@@ -50,7 +50,7 @@
     "@types/react-dom": "^19.2.3",
     "astro": "^5.16.6",
     "clsx": "^2.1.1",
-    "commander": "^14.0.2",
+    "commander": "^15.0.0",
     "daisyui": "^5.5.23",
     "dotenv": "^17.4.2",
     "fuse.js": "^7.4.2",
