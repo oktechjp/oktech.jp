@@ -38,7 +38,7 @@
     "@astrojs/react": "^4.4.2",
     "@astrojs/rss": "^4.0.18",
     "@fontsource/lexend": "^5.2.11",
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.61.0",
     "@react-spring/web": "^10.1.1",
     "@resvg/resvg-js": "^2.6.2",
     "@rollup/plugin-yaml": "^4.1.2",
