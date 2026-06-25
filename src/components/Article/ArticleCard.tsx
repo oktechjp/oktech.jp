@@ -51,7 +51,7 @@ export default function ArticleCard({
   return (
     <Link
       href={href}
-      className="ok-card flex flex-col gap-3 p-6 transition-colors duration-200 hover:bg-base-100 dark:border dark:border-base-content/10"
+      className="ok-card hover:bg-base-100 dark:border-base-content/10 flex flex-col gap-3 p-6 transition-colors duration-200 dark:border"
     >
       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
         <h2 className="text-2xl font-medium">{title}</h2>

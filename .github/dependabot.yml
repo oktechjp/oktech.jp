@@ -7,10 +7,10 @@ updates:
     groups:
       all-dependencies:
         patterns:
-          - '*'
+          - "*"
         update-types:
-          - 'minor'
-          - 'patch'
+          - "minor"
+          - "patch"
     schedule:
       interval: monthly
     versioning-strategy: increase

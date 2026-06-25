@@ -113,14 +113,18 @@ export default defineConfig({
     "/events/313122762-event-driven-architecture-part-3-how-do-we-live-with-this-long-term":
       "/events/313122762-event-driven-architecture-part-3-how-do-we-live",
     // Slugs renamed by import script (Meetup title updated after first import)
-    "/events/308667063-trust-in-javascript-numbers": "/events/308667063-alpine-javascript-numbers-and-business-cards",
-    "/events/311973741-satellite-images-and-dev-credentials": "/events/311973741-end-of-year-event-satellite-images-dev",
-    "/events/313110200-communicate-ux-and-ai-experiments": "/events/313110200-communicate-ux-and-digital-breadcrumbs",
+    "/events/308667063-trust-in-javascript-numbers":
+      "/events/308667063-alpine-javascript-numbers-and-business-cards",
+    "/events/311973741-satellite-images-and-dev-credentials":
+      "/events/311973741-end-of-year-event-satellite-images-dev",
+    "/events/313110200-communicate-ux-and-ai-experiments":
+      "/events/313110200-communicate-ux-and-digital-breadcrumbs",
     "/events/313124999-march-event-tbd": "/events/313124999-get-started-making",
     "/events/313203893-april-event-tbd": "/events/313203893-measure-development-experience",
     "/events/313772788-june-event-tbd": "/events/313772788-less-bugs-and-faster-code",
     "/events/313772796-may-event-tbd": "/events/313772796-kitchen-robots-and-state-of-ai",
-    "/events/314902158-study-session-tdd-write-the-test-first": "/events/314902158-study-session-test-driven-development-write-the",
+    "/events/314902158-study-session-tdd-write-the-test-first":
+      "/events/314902158-study-session-test-driven-development-write-the",
     "/events/314843644-july-event-tbd": "/events/314843644-manage-dependencies-with-nix-and-co",
     "/events/314843745-august-event-tbd": "/events/314843745-git-workshop-day",
   },

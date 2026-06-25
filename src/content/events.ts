@@ -184,7 +184,8 @@ export async function eventsLoader() {
   );
 
   const standalone: LoadedEvent[] = [];
-  const repeatParents: { filePath: string; frontmatter: EventFrontmatter; parentSlug: string }[] = [];
+  const repeatParents: { filePath: string; frontmatter: EventFrontmatter; parentSlug: string }[] =
+    [];
   const materializedChildSlugs = new Set<string>();
 
   for (const [filePath, mod] of files) {

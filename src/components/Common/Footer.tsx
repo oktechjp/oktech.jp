@@ -1,10 +1,10 @@
 import Container from "@/components/Common/Container";
-import EventProjectorButton from "@/components/Event/EventProjectorButton";
 import FooterMinorLinks from "@/components/Common/FooterMinorLinks";
 import MainMenu from "@/components/Common/MainMenu";
 import SocialsFooter from "@/components/Common/SocialsFooter";
-import type { EventEnriched } from "@/content";
+import EventProjectorButton from "@/components/Event/EventProjectorButton";
 import { SITE } from "@/constants";
+import type { EventEnriched } from "@/content";
 
 import Brand from "./Brand";
 import BuiltWithCommit from "./BuiltWithCommit";

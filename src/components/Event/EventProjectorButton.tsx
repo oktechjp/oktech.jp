@@ -11,7 +11,10 @@ interface EventProjectorButtonProps {
   variant?: "default" | "link";
 }
 
-export default function EventProjectorButton({ event, variant = "default" }: EventProjectorButtonProps) {
+export default function EventProjectorButton({
+  event,
+  variant = "default",
+}: EventProjectorButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

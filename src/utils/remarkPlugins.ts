@@ -78,13 +78,24 @@ export function remarkRelativeAssets() {
 function rewritePath(node: any, key: string, fileDir: string) {
   const value: string | undefined = node[key];
   if (!value || typeof value !== "string") return;
-  if (value.startsWith("#") || value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/")) return;
+  if (
+    value.startsWith("#") ||
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("/")
+  )
+    return;
   node[key] = path.posix.normalize(path.posix.join(fileDir, value));
 }
 
 function rewriteHtmlSources(value: string, fileDir: string): string {
   return value.replace(/(src|href)\s*=\s*(["'])([^"']+)\2/g, (match, attr, quote, url) => {
-    if (url.startsWith("#") || url.startsWith("/") || url.startsWith("http://") || url.startsWith("https://")) {
+    if (
+      url.startsWith("#") ||
+      url.startsWith("/") ||
+      url.startsWith("http://") ||
+      url.startsWith("https://")
+    ) {
       return match;
     }
     const rewritten = path.posix.normalize(path.posix.join(fileDir, url));

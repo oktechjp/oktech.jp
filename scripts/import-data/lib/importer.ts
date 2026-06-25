@@ -183,7 +183,8 @@ export class ImportStatistics {
 }
 
 const ASTRO_CONFIG_PATH = path.join("astro.config.ts");
-const REDIRECT_COMMENT = "// Slugs renamed by import script (Meetup title updated after first import)";
+const REDIRECT_COMMENT =
+  "// Slugs renamed by import script (Meetup title updated after first import)";
 const REDIRECT_ANCHOR = "  },\n  markdown:";
 
 async function addRedirectsToAstroConfig(redirects: Map<string, string>): Promise<void> {

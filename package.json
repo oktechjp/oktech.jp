@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "astro dev --host",
     "build": "astro build",
+    "build:preview-test": "npx playwright install && npm run test:build",
     "preview": "astro preview --host",
     "start": "npm run build && npm run preview",
     "knip": "knip",
@@ -29,7 +30,7 @@
     "test": "npm run test:dev",
     "test:dev": "playwright test",
     "test:screenshots": "rm -rf test/screenshots/output && TEST_TYPE=screenshots playwright test",
-    "test:build": "npm run build && TEST_BUILD=true playwright test",
+    "test:build": "npm run build && npm run knip && npm run typecheck && TEST_BUILD=true playwright test",
     "test:dist": "TEST_BUILD=true playwright test"
   },
   "devDependencies": {
@@ -58,10 +59,12 @@
     "mdast-util-to-string": "^4.0.0",
     "npm-run-all": "^4.1.5",
     "osm-static-maps": "^4.0.2",
+    "playwright": "^1.61.1",
     "prettier": "^3.8.4",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "puppeteer": "^24.34.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-icons": "^5.6.0",
@@ -81,7 +84,6 @@
     "vite": "^6.4.1",
     "vite-plugin-svgr": "^4.5.0",
     "yaml": "^2.8.2",
-    "yet-another-react-lightbox": "^3.32.0",
-    "qrcode.react": "^4.2.0"
+    "yet-another-react-lightbox": "^3.32.0"
   }
 }

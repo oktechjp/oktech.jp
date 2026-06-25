@@ -3,11 +3,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import { LuCalendarDays, LuSparkles } from "react-icons/lu";
 
 import type { EventEnriched } from "@/content";
-import {
-  filterRecentEvents,
-  filterUpcomingEvents,
-  sortUpcomingByTier,
-} from "@/utils/eventFilters";
+import { filterRecentEvents, filterUpcomingEvents, sortUpcomingByTier } from "@/utils/eventFilters";
 
 import Button from "../Common/Button";
 import CalendarSubscribeButton from "../Common/CalendarSubscribeButton";
