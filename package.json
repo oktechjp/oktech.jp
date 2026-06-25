@@ -48,7 +48,7 @@
     "@types/hast": "^3.0.4",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.16.6",
+    "astro": "^6.4.8",
     "clsx": "^2.1.1",
     "commander": "^14.0.2",
     "daisyui": "^5.5.23",
