@@ -21,6 +21,7 @@ links:
 Are you a software engineer who enjoys digging into new ideas, practices, and patterns that strengthen your craft? Join us for the next **OKTech Study Session**, a gathering for engineers who don't just code, but want to understand the _why_ and _how_ behind solid software design.
 
 ### Session Summary
+
 This session is hands-on about Test Driven Development (TDD). After a short introduction, you'll spend most of the evening writing code, working through small exercises (katas) using the red-green-refactor loop.
 
 **The problem:** Writing tests after the code works can feel like a chore. The feature is done, so writing the tests become busywork. Therefore most people will only write the happy paths while the awkward edge cases quietly are getting skipped.
@@ -31,4 +32,4 @@ This session is hands-on about Test Driven Development (TDD). After a short intr
 
 **Please prepare:** Bring a laptop with your IDE set up and a console project ready to go, in whatever language or technology you like, with a working testing framework. Please check that your setup runs before you arrive, so we can start writing tests straight away.
 
-**Session difficulty:** Medium, you should already be able to writing code and tests in your chosen language. Prior TDD experience is not required.
+**Session difficulty:** Medium, you should already be able to write code and tests in your chosen language. Prior TDD experience is not required.
