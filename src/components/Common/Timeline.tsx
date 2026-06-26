@@ -30,7 +30,7 @@ const items: TimelineItem[] = [
   {
     year: "2015-2022",
     text: "The community hosted a wide range of events. While originally focused on web design and development, topics expanded to include cloud, AI, and game development. The group also built a strong community through social gatherings like dinners and seasonal events.",
-    ja: "多岐にわたるイベントが開催されました。当初はウェブデザインや開発に重点を置いていましたが、その後、クラウド、AI、ゲーム開発といった分野にも話題が広がりました。また、夕食会や季節のイベントなどの交流会を通じて、強固なコミュニティを築き上げました。",
+    ja: <>多岐にわたる<wbr />イベントが開催されました。<wbr />当初はウェブデザインや開発に<wbr />重点を置いていましたが、<wbr />その後、クラウド、AI、<wbr />ゲーム開発といった分野にも<wbr />話題が広がりました。<wbr />また、夕食会や季節のイベントなどの<wbr />交流会を通じて、<wbr />強固なコミュニティを<wbr />築き上げました。</>,
     icon: <img src={star.src} alt="" className="w-20" />,
   },
   {
@@ -62,7 +62,7 @@ const items: TimelineItem[] = [
 type TimelineItem = {
   year: string;
   text: string;
-  ja?: string;
+  ja?: ReactNode;
   icon: ReactNode;
 };
 
@@ -71,12 +71,12 @@ function getLineColor(index: number): string {
   return lineColors[Math.floor(index) % 3];
 }
 
-function TextCell({ year, text, ja }: { year: string; text: string; ja?: string }) {
+function TextCell({ year, text, ja }: { year: string; text: string; ja?: ReactNode }) {
   return (
     <div className="rounded-box bg-base-200/20 text-base-900 flex flex-col gap-4 p-8 backdrop-blur-lg">
       <h3 className="text-3xl">{year}</h3>
       <p className="text-lg">{text}</p>
-      {ja && <p className="text-lg text-balance">{ja}</p>}
+      {ja && <p className="text-lg text-balance break-keep">{ja}</p>}
     </div>
   );
 }
