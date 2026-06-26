@@ -36,7 +36,7 @@ const items: TimelineItem[] = [
   {
     year: "2023",
     text: "Kyoto counterpart, KWDDM, joining this year.",
-    ja: "KWDDM は京都のパートナー団体になりました。",
+    ja: <>KWDDM は<wbr />京都のパートナー団体に<wbr />なりました。</>,
     icon: (
       <SafariIOSDarkdmodeBugfix
         imgSrc={kwddmLogoUrl}
@@ -50,7 +50,7 @@ const items: TimelineItem[] = [
   {
     year: "2025",
     text: "After nearly a decade, the community rebranded as OKTech, reflecting its broader focus on all things tech in the Kansai region while remaining community-driven and volunteer-run.",
-    ja: "10年近くを経て、このコミュニティは「OKTech」へと名称を変更しました。これは、コミュニティ主導かつボランティア運営という姿勢を維持しつつ、関西地域のテクノロジー全般に焦点を広げることを反映したものです。",
+    ja: <>10年近くを経て、<wbr />このコミュニティは「OKTech」へと<wbr />名称を変更しました。<wbr />これは、コミュニティ主導かつ<wbr />ボランティア運営という姿勢を<wbr />維持しつつ、<wbr />関西地域のテクノロジー全般に<wbr />焦点を広げることを<wbr />反映したものです。</>,
     icon: (
       <div className="md:-ml-14">
         <Brand active className="w-32" />
