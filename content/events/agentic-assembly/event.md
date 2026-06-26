@@ -4,7 +4,7 @@ description: A small weekly gathering for engineers working at the bleeding edge
 dateTime: 2026-05-23 10:00
 duration: 120
 cover: ./cover.webp
-meetupId: 314697842
+meetupId: 315349203
 venue: 900000703
 topics:
   - AI/ML
@@ -12,20 +12,18 @@ topics:
   - New Technology
 howToFindUs: Same building as The DECK, 7th Floor.
 repeat:
-  "260627":
-    meetupId: tshtxtyjcjbkc
   "260704":
-    meetupId: tshtxtyjckbgb
+    meetupId: wzhtxtyjckbgb
   "260711":
-    meetupId: tshtxtyjckbpb
+    meetupId: wzhtxtyjckbpb
   "260718":
-    meetupId: tshtxtyjckbxb
+    meetupId: wzhtxtyjckbxb
   "260725":
-    meetupId: tshtxtyjckbhc
+    meetupId: wzhtxtyjckbhc
   "260801":
-    meetupId: tshtxtyjclbcb
+    meetupId: wzhtxtyjclbcb
   "260808":
-    meetupId: tshtxtyjclblb
+    meetupId: wzhtxtyjclblb
 ---
 
 A brand new Osaka meetup for engineers working at the bleeding edge of agentic engineering. A dozen engineers, a couple of hours, somewhere in Osaka, every Saturday morning.
