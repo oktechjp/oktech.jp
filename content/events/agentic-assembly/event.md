@@ -12,6 +12,8 @@ topics:
   - New Technology
 howToFindUs: Same building as The DECK, 7th Floor.
 repeat:
+  "260627":
+    meetupId: "315349203"
   "260704":
     meetupId: wzhtxtyjckbgb
   "260711":
