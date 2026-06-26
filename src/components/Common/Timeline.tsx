@@ -30,13 +30,44 @@ const items: TimelineItem[] = [
   {
     year: "2015-2022",
     text: "The community hosted a wide range of events. While originally focused on web design and development, topics expanded to include cloud, AI, and game development. The group also built a strong community through social gatherings like dinners and seasonal events.",
-    ja: <>多岐にわたる<wbr />イベントが開催されました。<wbr />当初はウェブデザインや開発に<wbr />重点を置いていましたが、<wbr />その後、クラウド、AI、<wbr />ゲーム開発といった分野にも<wbr />話題が広がりました。<wbr />また、夕食会や季節のイベントなどの<wbr />交流会を通じて、<wbr />強固なコミュニティを<wbr />築き上げました。</>,
+    ja: (
+      <>
+        多岐にわたる
+        <wbr />
+        イベントが開催されました。
+        <wbr />
+        当初はウェブデザインや開発に
+        <wbr />
+        重点を置いていましたが、
+        <wbr />
+        その後、クラウド、AI、
+        <wbr />
+        ゲーム開発といった分野にも
+        <wbr />
+        話題が広がりました。
+        <wbr />
+        また、夕食会や季節のイベントなどの
+        <wbr />
+        交流会を通じて、
+        <wbr />
+        強固なコミュニティを
+        <wbr />
+        築き上げました。
+      </>
+    ),
     icon: <img src={star.src} alt="" className="w-20" />,
   },
   {
     year: "2023",
     text: "Kyoto counterpart, KWDDM, joining this year.",
-    ja: <>KWDDM は<wbr />京都のパートナー団体に<wbr />なりました。</>,
+    ja: (
+      <>
+        KWDDM は<wbr />
+        京都のパートナー団体に
+        <wbr />
+        なりました。
+      </>
+    ),
     icon: (
       <SafariIOSDarkdmodeBugfix
         imgSrc={kwddmLogoUrl}
@@ -50,7 +81,27 @@ const items: TimelineItem[] = [
   {
     year: "2025",
     text: "After nearly a decade, the community rebranded as OKTech, reflecting its broader focus on all things tech in the Kansai region while remaining community-driven and volunteer-run.",
-    ja: <>10年近くを経て、<wbr />このコミュニティは「OKTech」へと<wbr />名称を変更しました。<wbr />これは、コミュニティ主導かつ<wbr />ボランティア運営という姿勢を<wbr />維持しつつ、<wbr />関西地域のテクノロジー全般に<wbr />焦点を広げることを<wbr />反映したものです。</>,
+    ja: (
+      <>
+        10年近くを経て、
+        <wbr />
+        このコミュニティは「OKTech」へと
+        <wbr />
+        名称を変更しました。
+        <wbr />
+        これは、コミュニティ主導かつ
+        <wbr />
+        ボランティア運営という姿勢を
+        <wbr />
+        維持しつつ、
+        <wbr />
+        関西地域のテクノロジー全般に
+        <wbr />
+        焦点を広げることを
+        <wbr />
+        反映したものです。
+      </>
+    ),
     icon: (
       <div className="md:-ml-14">
         <Brand active className="w-32" />
