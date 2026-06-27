@@ -5,12 +5,12 @@ dateTime: 2026-05-23 10:00
 duration: 120
 cover: ./cover.webp
 meetupId: 315349203
-venue: 900000703
+venue: 27009944
 topics:
   - AI/ML
   - Software Development
   - New Technology
-howToFindUs: Same building as The DECK, 7th Floor.
+howToFindUs: Enter The DECK, 1st floor on the left, immediately inside 本町サザンビル. Direct access from Exit 14, Sakaisujihommachi Station (Osaka Metro Sakaisuji / Chuo Line). Exit 7 of Hommachi Station on the Midosuji Line might be quicker if you don't mind a short walk.
 repeat:
   "260704":
     meetupId: wzhtxtyjckbgb
