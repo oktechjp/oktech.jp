@@ -470,7 +470,7 @@ export class Importer {
     };
 
     const metaPath = config.paths.meta;
-    await writeFileEnsured(metaPath, JSON.stringify(metaData, null, 2));
+    await writeFileEnsured(metaPath, JSON.stringify(metaData, null, 2) + "\n");
     logger.success(`Created ${metaPath}`);
   }
 }
