@@ -103,6 +103,11 @@ mark {
   overflow-wrap: break-word;
 }
 
+/* Offset heading anchors so they aren't hidden behind the fixed navbar */
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: 8rem;
+}
+
 .prose thead {
   border-bottom-width: 2px;
 }
