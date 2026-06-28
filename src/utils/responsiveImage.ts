@@ -103,6 +103,12 @@ const buildVariantSources = async (image: ImageMetadata, variant: ImageVariant |
 
   const variants = await Promise.all(
     widths.map(async (width) => {
+      // Native-resolution passthrough: at (or above) the source width, re-encoding a
+      // webp only adds bytes, so reuse the original file. Skip for crops (not a pure
+      // downscale) and non-webp sources (which may genuinely shrink when converted).
+      if (width >= image.width && image.format === "webp" && !variant?.cropAspectRatio) {
+        return { url: image.src, width: image.width };
+      }
       const options: UnresolvedImageTransform = { src: image, width, format: "webp", quality: 80 };
       if (variant?.cropAspectRatio) {
         options.height = Math.round(width / variant.cropAspectRatio);
