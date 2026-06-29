@@ -155,6 +155,12 @@ export const SEO_DATA: Record<
       "tech events",
     ],
   },
+  "/join": {
+    title: "Join",
+    description:
+      "Get involved with OKTech — attend an event, present a topic you're passionate about, or volunteer to help keep the community running.",
+    keywords: ["join", "attend", "present", "volunteer", "meetup", "community", "osaka", "kyoto"],
+  },
   "/about": {
     title: "About",
     description:
