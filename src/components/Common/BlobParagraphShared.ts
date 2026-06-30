@@ -3,11 +3,20 @@ import { useMemo } from "react";
 import { BLOBS } from "@/utils/blobs";
 import type { ResponsiveImageData } from "@/utils/responsiveImage";
 
+export type BlobParagraphCta = {
+  href: string;
+  text: string;
+  ariaLabel: string;
+  secondaryHref?: string;
+  secondaryText?: string;
+};
+
 export type BlobParagraphContent = {
   title: string;
   text: string;
   images: (string | ResponsiveImageData)[];
   blobs?: number[];
+  cta?: BlobParagraphCta;
 };
 
 type ParagraphAssets = {

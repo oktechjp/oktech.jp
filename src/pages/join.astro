@@ -3,7 +3,6 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import Container from "@/components/Common/Container";
 import BlurryBlobBackground from "@/components/Common/BlurryBlobBackground";
 import BlobParagraphs from "@/components/Common/BlobParagraphs.astro";
-import Button from "@/components/Common/Button";
 ---
 
 <PageLayout className="relative" flush>
@@ -13,9 +12,7 @@ import Button from "@/components/Common/Button";
         <div
           class="mx-auto flex max-w-4xl flex-col gap-6 py-24 text-center text-lg xl:max-w-5xl xl:gap-10 xl:text-lg"
         >
-          <h1 class="text-4xl md:text-6xl">
-            <ruby>Join OKTech<rt>参加する</rt></ruby>
-          </h1>
+          <h1 class="text-4xl md:text-6xl">Join OKTech</h1>
           <p class="text-lg md:text-2xl xl:text-3xl">
             There are many ways to get involved with OKTech — come to an event, share what you
             know, or help keep things running.
@@ -36,6 +33,11 @@ import Button from "@/components/Common/Button";
             "/content/events/305451259-ruby-trends-and-python-parsing/gallery/IMG_20250322_173727.webp",
             "/content/events/305451315-rights-and-unions/gallery/IMG_1913.webp",
           ],
+          cta: {
+            href: "/events",
+            text: "Upcoming Events",
+            ariaLabel: "Browse upcoming events",
+          },
         },
         {
           title: "Present",
@@ -47,6 +49,13 @@ import Button from "@/components/Common/Button";
             "/content/events/301456891-workshop-like-s3/gallery/IMG_7679.webp",
           ],
           blobs: [2, 0, 4, 5],
+          cta: {
+            href: "https://www.meetup.com/oktech/",
+            text: "Submit a Proposal",
+            ariaLabel: "Submit a talk proposal on Meetup",
+            secondaryHref: "https://discord.com/channels/1034792577293094972/1034862103653257306",
+            secondaryText: "Browse past proposals on Discord",
+          },
         },
         {
           title: "Volunteer",
@@ -58,38 +67,14 @@ import Button from "@/components/Common/Button";
             "/content/events/299455127-wasm-airplanes-and-llm/gallery/IMG_9690.webp",
             "/content/events/301456891-workshop-like-s3/gallery/IMG_7667.webp",
           ],
+          cta: {
+            href: "/discord",
+            text: "Join our Discord",
+            ariaLabel: "Join the OKTech Discord",
+          },
         },
       ]}
     />
-
-    <Container>
-      <div class="gap-responsive flex flex-col items-center py-24 text-center">
-        <div class="grid w-full max-w-2xl grid-cols-1 gap-8 md:grid-cols-3">
-          <div class="flex flex-col items-center gap-4">
-            <p class="text-base-content/60 text-sm font-semibold uppercase tracking-widest">
-              Attend
-            </p>
-            <Button href="/events" text="Upcoming Events" ariaLabel="Browse upcoming events" />
-          </div>
-          <div class="flex flex-col items-center gap-4">
-            <p class="text-base-content/60 text-sm font-semibold uppercase tracking-widest">
-              Present
-            </p>
-            <Button
-              href="https://www.meetup.com/oktech/"
-              text="Submit a Proposal"
-              ariaLabel="Submit a talk proposal on Meetup"
-            />
-          </div>
-          <div class="flex flex-col items-center gap-4">
-            <p class="text-base-content/60 text-sm font-semibold uppercase tracking-widest">
-              Volunteer
-            </p>
-            <Button href="/discord" text="Join our Discord" ariaLabel="Join the OKTech Discord" />
-          </div>
-        </div>
-      </div>
-    </Container>
   </div>
   <BlurryBlobBackground client:load />
 </PageLayout>
