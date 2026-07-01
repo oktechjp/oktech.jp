@@ -3,7 +3,7 @@
 {
   "name": "Node.js & TypeScript",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:dev-22-bookworm",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -13,7 +13,7 @@
         "antaalt.shader-validator"
       ]
     }
-  }
+  },
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
@@ -22,7 +22,7 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "yarn install",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install autoconf"
 
   // Configure tool-specific properties.
   // "customizations": {},

@@ -1,4 +1,6 @@
 // @ts-check
+import cloudflare from "@astrojs/cloudflare";
+import { unified } from "@astrojs/markdown-remark";
 import react from "@astrojs/react";
 import yaml from "@rollup/plugin-yaml";
 import tailwindcss from "@tailwindcss/vite";
@@ -35,9 +37,11 @@ export default defineConfig({
   site,
   base,
   trailingSlash: "never",
+
   devToolbar: {
     enabled: false,
   },
+
   vite: {
     preview: { allowedHosts: true },
     plugins: [
@@ -46,31 +50,26 @@ export default defineConfig({
       yaml(),
       ...(analyzeBundle
         ? [
-            visualizer({
-              filename: "./dist/stats.html",
-              open: true,
-              gzipSize: true,
-              brotliSize: true,
-              template: "treemap",
-            }),
-          ]
+          visualizer({
+            filename: "./dist/stats.html",
+            open: true,
+            gzipSize: true,
+            brotliSize: true,
+            template: "treemap",
+          }),
+        ]
         : []),
     ],
     ssr: {
-      external: [
-        "@resvg/resvg-js",
-        "@resvg/resvg-js-linux-x64-musl",
-        "@resvg/resvg-js-linux-x64-gnu",
-        "@resvg/resvg-js-darwin-x64",
-        "@resvg/resvg-js-darwin-arm64",
-        "@resvg/resvg-js-win32-x64-msvc",
-      ],
+      external: ["sharp"],
     },
     optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
+      exclude: ["sharp"],
     },
   },
+
   integrations: [react(), relativeStaticAssets()],
+
   redirects: {
     discord: "https://discord.com/invite/k8xj8d75f6",
     // Legacy long event slugs → truncated slugs (84-char URL limit)
@@ -128,38 +127,49 @@ export default defineConfig({
     "/events/314843644-july-event-tbd": "/events/314843644-manage-dependencies-with-nix-and-co",
     "/events/314843745-august-event-tbd": "/events/314843745-git-workshop-day",
   },
+
   markdown: {
-    remarkPlugins: [remarkBreaks, remarkReadingTime, remarkDescription, remarkRelativeAssets],
-    rehypePlugins: [rehypeTableWrapper, rehypeTaskListCheckbox],
+    processor: unified({
+      remarkPlugins: [remarkBreaks, remarkReadingTime, remarkDescription, remarkRelativeAssets],
+      rehypePlugins: [rehypeTableWrapper, rehypeTaskListCheckbox],
+    }),
   },
+
   experimental: {
     clientPrerender: true,
     contentIntellisense: true,
-    fonts: [
-      {
-        name: "Lexend",
-        cssVariable: "--font-lexend",
-        provider: fontProviders.google(),
-        weights: [300, 600, 800],
-        styles: ["normal"],
-        subsets: ["latin"],
-        fallbacks: ["sans-serif"],
-      },
-    ],
   },
+
+  fonts: [
+    {
+      name: "Lexend",
+      cssVariable: "--font-lexend",
+      provider: fontProviders.google(),
+      weights: [300, 600, 800],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["sans-serif"],
+    },
+  ],
+
   // astro prefetch config only applies to astro links, mostly it's handled in Link.tsx
   prefetch: {
     prefetchAll: false,
     defaultStrategy: "viewport",
   },
+
   image: {
     // layout: "constrained",
     // objectFit: "contain",
     // objectPosition: "center",
     // breakpoints: [640, 750, 828, 1080, 1280],
     responsiveStyles: true,
+    dangerouslyProcessSVG: true,
   },
+
   build: {
     format: "file", // fixes trailing slash redirects.
   },
+
+  adapter: cloudflare(),
 });

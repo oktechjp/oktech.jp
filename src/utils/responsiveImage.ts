@@ -42,7 +42,7 @@ const IMAGE_CONFIGS = {
 export type ImageType = keyof typeof IMAGE_CONFIGS;
 
 export type ImageDimensions = { width: number; height: number };
-export type ResponsiveImageData = { src: string; srcSet: string; sizes: string };
+export type ResponsiveImageData = { src: string; srcSet: string; sizes: string; format: string };
 
 export async function safeGetImage(options: UnresolvedImageTransform): Promise<{ src: string }> {
   // In dev mode, bypass image optimization to avoid proxy/fetch issues
@@ -148,7 +148,12 @@ export async function getResponsiveImage(
 ): Promise<ResponsiveImageData> {
   const { sizes, variantKey } = IMAGE_CONFIGS[imageType];
   const { src, srcSet } = await resolveVariantSources(imagePath, variantKey);
-  return { src, srcSet, sizes };
+  return {
+    src,
+    srcSet,
+    sizes,
+    format: /\.(\w+)$/g.exec(imagePath)?.groups?.[1].toLowerCase() ?? "unknown",
+  };
 }
 
 export const getImageDimensions = memoize(async (imagePath: string): Promise<ImageDimensions> => {

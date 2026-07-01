@@ -36,6 +36,9 @@ test-results/
 # screenshots -- add back later?
 test/screenshots/output/
 
+# cloudflare astro
+.wrangler/
+
 # TODO ignore SOME events so they aren't committed (perhaps change this in the future)
 # content/events/*
 # !content/events/999999*

@@ -16,9 +16,7 @@ export async function decorateVenueSEO(
       venue.data.description ||
       `${venue.data.title} - A venue for tech meetups and events in the Kansai region. Located in ${venue.data.city || "Osaka"}.`;
 
-    const ogImage = venue.data.cover?.src
-      ? venue.data.cover.src
-      : getOGImageWithFallback(pathname, { venueId, title: venue.data.title });
+    const ogImage = getOGImageWithFallback(pathname, { venueId, title: venue.data.title });
 
     const keywords = ["venue", venue.data.title, venue.data.city, "tech meetup venue"].filter(
       (keyword): keyword is string => Boolean(keyword),
@@ -35,7 +33,7 @@ export async function decorateVenueSEO(
       entity: {
         type: "venue",
         data: venue,
-        shouldGenerateOG: !venue.data.cover?.src,
+        shouldGenerateOG: true,
       },
     };
   } catch (error) {
