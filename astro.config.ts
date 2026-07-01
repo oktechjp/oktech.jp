@@ -50,14 +50,14 @@ export default defineConfig({
       yaml(),
       ...(analyzeBundle
         ? [
-            visualizer({
-              filename: "./dist/stats.html",
-              open: true,
-              gzipSize: true,
-              brotliSize: true,
-              template: "treemap",
-            }),
-          ]
+          visualizer({
+            filename: "./dist/stats.html",
+            open: true,
+            gzipSize: true,
+            brotliSize: true,
+            template: "treemap",
+          }),
+        ]
         : []),
     ],
     ssr: {

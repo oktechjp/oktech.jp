@@ -158,7 +158,7 @@ export function createOGImageRoute(
       const svg = await satori(markup, { width, height, fonts });
 
       // Convert SVG to PNG with Resvg
-      const resvg = await sharp(svg);
+      const resvg = await sharp(Buffer.from(svg));
       await resvg.resize(width, height);
       const pngBuffer = await resvg.toFormat("png").toBuffer();
 
