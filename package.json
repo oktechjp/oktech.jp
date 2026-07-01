@@ -74,7 +74,7 @@
     "rollup-plugin-visualizer": "^6.0.5",
     "satori": "^0.26.0",
     "satori-html": "^0.3.2",
-    "sharp": "^0.35.1",
+    "sharp": "^0.33.5",
     "slugify": "^1.6.9",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.22.4",
