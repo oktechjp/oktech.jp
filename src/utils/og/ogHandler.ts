@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Resvg } from "@resvg/resvg-js";
 import type { APIContext } from "astro";
 import satori from "satori";
+import sharp from "sharp";
 
 import type { CacheKeyData } from "./ogCache";
 import { OGImageCache } from "./ogCache";
@@ -158,10 +158,9 @@ export function createOGImageRoute(
       const svg = await satori(markup, { width, height, fonts });
 
       // Convert SVG to PNG with Resvg
-      const resvg = new Resvg(svg, {
-        fitTo: { mode: "width", value: width },
-      });
-      const pngBuffer = resvg.render().asPng();
+      const resvg = await sharp(svg);
+      await resvg.resize(width, height);
+      const pngBuffer = await resvg.toFormat("png").toBuffer();
 
       // Cache the generated image
       await cache.cacheImage(cacheKeyData, pngBuffer);
