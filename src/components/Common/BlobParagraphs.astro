@@ -1,5 +1,6 @@
 ---
 import BlobParagraphsClient from "./BlobParagraphs";
+import type { BlobParagraphCta } from "./BlobParagraphShared";
 import { getResponsiveImage } from "@/utils/responsiveImage";
 
 interface Paragraph {
@@ -7,6 +8,7 @@ interface Paragraph {
   text: string;
   images: string[];
   blobs?: number[];
+  cta?: BlobParagraphCta;
 }
 
 interface Props {
