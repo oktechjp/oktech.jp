@@ -2,7 +2,15 @@ import type { ComponentType } from "react";
 
 import type { IconType } from "react-icons";
 import { FaDiscord, FaGithub, FaLinkedin, FaMeetup } from "react-icons/fa6";
-import { LuCalendar, LuFileText, LuHouse, LuInfo, LuMap, LuShoppingBag } from "react-icons/lu";
+import {
+  LuCalendar,
+  LuFileText,
+  LuHouse,
+  LuInfo,
+  LuMap,
+  LuShoppingBag,
+  LuUserPlus,
+} from "react-icons/lu";
 
 // Development mode flag - automatically detected based on environment
 export const DEV_MODE = process.env.NODE_ENV === "development";
@@ -62,6 +70,13 @@ export const MENU: {
     header: true,
     footerMajor: true,
     icon: LuInfo,
+  },
+  {
+    label: "Join",
+    href: "/join",
+    header: true,
+    footerMajor: true,
+    icon: LuUserPlus,
   },
   {
     label: "Articles",
@@ -154,6 +169,12 @@ export const SEO_DATA: Record<
       "meetup memories",
       "tech events",
     ],
+  },
+  "/join": {
+    title: "Join",
+    description:
+      "Get involved with OKTech — attend an event, present a topic you're passionate about, or volunteer to help keep the community running.",
+    keywords: ["join", "attend", "present", "volunteer", "meetup", "community", "osaka", "kyoto"],
   },
   "/about": {
     title: "About",
