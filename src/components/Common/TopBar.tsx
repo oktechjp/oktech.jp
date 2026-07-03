@@ -33,7 +33,7 @@ export default function TopBar() {
               {item.ruby ? (
                 <ruby className="relative">
                   {item.label}
-                  <rt className="absolute -top-[0.9em] left-1/2 -translate-x-1/2 text-[max(0.65em,11px)] font-normal whitespace-nowrap opacity-30 transition-opacity group-hover:opacity-100">
+                  <rt className="absolute -top-[0.7em] left-1/2 -translate-x-1/2 text-[0.55em] font-normal whitespace-nowrap opacity-30 transition-opacity group-hover:opacity-100">
                     {item.ruby}
                   </rt>
                 </ruby>
