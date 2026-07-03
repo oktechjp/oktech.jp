@@ -28,9 +28,18 @@ export default function TopBar() {
               key={item.label}
               href={item.href}
               prefetch
-              className={clsx(BUTTON_CLASS, i > 0 && "-ml-2")}
+              className={clsx(BUTTON_CLASS, i > 0 && "-ml-2", item.ruby && "group")}
             >
-              {item.label}
+              {item.ruby ? (
+                <ruby className="relative">
+                  {item.label}
+                  <rt className="absolute -top-[1.1em] left-1/2 -translate-x-1/2 text-[max(0.65em,11px)] font-normal whitespace-nowrap opacity-30 transition-opacity group-hover:opacity-100">
+                    {item.ruby}
+                  </rt>
+                </ruby>
+              ) : (
+                item.label
+              )}
             </Link>
           ))}
           <ThemeToggle className={clsx(BUTTON_CLASS, "-ml-2")} />

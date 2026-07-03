@@ -43,6 +43,7 @@ export const SITE = {
 
 export const MENU: {
   label: string;
+  ruby?: string;
   href: string;
   header?: boolean;
   icon?: IconType;
@@ -66,6 +67,7 @@ export const MENU: {
   },
   {
     label: "About",
+    ruby: "団体概要",
     href: "/about",
     header: true,
     footerMajor: true,
