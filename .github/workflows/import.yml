@@ -30,7 +30,7 @@ jobs:
       # Cache node_modules to avoid reinstalling
       - name: Restore node_modules cache
         id: node-modules-cache
-        uses: actions/cache@v5.0.5
+        uses: actions/cache@v6.1.0
         with:
           path: |
             node_modules
@@ -53,7 +53,7 @@ jobs:
       # Save node_modules cache if it wasn't cached
       - name: Save node_modules cache
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5.0.5
+        uses: actions/cache/save@v6.1.0
         with:
           path: |
             node_modules
