@@ -31,12 +31,15 @@ export default function TopBar() {
               className={clsx(BUTTON_CLASS, i > 0 && "-ml-2", item.ruby && "group")}
             >
               {item.ruby ? (
-                <ruby className="relative">
+                <span className="relative">
                   {item.label}
-                  <rt className="absolute -top-[0.7em] left-1/2 -translate-x-1/2 text-[0.55em] font-normal whitespace-nowrap opacity-30 transition-opacity group-hover:opacity-100">
+                  <span
+                    lang="ja"
+                    className="absolute -top-[0.7em] left-1/2 -translate-x-1/2 text-[0.55em] font-normal whitespace-nowrap opacity-30 transition-opacity group-hover:opacity-100"
+                  >
                     {item.ruby}
-                  </rt>
-                </ruby>
+                  </span>
+                </span>
               ) : (
                 item.label
               )}
