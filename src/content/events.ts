@@ -39,6 +39,7 @@ type EventFrontmatter = {
   isCancelled?: boolean;
   attachments?: EventAttachment[];
   recurredFrom?: string;
+  recurringLabel?: string;
   repeat?: Record<string, RepeatOverride>;
 };
 
@@ -92,6 +93,7 @@ function eventsSchema() {
       )
       .optional(),
     recurredFrom: z.string().optional(),
+    recurringLabel: z.string().optional(),
     bodySlug: z.string().optional(),
     isNextRecurringOccurrence: z.boolean().optional(),
     calendarOnly: z.boolean().optional(),
@@ -172,6 +174,7 @@ function buildEntry(
     recurredFrom: frontmatter.recurredFrom,
     bodySlug: overrides.bodySlug,
     isNextRecurringOccurrence: overrides.isNextRecurringOccurrence,
+    recurringLabel: frontmatter.recurringLabel,
     calendarOnly: overrides.calendarOnly,
   };
 }
