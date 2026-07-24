@@ -13,7 +13,9 @@ meetupId: 314843745
 group: 15632202
 venue: 27553394
 howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1516994737230446806
+  linkedIn: https://www.linkedin.com/events/7473205330844352512/
 ---
 
 Grab your laptop and join us to stay cool this August while leveling up your skills! ❄️

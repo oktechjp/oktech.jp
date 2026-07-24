@@ -13,7 +13,9 @@ meetupId: 314843644
 group: 15632202
 venue: 24529555
 howToFindUs: In the Hankyu main building take the (huge) business elevator to the 15th floor Skylobby. Then take the far-back elevator to the 35th floor to join us in the Cybozu Office.
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1516994013352296579
+  linkedIn: https://www.linkedin.com/events/7473202752966316032/
 ---
 
 Right after the Gion Festival, join us as we tackle one of the greatest problems in software development.
