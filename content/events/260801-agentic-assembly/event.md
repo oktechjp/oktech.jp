@@ -1,10 +1,10 @@
 ---
 title: Agentic Assembly - AI Engineering Support Group
 description: A small bi-weekly gathering for engineers, vibe coders, and the curious, working at the bleeding edge of agentic engineering.
-dateTime: 2026-05-23 10:00
+dateTime: 2026-08-01 10:00
 duration: 120
-cover: ./cover.webp
-meetupId: 315349203
+cover: ../agentic-assembly/cover.webp
+meetupId: vkshztyjclbcb
 venue: 27009944
 recurringLabel: Recurring every other Saturday
 topics:
@@ -14,19 +14,7 @@ topics:
 links:
   website: https://a13y.org/
 howToFindUs: Enter The DECK, 1st floor on the left, immediately inside 本町サザンビル. Direct access from Exit 14, Sakaisujihommachi Station (Osaka Metro Sakaisuji / Chuo Line). Exit 7 of Hommachi Station on the Midosuji Line might be quicker if you don't mind a short walk.
-repeat:
-  "260815":
-    meetupId: vkshztyjclbtb
-  "260829":
-    meetupId: vkshztyjclbmc
-  "260912":
-    meetupId: vkshztyjcmbqb
-  "260926":
-    meetupId: vkshztyjcmbjc
-  "261010":
-    meetupId: vkshztyjcnbnb
-  "261024":
-    meetupId: vkshztyjcnbgc
+recurredFrom: agentic-assembly
 ---
 
 A meetup for engineers, vibe coders, and the curious, working at the bleeding edge of agentic engineering. A casual round table discussion every other Saturday morning, somewhere in Osaka.
