@@ -7,7 +7,9 @@ meetupId: 315815216
 group: 15632202
 venue: 24529555
 howToFindUs: In the Hankyu main building take the (huge) business elevator to the 15th floor Skylobby. Then take the far-back elevator to the 35th floor to join us in the Cybozu Office.
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1533353389159743571
+  linkedIn: https://www.linkedin.com/events/7489558849868201984
 topics:
   - Linux Server
   - Human-Computer Interaction
