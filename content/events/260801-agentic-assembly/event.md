@@ -4,7 +4,7 @@ description: A small bi-weekly gathering for engineers, vibe coders, and the cur
 dateTime: 2026-08-01 10:00
 duration: 120
 cover: ../agentic-assembly/cover.webp
-meetupId: vkshztyjclbcb
+meetupId: 315745021
 venue: 27009944
 recurringLabel: Recurring every other Saturday
 topics:

@@ -4,7 +4,7 @@ description: A small weekly gathering for engineers working at the bleeding edge
 dateTime: 2026-06-13 10:00
 duration: 120
 cover: ../agentic-assembly/cover.webp
-meetupId: tshtxtyjcjbrb
+meetupId: 315115640
 venue: 900000703
 topics:
   - AI/ML

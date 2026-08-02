@@ -16,17 +16,17 @@ links:
 howToFindUs: Enter The DECK, 1st floor on the left, immediately inside 本町サザンビル. Direct access from Exit 14, Sakaisujihommachi Station (Osaka Metro Sakaisuji / Chuo Line). Exit 7 of Hommachi Station on the Midosuji Line might be quicker if you don't mind a short walk.
 repeat:
   "260815":
-    meetupId: vkshztyjclbtb
+    meetupId: "315817019"
   "260829":
-    meetupId: vkshztyjclbmc
+    meetupId: fslkztyjclbmc
   "260912":
-    meetupId: vkshztyjcmbqb
+    meetupId: fslkztyjcmbqb
   "260926":
-    meetupId: vkshztyjcmbjc
+    meetupId: fslkztyjcmbjc
   "261010":
-    meetupId: vkshztyjcnbnb
+    meetupId: fslkztyjcnbnb
   "261024":
-    meetupId: vkshztyjcnbgc
+    meetupId: fslkztyjcnbgc
 ---
 
 A meetup for engineers, vibe coders, and the curious, working at the bleeding edge of agentic engineering. A casual round table discussion every other Saturday morning, somewhere in Osaka.
