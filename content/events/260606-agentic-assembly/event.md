@@ -3,7 +3,7 @@ title: Agentic Assembly - AI Engineering Support Group
 description: A small weekly gathering for engineers working at the bleeding edge of agentic engineering.
 dateTime: 2026-06-06 10:00
 duration: 120
-cover: ../agentic-assembly/cover.webp
+cover: ../agentic-assembly/cover_weekly.webp
 meetupId: 314901650
 venue: 900000703
 topics:
