@@ -3,7 +3,7 @@ title: Agentic Assembly - AI Engineering Support Group
 description: A small bi-weekly gathering for engineers, vibe coders, and the curious, working at the bleeding edge of agentic engineering.
 dateTime: 2026-05-23 10:00
 duration: 120
-cover: ./cover.webp
+cover: ./cover_biweekly.webp
 meetupId: 315349203
 venue: 27009944
 recurringLabel: Recurring every other Saturday
@@ -17,16 +17,16 @@ howToFindUs: Enter The DECK, 1st floor on the left, immediately inside 本町サ
 repeat:
   "260815":
     meetupId: "315817019"
-  "260829":
-    meetupId: fslkztyjclbmc
-  "260912":
-    meetupId: fslkztyjcmbqb
-  "260926":
-    meetupId: fslkztyjcmbjc
-  "261010":
-    meetupId: fslkztyjcnbnb
-  "261024":
-    meetupId: fslkztyjcnbgc
+  "260822":
+    meetupId: "315957230"
+  "260905":
+    meetupId: ngkqztyjcmbhb
+  "260919":
+    meetupId: ngkqztyjcmbzb
+  "261003":
+    meetupId: ngkqztyjcnbfb
+  "261017":
+    meetupId: ngkqztyjcnbwb
 ---
 
 A meetup for engineers, vibe coders, and the curious, working at the bleeding edge of agentic engineering. A casual round table discussion every other Saturday morning, somewhere in Osaka.
