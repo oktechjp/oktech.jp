@@ -12,7 +12,9 @@ meetupId: 316381043
 group: 15632202
 venue: 27398802
 howToFindUs: Tanimachi 4-chome Station Exit 7 and you will be almost there already!
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1545778736559947777
+  linkedIn: https://www.linkedin.com/events/7502038321536172032/
 ---
 
 **OKTech Year two networking!** 😎
