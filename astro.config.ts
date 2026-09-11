@@ -128,6 +128,7 @@ export default defineConfig({
     "/events/314843644-july-event-tbd": "/events/314843644-manage-dependencies-with-nix-and-co",
     "/events/314843745-august-event-tbd": "/events/314843745-git-workshop-day",
     "/events/315815216-september-event-topic-tbd": "/events/315815216-magical-command-line",
+    "/events/315544216-october-event-topic-tbd": "/events/315544216-me-and-the-software-system",
   },
   markdown: {
     remarkPlugins: [remarkBreaks, remarkReadingTime, remarkDescription, remarkRelativeAssets],
