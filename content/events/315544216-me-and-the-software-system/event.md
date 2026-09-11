@@ -2,7 +2,7 @@
 title: Me and the Software System
 dateTime: 2026-10-17 17:00
 duration: 150
-cover: ./886924.webp
+cover: ./090401.webp
 meetupId: 315544216
 group: 15632202
 venue: 27553394
