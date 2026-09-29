@@ -2,7 +2,7 @@
 title: "Osaka Fasthacks #1"
 dateTime: 2026-10-09 17:30
 duration: 120
-cover: ./276251.webp
+cover: ./367543.webp
 topics:
   - Entrepreneurship
   - Software Development
