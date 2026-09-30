@@ -15,6 +15,7 @@ venue: 99999999
 howToFindUs: 2F, Room 5 (Small Hall)
 links:
   discord: https://discord.com/events/1034792577293094972/1552506150103285801
+  facebook: https://fb.me/e/l5IbS1pLu
   linkedIn: https://www.linkedin.com/events/7508718634068779009/
   luma: https://luma.com/3m6b3x7x
 ---
