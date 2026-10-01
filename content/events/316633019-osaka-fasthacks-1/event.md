@@ -49,8 +49,8 @@ links:
 
 ​This event is free because of the companies who back the Kansai tech community:
 
--   **[Shisa.AI](https://shisa.ai/?utm_source=oktechjp)**
--   ​More to be announced
+- **[neo4j](https://neo4j.com/?utm_source=oktechjp)
+   **[Shisa.AI](https://shisa.ai/?utm_source=oktechjp)**
 
 ​Interested in sponsoring? Get in touch with the organizers — we have room for a few more.
 
@@ -58,7 +58,6 @@ links:
 
 ​[OKTech](https://oktech.jp) is running this event in collaboration with other groups helping make Kansai's tech scene what it is:
 
--   **[CreatorLabo](https://creatorlabo.com/en?utm_source=oktechjp)**
 -   **[hackersquad.io](https://hackersquad.io/?utm_source=oktechjp)**
 -   **[MRSV](https://www.mrsv.space/?utm_source=oktechjp)**
 
@@ -118,7 +117,7 @@ links:
 **開催概要**
 
 -   ​**開催日：** 2026年10月9日（金）17:00〜21:00
--   ​**会場：** [文化創造図書館KADOMADO](https://kadomado.jp/access/?utm_source=meetup) 2階 ROOM5・小ホール（大阪）
+-   ​**会場：** [文化創造図書館KADOMADO](https://kadomado.jp/access/?utm_source=oktechjp) 2階 ROOM5・小ホール（大阪）
 -   ​**参加費：** 無料
 
 ​定員に限りがありますので、参加できる見込みのある方のみお申し込みください。
@@ -126,16 +125,17 @@ links:
 ​**スポンサー**
 ​本イベントは、関西のテックコミュニティを応援するスポンサーの皆さまのご支援により、無料で開催します。
 
--   **[​Shisa.AI](https://shisa.ai/?utm_source=oktechjp)**
+- **[neo4j](https://neo4j.com/?utm_source=oktechjp)**
+- **[​Shisa.AI](https://shisa.ai/?utm_source=oktechjp)**
 
 ​スポンサーは決まり次第、順次ご紹介します。
 
 ​協賛にご関心のある企業の皆さまは、運営または [OKTech の Discord](https://oktech.jp/discord)までお気軽にお問い合わせください。
 
 ​**主催・コミュニティパートナー**
-​主催の [OKTech](http://https;//%5Boktech.jp%5D(oktech.jp)) は、以下のコミュニティパートナーと協力して本イベントを開催します。
+​主催の [OKTech](https://oktech.jp) は、以下のコミュニティパートナーと協力して本イベントを開催します。
 
--   **​[CreatorLabo](https://creatorlabo.com/en?utm_source=oktechjp)**
+**
 -   **[hackersquad.io](https://hackersquad.io/?utm_source=oktechjp)**
 -   **[​MRSV](https://www.mrsv.space/?utm_source=oktechjp)**
 
