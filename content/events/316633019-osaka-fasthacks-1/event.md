@@ -20,7 +20,7 @@ links:
   luma: https://luma.com/3m6b3x7x
 ---
 
-​Osaka Fasthacks ⚡
+Osaka Fasthacks ⚡
 
 ​※ 日本語のご案内は、英語の後に続きます。
 
@@ -39,18 +39,30 @@ links:
 **​What to bring**
 ​A laptop, a charger, and an idea (optional — we'll have prompts on the night). Have your environment and AI tooling set up beforehand; all project code gets written on the night, prior projects will be penalized.
 
-**​The theme** will be announced one week before the event, so you have time to think. Team-forming opens in our Discord ahead of the night.
+**The theme** Bridge Kansai / 関西をつなぐ: Help Japanese and English speakers work, live, or hang out together.
 
-​🗓️ Agenda — Friday, October 9, 2026
-📍 **[Kadomado](https://kadomado.jp/access/?utm_source=luma) 2F, Room 5 (Small Hall), Osaka**
-🎟️ Free — capacity is limited, so please only RSVP if you plan to come.
+**Event Timeline**
+
+- ​17:30 Doors open, check-in and team formation
+- ​18:00 Kickoff: welcome, rules, sponsors and judging criteria
+- ​18:30 Build time starts
+- ​20:00 Build time ends, demo signup closes
+- ​20:15 Judging, plus audience vote for the Audience Award
+- ​20:30 Winners announced, prizes and group photo
+- ​20:45 After party until 21:30 (limited to 15 people)
+
+​**Attending**
+
+- ​Location: [Kadomado](https://kadomado.jp/access/?utm_source=oktechjp) 2F, Room 5 (Small Hall), Osaka
+- Video directions from Furukawabashi Station: [Here](https://youtube.com/shorts/f7xbcCVxTpA?feature=share)
+- ​It's free but the capacity is limited, so please only RSVP if you plan to come.
 
 ​🙏 Sponsors
 
 ​This event is free because of the companies who back the Kansai tech community:
 
-- **[neo4j](https://neo4j.com/?utm_source=oktechjp)
-   **[Shisa.AI](https://shisa.ai/?utm_source=oktechjp)**
+- **[neo4j](https://neo4j.com/?utm_source=oktechjp)**
+- **[Shisa.AI](https://shisa.ai/?utm_source=oktechjp)**
 
 ​Interested in sponsoring? Get in touch with the organizers — we have room for a few more.
 
@@ -58,8 +70,8 @@ links:
 
 ​[OKTech](https://oktech.jp) is running this event in collaboration with other groups helping make Kansai's tech scene what it is:
 
--   **[hackersquad.io](https://hackersquad.io/?utm_source=oktechjp)**
--   **[MRSV](https://www.mrsv.space/?utm_source=oktechjp)**
+- **[hackersquad.io](https://hackersquad.io/?utm_source=oktechjp)**
+- **[MRSV](https://www.mrsv.space/?utm_source=oktechjp)**
 
 ​Questions? Ask in the OKTech Discord — we're happy to help you get set up before the night.
 
@@ -89,12 +101,12 @@ links:
 
 **​こんな方におすすめ**
 
--   ​起業家・スタートアップ関係者
--   AIエンジニア・開発者
--   デザイナー
--   プロダクトマネージャー
--   学生
--   AIでものを作っている方、これから作ってみたい方
+- ​起業家・スタートアップ関係者
+- AIエンジニア・開発者
+- デザイナー
+- プロダクトマネージャー
+- 学生
+- AIでものを作っている方、これから作ってみたい方
 
 ​初心者の方も大歓迎です。
 
@@ -102,25 +114,33 @@ links:
 
 ​**持ち物・事前準備**
 
--   ​ノートPC
--   ​充電器
--   ​作ってみたいアイデア（任意。当日もアイデアのヒントをご用意します）
+- ​ノートPC
+- ​充電器
+- ​作ってみたいアイデア（任意。当日もアイデアのヒントをご用意します）
 
 ​開発環境やAIツールのセットアップは、事前に済ませてお越しください。
 
-**​開発テーマは開催1週間前に発表します。**
+**​開発テーマ:** 関西をつなぐ:日本語と英語を話す人が一緒に仕事をしたり、住んだり、一緒に過ごしたりできるよう支援します。
 
 当日までにアイデアを考えたり、 [OKTech の Discord](https://oktech.jp/discord) でチームメンバーを探したりすることもできます。
 
 ​なお、プロジェクトのコードは当日、会場で作成していただきます。 事前に作成したプロジェクトを持ち込むことはできません。
 
-**開催概要**
+**タイムテーブル**
 
--   ​**開催日：** 2026年10月9日（金）17:00〜21:00
--   ​**会場：** [文化創造図書館KADOMADO](https://kadomado.jp/access/?utm_source=oktechjp) 2階 ROOM5・小ホール（大阪）
--   ​**参加費：** 無料
+- ​17:30 開場、受付、チーム編成
+- ​18:00 オープニング：ご挨拶、ルール説明、スポンサー紹介、審査基準
+- ​18:30 開発スタート
+- 20:00 開発終了、デモ登録締切
+- 20:15 審査、オーディエンス賞の来場者投票
+- ​20:30 結果発表、表彰、集合写真
+- ​20:45 懇親会（21:30まで、定員15名）
 
-​定員に限りがありますので、参加できる見込みのある方のみお申し込みください。
+**​参加について**
+
+- ​会場：[Kadomado](https://kadomado.jp/access/?utm_source=luma) 2F Room 5（小ホール）、大阪
+- 古川橋駅からの動画案内は[こちら](https://youtube.com/shorts/f7xbcCVxTpA?feature=share)
+- ​参加費は無料ですが、定員に限りがあるため、参加予定の方のみお申し込みください。
 
 ​**スポンサー**
 ​本イベントは、関西のテックコミュニティを応援するスポンサーの皆さまのご支援により、無料で開催します。
@@ -136,7 +156,7 @@ links:
 ​主催の [OKTech](https://oktech.jp) は、以下のコミュニティパートナーと協力して本イベントを開催します。
 
 **
--   **[hackersquad.io](https://hackersquad.io/?utm_source=oktechjp)**
--   **[​MRSV](https://www.mrsv.space/?utm_source=oktechjp)**
+- **[hackersquad.io](https://hackersquad.io/?utm_source=oktechjp)**
+- **[​MRSV](https://www.mrsv.space/?utm_source=oktechjp)**
 
 ​ご質問や当日までの準備についてのご相談は、[OKTech の Discord](https://oktech.jp/discord) までお気軽にお願いします。
