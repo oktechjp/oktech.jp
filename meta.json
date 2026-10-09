@@ -1,8 +1,8 @@
 {
-  "commitDate": "2026-10-05T04:26:23Z",
-  "commitHash": "ac17208c705cb05d4fcc8bc25dbad817d85dc752",
-  "contentHash": "f1a064a465f2aa938954b60ce8d96cd0070cfabd161ba352359a95c71564d67a",
+  "commitDate": "2026-10-09T06:57:35Z",
+  "commitHash": "0c3a0e268008e8224b2075b03b84e08f09907253",
+  "contentHash": "0a7320ac363e75206b19ebfbe456a283d8f8ad3fc650f6269312d335a0e40c16",
   "repository": "https://github.com/oktechjp/public",
-  "nextEventEnds": "2026-10-09T11:00:00.000Z",
-  "nextEventSlug": "316633019"
+  "nextEventEnds": "2026-10-17T03:30:00.000Z",
+  "nextEventSlug": "261017-agentic-assembly"
 }
