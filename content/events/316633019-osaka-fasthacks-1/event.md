@@ -11,7 +11,7 @@ topics:
   - Internet Professionals
 meetupId: 316633019
 group: 15632202
-venue: 99999999
+venue: 1
 howToFindUs: 2F, Room 5 (Small Hall)
 links:
   discord: https://discord.com/events/1034792577293094972/1552506150103285801

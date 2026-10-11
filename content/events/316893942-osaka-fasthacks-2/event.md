@@ -11,9 +11,13 @@ topics:
   - Internet Professionals
 meetupId: 316893942
 group: 15632202
-venue: 99999999
+venue: 2
 howToFindUs: 1F, LAKE (main stage)
-links: {}
+links:
+  discord: https://discord.com/events/1034792577293094972/1558809522234073168
+  facebook: https://fb.me/e/darTDJNz7
+  linkedIn: https://www.linkedin.com/events/7515017647336648704/
+  luma: https://luma.com/9vpdzi74
 ---
 
 **OKTech Hackathon**
