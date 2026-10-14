@@ -8,8 +8,10 @@ group: 15632202
 venue: 27553394
 howToFindUs: 1. Go to Grand Front NORTH Tower in the 1F(!). In the big space, behind Tully's go to Tower C (business area) and enter the Elevator to 16F. From there, go towards the end of the hall.
 links:
+  connpass: https://oktech.connpass.com/event/409929/
   discord: https://discord.com/events/1034792577293094972/1548102921454100503
   linkedIn: https://www.linkedin.com/events/7504311776554000384
+  luma: https://luma.com/epmn6068
 topics:
   - New Technology
   - Online Marketing

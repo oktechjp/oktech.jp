@@ -14,6 +14,7 @@ group: 15632202
 venue: 2
 howToFindUs: 1F, LAKE (main stage)
 links:
+  connpass: https://oktech.connpass.com/event/409931/
   discord: https://discord.com/events/1034792577293094972/1558809522234073168
   facebook: https://fb.me/e/darTDJNz7
   linkedIn: https://www.linkedin.com/events/7515017647336648704/

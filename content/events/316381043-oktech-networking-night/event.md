@@ -13,8 +13,10 @@ group: 15632202
 venue: 27398802
 howToFindUs: Tanimachi 4-chome Station Exit 7 and you will be almost there already!
 links:
+  connpass: https://oktech.connpass.com/event/409930/
   discord: https://discord.com/events/1034792577293094972/1545778736559947777
   linkedIn: https://www.linkedin.com/events/7502038321536172032/
+  luma: https://luma.com/zin2bv0m
 ---
 
 **OKTech Year two networking!** 😎
