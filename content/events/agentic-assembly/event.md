@@ -14,9 +14,6 @@ topics:
 links:
   website: https://a13y.org/
 howToFindUs: Enter The DECK, 1st floor on the left, immediately inside 本町サザンビル. Direct access from Exit 14, Sakaisujihommachi Station (Osaka Metro Sakaisuji / Chuo Line). Exit 7 of Hommachi Station on the Midosuji Line might be quicker if you don't mind a short walk.
-repeat:
-  "261017":
-    meetupId: ngkqztyjcnbwb
 ---
 
 A meetup for engineers, vibe coders, and the curious, working at the bleeding edge of agentic engineering. A casual round table discussion every other Saturday morning, somewhere in Osaka.
