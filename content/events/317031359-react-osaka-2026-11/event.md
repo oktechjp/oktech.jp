@@ -15,8 +15,10 @@ venue: 24529555
 howToFindUs: 阪急大阪のビシネスエレベーターを使ってスカイロビーまで進んで、35階までのエレベーターを使ってください。20時以降は入場できません。 Use the big business elevator to the sky lobby and then take the elevator to the 15F. Please note that you can't enter the venue after 8 PM.
 links:
   connpass: https://react-osaka.connpass.com/event/410259/
-  discord: https://discord.com/events/1034792577293094972/1546741242799595530
-  linkedIn: https://www.linkedin.com/events/7502951199260745730
+  discord: https://discord.com/events/1241576280978358422/1561258261796229198
+  facebook: https://fb.me/e/bYPkp19y5
+  linkedIn: https://www.linkedin.com/events/7517464703800041472
+  luma: https://luma.com/qxedco4r
 ---
 
 ### React Osaka
