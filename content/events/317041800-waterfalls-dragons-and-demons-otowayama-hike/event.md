@@ -8,7 +8,12 @@ topics:
 meetupId: 317041800
 group: 15632202
 venue: 3
-links: {}
+links:
+  connpass: https://oktech.connpass.com/event/410590/
+  discord: https://discord.com/events/1034792577293094972/1562369945994657824
+  facebook: https://fb.me/e/8ER3vwylC
+  linkedIn: https://www.linkedin.com/events/7518576454419570688/
+  luma: https://luma.com/s8wva0g7
 ---
 
 日本語は以下に
