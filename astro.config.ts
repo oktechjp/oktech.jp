@@ -130,6 +130,7 @@ export default defineConfig({
     "/events/315815216-september-event-topic-tbd": "/events/315815216-magical-command-line",
     "/events/315544216-october-event-topic-tbd": "/events/315544216-me-and-the-software-system",
     "/events/316893942-osaka-fasthacks-2": "/events/316893942-osaka-fasthacks-2-level-up",
+    "/events/316381043-oktech-networking-night": "/events/316381043-year-one-networking-night",
   },
   markdown: {
     remarkPlugins: [remarkBreaks, remarkReadingTime, remarkDescription, remarkRelativeAssets],
