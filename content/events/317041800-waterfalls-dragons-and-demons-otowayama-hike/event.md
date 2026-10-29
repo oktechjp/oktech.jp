@@ -2,7 +2,7 @@
 title: "Waterfalls, dragons & demons: Otowayama Hike"
 dateTime: 2026-11-01 09:30
 duration: 390
-cover: ./700393.webp
+cover: ./858606.webp
 topics:
   - Hike
 meetupId: 317041800

@@ -29,9 +29,15 @@ Is this a paid event? Yes, 1500yen, but **two drinks are included with the price
 
 While most of the evening will be talking to our friends we plan to have a few intermissions.
 
-18:30 - Doors Open18:50 - Opening words (~5min)19:30 - Interview special guest (~15min)20:15 - What's next for OKTech? (~5min)21:10 - Closing words
+- 18:30 - Doors Open
+- 18:50 - Opening words (~5min)
+- 19:30 - Interview special guest (~15min)
+- 20:15 - What's next for OKTech? (~5min)
+- 21:10 - Closing words
 
-**Special Guest**We invited [Eduardo Gonzalez](https://www.linkedin.com/in/wmeddie/), the founder of [Xpress.ai](http://Xpress.ai) to join us! We will have an interview with him and he will join us for the evening.
+**Special Guest**
+
+We invited [Eduardo Gonzalez](https://www.linkedin.com/in/wmeddie/), the founder of [Xpress.ai](http://Xpress.ai) to join us! We will have an interview with him and he will join us for the evening.
 
 Feel free to bring your **international and Japanese friends** with you, anyone with an interested in tech is welcome. We would be happy if you could join and celebrate with us our the first official **OKTech** Meetup!
 
@@ -47,8 +53,14 @@ Until then, see you [in Discord!](https://owddm.com/discord/)
 
 当日は、参加者の皆さんとの交流をメインにしつつ、いくつかプログラムも予定しています。
 
-18:30 - 開場18:50 - オープニング（約5分）19:30 - スペシャルゲストへのインタビュー（約15分）20:15 - OKTechの今後について（約5分）21:10 - クロージング
+- 18:30 - 開場
+- 18:50 - オープニング（約5分）
+- 19:30 - スペシャルゲストへのインタビュー（約15分）
+- 20:15 - OKTechの今後について（約5分）
+- 21:10 - クロージング
 
-**スペシャルゲスト**[Xpress.ai](http://Xpress.ai) の創業者、[Eduardo Gonzalez](https://www.linkedin.com/in/wmeddie/)さんをお招きします！インタビューを行うほか、イベント中も皆さんと一緒に過ごしていただく予定です。海外のご友人や日本のご友人など、どなたをお誘い合わせの上ご参加いただいても構いません。テックに関心のある方ならどなたでも大歓迎です！OKTech初の公式ミートアップ、ぜひ一緒に盛り上がりましょう！
+**スペシャルゲスト**
+
+[Xpress.ai](http://Xpress.ai) の創業者、[Eduardo Gonzalez](https://www.linkedin.com/in/wmeddie/)さんをお招きします！インタビューを行うほか、イベント中も皆さんと一緒に過ごしていただく予定です。海外のご友人や日本のご友人など、どなたをお誘い合わせの上ご参加いただいても構いません。テックに関心のある方ならどなたでも大歓迎です！OKTech初の公式ミートアップ、ぜひ一緒に盛り上がりましょう！
 
 [Discord](https://oktech.jp/discord) でもお会いしましょう！

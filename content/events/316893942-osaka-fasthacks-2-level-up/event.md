@@ -2,7 +2,7 @@
 title: "Osaka FastHacks #2 Level Up!"
 dateTime: 2026-11-14 13:30
 duration: 240
-cover: ./646421.webp
+cover: ./858645.webp
 topics:
   - Artificial Intelligence Programming
   - Team Building
