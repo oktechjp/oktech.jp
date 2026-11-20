@@ -1,6 +1,6 @@
 import { defineCollection, z } from "astro:content";
 
-const EXCLUDED_DIRECTORIES = ["events/", "venues/", "people/"];
+const EXCLUDED_DIRECTORIES = ["events/", "venues/", "people/", "sponsors/"];
 
 export const markdownPagesCollection = defineCollection({
   loader: markdownPagesLoader,

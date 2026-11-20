@@ -1,0 +1,23 @@
+---
+import Container from "@/components/Common/Container";
+import DarkLightImage from "@/components/Common/DarkLightImage";
+
+import { getSponsors } from "@/content";
+
+const sponsors = await getSponsors(Date.now() + 30 * 60 * 60 * 24 * 1000);
+---
+
+<Container wide
+  >{
+    sponsors.length > 0 ? (
+      <div class="mb-2 flex flex-row items-end gap-2">
+        <h3 class="text-md mb-1 font-bold">Supported by</h3>
+        {sponsors.map(({ id, data: { name, url, ondark, onlight } }) => (
+          <a href={url} id={id} title={name}>
+            <DarkLightImage onlight={onlight} ondark={ondark} style={{ height: "2em" }} />
+          </a>
+        ))}
+      </div>
+    ) : null
+  }</Container
+>

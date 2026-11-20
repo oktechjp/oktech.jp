@@ -3,6 +3,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import LandingHero from "@/components/Landing/LandingHero.astro";
 import LandingAbout from "@/components/Landing/LandingAbout.astro";
 import LandingCTA from "@/components/Landing/LandingCTA";
+import SponsorSection from "@/components/Landing/SponsorSection.astro";
 import { getEvents } from "@/content";
 
 import EventsSection from "@/components/Landing/LandingEventsSection";
@@ -15,7 +16,7 @@ import {
 // always get at least 12 latest events, plus the upcoming events.
 // Recurring-event instances are deduped here so the front page shows each series once;
 // the full listing at /events keeps every instance.
-const allEvents = await getEvents();
+const [allEvents] = await Promise.all([getEvents()]);
 const upcomingEvents = filterUpcomingEvents(allEvents);
 const recentDeduped = dedupeRecurringInstances(filterRecentEvents(allEvents));
 const events = [...upcomingEvents, ...recentDeduped.slice(0, 12)];
@@ -26,6 +27,7 @@ const totalEvents = allEvents.length;
   <div class="py-responsive">
     <LandingHero />
   </div>
+  <SponsorSection />
   <EventsSection client:load events={events} totalEvents={totalEvents} variant="upcoming" />
   <div class="py-responsive">
     <LandingAbout />

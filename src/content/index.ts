@@ -2,3 +2,4 @@
 export { getVenues, getVenue, type Venue, type ProcessedVenue, type VenueEnriched } from "./venues";
 export { getEvents, getEvent, type EventEnriched } from "./events";
 export { getGalleryImages, type GalleryImage } from "./gallery";
+export { getSponsors } from "./sponsors";
