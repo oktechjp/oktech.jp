@@ -1,7 +1,8 @@
 import type { Component } from "react";
 
-import { defineCollection, getCollection } from "astro:content";
+import { defineCollection, getCollection, type SchemaContext } from "astro:content";
 import { z } from "astro:schema";
+import type { ImageMetadata } from "astro";
 
 export type SponsorPeriod = {
   start: Date;
@@ -14,8 +15,8 @@ export type Sponsor = {
   url: string;
   file: string;
   periods: SponsorPeriod[];
-  onlight: string;
-  ondark: string;
+  onlight: ImageMetadata;
+  ondark: ImageMetadata;
 };
 
 export async function sponsorsLoader(): Promise<Array<Sponsor>> {
@@ -45,8 +46,8 @@ export async function sponsorsLoader(): Promise<Array<Sponsor>> {
     const parts = /(.*\/sponsors\/([^\/]+))\/sponsor.yml/g.exec(file)!;
     const id = parts[2];
     const prefix = parts[1];
-    const onlight = onlightFiles.filter(([key]) => key.startsWith(prefix))[0]?.[0] as string;
-    const ondark = ondarkFiles.filter(([key]) => key.startsWith(prefix))[0]?.[0] as string;
+    const onlight = onlightFiles.filter(([key]) => key.startsWith(prefix))[0]?.[0] as unknown as ImageMetadata;
+    const ondark = ondarkFiles.filter(([key]) => key.startsWith(prefix))[0]?.[0] as unknown as ImageMetadata;
     return {
       id,
       name,
@@ -64,7 +65,7 @@ export const sponsorsCollection = defineCollection({
   schema: sponsorsSchema,
 });
 
-function sponsorsSchema() {
+function sponsorsSchema({ image }: SchemaContext) {
   return z.object({
     id: z.string(),
     name: z.string(),
@@ -75,8 +76,8 @@ function sponsorsSchema() {
         days: z.number().positive().int(),
       }),
     ),
-    onlight: z.string(),
-    ondark: z.string(),
+    onlight: image(),
+    ondark: image(),
   });
 }
 

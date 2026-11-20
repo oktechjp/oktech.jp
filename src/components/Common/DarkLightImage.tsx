@@ -7,11 +7,11 @@ export default function DarkLightImage({
   onlight,
   className,
   ...rest
-}: { ondark: string; onlight: string } & Omit<HTMLAttributes<HTMLImageElement>, "src">) {
+}: { ondark: ImageMetadata; onlight: ImageMetadata } & Omit<HTMLAttributes<HTMLImageElement>, "src">) {
   return (
     <>
-      <img src={onlight} {...rest} className={clsx(className, "dark:hidden")} />
-      <img src={ondark} {...rest} className={clsx(className, "hidden dark:block")} />
+      <img src={onlight.src} {...rest} className={clsx(className, "dark:hidden")} />
+      <img src={ondark.src} {...rest} className={clsx(className, "hidden dark:block")} />
     </>
   );
 }
