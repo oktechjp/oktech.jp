@@ -1,6 +1,6 @@
 ---
 title: Freelance Rights, Accessibility & SQL
-dateTime: 2026-10-17 17:00
+dateTime: 2026-12-05 17:00
 duration: 150
 cover: ./250188.webp
 topics:
